@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jak spojit fotky/obrázky do jednoho PDF &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Jak spojit fotky/obrázky do jednoho PDF</h2>
+            <p><small>2014-06-08</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Určitě jsem už někdy potřebovali z více fotek nebo obrázků udělat jedno PDF (pro tablet nebo Kindle). Je to docela jednoduché. Jde to více způsoby, které jsou různě rychlé. Mně se nejlépe osvědčila kombinace IrfanView + PDFCreator (oproti Průvodci tiskem fotografií přímo ve Windows je výrazně rychlejší).</p>
+
+<h2 id="instalace">Instalace</h2>
+
+<p>Prvním krokem je instalace PDFCreatoru - <a href="/tvorba-pdf-zadarmo-pdfcreator/">o tom jsem už psal</a> a pak <a href="http://www.irfanview.com/">IrfanView</a>.</p>
+
+<h2 id="obr%E3%A1zky">Obrázky</h2>
+
+<p>Samotné obrázky je potřeba mít ideálně v jedné složce a pojmenované tak, aby byly podle názvu seřazené tak, jak je chcete mít ve výsledném PDF (takže pokud je máte z foťáku a fotili jste knížku popořadě, tak už tak budou).</p>
+
+<h2 id="v%E3%BDroba-pdf">Výroba PDF</h2>
+
+<ol>
+<li>Otevřeme IrfanView a zvolíme <em>File</em> -> <em>Thumbnails</em></li>
+<li>Najdeme složku s fotografiemi <br> <img src="/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan1.png" alt="" /></li>
+<li>Vybereme všechny a z menu zvolíme <em>File</em> -> <em>Print selected files as single images</em> <br> <img src="/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan2.png" alt="" /></li>
+<li>V okně, které se zobrazí vybereme tiskárnu <strong>PDFCreator</strong> <img src="/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan3.png" alt="" /></li>
+<li>Nic dalšího není potřeba nastavovat, potvrdíme tedy tlačítkem <em>Print</em> a nějakou dobu počkáme (IrfanView teď jednotlivé obrázky odesílá na virtuální tiskárnu PDFCreatoru)</li>
+<li>Zobrazí se okno PDFCreatoru <img src="/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan4.png" alt="" />, kde dokument můžeme pojmenovat a dáme <em>Save</em></li>
+<li>Vybereme, kam chceme výsledné PDF uložit a pak nějakou dobu počkáme, než se PDF vytvoří (trvá nejdéle z celého procesu)</li>
+<li>Hotovo. PDF se uloží tam, kam jsme zadali a zároveň se nám otevře.</li>
+</ol>
+
+<p>Pokud by se vám PDF podle postupu nedařilo vytvořit, tak se určitě ozvěte v komentářích.</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

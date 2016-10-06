@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sencha Touch je mrtvá. Zabil ji Ext JS 6 &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Sencha Touch je mrtvá. Zabil ji Ext JS 6</h2>
+            <p><small>2015-09-03</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Ještě před krátkou dobou jsem jako docela dobrý způsob tvorby mobilních aplikací doporučoval vytvoření webové aplikace pomocí Sencha Touch a její následné zabalení jako nativní pomocí Apache Cordova. Nicméně vzhledem k novinkám už to za dobrý způsob nepovažuju. Konkrétně kvůli Senche.</p>
+
+<p>Sencha Touch vyvíjela společnost Sencha Inc a byla k dispozici zdarma i pro komerční použití. Samozřejmě bylo možné si od nich dokoupit komerční podporu. Kromě Sencha Touch prodávali jako hlavní produkt framework Ext JS (na kterém byla Sencha Touch částečně postavena).</p>
+
+<p>Na podzim Sencha změnila licenční model Ext JS a místo jednovývojářské licence začala nabízet nejméně bundle pro pět vývojářů (<a href="https://www.sencha.com/store/extjs/">za necelých $5000 ročně</a> - překlikněte si <em>QTY</em>). Na fóru je k tomu více než <a href="https://www.sencha.com/forum/showthread.php?292734-Is-Sencha-********-single-developers">stostránková diskuze</a> Když se někdo ptal sales oddělení, co má dělat, pokud ve firmě vyvíjí v Ext JS sám nebo ve dvou a nepotřebují licenci pro pět vývojářů. Prý jim nezbývá nic jiného než si koupit licenci pro pět vývojářů, že se jim bude hodit až budou růst. Sencha se zřejmě chce více zaměřit na velké firmy a malé firmy a jednotlivce trochu hází přes palubu.</p>
+
+<p>Dokud byla Sencha Touch k dispozici zdarma i pro komerční použití, tak mi to jako problém nepřišlo. V létě vyšel Ext JS 6, který jako jednu z hlavních novinek přinesl zaintegrování Sencha Touch, takže je na jednom frameworku možné snadno vytvářet jak desktopové, tak mobilní aplikace. Zní to sice dobře, ale problém je, že to znamená konec vývoje Sencha Touch, která byla k dispozici zdarma. A Ext JS jde koupit jen v tom epicky drahém bundlu pro pět vývojářů.</p>
+
+<p>Výsledkem je, že pokud jste samostatný vývojář nebo mobilní aplikace vytváříte jen občas, tak nedává smysl Sencha Touch, resp. Ext JS používat.</p>
+
+<p>Jako rozumná náhrada Sencha Touch se zdá <a href="http://ionicframework.com/">Ionic Framework</a>, který je postavený na Angularu a vývoj se posouvá hodně rychle dopředu. Případně je možné opustit Cordovu a pro vývoj zvolit <a href="https://xamarin.com/">Xamarin</a>, který umožňuje vytvářet nativní aplikace pro více platform z jednoho (C#) kódu a jen různých UI.</p>
+
+<p>Další dva rozlobené články v angličtině:</p>
+
+<ul>
+<li><a href="http://www.joshmorony.com/does-ext-js-6-mean-the-end-of-sencha-touch-for-single-developers/">Does EXT JS 6 Mean the End of Sencha Touch for Single Developers?</a></li>
+<li><a href="http://senchatouchdev.com/wordpress/2015/05/21/sencha-roadshow-london-extjs-6-x-thoughts/">Sencha Roadshow London: ExtJS 6.X Thoughts</a></li>
+</ul>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

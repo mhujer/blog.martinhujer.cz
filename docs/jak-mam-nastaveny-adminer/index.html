@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jak mám nastavený Adminer? &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Jak mám nastavený Adminer?</h2>
+            <p><small>2011-06-28</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Pro práci s MySQL databází používám <a href="http://www.adminer.org/">Adminer</a> a abych se nemusel pokaždé přihlašovat, využívám možnost napsat si <a href="http://www.adminer.org/cs/extension/">vlastní minirozšíření</a>. Mým cílem bylo mít Adminer o nejsnáze přístupný pro lokální databáze.</p>
+
+<p>Do souboru hosts jsem si proto <a href="/editace-souboru-hosts/">přidal</a> doménu <code>m</code>:</p>
+
+<pre><code>127.0.0.1 m
+</code></pre>
+
+<p>V <code>htdocs</code> mám složku <code>adminer</code>, kam mám nasměrovaný virtualhost:</p>
+
+<pre><code>&lt;VirtualHost *:80&gt;
+    ServerName m
+    DocumentRoot /xampplite/htdocs/adminer/
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>A ve složce mám soubory <code>adminer-3.2.2.php</code>, <code>adminer.css</code> a <code>index.php</code>, který obsahuje rozšíření:</p>
+
+<pre><code class="php">&lt;?php
+//v adrese musí být ?username= aby bylo možné přihlášení bez zadávání hesla
+if ($_SERVER['REQUEST_URI'] == '/') {
+    header('Location: http://m/?username=');
+}   
+
+function adminer_object() {
+    class AdminerLocalhost extends Adminer {
+        function credentials() {
+            //výchozí přihlašovací údaje pro lokální databátzi
+            return array('localhost', 'root', '');
+        }
+    }
+    return new AdminerLocalhost;
+}
+
+include './adminer-3.2.2.php';
+</code></pre>
+
+<p>Díky tomu stačí v prohlížeči zadat <code>m</code> a hned vidím výpis databází.</p>
+
+<p><strong>Update 2015-06-14</strong>: Teď používám nadstavbu od dg, s <a href="https://github.com/mhujer/adminer-custom">autologinem v mém forku</a>.</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

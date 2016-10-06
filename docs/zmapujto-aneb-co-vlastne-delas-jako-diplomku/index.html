@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ZmapujTo aneb Co vlastně děláš jako diplomku? &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>ZmapujTo aneb Co vlastně děláš jako diplomku?</h2>
+            <p><small>2014-05-26</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Už od podzimu pracuju (programuju) na diplomce, ale ještě na ni ani nemám založený dokument. Takže když jsem v březnu zjistil, že jsou dva měsíce na napsání a ještě jsem neměl ani doprogramováno, tak jsem se rozhodl radši studovat o semestr déle, než to zbytečně odfláknout.</p>
+
+<h2 id="a-co-teda-vlastn%E4%9B-d%E4%9Bl%E3%A1%E5%A1%3F">A co teda vlastně děláš?</h2>
+
+<p>To, že docela rád běhám, jste už určitě zaznamenali. S tím souvisí to, že když běhám po lesích, tak dost často potkám nějakou černou skládku.</p>
+
+<p><img src="/data/2014/2014-05-26-zmapujto-aneb-co-vlastne-delas-jako-diplomku/2014-05-26-Zmapujto-a.jpg" alt="" /></p>
+
+<p><img src="/data/2014/2014-05-26-zmapujto-aneb-co-vlastne-delas-jako-diplomku/2014-05-26-Zmapujto-b.jpg" alt="" /></p>
+
+<p>A to mně docela vadilo, takže jsem řešil, co s nimi. I ukázalo se, že je jde nahlásit na městský úřad na odbor životního prostředí a oni je budou řešit a buď je v dohledné době uklidí nebo vyzvou vlastníka pozemku, aby je uklidil. Postupně jsem podobně zkoušel nahlásit ještě pár věcí (třeba ulomenou značku nebo strom přes cestu) a všechno se celkem rychle vyřešilo. Ale posílat jednotlivá hlášení takhle ručně je docela hodně práce (je potřeba místo najít na mapě, vyznačit a udělat krátký odkaz, stáhnout fotku z telefonu, najít kontakt na správného člověk na webu úřadu).</p>
+
+<p>Vzhledem k tomu, že jsem zrovna v té době v práci dělal na mobilní aplikaci, tak mě napadlo, že by bylo fajn mít aplikaci, kterou nějaký takový problém vyfotím, zaměřím jeho polohu a odešlu úřadu k řešení. (A zároveň jsem si říkal, že bych to mohl mít jako diplomku, u které se neúprosně blížil čas volby tématu).</p>
+
+<p>Při zběžném zkoumání jsem zjistil, že taková aplikace už bohužel existuje (i když jen na mapování černých skládek). Takže jsem z toho byl nějakou dobu smutný, ale pak jsem se jim ozval, jestli to neplánují rozšířit i na mapování dalších věcí. A ono jo, takže jsme se domluvili na spolupráci. No a to je <a href="http://www.zmapujto.cz/">ZmapujTo</a></p>
+
+<p><a href="http://www.zmapujto.cz/"><img src="/data/2014/2014-05-26-zmapujto-aneb-co-vlastne-delas-jako-diplomku/2014-05-26-Zmapujto-logo.png" alt="" /></a></p>
+
+<p>ZmapujTo jsou <a href="http://www.zmapujto.cz/">mobilní aplikace</a> (iOS, Android, WP8) na hlášení problémů (černé skládky, zlomené značky, rozbité lavičky, ...) ve městech. Aplikace umí problém zaměřit, vyfotit a odeslat na web. Tam si hlášení buď zapojené obce řeší přímo samy a těm ostatním se to pošle e-mailem (a jejich odpovědi se zobrazí jako komentáře).</p>
+
+<h2 id="a-co-jsi-na-tom-d%E4%9Blal%3F">A co jsi na tom dělal?</h2>
+
+<p>Já jsem dělal ty tři mobilní aplikace, serverové API, kam se hlášení odesílají a mailing (posílání notifikačních e-mailů jednotlivým obcím). Web dělal <a href="https://www.linkedin.com/in/kubasek">Mirek Kubásek</a>, který vytvářel původní ZmapujTo.</p>
+
+<h2 id="jak-a-na-%E4%9Dem-to-funguje%3F">Jak a na čem to funguje?</h2>
+
+<ul>
+<li>mobilní aplikace jsou postaveny na <a href="http://www.zdrojak.cz/clanky/cordova-sencha-touch-mobilni-aplikace/">Sencha Touch a Apache Cordova</a></li>
+<li>API je postavené na PHP: Symfony + Doctrine ODM + MongoDB</li>
+<li>na Mailing používáme Mandrill</li>
+<li>web je vytvořený v AngularJS a na backendu Node.js</li>
+</ul>
+
+<h2 id="zapojte-se%21%21">Zapojte se!!</h2>
+
+<ol>
+<li><a href="http://www.zmapujto.cz/">Nainstalujte si mobilní aplikaci</a></li>
+<li>(dejte vědět, jestli vám funguje správně)</li>
+<li>Hlaste problémy ve svém okolí, ať ten svět máme hezčí :-)</li>
+</ol>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

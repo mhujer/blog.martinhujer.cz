@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Integrating JavaScript files with JSHint, Phing and Jenkins [EN] &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Integrating JavaScript files with JSHint, Phing and Jenkins [EN]</h2>
+            <p><small>2013-09-15</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>I wrote an article about <a href="/integrating-javascript-nodejs-jenkins/">integrating JavaScript Node.js projects with Jenkins</a> more than year ago. Recently I wanted to solve a bit different issue. I wanted to add <a href="http://jshint.com/">JSHint</a> validation as a part of a Phing build (our project is PHP/Zend Framework based with some JS files).</p>
+
+<p>It can be done it a few steps (I will go through them in more detail later):</p>
+
+<ol>
+<li>Install Node.js</li>
+<li>Install JSHint</li>
+<li>Add JSHint task to a buildfile</li>
+<li>Set up reporting in Jenkins</li>
+</ol>
+
+<h2 id="1-installing-node.js">1) Installing Node.js</h2>
+
+<p>Node.js can be installed via <a href="http://nodejs.org/download/">MSI installer on Windows</a>, via <a href="https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager">package manager</a> in most Linux distros (except for Debian stable which we are using). So I had to compile it myself (Ubuntu PPA packages does not work because of unmet dependencies). As long as we use Node.js just for JSHint validation, there is no need to upgrade it to latest versions, and therefore I put the package in our salt repository and it can be installed automatically next time (we have whole Jenkins server <a href="http://saltstack.org/">salted</a>).</p>
+
+<h2 id="2-installing-jshint">2) Installing JSHint</h2>
+
+<p>If you have the Node.js running, installing JSHint is pretty easy. You just run</p>
+
+<pre><code>npm install jshint -g
+</code></pre>
+
+<p>To verify that it is installed correctly, run <code>jshint -v</code> which should print the jshint version.</p>
+
+<h2 id="3-adding-jshint-task-to-a-buildfile">3) Adding JSHint task to a buildfile</h2>
+
+<p>This is the hardest step in the whole process. There was no JsHintTask in the standard Phing distribution, so I had to write it myself. I have <a href="https://github.com/phingofficial/phing/pull/237">issued a PullRequest</a>, so it may be part of some future version of Phing.</p>
+
+<p>The first step is to download the task and put it somewhere, where Phing can access it. Next code snippet assumes, that it is a part of the project and it is located in the <code>support/phing/JsHintTask.php</code> file.</p>
+
+<p>Second step is to link the file from the buildfile:</p>
+
+<pre><code class="xml">&lt;path id="project.class.path"&gt;
+    &lt;pathelement dir="${project.basedir}/support/phing/"/&gt;
+&lt;/path&gt;
+
+&lt;taskdef name="jshint" classname="JsHintTask"&gt;
+    &lt;classpath refid="project.class.path"/&gt;
+&lt;/taskdef&gt;
+</code></pre>
+
+<p>Last step is to create a <code>jshint</code> target (you can check the detailed description of the parameters in the <a href="https://github.com/phingofficial/phing/pull/237/files#L2L3723">docs</a>). Most important is the <code>checkstyleReportPath</code> attribute, which defines where the checkstyle report will be saved and the <code>fileset</code> element, which defines which files should be checked.</p>
+
+<pre><code class="xml">&lt;target name="jshint" description="Javascript Lint"&gt;
+    &lt;mkdir dir="${project.basedir}/build/checkstyle-jshint"/&gt;
+    &lt;jshint
+            haltOnError="false"
+            haltOnWarning="false"
+            checkstyleReportPath="${project.basedir}/build/checkstyle-jshint/checkstyle-jshint.xml"
+        &gt;
+        &lt;fileset dir="${project.basedir}/public_html/www/js"&gt;
+            &lt;include name="**/**.js"/&gt;
+            &lt;exclude name="js-cache/**"/&gt;
+            &lt;exclude name="jquery-1.*.min.js"/&gt;
+            &lt;exclude name="bootstrap/bootstrap.js"/&gt;
+        &lt;/fileset&gt;
+    &lt;/jshint&gt;
+&lt;/target&gt;
+</code></pre>
+
+<p>JSHint supports config file, where you can set which issues you want to get reported. It is easy - you just create <code>.jshintrc</code> file in the project root directory and JSHint will load it automatically. File should contain a JSON object with configuration options. See the <a href="http://jshint.com/docs/config/">docs</a>. And you can check the <code>.jshintrc</code> file we are using:</p>
+
+<pre><code class="javascript">{
+    "maxerr"    :   1000,
+    "camelcase" :   true,
+    "immed"     :   true,
+    "latedef"   :   true,
+    "newcap"    :   true,
+    "quotmark"  :   "single",
+    "trailing"  :   true,
+    "jquery"    :   true,
+    "white"     :   true,
+    "globals"   :   {}
+}
+</code></pre>
+
+<h2 id="4-setting-up-the-reporting-in-jenkins">4) Setting up the reporting in Jenkins</h2>
+
+<p>Just add a Post-build action - Report Violations and put the path in there.
+<img src="/data/2013/2013-09-15-integrating-javascript-files-with-jshint-phing-and-jenkins/2013-09-15-jshint-01-violations.png" alt="" /></p>
+
+<p>After the build finishes, you can check the errors in the Violations section of the build report.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>It is really easy to set-up JavaScript files validation in a PHP project, so why not have it? If you have any trouble setting it up, just ask in the comments and I'll try to help you. I would be also happy, if you share your way of validating JS files.</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Necháte si ukrást Facebook účet? aneb Dvouúrovňové přihlašování &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Necháte si ukrást Facebook účet? aneb Dvouúrovňové přihlašování</h2>
+            <p><small>2014-01-06</small></p>
+        </header>
+
+        <div class="article-text">
+            <blockquote>
+  <p>Dnešní článek je spíše pro neIT čtenáře. Počítám (doufám!), že pro všechny, kdo se kolem IT pohybují více, nebude dvoustupňové přihlašování ničím novým.</p>
+</blockquote>
+
+<p>Než má smysl se začít bavit o dvouúrovňovém přihlašování, tak bych si rád ověřil jednu věc:</p>
+
+<p><strong>Používáte pro e-mailovou schránku heslo, které nepoužíváte nikde jinde?</strong></p>
+
+<p>Pokud jste heslo pro e-mail použili i někde jinde, tak si ho změňte. Jde o to, že občas nějakým firmám uteče špatně zabezpečená databáze hesel uživatelů (stalo se to třeba i LinkedIn nebo Adobe). A pokud máte stejné heslo i pro e-mail, tak případný útočník získá přístup nejen k vašim e-mailům, ale také ke všem službám, ve kterých jste se registrovali daným e-mailem - pomocí <em>Obnovení zapomenutého hesla</em> v těch službách.</p>
+
+<hr />
+
+<p>Tak, pokud máte pro e-mail už nastavené unikátní heslo, tak se můžeme pustit do dalšího zabezpečování.</p>
+
+<p>Předpokládám, že všichni používáte elektronické bankovnictví, takže jste si určitě všimli, že při potvrzování transakcí (a u ČSOB i při přihlášení), vám pomocí SMS přijde kód, kterým transakci autorizujete. Když jde o peníze, tak banka chce mít jistotu, že to jste opravdu vy - a to nejen tím, že <em>něco víte</em> (přihlašovací údaje), ale také tím, že <em>něco máte</em> (mobilní telefon s číslem nastaveným při zřizování účtu).</p>
+
+<p>Teď je na čase se zamyslet, jestli by byl větší problém, kdyby se vám někdo dostal k bankovnímu účtu (kde jsou peníze přeci jen dobře vysledovatelné) nebo k Gmailu, Facebooku, Githubu, Live účtu, Dropboxu,… (kde by podle mě mohl napáchat mnohem větší škody).</p>
+
+<p>A právě všechny tyto služby nabízejí obdobu toho, co elektronické bankovnictví - a to nutnost potvrzení přihlášení pomocí kódu, který vám zadarmo zašlou SMSkou. Tedy za cenu toho, že při přihlašování budete muset opsat kód z SMS, získáte mnohem větší jistotu, že váš účet jen tak někdo nezneužije. Počítač, ze kterého se přihlašujete často, si většinou můžete nastavit jako "důvěryhodný", takže tam nebude muset opisovat kód z SMS.</p>
+
+<h2 id="jak-nastavit-dvou%E3%BArov%E5%88ov%E3%A9-p%E5%99ihla%E5%A1ov%E3%A1n%E3%AD-na-gmailu%3F">Jak nastavit dvouúrovňové přihlašování na Gmailu?</h2>
+
+<p>Můžete jít buď přímo <a href="https://accounts.google.com/b/0/SmsAuthSettings">přes odkaz</a> a nebo si to proklikat sami:</p>
+
+<ol>
+<li>V GMailu klikněte vpravo nahoře na svůj obrázek</li>
+<li>Vyberte "Account" (mám GMail anglicky, takže případně hledejte CZ alternativu)</li>
+<li>Nahoře klikněte na záložku "Security"</li>
+<li>V sekci "Password" hledejte "2-step verification"</li>
+</ol>
+
+<p>Poté už to je jednoduché. Zvolíte, že chcete aktivovat <em>"2-Step Verification"</em>, zadáte své telefonní číslo, přijde vám ověřovací kód a dvouúrovňové přihlašování bude zapnuté. Případně se mrkněte na <a href="https://support.google.com/accounts/answer/185839?hl=en&amp;ref_topic=1099588">Návod od Google</a>.</p>
+
+<p>Místo SMS je možné používat mobilní aplikaci, kam vložíte vstupní kód (případně vyfotíte QR kód) a ta už vám bude ověřovací kódy generovat. Já osobně její použití nedoporučuji - sice jsem si sám používal, ale když jsem poté smartphone poslal na reklamaci, tak jsem stejně všude musel měnit na potvrzení pomocí SMS.</p>
+
+<p>Další věcí, kterou je potřeba vyřešit, je mít jistotu, že v případě ztráty telefonu, můžete snadno získat novou SIM se stejným číslem. Také dejte pozor na převody čísel mezi operátory - tam se může stát, že vaše číslo prostě nějakou dobu nebude fungovat.</p>
+
+<p>Většina služeb umožňuje předgenerování  kódů, které můžete použít v případě, že nebudete mít přístup ke svému telefonu (ty opravdu doporučuju vytisknout a někam bezpečně uložit). GMail navíc umožňujte přidání druhého záložního telefonního čísla.</p>
+
+<h2 id="aplikace-mus%E3%AD-dvou%E3%BArov%E5%88ov%E3%A9-p%E5%99ihla%E5%A1ov%E3%A1n%E3%AD-podporovat">Aplikace musí dvouúrovňové přihlašování podporovat</h2>
+
+<p>Aplikace, do které se přihlašujete, musí dvouúrovňové přihlášení podporovat. Většina oficiálních ho podporuje, ale třeba zabudované e-mailové programy ve smartphonech většinou ne. Pro ně je nutné vygenerovat tzv. <em>App-specific password</em> - jednorázové heslo, které se použije jen pro tu aplikaci.</p>
+
+<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
+
+<p>Za cenu drobného nepohodlí si můžete mnohem lépe zabezepečit služby, které jsou pro vás důležité. A to se vyplatí, ne?</p>
+
+<p>Nastavte si dvouúrovňové přihlašování i na další služby:</p>
+
+<ul>
+<li><a href="https://www.facebook.com/settings?tab=security">Facebook</a> (jmenuje se to <em>"Login Approvals"</em>)</li>
+<li><a href="https://account.live.com/proofs/Manage">Live.com účet</a></li>
+<li><a href="https://www.dropbox.com/account#newsecurity">Dropbox</a></li>
+<li><a href="https://github.com/settings/admin">Github</a></li>
+<li>podívejte se, jestli i nějaké další služby, které používáte, náhodou dvoustupňové přihlašování neumějí</li>
+</ul>
+
+<p>Dejte mi v komentářích vědět, jestli už jste dvouúrovňové přihlašování používali dříve? Uvažujete teď o jeho nastavení? Nebo ho používat nebudete - proč?</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

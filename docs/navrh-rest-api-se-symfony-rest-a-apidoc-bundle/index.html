@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Návrh REST API se Symfony Rest- a ApiDoc bundle &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Návrh REST API se Symfony Rest- a ApiDoc bundle</h2>
+            <p><small>2014-06-08</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>V poslední době se hodně mluví o správném návrhu API a o jeho dokumentaci. V souvislosti s tím se často skloňuje český startup <a href="http://apiary.io/">apiary</a>, který se přesně na to zaměřuje. Apiary slouží jak k dokumentaci API, tak k jeho testování. Zároveň umí vytvořit "mock API", kdy už na základě té dokumentace jde API trochu "používat". Takže je možné například vyvíjet mobilní aplikace bez toho, aby serverová část vůbec existovala. Když jsem vymýšlel API pro mobilní aplikace <a href="http://www.zmapujto.cz/">ZmapujTo.cz</a>, tak jsem nejdřív apiary zkoušel, ale nebylo to tak sluníčkové, jak jsem čekal. (Ale možná jsem ho používal špatně). (<em>EDIT: Testoval jsem ho na podzim 2013, takže dnes už je dál a třeba by to sluníčkové už bylo</em>)</p>
+
+<p>V tomhle článku bych chtěl ukázat, jak to jde dělat jinak a možná v dané situaci efektivněji. Předpokladem, aby popisovaný postup byl efektivnější, je, že nepotřebujete jazykovou nezávislost. Apiary má dokumentaci API v upraveném Markdown, a samotné API pak můžete implementovat v čem chcete. Tady jste víceméně dopředu rozhodnutí, že API budete implementovat v Symfony.</p>
+
+<p>Jako příklad ukážu zdokumentování <a href="https://developer.github.com/v3/gists/">Github API pro gisty</a>, které má Apiary <a href="http://apiary.io/blueprint">jako ukázku</a>. Článek dále předpokládá znalost Symfony (případně hledání jinde), nebudu zde popisovat vytvoření Symfony aplikace ani základní věci.</p>
+
+<p>Ukázkový kód si můžete po commitech prohlédnout <a href="https://github.com/mhujer/apidocdemo/commits/master">na githubu</a></p>
+
+<h2 id="z%E3%A1kladn%E3%AD-kostra-commit-na-githubu">Základní kostra (<a href="https://github.com/mhujer/apidocdemo/commit/253f072283f648b3e3184aaf6352d0ade0fbf16a">Commit na Githubu</a>)</h2>
+
+<p>První krokem je vytvoření běžné Symfony aplikace a nějakého Bundlu, pro API. Potom si nainstalujeme <a href="https://github.com/FriendsOfSymfony/FOSRestBundle">FOSRestBundle</a>, který nám pomůže s vytvářením API.</p>
+
+<p>Aby se nám na <code>/gists</code> zobrazil JSON s výpisem pak už stačí vytvořit <code>GistsController.php</code> s tímto obsahem:</p>
+
+<pre><code class="php">&lt;?php
+
+namespace Mhujer\ApiDemoBundle\Controller;
+
+use FOS\RestBundle\Controller\FOSRestController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class GistsController extends FOSRestController
+{
+    public function getGistsAction()
+    {
+        return new JsonResponse(['list' =&gt; 'foo']);
+    }
+}
+</code></pre>
+
+<p><code>getGistsAction()</code> je nutné pojmenování, díky němu pak FOSRestBundle už rovnou ví, že na ní má routovat GET požadavek. Detailní popis, jak pojmenovávat metody je <a href="https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/5-automatic-route-generation_single-restful-controller.md#define-resource-actions">k dispozici v dokumentaci</a>.</p>
+
+<h2 id="zdokumentov%E3%A1n%E3%AD-api-commit-na-githubu">Zdokumentování API (<a href="https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349">Commit na Githubu</a>)</h2>
+
+<p>Určitě jste si všimli, že zatím vlastně spíš vytváříme API a nic nedokumentujeme. Hned to napravíme. Nainstalujeme si a nastavíme <a href="https://github.com/nelmio/NelmioApiDocBundle/">NelmioApiDocBundle</a> (nebudu rozepisovat detaily, jsou vidět <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md">v dokumentaci</a> a případně <a href="https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349">commitu na githubu</a>)</p>
+
+<p>Dalším krokem je doplnění anotace <code>@ApiDoc</code> k metodě <code>getGistsAction()</code>. V článku ještě ukážu další možnosti <code>@ApiDoc</code> anotace, ale zase je nejlepší se podívat rovnou <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md">do dokumentace</a> na kompletní přehled možností.</p>
+
+<pre><code class="php">/**
+ * List the authenticated user’s gists or if called anonymously, this will return all public gists:
+ *
+ * @ApiDoc(
+ *      parameters={
+ *          {
+ *              "name"="since",
+ *              "dataType"="string",
+ *              "required"=false,
+ *              "description"="A timestamp in ISO 8601 format: YYYY-MM-DDTHH:MM:SSZ. Only gists updated at or after this time are returned."
+ *          }
+ *      }
+ * )
+ */
+</code></pre>
+
+<p>Z takto rozšířeného dokumentační komentáře nám pak NelmioApiDocBundle v prohlížeči vygeneruje krásnou interaktivní API dokumentaci:</p>
+
+<p><img src="/data/2014/2014-06-08-navrh-rest-api-se-symfony-rest-a-apidoc-bundle/2014-06-08-apidoc01.png" alt="" /></p>
+
+<p>A kromě dokumentace je tam k dispozici i možnost si přímo API volání vyzkoušet
+<img src="/data/2014/2014-06-08-navrh-rest-api-se-symfony-rest-a-apidoc-bundle/2014-06-08-apidoc02.png" alt="" /></p>
+
+<p>Podobně můžeme popsat i složitější metody:</p>
+
+<pre><code class="php">/**
+ * Create a gist
+ *
+ * Files parameter example:
+ * ```
+ * {
+ *   "description": "the description for this gist",
+ *   "public": true,
+ *   "files": {
+ *     "file1.txt": {
+ *       "content": "String file contents"
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * @ApiDoc(
+ *      requirements={
+ *          {
+ *              "name"="files",
+ *              "dataType"="hash",
+ *              "description"="The keys in the files hash are the string filename, and the value is another hash with a key of content, and a value of the file contents."
+ *          }
+ *      },
+ *      parameters={
+ *          {
+ *              "name"="description",
+ *              "dataType"="string",
+ *              "required"=false,
+ *              "description"="A description of the gist."
+ *          },
+ *          {
+ *              "name"="public",
+ *              "dataType"="boolean",
+ *              "required"=false,
+ *              "description"="Indicates whether the gist is public. Default: false"
+ *          }
+ *      }
+ * )
+ */
+public function postGistAction()
+{
+    return new JsonResponse(
+        json_decode(file_get_contents(__DIR__ . '/../Data/Gists/postGist.json')),
+        201,
+        [
+            'Location' =&gt; 'https://api.github.com/gists/1',
+            'X-RateLimit-Limit' =&gt; 5000,
+            'X-RateLimit-Remaining' =&gt; 4999,
+        ]
+    );
+}
+</code></pre>
+
+<h2 id="v%E3%BDsledek%3F">Výsledek?</h2>
+
+<p>Na výsledný kód controlleru se můžete <a href="https://github.com/mhujer/apidocdemo/blob/master/src/Mhujer/ApiDemoBundle/Controller/GistsController.php">podívat na github</a>, případně si projít <a href="https://github.com/mhujer/apidocdemo/commits/master">jednotlivé commity</a>.</p>
+
+<p>Výsledná dokumentace vypadá takto:
+<img src="/data/2014/2014-06-08-navrh-rest-api-se-symfony-rest-a-apidoc-bundle/2014-06-08-apidoc03.png" alt="" /></p>
+
+<p>A případně ji jde vygenerovat i jako statické HTML (<a href="/data/2014/2014-06-08-navrh-rest-api-se-symfony-rest-a-apidoc-bundle/2014-06-08-apidoc.html">prohlédnout</a>) nebo Markdown (<a href="https://github.com/mhujer/apidocdemo/blob/master/apidoc.md">prohlédnout</a>).</p>
+
+<pre><code class="bash">php app\console api:doc:dump --no-sandbox --format html &gt; apidoc.html
+php app\console api:doc:dump --no-sandbox --format markdown &gt; apidoc.md
+</code></pre>
+
+<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
+
+<p>V článku jsem se snažil ukázat jiný postup k návrhu a dokumentaci API. Velkou výhodou tohoto přístupu je, že si v rámci návrhu a testování API můžete v kódu už vytvořit nějaké podmínky, které by se ve statickém Markdown zapisovaly těžko. Zároveň API můžete postupně začít implementovat bez toho, aby bylo nutné udělat jedno velké přepnutí z mock implementace na reálnou.</p>
+
+<p><strong>Jak navrhujete a dokumentujete API vy? Používáte apiary? Nebo jiný postup?</strong></p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

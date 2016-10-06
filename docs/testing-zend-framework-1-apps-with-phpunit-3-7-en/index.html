@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing Zend Framework 1 apps with PHPUnit 3.7+ [EN] &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Testing Zend Framework 1 apps with PHPUnit 3.7+ [EN]</h2>
+            <p><small>2013-05-19</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Great Zend Framework apps definitely should have automated tests. ZF helps you with that by providing PHPUnit extension which allows you to test controllers - adds special asserts for response and DOM queries. But there is a big downside - it works only with PHPUnit 3.4. I agree with the goal to maintain ultimate backwards compatibility, but I prefer to use latest versions of my tools. So I have latest PHPUnit installed for testing other apps and 3.4 for testing ZF1 apps (see <a href="http://tech.vg.no/2011/11/29/running-multiple-versions-of-phpunit/">this tutorial</a> to install PHPUnit 3.4 and the latest one). I hate having to set up two PHPUnits after reinstall (and setting them up on CI server).</p>
+
+<p>So I decided to fix the Zend_Test (for myself) to work with latest PHPUnit. I originally thought I would have to do it myself, but then I found <a href="http://opensource.hqcodeshop.com/Zend%20Framework/PHPUnit%203.7%20-%201.12.1/">this patch</a> (thanks!) which I have applied to <a href="https://github.com/mhujer/zf1/tree/phpunit37">a branch in my fork of ZF1</a>.</p>
+
+<p>After that, I needed to fix my tests to work with latest PHPUnit. Luckily it meant just replacing <code>assertType()</code> with <code>assertInstanceOf()</code>.</p>
+
+<h2 id="shortly%2C-you-need-to-do-this%3A">Shortly, you need to do this:</h2>
+
+<ol>
+<li>Fix the Zend_Test (see <a href="https://github.com/mhujer/zf1/commit/177a075248f7df836b6991505c54ce848c553064">diff</a>)</li>
+<li>Fix your tests</li>
+<li>Get rid of the old PHPUnit 3.4</li>
+<li>Profit</li>
+</ol>
+
+<p>After that the tests run fine with latest PHPUnit.</p>
+
+<p>If you have any questions or trouble fixing ZF1 and tests for latest PHPUnit, feel free to ask in the comments.</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

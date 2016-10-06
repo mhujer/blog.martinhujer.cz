@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Co používám? Xenu&#039;s Link Sleuth &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>Co používám? Xenu&#039;s Link Sleuth</h2>
+            <p><small>2012-03-09</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Občas používám docela užitečný program na kontrolu odkazů na webech, <a href="http://home.snafu.de/tilman/xenulink.html">Xenu's Link Sleuth</a>. Funguje tak, že mu zadáte výchozí adresu (typicky třeba hlavní stránku), on si ji stáhne, najde na ní všechny odkazy (a to jak na další stránky, tak i na obrázky, skripty a CSSka) a ty ověří. Z dalších stránek, na které první stránka odkazuje, si zase najde všechny odkazy a ty ověří...</p>
+
+<h2 id="a-k-%E4%9Demu-to%3F">A k čemu to?</h2>
+
+<p>Xenu nám pomůže odhalit chyby, které by při procházení našeho webu měli jak uživatelé, tak i vyhledávače. Můžeme nalézt dva druhy možných chyb.</p>
+
+<ul>
+<li><strong>uživatelské</strong> (obsahové)</li>
+<li><strong>programátorské</strong></li>
+</ul>
+
+<h2 id="u%E5%BEivatelsk%E3%A9-obsahov%E3%A9-chyby">Uživatelské (obsahové) chyby</h2>
+
+<p>Může se stát, že se uživatel překlepne a vloží do stránky odkaz, který vede na neexistující stránku. Případně může přestat existovat stránka, na kterou odkázal v minulosti.</p>
+
+<h2 id="program%E3%A1torsk%E3%A9-chyby">Programátorské chyby</h2>
+
+<p>Programátor může třeba špatně naprogramovat vypisování odkazů v menu nebo něco takového. Horší jsou chyby, které vytvářejí nekonečné množství stránek. Typickým příkladem je kalendář akcí, který lze po měsících procházet do hluboké minulosti nebo daleké budoucnosti. Jednou jsem spouštěl Xenu na web a divil jsem se, že kontrola trvá tak dlouho. Nakonec jsem zjistil, že už kontroluje jen kalendář akcí a je u roku 1700 a zároveň u roku 2300 na druhé straně. Googlu by se to nemuselo líbit a mohl by nás podezřívat z nějakého spamování indexu.</p>
+
+<h2 id="tak%E5%BEe-jak-na-to%3F">Takže jak na to?</h2>
+
+<p>Spustíme Xenu a zadáme URL webu, který chceme kontrolovat. Pod tlačítkem "More options" se skrývají další nastavení, ale ta teď nejsou důležitá, můžete si je prohlédnout později.</p>
+
+<p><img src="/data/2012/2012-03-09-co-pouzivam-xenus-link-sleuth/2012-03-06-xenu01-new-project.png" alt="" /></p>
+
+<p>Spustíme kontrolu a po doběhnutí se nám červeně zobrazí chybné odkazy. Pravým tlačítkem a volbou URL properties můžeme získat detailní informace o chybné URL. Samozřejmě ne vše jsou opravdu chyby, na následujícím obrázku jsem vybral ty, které nás zajímají:</p>
+
+<p><img src="/data/2012/2012-03-09-co-pouzivam-xenus-link-sleuth/2012-03-06-xenu01-report.png" alt="" /></p>
+
+<ul>
+<li><strong>[obsahová chyba]</strong> e-shop <em>nejlevnejsitablet.cz</em> skončil</li>
+<li><strong>[obsahová chyba]</strong> nová adresa FB stránky už je jen <em>h&#42;tps://www.facebook.com/shopio</em></li>
+<li><strong>[obsahová chyba]</strong> Dobrý Web změnil odkazy na školení - toto možná není chyba, protože DW si u sebe staré odkazy přesměrovává - ale stejně je lepší odkazovat na aktuální URL</li>
+<li><strong>[programátorská chyba]</strong> <em>h&#42;tp://twitter.com/Shopio/status/1.64261064014E+17/</em> vzniklo asi tak, že se s číslem statusu na Twitteru pracovalo jako s celým číslem a ne jako s řetězcem. Když číslo statusu přeteklo rozsah typu integer, tak se začalo brát jako desetinné číslo a to není do odkazu úplně optimální...</li>
+<li><strong>[OK]</strong> <em>h&#42;tp://t.co/tmyN7sM8</em> naopak problém není - je to Twitterový zkracovač odkazů, takže je správně, že přesměrovává</li>
+</ul>
+
+<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
+
+<p>Kontrolujete odkazy na svém webu? Zkuste si na něj schválně pustit Xenu a podělte se o výsledky v komentářích!</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

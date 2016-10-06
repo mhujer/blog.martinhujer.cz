@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP_CodeBrowser 1.0.3 a změna PEAR kanálu &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>PHP_CodeBrowser 1.0.3 a změna PEAR kanálu</h2>
+            <p><small>2012-04-27</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>Pro reportování chyb z PHP_CodeSniffer, PHPCPD a PMD jsem <a href="/bp/">při nasazení kontinuální integrace</a> použil <a href="https://github.com/Mayflower/PHP_CodeBrowser/">PHP_CodeBrowser</a>. Nicméně, nelíbilo se mi, že jsou v reportu vypsané i soubory, které žádné chyby neobsahují - pak se hůře hledají ty, ve kterých chyby jsou.</p>
+
+<p><a href="https://github.com/Mayflower/PHP_CodeBrowser/pull/12">Doprogramoval</a> jsem tedy možnost takové soubory skrýt.</p>
+
+<pre><code class="bash">--excludeOK    Exclude files with no issues from the report
+</code></pre>
+
+<p>Před pár dny <a href="https://twitter.com/s_bergmann/status/194700069214228480">vyšla verze 1.0.3</a>, která už vylepšení obsahuje. Zároveň došlo ke změně PEAR kanálu pro instalaci balíčku.</p>
+
+<p>Pro upgrade je tedy potřeba starou verzi nejdříve odinstalovat:</p>
+
+<pre><code class="bash">pear uninstall phpunit/PHP_CodeBrowser
+</code></pre>
+
+<p>Pak přidat nový kanál a nainstalovat PHP_CodeBrowser z něj:</p>
+
+<pre><code class="bash">pear channel-discover pear.phpqatools.org
+pear install phpqatools/PHP_CodeBrowser
+</code></pre>
+
+<p>A do build skriptu stačí přidat přepínač <code>--excludeOK</code>, takže příkaz pro generování pomocí phpcb bude vypadat takto:</p>
+
+<pre><code class="bash">phpcb --log ${project.basedir}/build --source ${project.basedir} --output ${project.basedir}/build/code-browser --excludeOK
+</code></pre>
+
+<p>Používáte také PHP_CodeBrowser nebo si v Jenkinsu vystačíte s Violations?</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            &copy; 2016 <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+                <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>
