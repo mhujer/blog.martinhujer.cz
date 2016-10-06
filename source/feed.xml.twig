@@ -5,10 +5,10 @@ permalink: feed/
 <?xml version="1.0" encoding="utf-8" ?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title><![CDATA[{{ site.title }}]]></title>
-    <link href="{{ site.rss_base_url }}/feed/" rel="self"/>
-    <link href="{{ site.rss_base_url }}/"/>
+    <link href="{{ site.base_url }}/feed/" rel="self"/>
+    <link href="{{ site.base_url }}/"/>
     <updated>{{ site.calculated_date | date('c') }}</updated>
-    <id>{{ site.rss_base_url }}/</id>
+    <id>{{ site.base_url }}/</id>
     {% if site.author or site.email %}
         <author>
             {% if site.author %}<name><![CDATA[{{ site.author }}]]></name>{% endif %}

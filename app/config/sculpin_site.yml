@@ -3,7 +3,7 @@
 # in a template to get the contents of the `title` key.
 title: Martin Hujer blog
 subtitle: PHP, Symfony, život a ostatní
-rss_base_url: https://blog.martinhujer.cz
+base_url: https://blog.martinhujer.cz
 author: Martin Hujer
 
 # Insert your disqus shortname
