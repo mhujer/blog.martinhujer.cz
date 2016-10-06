@@ -7,7 +7,7 @@ V pátek a v sobotu jsem se zúčastnil [Rockaway AWS Hackatonu](http://hackatho
 
 Na výběr byla hromada témat, nicméně nakonec jsme se dali do týmu s [Tomášem](http://www.tomasfejfar.cz/) a zvolili si vlastní téma. Témata na výběr byla totiž hodně programovací, takže bychom velkou část hackatonu strávili vývojem aplikace a jen malou část zkoumáním AWS. Místo toho jsme využili hackaton k tomu, že jsme v AWS rozjeli [Shopio](http://www.shopio.cz/) (e-shopové řešení, které vyvíjíme ve w3w).
 
-<img src="/data/2015/2015-10-21-jaky-byl-rockaway-aws-hackaton-2015/selfie.jpg" width="600" ale="Selfie ze závěrečné prezentace">
+<img src="/data/2015/2015-10-21-jaky-byl-rockaway-aws-hackaton-2015/selfie.jpg" width="600" alt="Selfie ze závěrečné prezentace">
 
 _Selfie ze závěrečné prezentace_
 
