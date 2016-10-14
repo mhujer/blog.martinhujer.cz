@@ -3,11 +3,21 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2016-10-06T19:48:58+02:00</updated>
+    <updated>2016-10-14T12:14:59+02:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Symfony Console jako první rande se Symfony]]></title>
+            <link href="https://blog.martinhujer.cz/symfony-console-jako-prvni-rande-se-symfony/"/>
+            <updated>2015-12-07T00:00:00+01:00</updated>
+            <id>https://blog.martinhujer.cz/symfony-console-jako-prvni-rande-se-symfony/</id>
+            <content type="html"><![CDATA[<p>V článku si ukážeme možnosti Symfony Console. Je to samostatná komponenta s minimem závislostí, takže ji lze velmi snadno začít používat v existující aplikaci. Považuji to za super způsob, jak se nenásilně seznámit s ekosystémem Symfony.</p>
+
+<p><strong><a href="https://www.zdrojak.cz/clanky/symfony-console-jako-prvni-rande-se-symfony/">Článek vyšel</a> na serveru Zdroják.cz</strong></p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Jak se učím španělsky?]]></title>
             <link href="https://blog.martinhujer.cz/jak-se-ucim-spanelsky/"/>
@@ -345,68 +355,6 @@ Důvodem pro mBank pro mě bylo mít druhý účet s menším zůstatkem, ke kte
 <p>Jsem zvědavý, jestli tímto mBank odradí klienty s málo používanými účty a ti je budou rušit. Protože klienti mBank už minimálně jednou ukázali, že změna banky pro ně není problém.</p>
 
 <p>A co vy? Také ještě máte účet u mBank nebo už někde jinde?</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Checking a custom coding standard with PHP_CodeSniffer]]></title>
-            <link href="https://blog.martinhujer.cz/checking-a-custom-coding-standard-with-php_codesniffer/"/>
-            <updated>2014-06-20T00:00:00+02:00</updated>
-            <id>https://blog.martinhujer.cz/checking-a-custom-coding-standard-with-php_codesniffer/</id>
-            <content type="html"><![CDATA[<p><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> is a tool for checking source code compliance with a defined coding standard. There are some predefined standards (PEAR, Zend, PSR1, PSR2, etc.), but the true power of PHP_CodeSniffer lies in the possibility of defining custom standards.</p>
-
-<p>We've been using PHPCS on <a href="http://www.shopio.cz/">Shopio</a> for a long time, but we've utilized just the Zend coding standard provided within the PHPCS distribution.  I recently found some time to dig deeper into PHPCS and I played a lot with custom standards.</p>
-
-<h2 id="how-can-i-define-a-custom-phpcs-standard%3F">How can I define a custom PHPCS standard?</h2>
-
-<p>A custom standard is just an XML file (usually located in the project directory) which imports rules that already exist in PHPCS. It's usually better to import an existing standard and customize it with additional rules. And if there are some rules that you don't like, you can disable them (or reconfigure their parameters). The following example shows a custom ruleset that just imports the Zend coding standard:</p>
-
-<pre><code class="xml">&lt;?xml version="1.0"?&gt;
-&lt;ruleset name="My Custom Standard"&gt;
-    &lt;rule ref="Zend" /&gt;
-&lt;/ruleset&gt;
-</code></pre>
-
-<p>Using the custom ruleset is also simple, as you just need to pass the path to the XML file with the custom standard: <code>phpcs --standard=ruleset.xml file.php</code>.</p>
-
-<p>As I've already mentioned, you can reconfigure the way that some of the rules behave. The first one I tried was the line length. We all use fullHD screens for development, so there is no need to limit the line length to 80 characters. With the following snippet, you can get errors and warnings only for extremely long lines (which usually indicates code-smell):</p>
-
-<pre><code class="xml">&lt;rule ref="Generic.Files.LineLength"&gt;
-    &lt;properties&gt;
-        &lt;property name="lineLimit" value="250" /&gt;
-        &lt;property name="absoluteLineLimit" value="300" /&gt;
-    &lt;/properties&gt;
-&lt;/rule&gt;
-</code></pre>
-
-<p>Other often-discovered issues are mixed indentation (tabs and spaces), and mixed newlines (you should always use Unix EOLs). It can be a tedious task to fix them manually, but I've got good news for you: there is a tool called <a href="http://sourceforge.net/projects/swissfileknife/">SFK</a> (Swiss File Knife) which can easily handle such changes in a second.</p>
-
-<p>If you are still getting hundreds of coding standards violations, I would suggest that you disable some rules by setting their severity to 0 and fix the remaining errors. When you have more time for codebase cleaning, enable some of previously disabled rules and repeat the process until you get 0 errors with all 'sniffs' (rules) enabled.</p>
-
-<pre><code class="xml">&lt;rule ref="Generic.Files.LineLength"&gt;
-    &lt;severity&gt;0&lt;/severity&gt;
-&lt;/rule&gt;
-</code></pre>
-
-<h2 id="ignoring-some-of-the-errors">Ignoring some of the errors</h2>
-
-<p>You can exclude specific parts of the source code from being scanned by PHPCS by wrapping the problematic part with <code>//@codingStandardsIgnoreStart</code> and <code>//@codingStandardsIgnoreEnd</code> comments.
-You should reach for those as a last resort, such as when the piece of the code cannot be refactored or rewritten. It is also good to include a reason for exclusion in the comment.</p>
-
-<h2 id="adding-more-rules-to-the-ruleset">Adding more rules to the ruleset</h2>
-
-<p>When you (and the whole team) are comfortable with writing code according to specified coding standard and the PHPCS is run regularly (typically as a part of a Jenkins CI build), you can be more strict and add more rules to the ruleset. It can be easily done by checking <a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/PSR1/ruleset.xml">some</a> <a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/PSR2/ruleset.xml">already</a> <a href="https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/Squiz/ruleset.xml">existing</a> <a href="https://github.com/squizlabs/PHP_CodeSniffer/tree/master/CodeSniffer/Standards">standards</a> and choosing some rules from them. You can do it incrementally - choose one rule that looks good, add it to your ruleset and see what happens after you run PHPCS.</p>
-
-<p>You can check out <a href="https://gist.github.com/mhujer/1e93face4a9d13648c91">the coding standard we use for Shopio.cz</a> to see everything that can be checked by PHPCS.</p>
-
-<h2 id="enable-realtime-php_codesniffer-checking-in-phpstorm">Enable realtime PHP_CodeSniffer checking in PHPStorm</h2>
-
-<p><a href="http://www.jetbrains.com/phpstorm/">PHPStorm</a> (great IDE btw.) has integrated support for PHP_CodeSniffer. It can work easily with standards predefined in PHP_CodeSniffer. But it can also check the code with your custom standard. The only thing you need to do is to select the "Custom" standard, which allows you to select the directory where the standard definition file is located. You can select your project directory (you have to have your custom standard file called <code>ruleset.xml</code>) and it will load the standard automatically!</p>
-
-<p>See the detailed guide, <a href="http://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html">Using PHP Code Sniffer Tool</a></p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Are you using PHP_CodeSniffer for your projects? Do you want to show off your ruleset file? Or if you are not using PHP_CodeSniffer, I would be happy to hear why.</p>
 ]]></content>
         </entry>
     </feed>
