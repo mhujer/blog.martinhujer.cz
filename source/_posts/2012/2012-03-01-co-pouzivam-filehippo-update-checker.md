@@ -26,6 +26,5 @@ Pokud máte aplikace nainstalované i v neobvyklých adresářích (třeba jako 
 
 Závěrem
 --------
-Alternativou k Update Checkeru může být program [Secunia Personal Software Inspector](http://secunia.com/vulnerability_scanning/personal/), který se specializuje na kontrolu, zda nepoužíváte verze programů, které obsahují již opravené bezpečnostní chyby.
 
 A co vy, kontrolujete si aktuálnost používaných programů? Nebo to necháváte na nich a když se chtějí aktualizovat, tak je necháte?

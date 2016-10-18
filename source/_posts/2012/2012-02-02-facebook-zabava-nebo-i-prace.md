@@ -15,7 +15,7 @@ Vtipné obrázky na Facebooku?
 -------------------------------
 *Tohle s předchozím (skoro) nesouvisí, ale na samostatný článek to není, tak jsem to přidal sem.*
 
-V posledních několika měsících pozoruji trend, že se mi na zdi objevují různé rádobyvtipné obrázky, které někdo nasdílel. Asi to bude mj. tím, že vzniká spoustu "Stránek", které tyto obrázky sbírají a přebírají jedna od druhé. Nechápu proč, když máme [9gag.com](http://www.9gag.com/)... Naštěstí zeď na FB máš takovou, jakou si ji uděláš - tím, že mám některé lidi skryté. Jen je problém, že pokud vás od nich ostatní věci zajímají...
+V posledních několika měsících pozoruji trend, že se mi na zdi objevují různé rádobyvtipné obrázky, které někdo nasdílel. Asi to bude mj. tím, že vzniká spoustu "Stránek", které tyto obrázky sbírají a přebírají jedna od druhé. Nechápu proč, když máme [9gag.com](http://9gag.com/)... Naštěstí zeď na FB máš takovou, jakou si ji uděláš - tím, že mám některé lidi skryté. Jen je problém, že pokud vás od nich ostatní věci zajímají...
 
 Vypadá to, že Facebook směřuje tam, kde byl e-mail tak před 8 lety - posílání vtipných obrázků, videí a hoaxů. A to naštěstí ještě na FB nejdou rozumně sdílet powerpointové prezentace s koťátky!
 

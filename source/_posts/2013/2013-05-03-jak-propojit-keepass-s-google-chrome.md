@@ -19,7 +19,7 @@ Nastavení KeePassu
 -----------------------------
 - [Stáhněte si KeePass](http://keepass.info/download.html) - doporučuji *Portable KeePass 2.22 (ZIP Package)* a rozbalte ho (ideálně do Skydrive nebo Dropboxu)
 - [Stáhněte si plugin](https://github.com/pfn/keepasshttp/raw/master/KeePassHttp.plgx) na propojení s prohlížečem a umístěte ho do adresáře KeePassu (tam kde je KeePass.exe)
-- Nastavení KeePassu tady nemá cenu rozepisovat, pěkně to [popsali na CNews](http://extrawindows.cnews.cz/keepass-sikovna-sprava-hesel-pro-windows-i-mobilni-zarizeni)
+- Nastavení KeePassu tady nemá cenu rozepisovat, pěkně to [popsali na CNews](http://www.cnews.cz/keepass-sikovna-sprava-hesel-pro-windows-i-mobilni-zarizeni)
 - Jediná věc, kterou zdůrazním - u uložených hesel je potřeba mít vyplněnou URL
 
 ![](/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-01-keepass-url.png)

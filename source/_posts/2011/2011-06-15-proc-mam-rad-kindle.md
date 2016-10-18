@@ -8,13 +8,13 @@ Dříve jsem četl na PDA (a předtím dokonce na mobilu!), takže přechod na e
 
 A co čtu?
 --------------
-Kindle je dobrý hlavně na lineární čtení - beletrii. Pokud je potřeba přeskakovat zpátky jako při čtení učebnice, tak už to tak pohodlné není. České beletrie je v elektronické podobě k dispozici spoustu. V poslední době jsou některé eknihy i [koupitelné](http://www.palmknihy.cz). 
+Kindle je dobrý hlavně na lineární čtení - beletrii. Pokud je potřeba přeskakovat zpátky jako při čtení učebnice, tak už to tak pohodlné není. České beletrie je v elektronické podobě k dispozici spoustu. V poslední době jsou některé eknihy i [koupitelné](https://www.palmknihy.cz). 
 
 Také čtu různé timemanagementové/motivační knížky v angličtině.
 
 Články z webu
 --------------
-V poslední době jsem přestal číst články z webu na počítači a pomocí [Instapaperu](http://www.instapaper.com) si je raději posílám do Kindlu. Instapaper je šikovná služba, kam si pomocí bookmarkletu (speciální tlačítko/záložka v prohlížeči) uložíte otevřený článek.
+V poslední době jsem přestal číst články z webu na počítači a pomocí [Instapaperu](https://www.instapaper.com) si je raději posílám do Kindlu. Instapaper je šikovná služba, kam si pomocí bookmarkletu (speciální tlačítko/záložka v prohlížeči) uložíte otevřený článek.
 
 ![](/data/2011/2011-06-15-proc-mam-rad-kindle/instapaper1.png)
 

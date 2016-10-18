@@ -38,7 +38,7 @@
         <div class="article-text">
             <p>As you may have already noticed, I'm a little obsessed with code quality, particularly its <a href="/bp/" hreflang="cs">automatic checking and monitoring</a> (Czech only, sorry). In this article, I want to show you how to ensure that your SCSS files have consistent formatting style. And it may even help you to detect some mistakes!</p>
 
-<p>At <a href="http://w3w.cz/">w3w</a> we've been using SASS for quite a while. <a href="http://www.shopio.cz/">Shopio's</a> new responsive template is based upon Twitter Boostrap (we are using an unofficial Sass version of Twitter Boostrap v2.3.2 - we used the it before it was cool!). We are using Sass together with <a href="http://compass-style.org/">Compass</a> framework. Apart from that, I also worked on two mobile apps based upon Sencha Touch. It is a HTML5+JS+CSS framework for cross-platform mobile app development, with styling powered by Saas.</p>
+<p>At <a href="http://w3w.cz/">w3w</a> we've been using SASS for quite a while. <a href="https://www.shopio.cz/">Shopio's</a> new responsive template is based upon Twitter Boostrap (we are using an unofficial Sass version of Twitter Boostrap v2.3.2 - we used the it before it was cool!). We are using Sass together with <a href="http://compass-style.org/">Compass</a> framework. Apart from that, I also worked on two mobile apps based upon Sencha Touch. It is a HTML5+JS+CSS framework for cross-platform mobile app development, with styling powered by Saas.</p>
 
 <h1 id="demo">Demo</h1>
 
@@ -62,7 +62,7 @@
 <p>If we have the <code>$highContrastMode</code> variable set to <code>true</code>, we want to render yellow text on black background; if not, we don't care about those with poor vision.
 Would it work as described? No! We missed the <code>@</code> character before the else keyword! Compass compiles it without complaint as the code is completely valid SASS. And we will have a cute <code>else body</code> selector in the compiled css.</p>
 
-<p>How could we have prevented this? By using <a href="https://github.com/causes/scss-lint">scss-lint</a>!</p>
+<p>How could we have prevented this? By using <a href="https://github.com/brigade/scss-lint">scss-lint</a>!</p>
 
 <p>If we had scss-lint as part of our CI (Continuous Integration) build process, we would have been notified immediately. When you run scss-lint on the code snippet above <code>scss-lint demo.scss</code>, it complains about a lot of things, including the <code>else</code> error:</p>
 
@@ -72,7 +72,7 @@ Would it work as described? No! We missed the <code>@</code> character before th
 
 <p>At Shopio, the SCSS coding style is not the same as the default coding style in scss-lint. When we ran it for the first time, unsurprisingly, we got a few thousand errors and warnings.</p>
 
-<p>Luckily, scss-lint allows you to configure custom settings that will then be used for checking. So I asked <a href="https://github.com/jackplug/">Stuart</a> questions such as, <em>Do you use 2 or 4 spaces for indentation?"</em>, <em>"Do you prefer single or double quotes?"</em> or, <em>"Do you use colour names or hex codes?"</em>. After receiving the answers and doing some testing I was able to come up with a <code>.scss-lint.yml</code> file, which suits our needs (there are many <a href="https://github.com/causes/scss-lint/blob/master/config/default.yml">more options in the docs!</a>). It still results in a few hundreds warnings, which we are fixing continually.</p>
+<p>Luckily, scss-lint allows you to configure custom settings that will then be used for checking. So I asked <a href="https://github.com/jackplug/">Stuart</a> questions such as, <em>Do you use 2 or 4 spaces for indentation?"</em>, <em>"Do you prefer single or double quotes?"</em> or, <em>"Do you use colour names or hex codes?"</em>. After receiving the answers and doing some testing I was able to come up with a <code>.scss-lint.yml</code> file, which suits our needs (there are many <a href="https://github.com/brigade/scss-lint/blob/master/config/default.yml">more options in the docs!</a>). It still results in a few hundreds warnings, which we are fixing continually.</p>
 
 <h1 id="continuous-integration">Continuous integration</h1>
 

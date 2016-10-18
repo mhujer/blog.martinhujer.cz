@@ -12,7 +12,7 @@ Dál jsem pokračoval na [Duolingo](https://www.duolingo.com/), které už jsem 
 
 Zkoušel jsem tedy najít něco lepšího a podařilo se. Objevil jsem aplikaci [Fluencia](http://www.fluencia.com/), která je trochu podobná Duolingu, ale je specializovaná na učení španělštiny pro anglicky mluvící studenty. Takže si mohli dovolit rozmanitější obsah, když ho nemuseli napasovat na univerzální systém jako v Duolingu. Sice je to placená aplikace, stojí $15 na měsíc, ale v porovnání s cenou jazykových kurzů, je to skoro zadarmo. Po registraci si můžete vyzkoušet několik lekcí bez placení, a pokud se vám líbí Duolingo, tak věřím, že Fluencia se vám bude líbit ještě víc :-)
 
-Po návratu domů jsem se přihlásil na [základní kurz do jazykovky eŠko](http://www.e-sko.cz/e-sko/Kurz_uplni_zacatecnici_B.html). Od dubna do června jsem tedy chodil tam. Nová slovíčka jsem si dával do [Quizletu](https://quizlet.com/martinhujer/) a průběžně se je učil. Velkou nevýhodou skupinového kurzu je, že pokud to ostatní flákají (třeba se neučí slovíčka), tak to jednotlivé lekce brzdí. Nicméně kurz hodnotím jako super.
+Po návratu domů jsem se přihlásil na [základní kurz do jazykovky eŠko](http://www.e-sko.cz/e-sko/Kurz_uplni_zacatecnici_B.html). Od dubna do června jsem tedy chodil tam. Nová slovíčka jsem si dával do [Quizletu](https://quizlet.com/martinhujer) a průběžně se je učil. Velkou nevýhodou skupinového kurzu je, že pokud to ostatní flákají (třeba se neučí slovíčka), tak to jednotlivé lekce brzdí. Nicméně kurz hodnotím jako super.
 
 Přes léto jsem pokračoval v učení pomocí Fluencie, kdy jsem si nová slovíčka vypisoval do Quizletu a [gramatiku na web](/jak-jsem-si-chtel-psat-gramatiku/)
 

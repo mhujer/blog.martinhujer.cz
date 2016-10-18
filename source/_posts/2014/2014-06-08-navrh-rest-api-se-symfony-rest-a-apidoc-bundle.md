@@ -33,15 +33,15 @@ class GistsController extends FOSRestController
 }
 ~~~
 
-`getGistsAction()` je nutné pojmenování, díky němu pak FOSRestBundle už rovnou ví, že na ní má routovat GET požadavek. Detailní popis, jak pojmenovávat metody je [k dispozici v dokumentaci](https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/5-automatic-route-generation_single-restful-controller.md#define-resource-actions).
+`getGistsAction()` je nutné pojmenování, díky němu pak FOSRestBundle už rovnou ví, že na ní má routovat GET požadavek. Detailní popis, jak pojmenovávat metody je [k dispozici v dokumentaci](http://symfony.com/doc/master/bundles/FOSRestBundle/5-automatic-route-generation_single-restful-controller.html#define-resource-actions).
 
 
 
 Zdokumentování API ([Commit na Githubu](https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349))
 -----------------------------
-Určitě jste si všimli, že zatím vlastně spíš vytváříme API a nic nedokumentujeme. Hned to napravíme. Nainstalujeme si a nastavíme [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle/) (nebudu rozepisovat detaily, jsou vidět [v dokumentaci](https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md) a případně [commitu na githubu](https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349))
+Určitě jste si všimli, že zatím vlastně spíš vytváříme API a nic nedokumentujeme. Hned to napravíme. Nainstalujeme si a nastavíme [NelmioApiDocBundle](https://github.com/nelmio/NelmioApiDocBundle/) (nebudu rozepisovat detaily, jsou vidět [v dokumentaci](https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.rst) a případně [commitu na githubu](https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349))
 
-Dalším krokem je doplnění anotace `@ApiDoc` k metodě `getGistsAction()`. V článku ještě ukážu další možnosti `@ApiDoc` anotace, ale zase je nejlepší se podívat rovnou [do dokumentace](https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md) na kompletní přehled možností.
+Dalším krokem je doplnění anotace `@ApiDoc` k metodě `getGistsAction()`. V článku ještě ukážu další možnosti `@ApiDoc` anotace, ale zase je nejlepší se podívat rovnou [do dokumentace](https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.rst) na kompletní přehled možností.
 
 ~~~php
 /**

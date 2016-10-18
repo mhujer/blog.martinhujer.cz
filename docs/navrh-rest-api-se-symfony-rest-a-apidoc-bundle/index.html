@@ -66,13 +66,13 @@ class GistsController extends FOSRestController
 }
 </code></pre>
 
-<p><code>getGistsAction()</code> je nutné pojmenování, díky němu pak FOSRestBundle už rovnou ví, že na ní má routovat GET požadavek. Detailní popis, jak pojmenovávat metody je <a href="https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/5-automatic-route-generation_single-restful-controller.md#define-resource-actions">k dispozici v dokumentaci</a>.</p>
+<p><code>getGistsAction()</code> je nutné pojmenování, díky němu pak FOSRestBundle už rovnou ví, že na ní má routovat GET požadavek. Detailní popis, jak pojmenovávat metody je <a href="http://symfony.com/doc/master/bundles/FOSRestBundle/5-automatic-route-generation_single-restful-controller.html#define-resource-actions">k dispozici v dokumentaci</a>.</p>
 
 <h2 id="zdokumentov%E3%A1n%E3%AD-api-commit-na-githubu">Zdokumentování API (<a href="https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349">Commit na Githubu</a>)</h2>
 
-<p>Určitě jste si všimli, že zatím vlastně spíš vytváříme API a nic nedokumentujeme. Hned to napravíme. Nainstalujeme si a nastavíme <a href="https://github.com/nelmio/NelmioApiDocBundle/">NelmioApiDocBundle</a> (nebudu rozepisovat detaily, jsou vidět <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md">v dokumentaci</a> a případně <a href="https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349">commitu na githubu</a>)</p>
+<p>Určitě jste si všimli, že zatím vlastně spíš vytváříme API a nic nedokumentujeme. Hned to napravíme. Nainstalujeme si a nastavíme <a href="https://github.com/nelmio/NelmioApiDocBundle/">NelmioApiDocBundle</a> (nebudu rozepisovat detaily, jsou vidět <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.rst">v dokumentaci</a> a případně <a href="https://github.com/mhujer/apidocdemo/commit/2426d35754eb240abefd468cca4cb47eb15e0349">commitu na githubu</a>)</p>
 
-<p>Dalším krokem je doplnění anotace <code>@ApiDoc</code> k metodě <code>getGistsAction()</code>. V článku ještě ukážu další možnosti <code>@ApiDoc</code> anotace, ale zase je nejlepší se podívat rovnou <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.md">do dokumentace</a> na kompletní přehled možností.</p>
+<p>Dalším krokem je doplnění anotace <code>@ApiDoc</code> k metodě <code>getGistsAction()</code>. V článku ještě ukážu další možnosti <code>@ApiDoc</code> anotace, ale zase je nejlepší se podívat rovnou <a href="https://github.com/nelmio/NelmioApiDocBundle/blob/master/Resources/doc/index.rst">do dokumentace</a> na kompletní přehled možností.</p>
 
 <pre><code class="php">/**
  * List the authenticated user’s gists or if called anonymously, this will return all public gists:

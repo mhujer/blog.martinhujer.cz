@@ -20,7 +20,7 @@ Nebo jiná situace - [Michal](https://twitter.com/Mrkvoslav) má ultrabook od As
 
 Všechno tohle řeší šifrování.
 ------------------------------
-Šifrovat data lze buď pomocí BitLockeru (součást Win7 Ultimate, nebo Win8 Pro), nebo pomocí open-source [TrueCryptu](http://www.truecrypt.org/). Funguje to tak, že ve vybraném nástroji vytvoříte silné heslo (třeba 20 znaků) a nástroj pak zašifruje celý systémový disk.
+Šifrovat data lze buď pomocí BitLockeru (součást Win7 Ultimate, nebo Win8 Pro), nebo pomocí open-source [TrueCryptu](http://truecrypt.sourceforge.net/). Funguje to tak, že ve vybraném nástroji vytvoříte silné heslo (třeba 20 znaků) a nástroj pak zašifruje celý systémový disk.
 Po spuštění šifrovaného počítače se nejdříve zobrazí výzva k zadání hesla a teprve poté začne startovat systém.
 
 

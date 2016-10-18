@@ -8,7 +8,7 @@ Kolem Velikonoc jsem byl týden za [Ivčou](http://erasmuslinz2014.blogspot.co.a
 
 Kouření
 ---------
-Občas se objeví nějaká tendenční mapka, kde ČR je poslední země EU, kde se může v restauracích kouřit a kde je Rakousko označeno jako "v restauracích kouření zakázáno". A to není pravda. V Rakousku se provozovny pod 50m2 mohou rozhodnout, jestli budou kuřácké nebo nekuřácké a ty větší musí být nekuřácké nebo mít stavebně oddělené prostory pro kuřáky (takže žádný zákaz, ale spíš skoro stejně jako v ČR). ([zdroj](http://cs.wikipedia.org/wiki/Seznam_z%C3%A1kaz%C5%AF_kou%C5%99en%C3%AD#Z.C3.A1kazy_kou.C5.99en.C3.AD_v_Evrop.C4.9B))
+Občas se objeví nějaká tendenční mapka, kde ČR je poslední země EU, kde se může v restauracích kouřit a kde je Rakousko označeno jako "v restauracích kouření zakázáno". A to není pravda. V Rakousku se provozovny pod 50m2 mohou rozhodnout, jestli budou kuřácké nebo nekuřácké a ty větší musí být nekuřácké nebo mít stavebně oddělené prostory pro kuřáky (takže žádný zákaz, ale spíš skoro stejně jako v ČR). ([zdroj](https://cs.wikipedia.org/wiki/Seznam_z%C3%A1kaz%C5%AF_kou%C5%99en%C3%AD#Z.C3.A1kazy_kou.C5.99en.C3.AD_v_Evrop.C4.9B))
 
 Pocitově se tam na veřejnosti kouří víc než v Praze. Automaty na cigarety na ulicích a popelníky na stolcích přes McD mě docela překvapily. 
 

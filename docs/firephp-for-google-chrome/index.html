@@ -38,11 +38,11 @@
         <div class="article-text">
             <p>There is a great extension for Firefox’s Firebug - <a href="http://www.firephp.org/">FirePHP</a> (<a href="https://github.com/firephp/firephp">github</a>). It allows you to log to Firebug console from PHP scripts. It uses extra HTTP headers so it does not interfere with page at all and works fine also for AJAX.</p>
 
-<p>For a long time, it was not possible to use FirePHP in Google Chrome. There is project out there called <a href="http://code.google.com/p/webug/">Webug</a>, which adds support for it. However, it uses an extra request (browser loads page and the extension then requests HEAD of it again - it is neccesary, because Chrome won’t let you change first request headers). It can cause you some problems when you have CSRF protection, because hash will change during second request and the form submission won’t work.</p>
+<p>For a long time, it was not possible to use FirePHP in Google Chrome. There is project out there called <a href="https://github.com/fedosov/webug">Webug</a>, which adds support for it. However, it uses an extra request (browser loads page and the extension then requests HEAD of it again - it is neccesary, because Chrome won’t let you change first request headers). It can cause you some problems when you have CSRF protection, because hash will change during second request and the form submission won’t work.</p>
 
 <!--more-->
 
-<p>Latest Chrome added more experimental APIs for extensions. On of them is <a href="http://code.google.com/chrome/extensions/trunk/experimental.devtools.network.html">chrome.experimental.devtools.network</a> which allows you to interfere with request headers before the request happens. You need to download <a href="http://tools.google.com/dlpage/chromesxs">Chrome Canary</a> and add parameter <a href="http://code.google.com/chrome/extensions/experimental.html#using">--enable-experimental-extension-apis</a> to Canary shortcut.</p>
+<p>Latest Chrome added more experimental APIs for extensions. On of them is <a href="http://code.google.com/chrome/extensions/trunk/experimental.devtools.network.html">chrome.experimental.devtools.network</a> which allows you to interfere with request headers before the request happens. You need to download <a href="https://www.google.com/intl/en/chrome/browser/canary.html">Chrome Canary</a> and add parameter <a href="http://code.google.com/chrome/extensions/experimental.html#using">--enable-experimental-extension-apis</a> to Canary shortcut.</p>
 
 <p>I wanted to try it and create some proof-of-concept, but then I stumbled accross existing implementation in <a href="http://code.google.com/chrome/extensions/trunk/samples.html#4efa12eaaa442b6b7c880e7a38ceeb0cff7e8b77">API Samples</a>.</p>
 
@@ -50,7 +50,7 @@
 
 <h2 id="example-php-file%3A">Example PHP file:</h2>
 
-<p><a href="https://gist.github.com/1208179"><img src="/data/2011/2011-09-10-firephp-for-google-chrome/code.png" alt="" /></a></p>
+<p><a href="https://gist.github.com/mhujer/1208179"><img src="/data/2011/2011-09-10-firephp-for-google-chrome/code.png" alt="" /></a></p>
 
 <h2 id="this-is-how-it-looks-in-chrome%3A">This is how it looks in Chrome:</h2>
 

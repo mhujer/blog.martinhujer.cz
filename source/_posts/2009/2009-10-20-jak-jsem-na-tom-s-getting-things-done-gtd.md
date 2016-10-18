@@ -3,7 +3,7 @@ title: Jak jsem na tom s Getting Things Done (GTD)
 ---
 
 > *Getting Things Done, (často zkracováno na GTD) patří v současné době mezi populární metody organizace práce. Metodu vytvořil americký kouč David Allen a popsal ji ve stejnojmenné knize. GTD a „Getting Things Done“ jsou ochrannými známkami, které patří společnosti David Allen & Co..*
-> (zdroj: [wikipedia](http://cs.wikipedia.org/wiki/Getting_Things_Done))
+> (zdroj: [wikipedia](https://cs.wikipedia.org/wiki/Getting_Things_Done))
 
 O GTD už jsem slyšel dříve, ale nikdy jsem ho nějak nezkoumal, nicméně postupně jsem se nezávisle vydal po stejné cestě. Dnes jsem si sice objednal knížku, takže nějak systematicky jsem ještě nezačal, ale chci popsat, jak mi to funguje teď.
 
@@ -23,7 +23,7 @@ Používám zhruba takovéhle rozložení (bez rámečků, jen odrážkami -> pu
 
 Nové GTD optimalizace
 -----------------------
-Dnes jsem zkouknul videocast [Petra Máry z DIGITu](http://www.digit.cz/2009/05/12/digit-29-mejte-svuj-cas-pod-kontrolou-aneb-jak-aplikovat-metodu-gtd-getting-things-done/) (doporučuji) a objednal jsem si knížku [Getting Things Done: How to Achieve Stress-free Productivity (Paperback)](http://www.amazon.co.uk/Getting-Things-Done-Stress-free-Productivity/dp/0749922648/ref=sr_1_1?ie=UTF8&s=books&qid=1256078282&sr=8-1) od Davida Allena.
+Dnes jsem zkouknul videocast [Petra Máry z DIGITu](http://www.digit.cz/2009/05/digit-29-mejte-svuj-cas-pod-kontrolou-aneb-jak-aplikovat-metodu-gtd-getting-things-done) (doporučuji) a objednal jsem si knížku [Getting Things Done: How to Achieve Stress-free Productivity (Paperback)](https://www.amazon.co.uk/Getting-Things-Done-Stress-free-Productivity/dp/0749922648) od Davida Allena.
 - zatím jsem si zavedl členění úkolu na co nejvíce podúkolů, aby byl vidět progress
 
 

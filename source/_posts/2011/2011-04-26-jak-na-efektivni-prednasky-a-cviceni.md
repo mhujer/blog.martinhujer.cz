@@ -18,4 +18,4 @@ Láká mě to zkusit :) Škoda, že nejsem na nějakém peďáku - bylo by to ho
 
 **Co na to říkáte? Myslíte, že by to mohlo fungovat?**
 
-*V USA existuje něco podobného pro základní a střední školy - [Khan Academy](http://www.khanacademy.org/) ([TED video](http://www.ted.com/talks/salman_khan_let_s_use_video_to_reinvent_education.html) - doporučuji)*
+*V USA existuje něco podobného pro základní a střední školy - [Khan Academy](https://www.khanacademy.org/) ([TED video](http://www.ted.com/talks/salman_khan_let_s_use_video_to_reinvent_education) - doporučuji)*

@@ -2,7 +2,7 @@
 title: CodeRetreat Praha - 3. 12. 2011
 ---
 
-Včera jsem se zúčastnil [CodeRetreat v Praze](http://coderetreat.cz/).
+Včera jsem se zúčastnil [CodeRetreat v Praze](https://coderetreat.cz/).
 
 Co to je?
 > Coderetreat je jednodenní intenzivní cvičení zaměřené na základy vývoje softwaru. Díky tomu, že vývojáři nejsou pod tlakem rychlého doručování výsledků, poskytuje Coderetreat možnost cíleně se soustředit na zlepšování svých dovedností. Procvičováním základních principů modulárního a objektově-orientovaného návrhu mohou účastníci zlepšit své schopnosti psát kód, který minimalizuje náročnost implementace dalších změn. (http://coderetreat.cz/)
@@ -12,7 +12,7 @@ Díky [@alesroubicek](https://twitter.com/alesroubicek), [@MarianSchubert](https
 Co mě překvapilo:
 ------------------
 - Byl jsem z mála, kdo na programování používá české rozložení klávesnice (ano, opravdu tam jde napsat všechno).
-- Překvapilo mě, že tam bylo jen pár lidí co psali v PHP (kromě mě jen [Tom](http://www.tomasfejfar.cz/) a [Michal](https://twitter.com/techi602)) a pár v Ruby, zato spoustu Javy, C# a Javascriptu (nebo Coffeescriptu). Ale to možná bylo tím, že to organizátoři více propagoval mezi C#/Java komunitou a ne mezi webaři v PHP/Ruby. CodeRetreatu jsem si všimnul náhodou na [srazy.info](http://srazy.info/), když jsem řešil [ZF Meetup](http://www.zendframework.cz/oznameni/zf-meetup-8-12-2011-praha/).
+- Překvapilo mě, že tam bylo jen pár lidí co psali v PHP (kromě mě jen [Tom](http://www.tomasfejfar.cz/) a [Michal](https://twitter.com/techi602)) a pár v Ruby, zato spoustu Javy, C# a Javascriptu (nebo Coffeescriptu). Ale to možná bylo tím, že to organizátoři více propagoval mezi C#/Java komunitou a ne mezi webaři v PHP/Ruby. CodeRetreatu jsem si všimnul náhodou na [srazy.info](http://srazy.info/), když jsem řešil ZF Meetup.
 - Pokud programátor zná svoje IDE (klávesové zkratky), tak je mnohem produktivnější (pravda, to tolik převapivé není)
 - Některá IDE jsou lepší než jiná (a jde v nich vyvíjet produktivněji) (např. Visual Studio vs. MonoDev)
 - Na Macbooku nejsou Home/End/Delete/PageDown/PageUp tlačítka

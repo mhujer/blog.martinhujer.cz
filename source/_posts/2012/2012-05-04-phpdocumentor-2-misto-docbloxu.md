@@ -17,7 +17,7 @@ pear install phpdoc/phpDocumentor_Template_checkstyle
 pear install phpdoc/phpDocumentor_Template_zend
 ~~~
 
-Přehled všech dostupných šablon najdete na [webu](http://pear.phpdoc.org/)
+Přehled všech dostupných šablon najdete na [webu](https://pear.phpdoc.org/)
 
 Generování funguje pořád stejně, jen je potřeba vyměnit `docblox` za `phpdoc`:
 ~~~bash

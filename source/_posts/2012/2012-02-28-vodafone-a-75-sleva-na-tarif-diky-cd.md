@@ -16,7 +16,7 @@ Nedávno se objevily různé "aférky", že se v cizině volá mnohem levněji a
 -----------------------
 Boj za levné volání pro všechny (o což se někteří snaží), je podle mě nesmysl. V tomhle je lepší být sobec, myslet na sebe a sehnat si sám něco výhodného. Jednou z možností je zmíněná retence, ale ne každému se s nimi chce dohadovat.
 
-Vodafone naštěstí nabízí něco lepšího. Ve spolupráci s ČD dali dohromady slevu 75% v rámci programu ČDBonus. Je na to potřeba InKarta, kterou jde objednat přes cd.cz, zaplatit kartou (150 Kč) a pak si ji za cca 2 týdny vyzvednout na vybraném nádraží. [K dispozici](http://cdbonus.vodafone.cz/) jsou potom tarify Nabito 119 a Nabito 350 s 75% slevou (a 25% sleva na nějaká data).
+Vodafone naštěstí nabízí něco lepšího. Ve spolupráci s ČD dali dohromady slevu 75% v rámci programu ČDBonus. Je na to potřeba InKarta, kterou jde objednat přes cd.cz, zaplatit kartou (150 Kč) a pak si ji za cca 2 týdny vyzvednout na vybraném nádraží. [K dispozici](https://cdbonus.vodafone.cz/) jsou potom tarify Nabito 119 a Nabito 350 s 75% slevou (a 25% sleva na nějaká data).
 
 Závěrem
 ----------

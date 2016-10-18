@@ -2,7 +2,7 @@
 title: Jak mám nastavený Adminer?
 ---
 
-Pro práci s MySQL databází používám [Adminer](http://www.adminer.org/) a abych se nemusel pokaždé přihlašovat, využívám možnost napsat si [vlastní minirozšíření](http://www.adminer.org/cs/extension/). Mým cílem bylo mít Adminer o nejsnáze přístupný pro lokální databáze.
+Pro práci s MySQL databází používám [Adminer](https://www.adminer.org/) a abych se nemusel pokaždé přihlašovat, využívám možnost napsat si [vlastní minirozšíření](https://www.adminer.org/cs/extension/). Mým cílem bylo mít Adminer o nejsnáze přístupný pro lokální databáze.
 
 Do souboru hosts jsem si proto [přidal](/editace-souboru-hosts/) doménu `m`:
 ~~~

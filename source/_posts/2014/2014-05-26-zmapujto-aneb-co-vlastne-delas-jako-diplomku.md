@@ -30,7 +30,7 @@ Já jsem dělal ty tři mobilní aplikace, serverové API, kam se hlášení ode
 
 Jak a na čem to funguje?
 ---------------------------
-- mobilní aplikace jsou postaveny na [Sencha Touch a Apache Cordova](http://www.zdrojak.cz/clanky/cordova-sencha-touch-mobilni-aplikace/)
+- mobilní aplikace jsou postaveny na [Sencha Touch a Apache Cordova](https://www.zdrojak.cz/clanky/cordova-sencha-touch-mobilni-aplikace/)
 - API je postavené na PHP: Symfony + Doctrine ODM + MongoDB
 - na Mailing používáme Mandrill
 - web je vytvořený v AngularJS a na backendu Node.js

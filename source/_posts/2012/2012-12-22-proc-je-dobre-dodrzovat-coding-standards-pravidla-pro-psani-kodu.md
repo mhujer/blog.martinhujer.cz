@@ -36,10 +36,10 @@ Vůbec jsem nezmiňoval, jaký coding standard dodržovat. Ono na tom tolik nez�
 
 Výhodou dodržování osvědčeného standardu je jeho podpora v nástrojích, které umějí jeho dodržování kontrolovat. Jedním z takových nástrojů je [PHP_CodeSniffer](http://pear.php.net/package/PHP_CodeSniffer/), který umí reportovat, kde se váš kód odchyluje např. od Zend Coding Standards. Samozřejmě je nejlepší kontrolu coding standards automatizovaně provádět po každém commitu pomocí nějakého integračního serveru - pokud vás toto zajímá, tak doporučuji svou [bakalářku](/bp/), kde kontinuální integraci pro PHP detailně rozebírám (nejen kontrolu coding standards).
 
-Další, lehce se coding standards dotýkající věc, jsou výstižné commit messages. Opět platí, že alespoň nějaké jsou lepší než žádné, ale [vynikající jsou nejlepší :)](http://arialdomartini.wordpress.com/2012/09/03/pre-emptive-commit-comments/)
+Další, lehce se coding standards dotýkající věc, jsou výstižné commit messages. Opět platí, že alespoň nějaké jsou lepší než žádné, ale [vynikající jsou nejlepší :)](https://arialdomartini.wordpress.com/2012/09/03/pre-emptive-commit-comments/)
 
 
 tl;dr
 --------------------------------
-- prostudujte si [Zend Framework Coding Standard](http://framework.zend.com/manual/1.12/en/coding-standard.overview.html)
+- prostudujte si [Zend Framework Coding Standard](https://framework.zend.com/manual/1.12/en/coding-standard.overview.html)
 - dodržujte ho

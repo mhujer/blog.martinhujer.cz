@@ -38,7 +38,7 @@
         <div class="article-text">
             <p><a href="https://github.com/squizlabs/PHP_CodeSniffer">PHP_CodeSniffer</a> is a tool for checking source code compliance with a defined coding standard. There are some predefined standards (PEAR, Zend, PSR1, PSR2, etc.), but the true power of PHP_CodeSniffer lies in the possibility of defining custom standards.</p>
 
-<p>We've been using PHPCS on <a href="http://www.shopio.cz/">Shopio</a> for a long time, but we've utilized just the Zend coding standard provided within the PHPCS distribution.  I recently found some time to dig deeper into PHPCS and I played a lot with custom standards.</p>
+<p>We've been using PHPCS on <a href="https://www.shopio.cz/">Shopio</a> for a long time, but we've utilized just the Zend coding standard provided within the PHPCS distribution.  I recently found some time to dig deeper into PHPCS and I played a lot with custom standards.</p>
 
 <h2 id="how-can-i-define-a-custom-phpcs-standard%3F">How can I define a custom PHPCS standard?</h2>
 
@@ -62,7 +62,7 @@
 &lt;/rule&gt;
 </code></pre>
 
-<p>Other often-discovered issues are mixed indentation (tabs and spaces), and mixed newlines (you should always use Unix EOLs). It can be a tedious task to fix them manually, but I've got good news for you: there is a tool called <a href="http://sourceforge.net/projects/swissfileknife/">SFK</a> (Swiss File Knife) which can easily handle such changes in a second.</p>
+<p>Other often-discovered issues are mixed indentation (tabs and spaces), and mixed newlines (you should always use Unix EOLs). It can be a tedious task to fix them manually, but I've got good news for you: there is a tool called <a href="https://sourceforge.net/projects/swissfileknife/">SFK</a> (Swiss File Knife) which can easily handle such changes in a second.</p>
 
 <p>If you are still getting hundreds of coding standards violations, I would suggest that you disable some rules by setting their severity to 0 and fix the remaining errors. When you have more time for codebase cleaning, enable some of previously disabled rules and repeat the process until you get 0 errors with all 'sniffs' (rules) enabled.</p>
 
@@ -84,9 +84,9 @@ You should reach for those as a last resort, such as when the piece of the code 
 
 <h2 id="enable-realtime-php_codesniffer-checking-in-phpstorm">Enable realtime PHP_CodeSniffer checking in PHPStorm</h2>
 
-<p><a href="http://www.jetbrains.com/phpstorm/">PHPStorm</a> (great IDE btw.) has integrated support for PHP_CodeSniffer. It can work easily with standards predefined in PHP_CodeSniffer. But it can also check the code with your custom standard. The only thing you need to do is to select the "Custom" standard, which allows you to select the directory where the standard definition file is located. You can select your project directory (you have to have your custom standard file called <code>ruleset.xml</code>) and it will load the standard automatically!</p>
+<p><a href="https://www.jetbrains.com/phpstorm/">PHPStorm</a> (great IDE btw.) has integrated support for PHP_CodeSniffer. It can work easily with standards predefined in PHP_CodeSniffer. But it can also check the code with your custom standard. The only thing you need to do is to select the "Custom" standard, which allows you to select the directory where the standard definition file is located. You can select your project directory (you have to have your custom standard file called <code>ruleset.xml</code>) and it will load the standard automatically!</p>
 
-<p>See the detailed guide, <a href="http://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html">Using PHP Code Sniffer Tool</a></p>
+<p>See the detailed guide, <a href="https://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html">Using PHP Code Sniffer Tool</a></p>
 
 <h2 id="conclusion">Conclusion</h2>
 

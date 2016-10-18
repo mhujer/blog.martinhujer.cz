@@ -106,13 +106,13 @@ git gc --aggressive --prune=now
 git checkout master
 ~~~
 
-Více o pročištění historie najdete na [Githubu](https://help.github.com/articles/remove-sensitive-data) nebo [git-scm.com](http://git-scm.com/book/en/Git-Tools-Rewriting-History)
+Více o pročištění historie najdete na [Githubu](https://help.github.com/articles/remove-sensitive-data/) nebo [git-scm.com](https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
 
 Kontrola migrace
 -----------------
 Po migraci je vhodné ověřit, že se nám nic nepoztrácelo a zmigrovaný GIT repositář obsahuje stejné soubory jako migrovaný SVN repositář.
 
-Vytvořil jsem tedy [jednoduchý skript](https://gist.github.com/4512118), který vyexportuje GIT repositář do struktury jakou má SVN repositář (tedy trunk/tags/branches).
+Vytvořil jsem tedy [jednoduchý skript](https://gist.github.com/mhujer/4512118), který vyexportuje GIT repositář do struktury jakou má SVN repositář (tedy trunk/tags/branches).
 
 Podobně si uděláme SVN export a pak obě složky porovnáme třeba pomocí Total Commanderu (Commands -> Synchronize Dirs).
 
@@ -121,6 +121,6 @@ Závěrem
 ----------
 V článku jsem se snažil ukázat, jak je možné stávající SVN repositář co nejsnadněji zmigrovat do GITu.
 
-Pokud máte opravdu velký SVN repositář a svn2git vám nestačí (mě fungoval i pro migraci 12000 revizí se spoustou branchí), tak můžete vyzkoušet nástroj, který se jmenuje shodně [svn2git](http://techbase.kde.org/Projects/MoveToGit/UsingSvn2Git), nicméně jde o úplně něco jiného. Tento si vyvinuji vývojáři KDE, když připravovali přechod na GIT. Jim by původní svn2git na zmigrování [více než milionu revizí](http://www.kdenews.org/2009/07/20/kde-reaches-1000000-commits-its-subversion-repository) asi nestačil :)
+Pokud máte opravdu velký SVN repositář a svn2git vám nestačí (mě fungoval i pro migraci 12000 revizí se spoustou branchí), tak můžete vyzkoušet nástroj, který se jmenuje shodně [svn2git](https://techbase.kde.org/Projects/MoveToGit/UsingSvn2Git), nicméně jde o úplně něco jiného. Tento si vyvinuji vývojáři KDE, když připravovali přechod na GIT. Jim by původní svn2git na zmigrování [více než milionu revizí](https://dot.kde.org/2009/07/20/kde-reaches-1000000-commits-its-subversion-repository) asi nestačil :)
 
 Pokud se budete snažit zmigrovat svůj SVN repositář a narazíte na nějakou komplikaci, tak se určitě zeptejte v komentářích, pokusím se vám poradit. Jestli už migraci do GITu máte za sebou, tak uvítám vaše postřehy či tipy.

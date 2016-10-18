@@ -36,13 +36,13 @@
         </header>
 
         <div class="article-text">
-            <p>Dalším zajímavým nástrojem, který by bylo možné zařadit do <a href="/bp/">kontinuální integrace</a>, je <a href="https://github.com/facebook/hiphop-php">HipHop for PHP</a> vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.</p>
+            <p>Dalším zajímavým nástrojem, který by bylo možné zařadit do <a href="/bp/">kontinuální integrace</a>, je <a href="https://github.com/facebook/hhvm">HipHop for PHP</a> vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.</p>
 
 <h2 id="instalace-n%E3%A1stroje">Instalace nástroje</h2>
 
-<p>Nástroj je nutné zkompilovat ze zdrojových kódů, nejsou k dispozici instalační balíčky. Zároveň je nutné nejdříve zkompilovat několik knihoven třetích stran. K dispozici jsou postupy na <a href="https://github.com/facebook/hiphop-php/wiki/_pages">wiki projektu na githubu</a>, zvolte ten odpovídající vaší linuxové distribuci.</p>
+<p>Nástroj je nutné zkompilovat ze zdrojových kódů, nejsou k dispozici instalační balíčky. Zároveň je nutné nejdříve zkompilovat několik knihoven třetích stran. K dispozici jsou postupy na <a href="https://github.com/facebook/hhvm/wiki/_pages">wiki projektu na githubu</a>, zvolte ten odpovídající vaší linuxové distribuci.</p>
 
-<p>Já jsem instaloval na <a href="https://www.virtualmaster.com/virtualmaster/referral/6yv98">VirtualMasteru</a>, takže jsem zvolil <a href="https://github.com/facebook/hiphop-php/wiki/Building-and-installing-on-Ubuntu-10.04-LTS">návod pro Ubuntu 10.04</a></p>
+<p>Já jsem instaloval na <a href="https://www.virtualmaster.com/virtualmaster/referral/6yv98">VirtualMasteru</a>, takže jsem zvolil <a href="https://github.com/facebook/hhvm/wiki/Building-and-installing-on-Ubuntu-10.04-LTS">návod pro Ubuntu 10.04</a></p>
 
 <p>Pokud si chcete HipHop jen vyzkoušet, tak je zbytečné trávit čas kompilací. Proto jsem na VirtualMasteru vytvořil <a href="https://www.virtualmaster.com/cs/images/2555">veřejnou šablonu s připraveným HipHop for PHP</a></p>
 
@@ -69,7 +69,7 @@ cd zf1
 
 <h2 id="za%E5%99azen%E3%AD-n%E3%A1stroje-do-ci">Zařazení nástroje do CI</h2>
 
-<p>Sebastian Bergmann <a href="http://sebastian-bergmann.de/archives/918-Static-Analysis-with-HipHop-for-PHP.html">vyvinul</a> <a href="https://github.com/sebastianbergmann/hphpa/">nástroj obalující HipHop do PHP</a> s možností exportu výsledků ve formátu pro CheckStyle. Nicméně do CI jsem ho zatím nenasadil, protože se bojím, že bych kompilací a instalací zkompilovaných věcí mohl poblbnout server.</p>
+<p>Sebastian Bergmann <a href="https://sebastian-bergmann.de/archives/918-Static-Analysis-with-HipHop-for-PHP.html">vyvinul</a> <a href="https://github.com/sebastianbergmann/hhvm-wrapper">nástroj obalující HipHop do PHP</a> s možností exportu výsledků ve formátu pro CheckStyle. Nicméně do CI jsem ho zatím nenasadil, protože se bojím, že bych kompilací a instalací zkompilovaných věcí mohl poblbnout server.</p>
 
 <h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
 

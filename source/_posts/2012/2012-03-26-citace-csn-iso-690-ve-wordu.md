@@ -2,11 +2,11 @@
 title: Citace ČSN ISO 690 ve Wordu
 ---
 
-Pokud teď píšete bakalářku nebo diplomku, tak jste si možná všimli, že Word umí docela pěkně pracovat s citacemi (jak na ně najdete třeba [tady](http://office.microsoft.com/cs-cz/word-help/vytvoreni-bibliografie-HA010067492.aspx)). Problém může nastat s formátem citací.
+Pokud teď píšete bakalářku nebo diplomku, tak jste si možná všimli, že Word umí docela pěkně pracovat s citacemi (jak na ně najdete třeba [tady](https://support.office.com/cs-cz/article/Vytvoření-bibliografie-3403c027-96c8-40d3-a386-bfd5c413ddbb)). Problém může nastat s formátem citací.
 
 Jaký formát citací?
 ---------------
-Na [KIT FIS](http://kit.vse.cz) máme zpracované [instrukce na psaní BP/DP](http://kit.vse.cz/wp-content/uploads/2012/02/Po%C5%BEadavky-na-%C3%BApravu-z%C3%A1v%C4%9Bre%C4%8Dn%C3%BDch-prac%C3%AD.pdf), kde je jako ukázka citace v dokumentu uvedeno *[Novotný, 2011, str. 56]* (všimněte si hranatých závorek). Jenže o kousek níž je odkaz na [interpretace normy na citace.com](http://citace.com/soubory/csniso690-interpretace.pdf), kde jsou citace v textu doporučovány jako *Holá (2006)* nebo *(McQuail, 2002, s. 29)* (tedy v kulatých závorkách, a pokud je to součástí textu, tak je v závorkách jen rok). V formátu přehledu biografie jsem zatím odlišnosti nenašel.
+Na [KIT FIS](http://kit.vse.cz) máme zpracované [instrukce na psaní BP/DP](http://kit.vse.cz/wp-content/uploads/2012/02/Po%C5%BEadavky-na-%C3%BApravu-z%C3%A1v%C4%9Bre%C4%8Dn%C3%BDch-prac%C3%AD.pdf), kde je jako ukázka citace v dokumentu uvedeno *[Novotný, 2011, str. 56]* (všimněte si hranatých závorek). Jenže o kousek níž je odkaz na [interpretace normy na citace.com](http://www.citace.com/download/CSN-ISO-690.pdf), kde jsou citace v textu doporučovány jako *Holá (2006)* nebo *(McQuail, 2002, s. 29)* (tedy v kulatých závorkách, a pokud je to součástí textu, tak je v závorkách jen rok). V formátu přehledu biografie jsem zatím odlišnosti nenašel.
 
 Co s tím?
 ----------

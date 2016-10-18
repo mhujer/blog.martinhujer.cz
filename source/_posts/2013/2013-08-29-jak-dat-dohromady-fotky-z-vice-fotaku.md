@@ -24,7 +24,7 @@ Přejmenování fotek podle data souboru
 6. To stejné zopakovat pro fotky z dalších foťáků a pak je přesunou do jedné složky a seřadit podle názvu -> Hotovo :-)
 
 
-Problém nastane ve chvíli, kdy se na ty fotky šahalo a změnilo se jejich datum čas. Případně, pokud jsou stahované z telefonu - tam je také většinou datum vytvoření souboru a ne vyfocení. Naštěstí foťáky a telefony ukládají k fotkám tzv. [EXIF informace](http://en.wikipedia.org/wiki/Exchangeable_image_file_format) - zjednodušeně řečeno jde o metadata snímku, která obsahují informace o foťáku, expozici, GPS souřadnice, a hlavně i datum a čas pořízení snímku.
+Problém nastane ve chvíli, kdy se na ty fotky šahalo a změnilo se jejich datum čas. Případně, pokud jsou stahované z telefonu - tam je také většinou datum vytvoření souboru a ne vyfocení. Naštěstí foťáky a telefony ukládají k fotkám tzv. [EXIF informace](https://en.wikipedia.org/wiki/Exchangeable_image_file_format) - zjednodušeně řečeno jde o metadata snímku, která obsahují informace o foťáku, expozici, GPS souřadnice, a hlavně i datum a čas pořízení snímku.
 
 Přejmenování fotek podle data z EXIF
 --------------------------------------------------

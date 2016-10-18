@@ -14,7 +14,7 @@ It can be done it a few steps (I will go through them in more detail later):
 
 1) Installing Node.js
 ------------------------------------------------------------
-Node.js can be installed via [MSI installer on Windows](http://nodejs.org/download/), via [package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) in most Linux distros (except for Debian stable which we are using). So I had to compile it myself (Ubuntu PPA packages does not work because of unmet dependencies). As long as we use Node.js just for JSHint validation, there is no need to upgrade it to latest versions, and therefore I put the package in our salt repository and it can be installed automatically next time (we have whole Jenkins server [salted](http://saltstack.org/)).
+Node.js can be installed via [MSI installer on Windows](https://nodejs.org/download/), via [package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) in most Linux distros (except for Debian stable which we are using). So I had to compile it myself (Ubuntu PPA packages does not work because of unmet dependencies). As long as we use Node.js just for JSHint validation, there is no need to upgrade it to latest versions, and therefore I put the package in our salt repository and it can be installed automatically next time (we have whole Jenkins server [salted](https://saltstack.com/community/)).
 
 2) Installing JSHint
 ------------------------------------------------------------
@@ -63,7 +63,7 @@ Last step is to create a `jshint` target (you can check the detailed description
 </target>
 ~~~
 
-JSHint supports config file, where you can set which issues you want to get reported. It is easy - you just create `.jshintrc` file in the project root directory and JSHint will load it automatically. File should contain a JSON object with configuration options. See the [docs](http://jshint.com/docs/config/). And you can check the `.jshintrc` file we are using:
+JSHint supports config file, where you can set which issues you want to get reported. It is easy - you just create `.jshintrc` file in the project root directory and JSHint will load it automatically. File should contain a JSON object with configuration options. See the [docs](http://jshint.com/docs/). And you can check the `.jshintrc` file we are using:
 ~~~javascript
 {
 	"maxerr"	:	1000,

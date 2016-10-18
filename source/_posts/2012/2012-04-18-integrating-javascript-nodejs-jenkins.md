@@ -22,7 +22,7 @@ First, I wanted to add JS environment to the server we use for PHP integration. 
 
 Setting up Mocha
 -----------------
-[Mocha](http://visionmedia.github.com/mocha/) is a JavaScript test framework. It worked fine on the server:
+[Mocha](https://mochajs.org/) is a JavaScript test framework. It worked fine on the server:
 ![](/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-01-mocha-rspec.png)
 
 So I just needed to find out, if it has some output usable for CI. Surprisingly, it has and it works fine despite the fact, it is [poorly documented](http://visionmedia.github.com/mocha/#xunit-reporter) :-)

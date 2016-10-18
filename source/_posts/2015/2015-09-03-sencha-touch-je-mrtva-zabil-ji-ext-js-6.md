@@ -12,7 +12,7 @@ Dokud byla Sencha Touch k dispozici zdarma i pro komerční použití, tak mi to
 
 Výsledkem je, že pokud jste samostatný vývojář nebo mobilní aplikace vytváříte jen občas, tak nedává smysl Sencha Touch, resp. Ext JS používat.
 
-Jako rozumná náhrada Sencha Touch se zdá [Ionic Framework](http://ionicframework.com/), který je postavený na Angularu a vývoj se posouvá hodně rychle dopředu. Případně je možné opustit Cordovu a pro vývoj zvolit [Xamarin](https://xamarin.com/), který umožňuje vytvářet nativní aplikace pro více platform z jednoho (C#) kódu a jen různých UI.
+Jako rozumná náhrada Sencha Touch se zdá [Ionic Framework](http://ionicframework.com/), který je postavený na Angularu a vývoj se posouvá hodně rychle dopředu. Případně je možné opustit Cordovu a pro vývoj zvolit [Xamarin](https://www.xamarin.com/), který umožňuje vytvářet nativní aplikace pro více platform z jednoho (C#) kódu a jen různých UI.
 
 Další dva rozlobené články v angličtině:
 
