@@ -2,7 +2,7 @@
 title: Španělsko - co by vám mohlo hodit
 ---
 
-10\. října jsem odjel do Málagy za teplem a postupně jsem si poznamenal různé věci, které by se vám při cestování po Španělsku mohly hodit. Rozdělil jsem je do dvou částí - Španělsko obecně (tenhle článek, pokračování pod fotkou) a Málaga (samostatný článek, až ho napíšu).
+10\. října jsem odjel do Málagy za teplem a postupně jsem si poznamenal různé věci, které by se vám při cestování po Španělsku mohly hodit. Rozdělil jsem je do dvou částí - Španělsko obecně (tenhle článek, pokračování pod fotkou) a [Málaga (samostatný článek)](/malaga/).
 
 > Na to, že na nějakou dobu odjedu už jsem se chvíli chystal, zařizoval spoustu věcí a podobně. Posledním pošťouchnutím byl kurz [Digitálního nomádství](https://www.naucmese.cz/kurz/digitalni-nomadstvi) s Adamem, který říkal *"Kupte si letenku a ostatní se už dořeší"* - no a další den jsem si koupil jednosměrnou Berlín - Málaga.
 
@@ -46,6 +46,8 @@ Tady v Málaze jsem byl na CS Meetupu a na Language exchange (myšlenkou je vzá
  Případně vyzkoušejte meetup.com (ale v Málaze ani v Granadě jsem tam na rozdíl od Couchsurfingu nic nenašel)
 
 Je super umět alespoň [trochu španělsky](/jak-se-ucim-spanelsky/), protože místní anglicky spíš nemluví (kromě centra a kolikrát ani tam ne). Takže třeba to s tou frontou na trhu mi vysvětlili spolunakupující a mohl jsem jim na to odpovědět ve větách ;-) Zároveň si můžu vybírat Airbnb, kde je popis jen ve španělštině a jsem schopný se s hostiteli bavit i o komplikovanějších věcech.
+
+Všichni používají WhatsApp, je to primární způsob komunikace - takže když dostanete na někoho číslo, tak je to velmi pravděpodobně WhatsApp číslo.
 
 ## Bydlení
 Už jsem zmiňoval, že bydlení hledám přes [Airbnb](https://www.airbnb.com/c/mhujer), abych měl alespoň trochu jistotu a klid na práci (a přesouvám se po týdnu). Pokud to je možné, tak vybírám pokoj v bytě, kde ten pronajímatel zároveň bydlí. Spoustu nabídek jsou totiž byty celé nabízené po pokojích na Airbnb na kšeft a majitel tam nebydlí (naopak má takových bytů více). Sice se v takových bytech můžete potkat s dalšími cestovateli, ale já dávám přednost autentickému bydlení s místními (je to vlastně takový placený Couchsurfing s trochou garancí).
