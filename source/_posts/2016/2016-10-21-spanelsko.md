@@ -1,5 +1,5 @@
 ---
-title: Španělsko - co by vás mohlo překvapit
+title: Španělsko - co by vám mohlo hodit
 ---
 
 10\. října jsem odjel do Málagy za teplem a postupně jsem si poznamenal různé věci, které by se vám při cestování po Španělsku mohly hodit. Rozdělil jsem je do dvou částí - Španělsko obecně (tenhle článek, pokračování pod fotkou) a Málaga (samostatný článek, až ho napíšu).
@@ -13,7 +13,7 @@ Rád nakupuju v obchodě Mercadona - řetězec obchodů s potravinami. Je to ve 
 
 Na výběry z bankomatů si pořiďte Revolut kartu (vybírám po €20 nebo €40, napíšu o ní samostatný článek)
 
-Zkuste si najít trh (kvůli horku to je budova, ne stánky), ovoce a zelenina tam pravděpodobně bude levnější. Třeba tady v Málaze v Mercado Huelin stojí kilo avokád od €1, v Mercadoně €4.65
+Zkuste si najít trh (kvůli horku to je budova, ne stánky), ovoce a zelenina tam pravděpodobně bude levnější. Třeba tady v Málaze v Mercado de Huelin stojí kilo avokád od €1, v Mercadoně €4.65
 
 ### Fronty
 Fronty v obchodech fungují jinak, nestojí se v řadě. Takže klidně můžete prohlížet zboží.
@@ -22,7 +22,7 @@ Fronty v obchodech fungují jinak, nestojí se v řadě. Takže klidně můžete
   - pokud nejsou čísla, tak se musíte zeptat, kdo je poslední (*¿Quién es el último?*) a pamatovat si, že jste na řadě za ním
 
 ## Siesta a neděle
-Siesta se opravdu dodržuje a obchody (kromě velkých obchoďáků a turistických stánků) mají cca od 14-17h zavřeno.
+Siesta se opravdu dodržuje a obchody (kromě velkých obchoďáků a turistických stánků) mají cca od 14 - 17h zavřeno.
 
 V neděli a ve státní svátky jsou obchody zavřené úplně, tak si nezapomeňte nakoupit jídlo.
 
@@ -35,7 +35,7 @@ Rád si dávám *café con leche* (něco jako capuchino s méně pěnou), stojí
 
 V kavárnách se často účtuje poplatek za "terasu/zahrádku" - cca €0.2, tak ať vás to nepřekvapí.
 
-Spoustu lidí má doma Moca konvičku, takže pokud vám stačí dobrá domácí káva, můžete si koupit v Mercadoně a vařit si doma.
+Spoustu lidí má doma Mocha konvičku, takže pokud vám stačí dobrá káva, můžete si koupit v Mercadoně mletou a vařit si doma.
 
 ## Setkávání se s místními
 
