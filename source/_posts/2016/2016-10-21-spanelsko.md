@@ -35,11 +35,11 @@ Rád si dávám *café con leche* (něco jako capuchino s méně pěnou), stojí
 
 V kavárnách se často účtuje poplatek za "terasu/zahrádku" - cca €0.2, tak ať vás to nepřekvapí.
 
-Spoustu lidí má doma Mocha konvičku, takže pokud vám stačí dobrá káva, můžete si koupit v Mercadoně mletou a vařit si doma.
+Spoustu lidí má doma Moka konvičku, takže pokud vám stačí dobrá káva, můžete si koupit v Mercadoně mletou a vařit si doma.
 
 ## Setkávání se s místními
 
-I když kvůli nějakému pohodlí a méně stěhování (max jednou týdně) hledám bydlení přes [Airbnb](www.airbnb.com/c/mhujer), tak doporučuji určitě se zaregistrovat na [Couchsurfing.com](https://www.couchsurfing.com/) a najít si meetupy v tom místě, kde budete. Chodí na ně cizinci, kteří cestují a místní, kteří se chtějí potkávat s cestovateli.
+I když kvůli nějakému pohodlí a méně stěhování (max jednou týdně) hledám bydlení přes [Airbnb](https://www.airbnb.com/c/mhujer), tak doporučuji určitě se zaregistrovat na [Couchsurfing.com](https://www.couchsurfing.com/) a najít si meetupy v tom místě, kde budete. Chodí na ně cizinci, kteří cestují a místní, kteří se chtějí potkávat s cestovateli.
 
 Tady v Málaze jsem byl na CS Meetupu a na Language exchange (myšlenkou je vzájemné učení jazyků tím, že si povídáte - takže vlastně víceméně stejné jako meetup).
 
@@ -48,7 +48,7 @@ Tady v Málaze jsem byl na CS Meetupu a na Language exchange (myšlenkou je vzá
 Je super umět alespoň [trochu španělsky](/jak-se-ucim-spanelsky/), protože místní anglicky spíš nemluví (kromě centra a kolikrát ani tam ne). Takže třeba to s tou frontou na trhu mi vysvětlili spolunakupující a mohl jsem jim na to odpovědět ve větách ;-) Zároveň si můžu vybírat Airbnb, kde je popis jen ve španělštině a jsem schopný se s hostiteli bavit i o komplikovanějších věcech.
 
 ## Bydlení
-Už jsem zmiňoval, že bydlení hledám přes [Airbnb](www.airbnb.com/c/mhujer), abych měl alespoň trochu jistotu a klid na práci (a přesouvám se po týdnu). Pokud to je možné, tak vybírám pokoj v bytě, kde ten pronajímatel zároveň bydlí. Spoustu nabídek jsou totiž byty celé nabízené po pokojích na Airbnb na kšeft a majitel tam nebydlí (naopak má takových bytů více). Sice se v takových bytech můžete potkat s dalšími cestovateli, ale já dávám přednost autentickému bydlení s místními (je to vlastně takový placený Couchsurfing s trochou garancí).
+Už jsem zmiňoval, že bydlení hledám přes [Airbnb](https://www.airbnb.com/c/mhujer), abych měl alespoň trochu jistotu a klid na práci (a přesouvám se po týdnu). Pokud to je možné, tak vybírám pokoj v bytě, kde ten pronajímatel zároveň bydlí. Spoustu nabídek jsou totiž byty celé nabízené po pokojích na Airbnb na kšeft a majitel tam nebydlí (naopak má takových bytů více). Sice se v takových bytech můžete potkat s dalšími cestovateli, ale já dávám přednost autentickému bydlení s místními (je to vlastně takový placený Couchsurfing s trochou garancí).
 
 Pronajímatelé vám dávají obrovskou důvěru, když vás nechají u sebe doma, tak ji nezklamte!
 
