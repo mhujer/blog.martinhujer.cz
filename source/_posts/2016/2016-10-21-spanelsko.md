@@ -43,16 +43,18 @@ I když kvůli nějakému pohodlí a méně stěhování (max jednou týdně) hl
 
 Tady v Málaze jsem byl na CS Meetupu a na Language exchange (myšlenkou je vzájemné učení jazyků tím, že si povídáte - takže vlastně víceméně stejné jako meetup).
 
- Případně vyzkoušejte meetup.com (ale v Málaze ani v Granadě jsem tam na rozdíl od Couchsurfingu nic nenašel)
+Případně vyzkoušejte meetup.com (ale v Málaze ani v Granadě jsem tam na rozdíl od Couchsurfingu nic nenašel)
 
 Je super umět alespoň [trochu španělsky](/jak-se-ucim-spanelsky/), protože místní anglicky spíš nemluví (kromě centra a kolikrát ani tam ne). Takže třeba to s tou frontou na trhu mi vysvětlili spolunakupující a mohl jsem jim na to odpovědět ve větách ;-) Zároveň si můžu vybírat Airbnb, kde je popis jen ve španělštině a jsem schopný se s hostiteli bavit i o komplikovanějších věcech.
 
 Všichni používají WhatsApp, je to primární způsob komunikace - takže když dostanete na někoho číslo, tak je to velmi pravděpodobně WhatsApp číslo.
 
+Vyzkoušejte [Blablacar](https://www.blablacar.es/) - portál pro spolujízdu. Funguje i v ČR (koupili Jízdomat). Zatím jsem ho ve Španělsku použil 2× a pokaždé to bylo super.
+   
+## Španělská SIM
+Koupil jsem si Španělskou SIM od Vodafone ES (1GB za €10 na měsíc), ale určitě ho před cestou porovnejte minimálně s Orange ES. Přes léto (včetně září) mívají různé akce - např. dvojnásobek dat za stejnou cenu. A zajímavá věc, ani u jednoho z nich není rozumně možné dobít SIM z ČR tak, abych měl při další cestě aktivní internet už od letiště (on-line je potřeba španělská platební karta).
+
 ## Bydlení
 Už jsem zmiňoval, že bydlení hledám přes [Airbnb](https://www.airbnb.com/c/mhujer), abych měl alespoň trochu jistotu a klid na práci (a přesouvám se po týdnu). Pokud to je možné, tak vybírám pokoj v bytě, kde ten pronajímatel zároveň bydlí. Spoustu nabídek jsou totiž byty celé nabízené po pokojích na Airbnb na kšeft a majitel tam nebydlí (naopak má takových bytů více). Sice se v takových bytech můžete potkat s dalšími cestovateli, ale já dávám přednost autentickému bydlení s místními (je to vlastně takový placený Couchsurfing s trochou garancí).
 
 Pronajímatelé vám dávají obrovskou důvěru, když vás nechají u sebe doma, tak ji nezklamte!
-
-
-> (článek budu postupně doplňovat)
