@@ -4,7 +4,7 @@ title: Platební karta Revolut
 
 Na výběry z bankomatů v zahraničí a na placení na podezřelých webech jsem si pořídil [Revolut kartu](https://revolut.com/).
 
-![Revolut logo](/data/2016/2016-11-08-revolut-karta/revolut-logo.png)
+![Revolut logo](/data/2016/2016-11-08-revolut-karta/revolut-logo.jpg)
 
 ## Funguje to následovně:
 
