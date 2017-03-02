@@ -2,487 +2,487 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.martinhujer.cz</loc>
-    <lastmod>2016-11-18</lastmod>
+    <lastmod>2017-03-02</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/null-object/</loc>
-    <lastmod>2016-11-09T00:00:00+01:00</lastmod>
+    <lastmod>2016-11-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/revolut-karta/</loc>
-    <lastmod>2016-11-08T00:00:00+01:00</lastmod>
+    <lastmod>2016-11-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/cordoba/</loc>
-    <lastmod>2016-11-03T00:00:00+01:00</lastmod>
+    <lastmod>2016-11-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/granada/</loc>
-    <lastmod>2016-10-31T00:00:00+01:00</lastmod>
+    <lastmod>2016-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/malaga/</loc>
-    <lastmod>2016-10-24T00:00:00+02:00</lastmod>
+    <lastmod>2016-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/spanelsko/</loc>
-    <lastmod>2016-10-21T00:00:00+02:00</lastmod>
+    <lastmod>2016-10-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/gitlab-jako-continuous-integration-nejen-pro-php/</loc>
-    <lastmod>2016-10-19T00:00:00+02:00</lastmod>
+    <lastmod>2016-10-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jake-novinky-prinese-php-7-1/</loc>
-    <lastmod>2016-09-30T00:00:00+02:00</lastmod>
+    <lastmod>2016-09-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/phpprague-2016-framework-less-code/</loc>
-    <lastmod>2016-06-03T00:00:00+02:00</lastmod>
+    <lastmod>2016-06-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/symfony-console-jako-prvni-rande-se-symfony/</loc>
-    <lastmod>2015-12-07T00:00:00+01:00</lastmod>
+    <lastmod>2015-12-07T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-se-ucim-spanelsky/</loc>
-    <lastmod>2015-11-13T00:00:00+01:00</lastmod>
+    <lastmod>2015-11-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jaky-byl-rockaway-aws-hackaton-2015/</loc>
-    <lastmod>2015-10-21T00:00:00+02:00</lastmod>
+    <lastmod>2015-10-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-jsem-si-chtel-psat-gramatiku/</loc>
-    <lastmod>2015-10-11T00:00:00+02:00</lastmod>
+    <lastmod>2015-10-11T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/sencha-touch-je-mrtva-zabil-ji-ext-js-6/</loc>
-    <lastmod>2015-09-03T00:00:00+02:00</lastmod>
+    <lastmod>2015-09-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/seznamy-na-baleni-veci/</loc>
-    <lastmod>2015-08-25T00:00:00+02:00</lastmod>
+    <lastmod>2015-08-25T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/spravce-schranky-ditto-clipboard-manager/</loc>
-    <lastmod>2015-06-13T00:00:00+02:00</lastmod>
+    <lastmod>2015-06-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jake-novinky-prinese-php-7/</loc>
-    <lastmod>2015-06-08T00:00:00+02:00</lastmod>
+    <lastmod>2015-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-na-levnejsi-kontaktni-cocky-od-vasecocky-diky-heurece/</loc>
-    <lastmod>2015-01-06T00:00:00+01:00</lastmod>
+    <lastmod>2015-01-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/rusim-ucet-u-mbank/</loc>
-    <lastmod>2014-12-12T00:00:00+01:00</lastmod>
+    <lastmod>2014-12-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/checking-a-custom-coding-standard-with-php_codesniffer/</loc>
-    <lastmod>2014-06-20T00:00:00+02:00</lastmod>
+    <lastmod>2014-06-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/navrh-rest-api-se-symfony-rest-a-apidoc-bundle/</loc>
-    <lastmod>2014-06-08T00:00:00+02:00</lastmod>
+    <lastmod>2014-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-spojit-fotkyobrazky-do-jednoho-pdf/</loc>
-    <lastmod>2014-06-08T00:00:00+02:00</lastmod>
+    <lastmod>2014-06-08T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/zmapujto-aneb-co-vlastne-delas-jako-diplomku/</loc>
-    <lastmod>2014-05-26T00:00:00+02:00</lastmod>
+    <lastmod>2014-05-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/clean-up-your-sass-with-scss-lint/</loc>
-    <lastmod>2014-05-18T00:00:00+02:00</lastmod>
+    <lastmod>2014-05-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/par-postrehu-z-linze-rakousko/</loc>
-    <lastmod>2014-05-01T00:00:00+02:00</lastmod>
+    <lastmod>2014-05-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/ted-se-ucim-se-nemcinu-ctenim/</loc>
-    <lastmod>2014-03-26T00:00:00+01:00</lastmod>
+    <lastmod>2014-03-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/3ms-male-a-stredni-podniky-v-trznim-prostredi-zhodnoceni/</loc>
-    <lastmod>2014-03-03T00:00:00+01:00</lastmod>
+    <lastmod>2014-03-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/cordova-a-sencha-touch-aneb-mobilni-aplikace-pomoci-webovych-technologii/</loc>
-    <lastmod>2014-01-15T00:00:00+01:00</lastmod>
+    <lastmod>2014-01-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/nechate-si-ukrast-facebook-ucet-aneb-dvouurovnove-prihlasovani/</loc>
-    <lastmod>2014-01-06T00:00:00+01:00</lastmod>
+    <lastmod>2014-01-06T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-tridit-a-radit-fotky-vyzva/</loc>
-    <lastmod>2014-01-02T00:00:00+01:00</lastmod>
+    <lastmod>2014-01-02T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/isis-export-do-kalendare/</loc>
-    <lastmod>2013-10-02T00:00:00+02:00</lastmod>
+    <lastmod>2013-10-02T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/znate-duolingo-super-vec-na-uceni-jazyku/</loc>
-    <lastmod>2013-09-16T00:00:00+02:00</lastmod>
+    <lastmod>2013-09-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/integrating-javascript-files-with-jshint-phing-and-jenkins/</loc>
-    <lastmod>2013-09-15T00:00:00+02:00</lastmod>
+    <lastmod>2013-09-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-dat-dohromady-fotky-z-vice-fotaku/</loc>
-    <lastmod>2013-08-29T00:00:00+02:00</lastmod>
+    <lastmod>2013-08-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/testing-zend-framework-1-apps-with-phpunit-3-7-en/</loc>
-    <lastmod>2013-05-19T00:00:00+02:00</lastmod>
+    <lastmod>2013-05-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-v-jenkinsu-buildovat-branche-z-forku/</loc>
-    <lastmod>2013-05-03T00:00:00+02:00</lastmod>
+    <lastmod>2013-05-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-propojit-keepass-s-google-chrome/</loc>
-    <lastmod>2013-05-03T00:00:00+02:00</lastmod>
+    <lastmod>2013-05-03T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/3-tipy-pro-pohodlnejsi-zivot/</loc>
-    <lastmod>2013-04-21T00:00:00+02:00</lastmod>
+    <lastmod>2013-04-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/sifrovani-dat-v-notebooku-je-nutnost/</loc>
-    <lastmod>2013-02-05T00:00:00+01:00</lastmod>
+    <lastmod>2013-02-05T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/migrace-svn-do-gitu-od-a-do-z/</loc>
-    <lastmod>2013-01-23T00:00:00+01:00</lastmod>
+    <lastmod>2013-01-23T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/proc-je-dobre-dodrzovat-coding-standards-pravidla-pro-psani-kodu/</loc>
-    <lastmod>2012-12-22T00:00:00+01:00</lastmod>
+    <lastmod>2012-12-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/hiphop-for-php/</loc>
-    <lastmod>2012-05-28T00:00:00+02:00</lastmod>
+    <lastmod>2012-05-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/phpdocumentor-2-misto-docbloxu/</loc>
-    <lastmod>2012-05-04T00:00:00+02:00</lastmod>
+    <lastmod>2012-05-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/php_codebrowser-1-0-3-a-zmena-pear-kanalu/</loc>
-    <lastmod>2012-04-27T00:00:00+02:00</lastmod>
+    <lastmod>2012-04-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/bp/</loc>
-    <lastmod>2012-04-22T00:00:00+02:00</lastmod>
+    <lastmod>2012-04-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/integrating-javascript-nodejs-jenkins/</loc>
-    <lastmod>2012-04-18T00:00:00+02:00</lastmod>
+    <lastmod>2012-04-18T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/citace-csn-iso-690-ve-wordu/</loc>
-    <lastmod>2012-03-26T00:00:00+02:00</lastmod>
+    <lastmod>2012-03-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/co-pouzivam-xampp/</loc>
-    <lastmod>2012-03-23T00:00:00+01:00</lastmod>
+    <lastmod>2012-03-23T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/v-cem-psat-bakalarskou-praci/</loc>
-    <lastmod>2012-03-12T00:00:00+01:00</lastmod>
+    <lastmod>2012-03-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/co-pouzivam-xenus-link-sleuth/</loc>
-    <lastmod>2012-03-09T00:00:00+01:00</lastmod>
+    <lastmod>2012-03-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/co-pouzivam-filehippo-update-checker/</loc>
-    <lastmod>2012-03-01T00:00:00+01:00</lastmod>
+    <lastmod>2012-03-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/vodafone-a-75-sleva-na-tarif-diky-cd/</loc>
-    <lastmod>2012-02-28T00:00:00+01:00</lastmod>
+    <lastmod>2012-02-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/co-pouzivam-portable-aplikace/</loc>
-    <lastmod>2012-02-27T00:00:00+01:00</lastmod>
+    <lastmod>2012-02-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/zalohujete-meli-byste/</loc>
-    <lastmod>2012-02-24T00:00:00+01:00</lastmod>
+    <lastmod>2012-02-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/facebook-zabava-nebo-i-prace/</loc>
-    <lastmod>2012-02-02T00:00:00+01:00</lastmod>
+    <lastmod>2012-02-02T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/proc-mi-e-knihy-v-cr-prijdou-drahe/</loc>
-    <lastmod>2012-01-09T00:00:00+01:00</lastmod>
+    <lastmod>2012-01-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/coderetreat-praha-3-12-2011/</loc>
-    <lastmod>2011-12-04T00:00:00+01:00</lastmod>
+    <lastmod>2011-12-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/firephp-for-google-chrome/</loc>
-    <lastmod>2011-09-10T00:00:00+02:00</lastmod>
+    <lastmod>2011-09-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/testujeme-posilani-mailu-z-aplikace-v-php/</loc>
-    <lastmod>2011-06-29T00:00:00+02:00</lastmod>
+    <lastmod>2011-06-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-mam-nastaveny-adminer/</loc>
-    <lastmod>2011-06-28T00:00:00+02:00</lastmod>
+    <lastmod>2011-06-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/proc-mam-rad-kindle/</loc>
-    <lastmod>2011-06-15T00:00:00+02:00</lastmod>
+    <lastmod>2011-06-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-na-efektivni-prednasky-a-cviceni/</loc>
-    <lastmod>2011-04-26T00:00:00+02:00</lastmod>
+    <lastmod>2011-04-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-ziskat-par-hodin-navic-kazdy-den/</loc>
-    <lastmod>2011-01-16T00:00:00+01:00</lastmod>
+    <lastmod>2011-01-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/4st201-aneb-z-ceho-se-ucit-na-statistiku/</loc>
-    <lastmod>2010-12-22T00:00:00+01:00</lastmod>
+    <lastmod>2010-12-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/windows-azure-a-php/</loc>
-    <lastmod>2010-07-12T00:00:00+02:00</lastmod>
+    <lastmod>2010-07-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-ted-pouzivam-gtd-duben-2010/</loc>
-    <lastmod>2010-04-19T00:00:00+02:00</lastmod>
+    <lastmod>2010-04-19T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/editace-souboru-hosts/</loc>
-    <lastmod>2010-04-16T00:00:00+02:00</lastmod>
+    <lastmod>2010-04-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/1-semestr-na-vse-informatika/</loc>
-    <lastmod>2010-01-21T00:00:00+01:00</lastmod>
+    <lastmod>2010-01-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/vanoce-2009/</loc>
-    <lastmod>2009-12-24T00:00:00+01:00</lastmod>
+    <lastmod>2009-12-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-jsem-na-tom-s-getting-things-done-gtd/</loc>
-    <lastmod>2009-10-20T00:00:00+02:00</lastmod>
+    <lastmod>2009-10-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/prvni-tyden-na-vse-za-mnou/</loc>
-    <lastmod>2009-09-22T00:00:00+02:00</lastmod>
+    <lastmod>2009-09-22T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/za-pet/</loc>
-    <lastmod>2009-05-26T00:00:00+02:00</lastmod>
+    <lastmod>2009-05-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/pan-programator/</loc>
-    <lastmod>2009-03-16T00:00:00+01:00</lastmod>
+    <lastmod>2009-03-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/vanoce-2008/</loc>
-    <lastmod>2008-11-21T00:00:00+01:00</lastmod>
+    <lastmod>2008-11-21T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/webexpo-2008/</loc>
-    <lastmod>2008-10-20T00:00:00+02:00</lastmod>
+    <lastmod>2008-10-20T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/konference-php-frameworky-jaro-2008/</loc>
-    <lastmod>2008-04-12T00:00:00+02:00</lastmod>
+    <lastmod>2008-04-12T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/tvorba-pdf-zadarmo-pdfcreator/</loc>
-    <lastmod>2008-01-15T00:00:00+01:00</lastmod>
+    <lastmod>2008-01-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/clientx-ma-hodnotu-null-nebo-neni-objekt-reseni/</loc>
-    <lastmod>2007-12-15T00:00:00+01:00</lastmod>
+    <lastmod>2007-12-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/vanoce-2007/</loc>
-    <lastmod>2007-12-15T00:00:00+01:00</lastmod>
+    <lastmod>2007-12-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/jak-se-branit-proti-blokovacum-reklamy/</loc>
-    <lastmod>2007-11-27T00:00:00+01:00</lastmod>
+    <lastmod>2007-11-27T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
