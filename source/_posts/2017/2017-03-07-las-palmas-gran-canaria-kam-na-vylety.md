@@ -48,6 +48,8 @@ V [Las Arenas](https://goo.gl/maps/vhqXr152PyE2) někoho může potěšit Primar
 ### Karneval
 Pokud v Las Palmas budete během února, tak si v ulicích určitě všimnete spousty lidí v maskách. Je totiž karneval, během kterého se konají různá vystoupení a soutěže masek (volba královny plesu atd.). Vše vrcholí průvodem městem a následným upálením sardinky na Las Canteras (a ohňostrojem). Program [mají na webu](http://lpacarnaval.com/en/).
 
+![Sardinka](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/sardinka.jpg)
+
 ### Castillo de la Luz
 [Castillo de la Luz](https://goo.gl/maps/TCwDHRsPsKs) pevnost obklopená parkem. Vevnitř je nějaké umění (nebyl jsem se podívat).
 
@@ -69,6 +71,8 @@ Město [Arucas](https://goo.gl/maps/j9TyDW8qY3z) je zajímavé zejména tím, ž
 
 Abyste neměli pocit, že jedete jen za alkoholem, tak můžete navštívit kostel [Parroquia de San Juan Bautista](https://goo.gl/maps/1Bxob3dGXTw) a vylézt na [Mirador de Arucas](https://goo.gl/maps/kxuWtyFGEL42).
 
+![Arehucas](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/arehucas.jpg)
+
 ### Caldera de Bandama
 [Caldera de Bandama](https://goo.gl/maps/FdY27StZAQ42) je sopečný kráter, který nabízí různé možnosti zábavy. Můžete ho obejít dokola, slézt dovnitř (kde nějaký pán pěstuje zeleninu, pozor, také zavírá vrátka nahoře myslím v 17 h) a také vylézt na [Pico de Bandama](https://goo.gl/maps/Zb6vZQsLtq92), odkud jsou parádní výhledy.
 
@@ -79,12 +83,16 @@ Do [Firgasu](https://goo.gl/maps/V14brysq6rM2) můžete dojet autobusem a použ�
 
 Z Firgasu nejdříve sestoupíte k areálu bývalých lázní, který si příroda postupně bere zpět. Následně pokračujete zajímavým terénem proti proudy řeky. Cestou budete přeskakovat řeku po kamenech a šplhat na skálu (na druhou stranu, cestou jsme potkali třeba i pár s malým dítětem, takže to zas tak náročné není.).
 
+![Azulaje](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/azulaje.jpg)
+
 ### Maspalomas
 Pokud zrovna nebude v Las Palmas na koupání, tak můžete vyrazit na jih, do ráje německých důchodců, do [Maspalomas](https://goo.gl/maps/oeRfgwX9mX72). I přesto, že v Las Palmas může být třeba zataženo, tak v Maspalomas bude s nejvyšší pravděpodobností hezky.
 
 Určitě si projděte [písečné duny](https://goo.gl/maps/KToHFjQeSDn). A dále kromě písečné pláže, nudistické pláže a gay pláže, stojí za vidění také maják [Faro Maspalomas](https://goo.gl/maps/DpZhiSucGmJ2).
 
 Nezapomeňte si sebou vzít opalovací krém a volitelně slunečník, fakt to tam opaluje, tak ať se nespálíte.
+
+![Maspalomas](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/maspalomas.jpg)
 
 ## Okružní výlet autem
 Následující místa se v (tomto pořadí) dají prohlédnout za jeden den. Doporučuji ohvězdičkovat v Google Map, ať podle toho pak můžete navigovat.
@@ -94,11 +102,15 @@ P.S. do zatáček v horách se troubí ;-) A pokud cestou potkáte nějakou pěk
 ### Yacimiento arqueológico Cenobio Valerón
 [Yacimiento arqueológico Cenobio Valerón](https://goo.gl/maps/Q4zwXPSDwSB2) jsou vykopávky na severu ostrova. Je tam spoustu jeskyní, které sloužily jako sklad obilí.
 
+![Valerón](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/valeron.jpg)
+
 ### Los Tilos de Moya
 [Los Tilos de Moya](https://goo.gl/maps/Bmtc9GExoFy) je přírodní rezervace s párkilometrovým okruhem lesem. Pokud jste si zatím mysleli, že Gran Canaria je suchý kámen, tak vás návštěva vyvede z omylu. A kromě jiného tu rostou vavříny (a.k.a. bobkový list).
 
 ### Moya
 Vesnice [Moya](https://goo.gl/maps/n6zLWCkoRRL2) je zajímavá zejména tím, že z [vyhlídky za kostelem](https://goo.gl/maps/TGJpbpYhhZU2) je krásný výhled od údolí.
+
+![Moya](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/moya.jpg)
 
 ### Tejeda
 [Tejeda](https://goo.gl/maps/E86bvoyUCB92) je typická horská vesnice, kam se turisté jezdí dívat na typickou vesnici. Ale za projití stojí. Mají tam i kostel a panaderii, kde mají různá sladká pečiva.
@@ -108,6 +120,8 @@ Vesnice [Moya](https://goo.gl/maps/n6zLWCkoRRL2) je zajímavá zejména tím, ž
 
 ### Roque Nublo
 [Roque Nublo](https://goo.gl/maps/k3PeBCwv6Ys) je hora, která má na vršku kámen postavený na špičku. Zastavit můžete [na parkovišti nebo podél silnice](https://goo.gl/maps/gdzwjB3xuNC2) a na vrchol vede asi půlhodinová procházka po kamenité cestě. Pokud je hezké počasí, tak je od vrcholu vidět Teide na Tenerife.
+
+![Teide od Roque Nublo](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/teide.jpg)
 
 ### Presa De Las Niñas
 Od Roque Nublo vyrazte směrem k [La Playa de Mogán](https://goo.gl/maps/3nmVgyg7mfT2). Cestou dolů narazíte na přehradu [Presa De Las Niñas](https://goo.gl/maps/nbnYmjR1DL72), ke které se dá dojít (a kromě jiného tam je kemp).
