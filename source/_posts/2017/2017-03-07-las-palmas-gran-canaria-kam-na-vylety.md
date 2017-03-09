@@ -92,6 +92,8 @@ Určitě si projděte [písečné duny](https://goo.gl/maps/KToHFjQeSDn). A dál
 
 Nezapomeňte si sebou vzít opalovací krém a volitelně slunečník, fakt to tam opaluje, tak ať se nespálíte.
 
+Pokud pojedete autem, tak můžete zastavit [na (placeném) parkovišti](https://goo.gl/maps/XzaHzix41Jy) kousek od pláže .
+
 ![Maspalomas](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/maspalomas.jpg)
 
 ## Okružní výlet autem
