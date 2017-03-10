@@ -14,6 +14,13 @@ ProTip: Pokud má autobus napsáno *FS* nebo *Fuera del servicio*, tak to není 
 
 ProTip2: Pokud letíte do Berlína v 7:15 ráno, tak se to dá v pohodě stihnout autobusem č. 1 v 5:00 ze San Telma (a tam se dá z Las Palmas dostat nočními L1 nebo L2).
 
+## Kola (Zatím nemám vyzkoušené)
+Zatím to nemám vyzkoušené, ale mělo by jít si zřídit přístup na [půjčování kol bybike](http://www.bybikelpa.com/).
+
+Potřebujete na to bezkontaktní Guagua kartičku (viz výše). Dále se podle [postupu na webu](http://www.bybikelpa.com/index.php?option=com_content&view=article&id=12&Itemid=11&lang=en) zaregistrujete, pak až dva pracovní dny počkáte na schválení a následně se dojdete osobně ověřit do Guagua pobočky (třeba na Santa Catalině). A pak už půjčujete a jezdíte. Měli by mít i mobilní appku s mapou míst pro kola.
+
+[Podle mapy](http://www.bybikelpa.com/index.php?option=com_content&view=article&id=1&Itemid=2) se to zdá ideální na cestu do/z Veguetty.
+
 ## Kam v Las Palmas
 (nejsou nijak seřazené)
 
@@ -44,6 +51,12 @@ V [Las Arenas](https://goo.gl/maps/vhqXr152PyE2) někoho může potěšit Primar
 
 ### Parque del Estadio Insular
 [Parque del Estadio Insular](https://goo.gl/maps/iDghUguw8d32) je park postavený ze stadionu. V roce 2015 vzali rozpadlý stadion, kus tribun zbourali a udělali z něj park. Vevnitř je mimo jiné kavárna s nadstandardně dobrou kávou (na místní poměry).
+
+### Calle Cuatro Cañones
+Z [Calle Cuatro Cañones](https://goo.gl/maps/2DamoD88WxK2) je večer hezký výhled na osvětlené město.
+
+### Technické muzeum
+V technickém muzeu [Museo Elder de la Ciencia y la Tecnología](https://goo.gl/maps/VmzPp9FNx4M2) jsem zatím nebyl, ale všichni, kdo tam byli, si ho pochvalovali.
 
 ### Karneval
 Pokud v Las Palmas budete během února, tak si v ulicích určitě všimnete spousty lidí v maskách. Je totiž karneval, během kterého se konají různá vystoupení a soutěže masek (volba královny plesu atd.). Vše vrcholí průvodem městem a následným upálením sardinky na Las Canteras (a ohňostrojem). Program [mají na webu](http://lpacarnaval.com/en/).
