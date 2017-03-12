@@ -71,8 +71,8 @@ Půjčení auta vyjde od €40/den + benzín. Půjčovali jsme v [Tirmě](http:/
 
 Při ježdění v centru určitě nezapomeňte na navigaci (offlinové Google Maps fungují pěkně), protože město se skládá především z jednosměrek.
 
-## Výlety dosažitelné autobusem
-(nejsou nijak seřazené)
+## Výlety
+(většina dosažitelná autobusem, nejsou nijak seřazené)
 
 ### Trh v Teroru
 [Teror](https://goo.gl/maps/ps9RqkftDiS2) je městečko, které je významné tím, že se tam kdysi pastýřům zjevila panenka Marie, takže tam postavili [baziliku](https://goo.gl/maps/c3SBQRQG9wm). A kromě toho je každou neděli v centru trh. Místní specialitou je speciální chorizo, které je něco jako mazací salám. A kolem €3 vám udělají _pan de chorizo con queso_ - tedy bagetu s chorizem a sýrem. A také prodávají spoustu různých divných sladkých věcí - na váhu, takže můžete ochutnávat.
@@ -105,9 +105,19 @@ Určitě si projděte [písečné duny](https://goo.gl/maps/KToHFjQeSDn). A dál
 
 Nezapomeňte si sebou vzít opalovací krém a volitelně slunečník, fakt to tam opaluje, tak ať se nespálíte.
 
-Pokud pojedete autem, tak můžete zastavit [na (placeném) parkovišti](https://goo.gl/maps/XzaHzix41Jy) kousek od pláže .
+Pokud pojedete autem, tak můžete zkusit zaparkovat [zadarmo mezi penziony](https://goo.gl/maps/EC3yrCPuPcA2), případně [na (placeném) parkovišti](https://goo.gl/maps/XzaHzix41Jy), které je taky kousek od pláže.
 
 ![Maspalomas](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/maspalomas.jpg)
+
+### Jardín Botánico Viera y Clavijo
+Kousek za Las Palmas je docela velká a hezká botanická zahrada [Jardín Botánico Viera y Clavijo](https://goo.gl/maps/QDyiNXDXt992). Spíš to není to na celý den, ale určitě stojí za vidění. Takže ideální, pokud vám to vyjde cestou na jiný výlet autem.
+
+![Jardín Botánico Viera y Clavijo](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/botanicka.jpg)
+
+### Trek na Playa de Güigüi
+[Playa de Güigüi](https://goo.gl/maps/TtjKcWTgReC2) je na rozdíl od jiných místních pláží speciální tím, že se na ni dá dostat jen lodí nebo trekem přes horu. My jsme zvolili variantu přes horu. Výchozím místem je Tasartico (resp. kousek za ním po prašné cestě, kde se pak dá [dobře zaparkovat](https://goo.gl/maps/7GXXqKxuhaC2)). Pozor, do Tasartica jeďte spodem přes Mogán, silnice horem od Agaete je často zavřená (typicky se ji kus sesune). Po zaparkování se vydejte [po cestě naznačené na Wikiloc](https://www.wikiloc.com/wikiloc/view.do?id=16741021) (pozor, je tam jen cesta tam, musíte to jít i zpátky). Pláž je opravdu opuštěná, a kromě pár hipíků, kteří mají o kousek výš postavené domečky, tam nikdo není (kromě dalších lidí, kteří tam vyrazí na výlet). Takže si nezapomeňte hodně vody a svačinu ;-) Na cestu zpět si nechte dost času (nebo si vezměte čelovky, my jsme druhou půlku cesty zpět šli potmě.
+
+![Playa de Güigüi](/data/2017/2017-03-07-las-palmas-gran-canaria-kam-na-vylety/guigui.jpg)
 
 ## Okružní výlet autem
 Následující místa se v (tomto pořadí) dají prohlédnout za jeden den. Doporučuji ohvězdičkovat v Google Map, ať podle toho pak můžete navigovat.
