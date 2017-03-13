@@ -49,6 +49,9 @@ V [Las Arenas](https://goo.gl/maps/vhqXr152PyE2) někoho může potěšit Primar
 ### Churros v Madrileña
 [Madrileña](https://goo.gl/maps/QDex1UyPjcQ2) je naše oblíbené místo, kam chodíme na churros.
 
+### Pulpo frito v "El Paseo" 
+[Restaurante Terraza "El Paseo"](https://goo.gl/maps/zD8cMWyPfGp) najdete na konci Las Canteras u Auditoria. Dělají dobré grilované ryby a hlavně pulpo frito (chobotnici). Mňam.
+
 ### Parque del Estadio Insular
 [Parque del Estadio Insular](https://goo.gl/maps/iDghUguw8d32) je park postavený ze stadionu. V roce 2015 vzali rozpadlý stadion, kus tribun zbourali a udělali z něj park. Vevnitř je mimo jiné kavárna s nadstandardně dobrou kávou (na místní poměry).
 
