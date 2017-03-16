@@ -159,6 +159,10 @@ Puerto de Mogán je přístavní město. Přístav určitě stojí za projití. 
 
 Z Mogánu to potom je po GC-1 a GC-2 do Las Palmas tak hodina. Na další den si neplánujte nic velkého, protože budete zničení ;-)
 
+### Plane Spotting
+Aneb *"koukání na letadla"*. Měli jsme v plánu, ale nestihli jsme. Mělo by se dát dojet do [El Burrero](https://goo.gl/maps/cJ2b7FAzgUs) a odtamtud sledovat přistávající letadla.
+
+**Tip:** Případně při odjezdu doražte na letiště o něco dřív a vylezte na terasu pro kuřáky. Je odtamtud pěkný výhled na ruch na letišti. Jen tam tedy občas někdo kouří.
 
 ## Co ochutnat
 Samozřejmě nemůžu vynechat jídlo.
