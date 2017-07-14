@@ -3,11 +3,74 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2017-04-06T06:02:57+00:00</updated>
+    <updated>2017-07-14T18:04:47+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Jak začít s Dockerem? Od závislostí.]]></title>
+            <link href="https://blog.martinhujer.cz/jak-zacit-s-dockerem-od-zavislosti/"/>
+            <updated>2017-07-13T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/jak-zacit-s-dockerem-od-zavislosti/</id>
+            <content type="html"><![CDATA[<p>V <a href="https://www.driveto.cz/">Drivetu</a> jsme začali používat Docker, ale tak trochu netradičně. Používáme ho totiž (zatím) jen na externí závislosti (Rabbit, Elastic, Cerebro, Kibana) a PHP + MariaDB máme stále nainstalované standardně.</p>
+
+<p>Výhodou je, že takhle si Docker vyzkoušíme relativně bez rizika. Zjistíme, jak se chová, jestli všem funguje a podobně. Zároveň už nám bude rovnou přinášet hodnotu tím, že budeme mít všichni stejné verze a konfiguraci závislostí.</p>
+
+<p>Bylo by cool mít v Dockeru všechno, ale tipuji, že zatím by nám to práci spíš přidělávalo, než šetřilo. Už třeba kvůli pomalému filesystému sdílených složek <a href="https://github.com/docker/for-win/issues/188">z Windows</a> nebo <a href="https://github.com/docker/for-mac/issues/77">z Macu</a>. Každopádně uvidíme v budoucnu - mít celé prostředí připravené bez nutnosti instalace a konfigurace čehokoliv je lákavá představa.</p>
+
+<h2 id="instalace-dockeru-na-windows">Instalace Dockeru (na Windows)</h2>
+
+<ul>
+<li>Musíte mít Windows 10 Pro (v Home není Hyper-V)</li>
+<li>V <em>Turn Windows features on or off</em> povolte Hyper-V</li>
+<li><a href="https://store.docker.com/editions/community/docker-ce-desktop-windows">Stáhněte si Docker</a></li>
+<li>Nainstalujte</li>
+<li>pomocí <code>docker version</code> ověřte, že máte nainstalováno správně</li>
+</ul>
+
+<h2 id="nastaven%E3%AD-rabbitmq-v-dockeru">Nastavení RabbitMQ v Dockeru</h2>
+
+<p>Pro nastavení používám Docker Compose, který umožňuje v jednom konfiguračním souboru definovat více služeb, které lze potom najednou spustit.</p>
+
+<p>V rootu projektu vytvoříme soubor <code>docker-compose.yml</code> s následujícím obsahem (vysvětlím níže):</p>
+
+<pre><code class="yaml">version: '3'
+services:
+    rabbitmq:
+        image: rabbitmq:3.6.10-management
+        container_name: rabbit
+        hostname: driveto-rabbit
+        ports:
+            - 5672:5672
+            - 15672:15672
+</code></pre>
+
+<ul>
+<li><p><code>version: '3'</code> na začátku souboru je verze konfiguračního souboru pro <code>docker-compose</code>.</p></li>
+<li><p>v <code>services</code> jsem definoval službu pojmenovanou <code>rabbitmq</code></p></li>
+<li><p>použije se pro ni image <code>rabbitmq</code> z <a href="https://hub.docker.com/_/rabbitmq/">Docker Hubu</a> ve verzi <code>3.6.10-management</code>. Verzi by šlo podobně jako v Composeru definovat volněji, třeba jen <code>3.6</code> (nebo dokonce <code>latest</code>). Jenže tím se připravíme o výhodu toho, že všichni používají stejné prostředí, takže se doporučuji držet co nejpřesnější specifikace verze. <code>-management</code> v určení verze znamená, že jde o image, který obsahuje předinstalovaný <a href="https://www.rabbitmq.com/management.html">Management plugin</a> - webové rozhraní pro monitoring a konfiguraci RabbitMQ.</p></li>
+<li><p><code>container_name</code> je nepovinná volba - kontejneru se bez ní vygeneruje náhodné jméno.</p></li>
+<li><p><code>hostname</code> je důležité nastavit, protože ho RabbitMQ používá jako identifikátor při ukládání dat (je to popsané v dokumentaci na <a href="https://hub.docker.com/_/rabbitmq/">Docker Hubu</a> v sekci <em>How to use this image</em>)</p></li>
+<li><p><code>ports</code> definují mapování portů - <code>HOST:CONTAINER</code> - první je port na hostitelským systému, druhý je port kontejneru. V ukázce mám přesměrované dva porty: <code>5672</code> pro komunikaci s RabbitMQ a <code>15672</code> pro webové rozhraní.</p></li>
+</ul>
+
+<h2 id="spu%E5%A1t%E4%9Bn%E3%AD-rabbitmq">Spuštění RabbitMQ</h2>
+
+<ol>
+<li>v adresáři, kde je <code>docker-compose.yml</code> zavoláme <code>docker-compose up</code></li>
+<li>ten stáhne potřebné image a nastartuje kontejner s Rabbitem</li>
+<li>RabbitMQ má vytvořeného uživatele <code>guest</code> s heslem <code>guest</code> a výchozí vhost <code>/</code></li>
+<li>Webové rozhraní je přístupné na <code>http://localhost:15672</code></li>
+</ol>
+
+<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
+
+<p>V článku ukázal, že začít s Dockerem není vůbec složité a zároveň že jde začít i jinak než zdockerizováním celé aplikace. Používáte Docker? Pro celou aplikaci nebo jen podobně jako my?</p>
+
+<p>Pokud si budete Docker podle článku nastavovat a něco vám nebude fungovat, tak mi napište do komentářů nebo do kanálu <code>#docker</code> na <a href="https://pehapkari.cz/#slack">Slacku Pehapkaři.cz</a>.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Profilování PHP aplikací pomocí Blackfire]]></title>
             <link href="https://blog.martinhujer.cz/profilovani-php-aplikaci-pomoci-blackfire/"/>
@@ -730,16 +793,6 @@ if (!$customer-&gt;isNull()) {
             <content type="html"><![CDATA[<p>V článku si ukážeme, jak kromě hostování a správy git repositářů můžeme GitLab používat pro CI (Continuous Integration). Zajímavé na něm je, že na rozdíl od konkurence to nabízí i v hostované verzi zadarmo.</p>
 
 <p><strong><a href="https://www.zdrojak.cz/clanky/gitlab-jako-continuous-integration-nejen-pro-php/">Článek vyšel</a> na serveru Zdroják.cz</strong></p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Jaké novinky přinese PHP 7.1]]></title>
-            <link href="https://blog.martinhujer.cz/jake-novinky-prinese-php-7-1/"/>
-            <updated>2016-09-30T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/jake-novinky-prinese-php-7-1/</id>
-            <content type="html"><![CDATA[<p>PHP 7.0.0 vyšlo teprve před necelým rokem a už se pomalu můžeme těšit na PHP 7.1. Před pár dny byla vydána verze RC3, takže už je čas začít testovat kompatibilitu aplikací.</p>
-
-<p><strong><a href="https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-1/">Článek vyšel</a> na serveru Zdroják.cz</strong></p>
 ]]></content>
         </entry>
     </feed>
