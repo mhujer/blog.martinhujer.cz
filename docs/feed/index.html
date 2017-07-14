@@ -3,7 +3,7 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2017-07-14T18:04:47+00:00</updated>
+    <updated>2017-07-14T19:08:34+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
@@ -39,7 +39,6 @@
 services:
     rabbitmq:
         image: rabbitmq:3.6.10-management
-        container_name: rabbit
         hostname: driveto-rabbit
         ports:
             - 5672:5672
@@ -50,7 +49,6 @@ services:
 <li><p><code>version: '3'</code> na začátku souboru je verze konfiguračního souboru pro <code>docker-compose</code>.</p></li>
 <li><p>v <code>services</code> jsem definoval službu pojmenovanou <code>rabbitmq</code></p></li>
 <li><p>použije se pro ni image <code>rabbitmq</code> z <a href="https://hub.docker.com/_/rabbitmq/">Docker Hubu</a> ve verzi <code>3.6.10-management</code>. Verzi by šlo podobně jako v Composeru definovat volněji, třeba jen <code>3.6</code> (nebo dokonce <code>latest</code>). Jenže tím se připravíme o výhodu toho, že všichni používají stejné prostředí, takže se doporučuji držet co nejpřesnější specifikace verze. <code>-management</code> v určení verze znamená, že jde o image, který obsahuje předinstalovaný <a href="https://www.rabbitmq.com/management.html">Management plugin</a> - webové rozhraní pro monitoring a konfiguraci RabbitMQ.</p></li>
-<li><p><code>container_name</code> je nepovinná volba - kontejneru se bez ní vygeneruje náhodné jméno.</p></li>
 <li><p><code>hostname</code> je důležité nastavit, protože ho RabbitMQ používá jako identifikátor při ukládání dat (je to popsané v dokumentaci na <a href="https://hub.docker.com/_/rabbitmq/">Docker Hubu</a> v sekci <em>How to use this image</em>)</p></li>
 <li><p><code>ports</code> definují mapování portů - <code>HOST:CONTAINER</code> - první je port na hostitelským systému, druhý je port kontejneru. V ukázce mám přesměrované dva porty: <code>5672</code> pro komunikaci s RabbitMQ a <code>15672</code> pro webové rozhraní.</p></li>
 </ul>
@@ -63,6 +61,8 @@ services:
 <li>RabbitMQ má vytvořeného uživatele <code>guest</code> s heslem <code>guest</code> a výchozí vhost <code>/</code></li>
 <li>Webové rozhraní je přístupné na <code>http://localhost:15672</code></li>
 </ol>
+
+<p><code>docker-compose up</code> můžete spouštět v detached režimu přepínačem <code>-d</code>. Poběží pak na pozadí a nebude nutné nechat otevřenou konzoli. Logy z kontejnerů pak zobrazíte pomocí <code>docker-compose logs</code>. Na Windows používám jako konzoli <a href="http://cmder.net/">cmder</a>, kde si <code>docker-compose</code> nechávám běžet v jednom tabu na popředí, abych logy viděl průběžně.</p>
 
 <h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
 

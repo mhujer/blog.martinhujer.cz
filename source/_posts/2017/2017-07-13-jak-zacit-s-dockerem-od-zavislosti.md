@@ -25,7 +25,6 @@ version: '3'
 services:
     rabbitmq:
         image: rabbitmq:3.6.10-management
-        container_name: rabbit
         hostname: driveto-rabbit
         ports:
             - 5672:5672
@@ -38,8 +37,6 @@ services:
 
 - použije se pro ni image `rabbitmq` z [Docker Hubu](https://hub.docker.com/_/rabbitmq/) ve verzi `3.6.10-management`. Verzi by šlo podobně jako v Composeru definovat volněji, třeba jen `3.6` (nebo dokonce `latest`). Jenže tím se připravíme o výhodu toho, že všichni používají stejné prostředí, takže se doporučuji držet co nejpřesnější specifikace verze. `-management` v určení verze znamená, že jde o image, který obsahuje předinstalovaný [Management plugin](https://www.rabbitmq.com/management.html) - webové rozhraní pro monitoring a konfiguraci RabbitMQ.
 
-- `container_name` je nepovinná volba - kontejneru se bez ní vygeneruje náhodné jméno.
-
 - `hostname` je důležité nastavit, protože ho RabbitMQ používá jako identifikátor při ukládání dat (je to popsané v dokumentaci na [Docker Hubu](https://hub.docker.com/_/rabbitmq/) v sekci _How to use this image_)
 
 - `ports` definují mapování portů - `HOST:CONTAINER` - první je port na hostitelským systému, druhý je port kontejneru. V ukázce mám přesměrované dva porty: `5672` pro komunikaci s RabbitMQ a `15672` pro webové rozhraní.
@@ -50,6 +47,7 @@ services:
 3. RabbitMQ má vytvořeného uživatele `guest` s heslem `guest` a výchozí vhost `/`
 4. Webové rozhraní je přístupné na `http://localhost:15672`
 
+`docker-compose up` můžete spouštět v detached režimu přepínačem `-d`. Poběží pak na pozadí a nebude nutné nechat otevřenou konzoli. Logy z kontejnerů pak zobrazíte pomocí `docker-compose logs`. Na Windows používám jako konzoli [cmder](http://cmder.net/), kde si `docker-compose` nechávám běžet v jednom tabu na popředí, abych logy viděl průběžně.
 
 ## Závěrem
 V článku ukázal, že začít s Dockerem není vůbec složité a zároveň že jde začít i jinak než zdockerizováním celé aplikace. Používáte Docker? Pro celou aplikaci nebo jen podobně jako my?
