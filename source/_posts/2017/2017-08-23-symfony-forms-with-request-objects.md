@@ -223,6 +223,6 @@ There are two more takeaways:
 2. Do not blindly follow the documentation (or other developers).
 
 
-**Do you use similar solution in your projects? If you are using entities, have you already encountered some problems?**
+**Do you use similar solution in your projects? If you are using entities, have you already encountered any problems?**
 
 Finally, you may want to read two related articles: [Avoiding Entities in Forms](https://stovepipe.systems/post/avoiding-entities-in-forms) and [Rethinking Form Development](https://stovepipe.systems/post/rethinking-form-development) (written by Iltar van der Berg).
