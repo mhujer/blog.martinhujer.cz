@@ -19,9 +19,19 @@ h4 small
 }
 
 article div.article-text {
-    font-size: 1.3em;
     font-family: "Georgia", serif;
-    line-height: 1.55em;
+}
+
+article div.article-text > p {
+    margin-top: 15px;
+}
+
+article div.article-text p,
+article div.article-text li
+{
+    font-size: 20px;
+    line-height: 1.58;
+    letter-spacing: -.003em;
 }
 
 article div.article-footer {
