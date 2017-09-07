@@ -364,7 +364,7 @@ use Foo\Bar\{
 
 PHP 7.2 will contain new security features (sodium, Argon2i), several language improvements (`object` typehint, type widening) and a variety of minor changes that polish legacy parts of the language.
 
-The [RC1](http://php.net/archive/2017.php#id2017-08-31-1) was released on 31th August, so it is now a right time to try it out. If you can't or don't want to use it locally for development just yet, you should at least run your test suite against PHP 7.2 to see if there is anything to be fixed. I think there won't be many compatibility issues in a well-managed codebase.
+The [RC1](http://php.net/archive/2017.php#id2017-08-31-1) was released on 31st August, so it is now a right time to try it out. If you can't or don't want to use it locally for development just yet, you should at least run your test suite against PHP 7.2 to see if there is anything to be fixed. I think there won't be many compatibility issues in a well-managed codebase.
  
 If you are maintaining an open-source project, you should add 7.2 to TravisCI build matrix to ensure that your users won't encounter any compatibility issues. Or you can require PHP 7.2 in the next major version [like Doctrine ORM will](https://github.com/doctrine/doctrine2/pull/6577).
 
