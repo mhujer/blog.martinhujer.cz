@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PHP 7.2 is due in November. What&#039;s new? &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
+            <meta name="robots" content="index, follow">
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>PHP 7.2 is due in November. What&#039;s new?</h2>
+            <p><small>2017-09-07</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>PHP 7.2 is planned to be released on 30th November 2017 (see <a href="https://wiki.php.net/todo/php72#timetable">the timetable</a>). And it comes with two new security features in the core, several smaller improvements and some language legacy clean-ups. In the article, I will explain you what the improvements and changes are. I read <a href="https://wiki.php.net/rfc#php_next_72">the RFCs</a>, discussions on <em>internals</em> and <a href="https://github.com/php/php-src/pulls">PRs on Github</a>, so you don't have to.</p>
+
+<p><em>I'll update the article if there are any significant changes in PHP 7.2 until release.</em></p>
+
+<p>You can try the pre-release version right now. Just download it using the links in the <a href="http://php.net/archive/2017.php#id2017-08-31-1">PHP 7.2.0 Release Candidate 1 Released</a>. I've been using it locally for development since the 7.2.0-beta1 without issues.</p>
+
+<h2 id="rfc%3A-argon2-password-hash-link">RFC: Argon2 Password Hash (<a href="https://wiki.php.net/rfc/argon2_password_hash">link</a>)</h2>
+
+<p><a href="http://php.net/password_hash"><code>password_hash</code></a> function has been available in PHP since 5.5. It was designed to be able to utilize different password hashing algorithms. But back then only <code>PASSWORD_BCRYPT</code> was available.</p>
+
+<blockquote>
+  <p><strong>IMPORTANT:</strong> If you are using <code>sha1()</code> or <code>md5()</code> for password hashing, please stop reading immediately and go fix your systems to use <code>password_hash()</code>. I recommend reading Michal's article <a href="https://www.michalspacek.com/upgrading-existing-password-hashes">Upgrading existing password hashes</a>.</p>
+</blockquote>
+
+<p>PHP 7.2 adds an option to use Argon2i algorithm with <code>PASSWORD_ARGON2I</code> constant:</p>
+
+<pre><code class="php">password_hash('password', PASSWORD_ARGON2I)
+</code></pre>
+
+<p>Using <code>PASSWORD_BCRYPT</code> is still perfectly valid and safe option. Argon2i is just another option, which may become a default in the future.</p>
+
+<p>Argon2i supports providing custom cost factors (like providing single <code>cost</code> factor to <code>bcrypt</code>):</p>
+
+<pre><code class="php">$options = [
+    'memory_cost' =&gt; PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
+    'time_cost' =&gt; PASSWORD_ARGON2_DEFAULT_TIME_COST,
+    'threads' =&gt; PASSWORD_ARGON2_DEFAULT_THREADS,
+];
+password_hash('password', PASSWORD_ARGON2I, $options);
+</code></pre>
+
+<p>You should determine appropriate costs for Argon2i by experimenting on the target server (like you do with bcrypt <code>cost</code>).</p>
+
+<p>It is also time to check your password column length! <code>PASSWORD_BCRYPT</code> generates 60 characters long hashes. <code>PASSWORD_ARGON2I</code> hash is 96 characters long. The <a href="http://php.net/password_hash"><code>password_hash</code> documentation</a> recommends columns length of 255 characters to accommodate any future hash (especially when using <code>PASSWORD_DEFAULT</code> as an algorithm):</p>
+
+<blockquote>
+  <p><em>It is recommended to store the result in a database column that can expand beyond 60 characters (255 characters would be a good choice).</em></p>
+</blockquote>
+
+<p>There is a good article about <a href="https://framework.zend.com/blog/2017-08-17-php72-argon2-hash-password.html">Protecting passwords with Argon2 in PHP 7.2</a> on Zend Framework blog.</p>
+
+<h2 id="rfc%3A-make-libsodium-a-core-extension-link">RFC: Make Libsodium a Core Extension (<a href="https://wiki.php.net/rfc/libsodium">link</a>)</h2>
+
+<p>PHP 7.2 comes with cryptography library libsodium in the core. It was previously available through PECL. There is also a <a href="https://github.com/paragonie/sodium_compat">polyfill available</a> so you can start using it right now (it even supports PHP 5.2.4!).</p>
+
+<p>I don't know much about the cryptography, but the single most important thing I know is this: <em>Don't invent your own cryptography!</em> (See <a href="https://security.stackexchange.com/a/18198">this StackExchange answer</a> for reasoning.).</p>
+
+<p><strong>So just use the <code>sodium_</code> functions instead of implementing it by yourself.</strong></p>
+
+<p>I recommend reading two following articles about upcoming improvements in PHP cryptography (both written by Scott Arciszewski, the author of the Libsodium RFC):</p>
+
+<ol>
+<li><p><a href="https://dev.to/paragonie/php-72-the-first-programming-language-to-add-modern-cryptography-to-its-standard-library">PHP 7.2: The First Programming Language to Add Modern Cryptography to its Standard Library</a></p>
+
+<blockquote>
+  <p><em>When version 7.2 releases at the end of the year, PHP will be the first programming language to adopt modern cryptography in its standard library.</em></p>
+</blockquote></li>
+<li><p><a href="https://paragonie.com/blog/2017/07/it-turns-out-2017-is-year-simply-secure-php-cryptography">It Turns Out, 2017 is the Year of Simply Secure PHP Cryptography</a> (by Scott Arciszewski as well).</p></li>
+</ol>
+
+<h2 id="other-interesting-changes">Other Interesting Changes</h2>
+
+<h3 id="rfc%3A-object-typehint-link">RFC: Object typehint (<a href="https://wiki.php.net/rfc/object-typehint">link</a>)</h3>
+
+<p>It will be possible to use <code>object</code> as parameter type and as a return type.</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+function foo(object $definitelyAnObject): object
+{
+    return 'another string';
+}
+
+foo('what about some string?');
+// TypeError: Argument 1 passed to foo() must be an object, string given, called in...
+
+
+foo(new \stdClass());
+// TypeError: Return value of foo() must be an object, string returned
+
+</code></pre>
+
+<p><code>object</code> becomes a keyword in 7.2, so make sure you are not using it as a name for a class, interface or trait. It was a <a href="http://php.net/manual/en/reserved.other-reserved-words.php">soft-reserved word since PHP 7.0</a>.</p>
+
+<p>It is useful mainly for libraries (ORMs, DI containers, serializers, <a href="https://externals.io/message/96554#96586">and others</a>). But it may help clean up some of your code as well. In our codebase, it will allow us to improve the helper method used in tests:</p>
+
+<pre><code class="php">class TestUtils
+{
+
+    /**
+     * @param object $object
+     * @param string $propertyName
+     * @param mixed $value
+     */
+    public static function setPrivateProperty($object, string $property, $value): void
+    {
+        if (!is_object($object)) {
+            throw new \Exception('An object must be passed');
+        }
+</code></pre>
+
+<p>Will be simplified to this:</p>
+
+<pre><code class="php">class TestUtils
+{
+    public static function setPrivateProperty(object $object, string $property, $value): void
+    {
+</code></pre>
+
+<h3 id="rfc%3A-parameter-type-widening-link">RFC: Parameter Type Widening (<a href="https://wiki.php.net/rfc/parameter-no-type-variance">link</a>)</h3>
+
+<p>With this change, it is possible to omit the parameter type declaration in the child classes. I know that may sound confusing, so let's have a look at the example:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+class LibraryClass 
+{
+    public function doWork(string $input)
+    {
+
+    }
+}
+
+class UserClass extends LibraryClass
+{
+    public function doWork($input)
+    {
+
+    }
+}
+
+// PHP &lt;7.2.0
+// Warning: Declaration of UserClass::doWork($input) should be compatible with LibraryClass::doWork(string $input) in …
+
+// PHP 7.2.0+
+// no errors
+</code></pre>
+
+<p>It would allow libraries to introduce scalar typehints without breaking subclasses created by the library users. But it is rather theoretical possibility because the library cannot do the same for the return types. And when the library is adding parameter typehints, it makes sense to add return types as well.</p>
+
+<p>Omitting type hints in subclasses follows the <a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov substitution principle - LSP</a> because it widens the accepted types. But the subclass cannot omit return typehints, because that would widen the possible return types (and that is LSP violation).</p>
+
+<p>This behaviour was also changed for abstract classes in separate RFC: <a href="https://wiki.php.net/rfc/allow-abstract-function-override">RFC: Allow abstract function override</a>.</p>
+
+<h3 id="rfc%3A-counting-of-non-countable-objects-link">RFC: Counting of non-countable objects (<a href="https://wiki.php.net/rfc/counting_non_countables">link</a>)</h3>
+
+<p>Did you know, that it is possible to count scalar values? Well, it does not really do much counting, it only returns 1 for scalars.</p>
+
+<pre><code class="php">&lt;?php
+
+var_dump(count(null)); // int(0)
+var_dump(count(0)); // int(1)
+var_dump(count(4)); // int(1)
+var_dump(count('4')); // int(1)
+
+</code></pre>
+
+<p>Since PHP 7.2, it will begin emitting a warning:</p>
+
+<pre><code>Warning: count(): Parameter must be an array or an object that implements Countable in /in/4aIl2 on line 3
+</code></pre>
+
+<p>I really like this change, because no one writes such code intentionally, but rather as a bug that needs fixing.</p>
+
+<p>I guess that you may find some of those is your codebase as well - have a look at a less obvious example:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+class Data
+{
+    /** @var string[] */
+    private $data;
+
+    public function addOne(string $item)
+    {
+        if (count($this-&gt;data) &gt;= 5) {
+            throw new \Exception('too much data');
+        }
+
+        $this-&gt;data[] = $item;
+    }
+}
+
+$data = new Data();
+$data-&gt;addOne('item1');
+$data-&gt;addOne('item2');
+$data-&gt;addOne('item3');
+
+// Warning: count(): Parameter must be an array or an object that implements Countable in ...
+</code></pre>
+
+<p>It will report a warning, because you are counting a <code>null</code> value in the <code>if</code>.</p>
+
+<h3 id="rfc%3A-deprecations-for-php-7.2-link">RFC: Deprecations for PHP 7.2 (<a href="https://wiki.php.net/rfc/deprecations_php_7_2">link</a>)</h3>
+
+<p>Can be also called <em>"Nikita Popov's language clean-up"</em> :-)</p>
+
+<p>The following will throw a deprecation warning in PHP 7.2 and will be removed later (probably in 8.0). See <a href="https://wiki.php.net/rfc/deprecations_php_7_2">the RFC</a> for detailed explanation of each one:</p>
+
+<ul>
+<li><code>__autoload()</code> - use <a href="http://php.net/spl_autoload_register"><code>spl_autoload_register()</code></a> instead</li>
+<li><code>$php_errormsg</code> - use <a href="http://php.net/error_get_last"><code>error_get_last()</code></a> instead</li>
+<li><code>create_function()</code> - use closures instead</li>
+<li><code>mbstring.func_overload</code> (ini setting) - use <code>mb_*</code> functions directly</li>
+<li><code>(unset)</code> cast - this is not deprecating <code>unset($var)</code> but <code>$foo = (unset) $bar</code> which is equal to <code>$foo = null</code> (yes, strange one)</li>
+<li><code>parse_str()</code> without second argument - directly creating variables when parsing query string is not something you should be doing (<code>register_globals</code> anyone?)</li>
+<li><code>gmp_random()</code> - use <code>gmp_random_bits()</code> and <code>gmp_random_range()</code> instead</li>
+<li><code>each()</code> - use <code>foreach</code> instead (it is more than 10 times faster)</li>
+<li><code>assert()</code> with string argument - it is using <code>eval()</code> internally!</li>
+<li><code>$errcontext</code> argument of error handler - use <code>debug_backtrace()</code> instead</li>
+</ul>
+
+<h2 id="smaller-changes">Smaller changes</h2>
+
+<h3 id="rfc%3A-get_class-disallow-null-parameter-link">RFC: get_class() disallow null parameter (<a href="https://wiki.php.net/rfc/get_class_disallow_null_parameter">link</a>)</h3>
+
+<p>Did you know, that <code>get_class()</code> without parameters returns the same value as <code>__CLASS__</code>? I didn't. But the RFC does not change this.</p>
+
+<pre><code class="php">&lt;?php
+
+class MyClass
+{
+    public function myInfo()
+    {
+        var_dump(get_class()); // string(7) "MyClass"
+        var_dump(__CLASS__); // string(7) "MyClass"
+    }
+}
+
+$a = new MyClass();
+$a-&gt;myInfo();
+
+var_dump(get_class($a)); // string(7) "MyClass"
+</code></pre>
+
+<p>The RFC deprecates calling it with <code>null</code> as parameter. Consider this example from the RFC. If the item is fetched from the repository and <code>$result</code> is not null, it will print the class name of the fetched object. But if it is null, <code>Foo</code> will be printed.</p>
+
+<pre><code class="php">class Foo
+{
+
+    function bar($repository)
+    {
+        $result = $repository-&gt;find(100);
+
+        echo get_class($result);
+    }
+}
+
+// In 7.2: Warning: get_class() expects parameter 1 to be object, null given in ...
+</code></pre>
+
+<h3 id="rfc%3A-allow-loading-extensions-by-name-link">RFC: Allow loading extensions by name (<a href="https://wiki.php.net/rfc/load-ext-by-name">link</a>)</h3>
+
+<p>If you configured the PHP extensions before 7.2, you had to use full filename in the <code>.ini</code> file:</p>
+
+<p>On Windows:</p>
+
+<pre><code class="ini">extension=php_mbstring.dll
+</code></pre>
+
+<p>On Linux:</p>
+
+<pre><code class="ini">extension=mbstring.so
+</code></pre>
+
+<p>That's fine if you are using only one platform. But it gets a bit harder, if you need to write some automation scripts supporting multiple platforms. It was improved in 7.2 and now you can use this both on Linux and Windows:</p>
+
+<pre><code class="ini">extension=mbstring
+</code></pre>
+
+<p>Legacy syntax is still supported, but it is recommended to use the new one.</p>
+
+<h3 id="rfc%3A-deprecate-and-remove-bareword-unquoted-strings-link">RFC: Deprecate and Remove Bareword (Unquoted) Strings (<a href="https://wiki.php.net/rfc/deprecate-bareword-strings">link</a>)</h3>
+
+<p>This is another step in making PHP safer to use. If you mistype a constant in 7.2, it will throw a warning instead of notice (and will throw an error in PHP 8.0).</p>
+
+<p>Simplest example is this:</p>
+
+<pre><code class="php">&lt;?php
+var_dump(NONEXISTENT_CONSTANT);
+
+
+// PHP 7.1
+// Notice: Use of undefined constant NONEXISTENT_CONSTANT - assumed 'NONEXISTENT_CONSTANT' in …
+
+// PHP 7.2
+// Warning: Use of undefined constant NONEXISTENT_CONSTANT - assumed 'NONEXISTENT_CONSTANT' (this will throw an Error in a future version of PHP) in …
+</code></pre>
+
+<p>I really like the bug examples <a href="https://wiki.php.net/rfc/deprecate-bareword-strings">in the RFC</a> showing what it's aiming to prevent:</p>
+
+<pre><code class="php">$foo = flase; // typo!
+// ...
+if ( $foo ) {
+   var_dump($foo); // string(5) "flase"
+}
+</code></pre>
+
+<p>And:</p>
+
+<pre><code class="php">$found = false;
+foreach ( $list as $item ) {
+   if ( is_null($item) ) {
+       contniue; // this statement issues a notice and does nothing
+   }
+   // lines assuming $item is not null
+}
+</code></pre>
+
+<h3 id="rfc%3A-trailing-commas-in-list-syntax-link">RFC: Trailing Commas in List Syntax (<a href="https://wiki.php.net/rfc/list-syntax-trailing-commas">link</a>)</h3>
+
+<p>It has <a href="https://3v4l.org/J8r9B">always been possible</a> to use trailing comma after last array item:</p>
+
+<pre><code class="php">$foo = [
+    'foo',
+    'bar',
+];
+</code></pre>
+
+<p>It is useful for creating clean diffs in VCS and makes adding new items to the list simple.</p>
+
+<p>This RFC proposed adding an optional trailing comma to all list-like places:</p>
+
+<ul>
+<li>Grouped namespaces</li>
+<li>Function/method arguments (declarations &amp; calls)</li>
+<li>Interface implementations on a class</li>
+<li>Trait implementations on a class</li>
+<li>Class member lists</li>
+<li>Inheriting variables from the parent scope in anonymous functions</li>
+</ul>
+
+<p>I especially hoped for method arguments declarations and calls. But it did not pass the vote (which needed 2/3 majority, as it is a language change).</p>
+
+<p>Surprisingly, only the <em>"Grouped namespaces"</em> passed:</p>
+
+<pre><code class="php">use Foo\Bar\{ 
+    Foo,
+    Bar, 
+    Baz, 
+}; 
+
+// note the comma after "Baz"
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>PHP 7.2 will contain new security features (sodium, Argon2i), several language improvements (<code>object</code> typehint, type widening) and a variety of minor changes that polish legacy parts of the language.</p>
+
+<p>The <a href="http://php.net/archive/2017.php#id2017-08-31-1">RC1</a> was released on 31th August, so it is now a right time to try it out. If you can't or don't want to use it locally for development just yet, you should at least run your test suite against PHP 7.2 to see if there is anything to be fixed. I think there won't be many compatibility issues in a well-managed codebase.</p>
+
+<p>If you are maintaining an open-source project, you should add 7.2 to TravisCI build matrix to ensure that your users won't encounter any compatibility issues.</p>
+
+<p>Thank you, Sara and Remi, and all the contributors for making this PHP release great!</p>
+
+<p>What are you looking forward most in the PHP 7.2?</p>
+
+        </div>
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            Píše <a href="https://www.martinhujer.cz">Martin Hujer</a>
+        </footer>
+
+                
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-3314117-32', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>
