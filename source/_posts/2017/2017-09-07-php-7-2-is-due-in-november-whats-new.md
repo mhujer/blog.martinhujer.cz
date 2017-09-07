@@ -2,7 +2,7 @@
 title: PHP 7.2 is due in November. What's new?
 ---
 
-PHP 7.2 is planned to be released on 30th November 2017 (see [the timetable](https://wiki.php.net/todo/php72#timetable)). And it comes with two new security features in the core, several smaller improvements and some language legacy clean-ups. In the article, I will explain you what the improvements and changes are. I read [the RFCs](https://wiki.php.net/rfc#php_next_72), discussions on _internals_ and [PRs on Github](https://github.com/php/php-src/pulls), so you don't have to.
+PHP 7.2 is planned to be released on 30th November 2017 (see [the timetable](https://wiki.php.net/todo/php72#timetable)). And it comes with two new security features in the core, several smaller improvements and some language legacy clean-ups. In the article, I will describe what the improvements and changes are. I read [the RFCs](https://wiki.php.net/rfc#php_next_72), discussions on _internals_ and [PRs on Github](https://github.com/php/php-src/pulls), so you don't have to.
 
 _I'll update the article if there are any significant changes in PHP 7.2 until release._
 
@@ -366,8 +366,8 @@ PHP 7.2 will contain new security features (sodium, Argon2i), several language i
 
 The [RC1](http://php.net/archive/2017.php#id2017-08-31-1) was released on 31th August, so it is now a right time to try it out. If you can't or don't want to use it locally for development just yet, you should at least run your test suite against PHP 7.2 to see if there is anything to be fixed. I think there won't be many compatibility issues in a well-managed codebase.
  
-If you are maintaining an open-source project, you should add 7.2 to TravisCI build matrix to ensure that your users won't encounter any compatibility issues.
+If you are maintaining an open-source project, you should add 7.2 to TravisCI build matrix to ensure that your users won't encounter any compatibility issues. Or you can require PHP 7.2 in the next major version [like Doctrine ORM will](https://github.com/doctrine/doctrine2/pull/6577).
 
 Thank you, Sara and Remi, and all the contributors for making this PHP release great!
 
-What are you looking forward most in the PHP 7.2?
+What are you looking forward to most in the PHP 7.2?
