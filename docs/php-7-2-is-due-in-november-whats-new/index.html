@@ -77,6 +77,8 @@ password_hash('password', PASSWORD_ARGON2I, $options);
 
 <p>There is a good article about <a href="https://framework.zend.com/blog/2017-08-17-php72-argon2-hash-password.html">Protecting passwords with Argon2 in PHP 7.2</a> on Zend Framework blog.</p>
 
+<p><strong>Note:</strong> Argon2i is available only if the PHP was compiled with <code>--with-password-argon2</code> flag. (It is included in Windows binaries available from php.net).</p>
+
 <h2 id="rfc%3A-make-libsodium-a-core-extension-link">RFC: Make Libsodium a Core Extension (<a href="https://wiki.php.net/rfc/libsodium">link</a>)</h2>
 
 <p>PHP 7.2 comes with cryptography library libsodium in the core. It was previously available through PECL. There is also a <a href="https://github.com/paragonie/sodium_compat">polyfill available</a> so you can start using it right now (it even supports PHP 5.2.4!).</p>

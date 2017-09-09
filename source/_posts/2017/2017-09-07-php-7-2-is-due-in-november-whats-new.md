@@ -41,6 +41,8 @@ It is also time to check your password column length! `PASSWORD_BCRYPT` generate
 
 There is a good article about [Protecting passwords with Argon2 in PHP 7.2](https://framework.zend.com/blog/2017-08-17-php72-argon2-hash-password.html) on Zend Framework blog.
 
+**Note:** Argon2i is available only if the PHP was compiled with `--with-password-argon2` flag. (It is included in Windows binaries available from php.net). 
+
 ## RFC: Make Libsodium a Core Extension ([link](https://wiki.php.net/rfc/libsodium))
 
 PHP 7.2 comes with cryptography library libsodium in the core. It was previously available through PECL. There is also a [polyfill available](https://github.com/paragonie/sodium_compat) so you can start using it right now (it even supports PHP 5.2.4!).
