@@ -24,6 +24,17 @@ article div.article-text {
     line-height: 1.55em;
 }
 
+article div.article-footer {
+	border-top: 0.5px dotted silver;
+	padding-top: 2em;
+	margin-top: 2em;
+}
+
+article div.article-footer p.written-by {
+    font-size: 120%;
+    margin-bottom: 1em;
+}
+
 #disqus_thread {
     margin-top: 4em;
 }

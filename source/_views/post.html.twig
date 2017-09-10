@@ -14,6 +14,25 @@
         <div class="article-text">
             {{ page.blocks.content|raw }}
         </div>
+
+		<div class="article-footer">
+			<p class="written-by">
+				<strong>
+					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+				</strong>
+			</p>
+			<p>
+				<small>
+					<strong>
+						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+					</strong>
+					<br>
+					<strong>
+						<a href="{{ site.url }}/feed/">Subscribe to RSS</a>
+					</strong>
+				</small>
+			</p>
+		</div>
     </article>
 
 {% if site.disqus.shortname and site.disqus.shortname != '' %}
