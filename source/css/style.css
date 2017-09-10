@@ -68,6 +68,12 @@ footer.container {
     .sidebar {
         padding-top: 30px;
     }
+
+    article div.article-text p,
+    article div.article-text li
+    {
+        font-size: 18px;
+    }
 }
 @media (min-width: 980px) {
     body {
