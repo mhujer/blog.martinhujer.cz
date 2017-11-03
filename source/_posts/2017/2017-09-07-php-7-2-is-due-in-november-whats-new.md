@@ -2,6 +2,8 @@
 title: PHP 7.2 is due in November. What's new?
 ---
 
+> I've published [the Czech translation of the article on Zdroják.cz](https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-2/).
+
 PHP 7.2 is planned to be released on 30th November 2017 (see [the timetable](https://wiki.php.net/todo/php72#timetable)). And it comes with two new security features in the core, several smaller improvements and some language legacy clean-ups. In the article, I will describe what the improvements and changes are. I read [the RFCs](https://wiki.php.net/rfc#php_next_72), discussions on _internals_ and [PRs on Github](https://github.com/php/php-src/pulls), so you don't have to.
 
 _I'll update the article if there are any significant changes in PHP 7.2 until release._
