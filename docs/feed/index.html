@@ -3,11 +3,41 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2017-11-03T20:15:40+00:00</updated>
+    <updated>2017-11-04T18:01:10+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[JavaScript Error Handler Bundle for Symfony]]></title>
+            <link href="https://blog.martinhujer.cz/javascript-error-handler-bundle/"/>
+            <updated>2017-11-04T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/javascript-error-handler-bundle/</id>
+            <content type="html"><![CDATA[<p>I've created Symfony <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">JavaScriptErrorHandlerBundle</a> for visualizing accidental errors in JavaScript.</p>
+
+<h2 id="why%3F">Why?</h2>
+
+<p>It is easy to break JavaScript code by an unrelated change. If you have JavaScript-only app, you will notice it immediately, because the app won't render at all (and your framework would report the error somehow).</p>
+
+<p>On the other hand, if you are creating more traditional application with HTML rendered on the server and some interactions enhanced by jQuery, you may not notice that you've broken it. The browser reports the error into the Developer Console, but if you don't have it open, you are out of luck.</p>
+
+<p>My <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">JavaScriptErrorHandlerBundle</a> listens to <a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror"><code>window.onerror</code> events</a> and converts them to alerts, which are hard to miss.</p>
+
+<p><img src="/data/2017/2017-11-04-javascript-error-handler-bundle/javascript-error-handler-bundle.png" alt="example alert with error" /></p>
+
+<h2 id="how-does-it-work%3F">How does it work?</h2>
+
+<p>The Bundle works automatically with zero configuration. You only have to install it through Composer and register in <code>AppKernel.php</code> (see <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">README for instructions</a>).</p>
+
+<p>It registers an event listener, which injects JavaScript snippet with error into the <code>&lt;head&gt;</code> section of the response (similarly to Symfony WebDebugToolbar). By default, the listener is registered only when the <code>%kernel.debug%</code> is set to <code>true</code>, so the error alert won't be ever displayed to your end users. The configuration cab be changed if necessary - e.g. you may want to have enabled also at the staging server.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I know that the bundle is very simple. I wanted to experiment with what it takes to create a proper Bundle, before I work on something more complicated. One of the challenging things was the automatic testing of the container extension (it contains the logic for registering the listener). Luckily, there is <a href="https://github.com/matthiasnoback/SymfonyDependencyInjectionTest">SymfonyDependencyInjectionTest</a> library created by Matthias Noback which makes container extension testing a breeze.</p>
+
+<p>If you have time to dive into the bundle code, can you spot something that can I improve?</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[PHP 7.2 is due in November. What&#039;s new?]]></title>
             <link href="https://blog.martinhujer.cz/php-7-2-is-due-in-november-whats-new/"/>
@@ -1264,43 +1294,6 @@ if (!$customer-&gt;isNull()) {
 <ul>
 <li><strong>Voda z vodovodu</strong> - moc dobrá</li>
 <li><strong>V noci zima</strong> - v říjnu už bylo v noci a ráno chladno, kolem 10°C, ale přes den 25°C, tak s tím počítejte</li>
-</ul>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Málaga - co, kdy kde a jak?]]></title>
-            <link href="https://blog.martinhujer.cz/malaga/"/>
-            <updated>2016-10-24T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/malaga/</id>
-            <content type="html"><![CDATA[<p>Během dvou týdnů v Málaze (10.10. - 23.10.) jsem nasbíral pár tipů, které vám pomohou si pobyt užít ještě více. (<a href="/spanelsko/">Tipy ke Španělsku</a> obecně jsem sepsal v <a href="/spanelsko/">samostatném článku</a>).</p>
-
-<p><img src="/data/2016/2016-10-24-malaga/malaga-arena.jpg" alt="" /></p>
-
-<h2 id="bydlen%E3%AD">Bydlení</h2>
-
-<p>První týden jsem bydlel v centru (~200m od Picassova muzea), což bylo super na prozkoumávání města. Nevýhodou bylo, že v ulici bylo několik barů a Španělé v pátek a sobotu rozhodně nekončí o půlnoci (a ještě v úterý - protože mi tam vyšel středeční svátek). Ale se špunty do uší to nebyl problém. A mít to kamkoliv kousek bylo super.</p>
-
-<p>Druhý týden jsem bydlel v pokoji v domku se zahradou v Huelinu (taková rezidenční čtvrť), kousek od pláže. Byl tam klid a blízko na trh, jen na meetupy do centra to holt byla 3km procházka podél moře.</p>
-
-<h2 id="co-nav%E5%A1t%E3%ADvit">Co navštívit</h2>
-
-<p>V neděli má většina muzeí a památek odpoledne a navečer vstup zdarma (doporučuji čas vždycky ověřit na webu)</p>
-
-<ul>
-<li><strong><a href="https://goo.gl/maps/z5nAZGmjMDA2">Teatro Romano</a></strong> - vykopaný kus starého římského amfiteátru - vstup zadarmo (nemají to napsané zvenku), pozor na otevírací dobu - vyšlo mi to až napotřetí, co jsem šel okolo</li>
-<li><strong><a href="https://goo.gl/maps/6CYv5DY7h7P2">Museo Picasso</a></strong> - v neděli 17-19 zdarma (místo €7). Kolem 17h tam byla dost dlouhá fronta, ale o něco později tam už nečekal skoro nikdo. Když je vstup zdarma, tak si za €1 můžete půjčit audioguide (jinak je v ceně). Pokud, podobně jako já, moc nemáte přehled o umění, tak doporučuji si nejdříve o <a href="https://en.wikipedia.org/wiki/Pablo_Picasso">Picassovi přečíst na Wikipedii</a>. Diky tomu a audioguide jsem si to příjemně užil. Jo ať vás to nepřekvapí, při vstupu rentgenují batohy.</li>
-<li><strong><a href="https://goo.gl/maps/gfiTqxizj6z">Castillo de Gibralfaro</a></strong> - hrad na kopci s výborným výhledem do okolí. Cestou půjdete okolo vyhlídky a z ní můžete odbočit po pěšince, která cestu nahoru prodlouží asi o půl kilometru - ale stojí to za to (je z ní mj. focená ta fotka nahoře). A úplně super je vyjít si na vyhlídku v noci a podívat se na osvětlené město. V neděli odpoledne je vstup do hradu zdarma (jinak myslím €2). A až budete na hradě, tak se kromě rozhlížení z hradeb podívejte dovnitř, pěstují tam různé věci, které se tam pěstovaly v době, kdy ho arabové postavili.</li>
-<li><strong><a href="https://goo.gl/maps/BdMLhvWUJhu">Alcazaba</a></strong> - arabská pevnost, v neděli odpoledne vstup zdarma (jinak myslím €2)</li>
-<li><strong><a href="https://goo.gl/maps/E8i3m96vGZy">Parque del Oeste</a></strong> - nádherný park v Heulinu - sochy, fontánky, rybník s černými labutěmi a želvičkami. Má dvě části, které jsou propojené podchodem pod silnicí.</li>
-<li><strong>Couchsurfing meetupy</strong> - viz kapitola <em>Setkávání se s místními</em> v <a href="/spanelsko/">Tipy ke Španělsku</a>.</li>
-</ul>
-
-<h2 id="praktick%E3%A9">Praktické</h2>
-
-<ul>
-<li><strong>Voda</strong>  - nejdřív jsem ji tahal ze supermarketu, ale pak jsem zjistil, že jde pít i tu z vodovodu. Místní ji moc nepijí (nebo si ji filtrují), protože jim nechutná, ale podle mě se dá (a nic mi z ní nebylo).</li>
-<li><strong><a href="https://goo.gl/maps/ex2GqgJn8gG2">Mercado de Huelin</a></strong> - místní trh, kilo avokád od €1, v Mercadoně €4.65. Většina věcí je výhodnější ve větších objemech (2 kg mandarinek €1.8 apod). Prodávají se tam jak <em>bananas</em>, tak <em>plátanos canarias</em>, což jsou banány z kanárských ostrovů - a podle mě jsou o něco chutnější. (hned vedle trhu jsem našel <a href="https://goo.gl/maps/1ve9aJyrAgN2">příjemnou kavárnu</a> s dobrými churros).</li>
-<li><strong>Déšť</strong> - za ty dva týdny to hodněkrát vypadalo na déšť, AccuWeather hlásil bouřku na každý den. A pršelo 2× a bouřka nebyla ani jedna. Takže se neděste deště a nerušte si program. Ale pro jistotu si vezměte do batohu větrovku.</li>
 </ul>
 ]]></content>
         </entry>
