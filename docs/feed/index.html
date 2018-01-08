@@ -3,7 +3,7 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2018-01-05T10:02:31+00:00</updated>
+    <updated>2018-01-08T09:35:49+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
@@ -259,7 +259,7 @@ script:
 }
 </code></pre>
 
-<h2 id="tip-%2317%3A-%23-how-to-temporarily-use-a-branch-with-bugfix-from-fork">Tip #17: # How to temporarily use a branch with bugfix from fork</h2>
+<h2 id="tip-%2317%3A-how-to-temporarily-use-a-branch-with-bugfix-from-fork">Tip #17: How to temporarily use a branch with bugfix from fork</h2>
 
 <p>If you find a bug in some public library and you fix it in your fork on Github, you need to install the library from this repository instead of the official one (until the bugfix is merged and fixed version is released).</p>
 
@@ -280,6 +280,52 @@ script:
 </code></pre>
 
 <p>You can test the bugfix locally before pushing it by <a href="https://getcomposer.org/doc/05-repositories.md#path">using <code>path</code> as a repository type</a>.</p>
+
+<h2 id="update-2018-01-08%3A">Update 2018-01-08:</h2>
+
+<p>After publishing the article, I got suggestions for several more tips. So here they are:</p>
+
+<h2 id="tip-%2318%3A-install-prestissimo-to-speed-up-package-installation">Tip #18: Install prestissimo to speed up package installation</h2>
+
+<p>There is a Composer plugin <a href="https://github.com/hirak/prestissimo">hirak/prestissimo</a> which speeds up dependencies installation by downloading them in parallel.</p>
+
+<p>And the best thing? You only need to install it once, globally and it will work automatically for all projects:</p>
+
+<pre><code class="bash">composer global require hirak/prestissimo
+</code></pre>
+
+<h2 id="tip-%2319%3A-test-your-version-constraints-if-you-are-not-sure">Tip #19: Test your version constraints if you are not sure</h2>
+
+<p>Writing correct version constraints may sometimes be tricky even after reading <a href="https://getcomposer.org/doc/articles/versions.md#writing-version-constraints">the documentation</a>.</p>
+
+<p>Luckily, there is a <a href="https://semver.mwl.be/">Packagist Semver Checker</a> where you can check which versions match the specified constraint. Instead of only analysing the version constraint, it downloads the data from Packagist to display the actual released versions.</p>
+
+<p>See <a href="https://semver.mwl.be/#?package=symfony%2Fsymfony&amp;version=%5E3.1&amp;minimum-stability=stable">the result for <code>symfony/symfony:^3.1</code></a>.</p>
+
+<h2 id="tip-%2320%3A-use-authoritative-class-map-in-production">Tip #20: Use authoritative class map in production</h2>
+
+<p>You should <a href="https://getcomposer.org/doc/articles/autoloader-optimization.md#optimization-level-2-a-authoritative-class-maps">generate authoritative class map</a> in production. It will speed-up class loading by including everything in class-map and skipping any filesystem checks.</p>
+
+<p>You can do it by running this as a part of your production build:</p>
+
+<pre><code class="bash">composer dump-autoload --classmap-authoritative
+</code></pre>
+
+<h2 id="tip-%2321%3A-configure-%60autoload-dev%60-for-tests">Tip #21: Configure <code>autoload-dev</code> for tests</h2>
+
+<p>You don't want to include test files in production class map (because of the file size and memory). It can be done by configuring the <code>autoload-dev</code> (similarly to <code>autoload</code>):</p>
+
+<pre><code class="json">"autoload": {
+    "psr-4": {
+        "Acme\\": "src/"
+    }
+},
+"autoload-dev": {
+    "psr-4": {
+        "Acme\\": "tests/"
+    }
+},
+</code></pre>
 
 <h2 id="conclusion">Conclusion</h2>
 

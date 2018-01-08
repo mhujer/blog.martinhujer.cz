@@ -252,7 +252,7 @@ Then use the package as you would have normally:
 }
 ```
 
-## Tip #17: # How to temporarily use a branch with bugfix from fork
+## Tip #17: How to temporarily use a branch with bugfix from fork
 If you find a bug in some public library and you fix it in your fork on Github, you need to install the library from this repository instead of the official one (until the bugfix is merged and fixed version is released).
 
 It can be done easily with [inline aliasing](https://getcomposer.org/doc/articles/aliases.md#require-inline-alias):
@@ -274,6 +274,56 @@ It can be done easily with [inline aliasing](https://getcomposer.org/doc/article
 
 You can test the bugfix locally before pushing it by [using `path` as a repository type](https://getcomposer.org/doc/05-repositories.md#path).
 
+
+## Update 2018-01-08:
+After publishing the article, I got suggestions for several more tips. So here they are:
+
+## Tip #18: Install prestissimo to speed up package installation
+
+There is a Composer plugin [hirak/prestissimo](https://github.com/hirak/prestissimo) which speeds up dependencies installation by downloading them in parallel.
+
+And the best thing? You only need to install it once, globally and it will work automatically for all projects:
+
+```bash
+composer global require hirak/prestissimo
+```
+
+
+## Tip #19: Test your version constraints if you are not sure
+
+Writing correct version constraints may sometimes be tricky even after reading [the documentation](https://getcomposer.org/doc/articles/versions.md#writing-version-constraints).
+
+Luckily, there is a [Packagist Semver Checker](https://semver.mwl.be/) where you can check which versions match the specified constraint. Instead of only analysing the version constraint, it downloads the data from Packagist to display the actual released versions.
+
+See [the result for `symfony/symfony:^3.1`](https://semver.mwl.be/#?package=symfony%2Fsymfony&version=%5E3.1&minimum-stability=stable).
+
+
+## Tip #20: Use authoritative class map in production
+
+You should [generate authoritative class map](https://getcomposer.org/doc/articles/autoloader-optimization.md#optimization-level-2-a-authoritative-class-maps) in production. It will speed-up class loading by including everything in class-map and skipping any filesystem checks.
+
+You can do it by running this as a part of your production build:
+
+```bash
+composer dump-autoload --classmap-authoritative
+```
+
+## Tip #21: Configure `autoload-dev` for tests
+
+You don't want to include test files in production class map (because of the file size and memory). It can be done by configuring the `autoload-dev` (similarly to `autoload`):
+
+```json
+"autoload": {
+	"psr-4": {
+		"Acme\\": "src/"
+	}
+},
+"autoload-dev": {
+	"psr-4": {
+		"Acme\\": "tests/"
+	}
+},
+```
 
 ## Conclusion 
 
