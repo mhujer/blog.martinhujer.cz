@@ -325,6 +325,11 @@ You don't want to include test files in production class map (because of the fil
 },
 ```
 
+## Tip #22: Try Composer scripts
+
+Composer scripts are a lightweight tool to create build scripts. I have written [a separate article about them](/have-you-tried-composer-scripts/).
+
+
 ## Conclusion 
 
 If you disagree with some of the tips, I would be happy if you can describe why in the comments (don't forget to put the tip number there).
