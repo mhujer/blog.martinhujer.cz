@@ -3,7 +3,7 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2018-01-14T08:46:20+00:00</updated>
+    <updated>2018-01-16T20:40:18+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
@@ -110,6 +110,27 @@ composer phpcs
 <pre><code class="json">"scripts-descriptions": {
     "phpcs": "Checks that the application code conforms to coding standard",
     "test": "Launches the preconfigured PHPUnit"
+}
+</code></pre>
+
+<h2 id="configure-timeout-for-long-running-scripts">Configure timeout for long-running scripts</h2>
+
+<p>If you have some long-running scripts, you should configure the process timeout. It defaults to <code>300</code> which means that Composer will terminate the script after 300s. You can either set a specific time limit in seconds, or <code>0</code> for unlimited.</p>
+
+<p>Timeout can be configured in the ENV variable <code>COMPOSER_PROCESS_TIMEOUT</code>:</p>
+
+<pre><code class="bash">export COMPOSER_PROCESS_TIMEOUT=600
+</code></pre>
+
+<p>Or by adding <code>--timeout=0</code> argument when running the script:</p>
+
+<pre><code class="bash">composer phpunit --timeout=3600
+</code></pre>
+
+<p>Or in <code>config</code> section of <code>composer.json</code>:</p>
+
+<pre><code class="json">"config": {
+    "process-timeout": 0
 }
 </code></pre>
 

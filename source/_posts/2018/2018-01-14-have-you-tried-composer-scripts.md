@@ -109,6 +109,30 @@ You can use the `scripts-descriptions` section to document what custom scripts d
 ```
 
 
+## Configure timeout for long-running scripts
+
+If you have some long-running scripts, you should configure the process timeout. It defaults to `300` which means that Composer will terminate the script after 300s. You can either set a specific time limit in seconds, or `0` for unlimited.
+
+Timeout can be configured in the ENV variable `COMPOSER_PROCESS_TIMEOUT`:
+
+```bash
+export COMPOSER_PROCESS_TIMEOUT=600
+```
+
+Or by adding `--timeout=0` argument when running the script:
+
+```bash
+composer phpunit --timeout=3600
+```
+
+Or in `config` section of `composer.json`:
+
+```json
+"config": {
+	"process-timeout": 0
+}
+```
+
 ## Tips for the Scripts:
 
 1. You can use `composer run-script --list` to list custom scripts.
