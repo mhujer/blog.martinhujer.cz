@@ -3,11 +3,83 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2018-01-16T20:40:18+00:00</updated>
+    <updated>2018-01-17T19:40:07+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Keep your YAML files sorted with YAML sort checker]]></title>
+            <link href="https://blog.martinhujer.cz/yaml-sort-checker/"/>
+            <updated>2018-01-17T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/yaml-sort-checker/</id>
+            <content type="html"><![CDATA[<p>Last year I've created a PHP tool <a href="https://github.com/mhujer/yaml-sort-checker">YAML file sort checker</a> that checks that YAML files in project are sorted alphabetically.</p>
+
+<h2 id="why-should-you-sort-everything-alphabetically%3F">Why should you sort everything alphabetically?</h2>
+
+<p>You can prevent unnecessary merge conflicts if you keep everything sorted. You should sort not only YAML files, but also <code>composer.json</code> (<code>require</code>, <code>require-dev</code> and <code>scripts</code> sections), <code>use</code> in PHP classes and any PHP array where order is not significant.</p>
+
+<p>Typical situation is when two developers register a new service in <code>services.yml</code>. If they both add it to the end, it will inevitably lead to a merge conflict. However, when the services are alphabetically sorted, the probability of merge conflict is much lower, because the services will be probably added to different places and therefore won't clash.</p>
+
+<p>(This specific example got better with new DI improvements in recent Symfony versions, where you don't need to register that many services manually)</p>
+
+<p><strong>Tip:</strong> You can use AlphabeticallySortedUses sniff from <a href="https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesalphabeticallysorteduses-">Slevomat Coding Standard</a> to check that <code>use</code> in PHP class are sorted.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>YAML file sort checker is installed through Composer:</p>
+
+<pre><code class="bash">composer require --dev mhujer/yaml-sort-checker
+</code></pre>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>You have to create a configuration file <code>yaml-sort-checker.yml</code> in the project root directory. Then list all files that should be checked in it.</p>
+
+<p>The initial config may look like this:</p>
+
+<pre><code class="yaml">files:
+    app/config/services.yml:
+        depth: 2
+
+    yaml-sort-checker.yml:
+</code></pre>
+
+<p>It checks <code>services.yml</code> and itself. The <code>services.yml</code> will be validated only two levels deep.</p>
+
+<p>Sometimes you may want to exclude some keys from validation. It can be accomplished by using <code>excludedKeys</code> option. You can see how the exclusion works in the example bellow:</p>
+
+<pre><code class="yaml">files:
+    app/config/config_prod.yml:
+        excludedKeys:
+            monolog:
+                handlers:
+                    main:
+                        - type
+                    nested:
+                        - type
+
+    app/config/config_test.yml:
+        excludedKeys:
+            0: imports
+</code></pre>
+
+<h2 id="run-the-checker">Run the checker</h2>
+
+<p>After you have created a configuration file, you can run the checker:</p>
+
+<pre><code class="bash">vendor/bin/yaml-sort-checker
+</code></pre>
+
+<h2 id="phpstorm-integration">PHPStorm integration</h2>
+
+<p>It is possible to integrate YAML sort checker with PHPStorm using File Watchers. It is described in the <a href="https://github.com/mhujer/yaml-sort-checker#phpstorm-integration">project README on github</a> so I won't duplicated it here.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>It is a good practice to keep most of the things sorted alphabetically to prevent merge conflicts. However, it can be a tedious task to do manually. Luckilly the YAML files can be automatically checked with <a href="https://github.com/mhujer/yaml-sort-checker">YAML file sort checker</a>.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Have you tried Composer Scripts? You may not need Phing.]]></title>
             <link href="https://blog.martinhujer.cz/have-you-tried-composer-scripts/"/>
@@ -1464,261 +1536,6 @@ services:
 <h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
 
 <p>Hlavně se tu nesnažte strhnout všechny výlety za pár dnů a raději odpočívejte a relaxujte.</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Návrhový vzor Null Object]]></title>
-            <link href="https://blog.martinhujer.cz/null-object/"/>
-            <updated>2016-11-09T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/null-object/</id>
-            <content type="html"><![CDATA[<p>V článku předvedu, jak pomocí návrhového vzoru Null Object můžeme zjednodušit kód. Budu se snažit ukázat maximum příkladů a jen minimum teorie (na tu vás odkážu jinam).</p>
-
-<p>Prvním příkladem je <em>volitelná</em> závislost. V následující ukázce to je <code>$logger</code>. Buď ho máme nastavený a v tom případě logujeme nebo nemáme a nelogujeme.</p>
-
-<pre><code class="php">class DataProcessor
-{
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this-&gt;logger = $logger;
-    }
-
-    public function processData($data)
-    {
-        if ($this-&gt;logger !== null) {
-            $this-&gt;logger-&gt;log('Processing started!');
-        }
-
-        // some work...
-
-        if ($this-&gt;logger !== null) {
-            $this-&gt;logger-&gt;log('Processing finished!');
-        }
-    }
-}
-
-interface LoggerInterface
-{
-    public function log($message);
-}
-
-class StdoutLogger implements LoggerInterface
-{
-    public function log($message)
-    {
-        echo $message;
-    }
-}
-</code></pre>
-
-<p>Použití třídy pak může vypadat takto</p>
-
-<pre><code class="php">$processor = new DataProcessor();
-$processor-&gt;setLogger(new StdoutLogger());
-$processor-&gt;processData([]); // máme a logujeme
-
-$processorWithoutLogging = new DataProcessor();
-$processorWithoutLogging-&gt;processData([]); // nemáme a nelogujeme
-</code></pre>
-
-<p>Kromě toho, že dependency injection pomocí setteru je špatně (existuje instance v nekonzistentním stavu), tak kontroly <code>null</code> zbytečně zesložiťují metodu <code>processData()</code>.</p>
-
-<p>Tady přichází ke slovu návrhový vzor Null Object. Místo, abychom se rozhodovali, jestli logger nastavíme nebo ne, tak ho nastavíme vždy. Ideálně pomocí contructor injection. Díky tomu můžeme odebrat podmínky v metodě <code>processData()</code>:</p>
-
-<pre><code class="php">class DataProcessor
-{
-    /** @var LoggerInterface */
-    private $logger;
-
-    public function __construct(LoggerInterface $logger)
-    {
-        $this-&gt;logger = $logger;
-    }
-
-    public function processData($data)
-    {
-        $this-&gt;logger-&gt;log('Processing started!');
-
-        // some work...
-
-        $this-&gt;logger-&gt;log('Processing finished!');
-    }
-
-}
-</code></pre>
-
-<p>Protože bez instance loggeru nemůžeme vytvořit <code>DataProcessor</code>, vytvoříme třídu <code>NullLogger</code>, která implementuje rozhraní <code>LoggerInterface</code>, ale nikam neloguje.</p>
-
-<pre><code class="php">class NullLogger implements LoggerInterface
-{
-    public function log($message)
-    {
-        // intentionally does nothing
-    }
-}
-
-$processor = new DataProcessor(new StdoutLogger());
-$processor-&gt;processData([]); // máme a logujeme
-
-$processorWithoutLogging = new DataProcessor(new NullLogger());
-$processorWithoutLogging-&gt;processData([]); // máme, ALE NELOGUJEME
-</code></pre>
-
-<p>Odsunuli jsme starost o <code>null</code> mimo třídu, čímž jsme elegantně zjednodušili kód <code>DataProcessor</code>. Jde vlastně o příklad použití polymorfismu - místo speciálního chování podle typu delegujeme řešení na tu samotnou třídu.</p>
-
-<h2 id="co-situace%2C-kdy-to-pot%E5%99ebuji-rozli%E5%A1it%3F">Co situace, kdy to potřebuji rozlišit?</h2>
-
-<p>Samozřejmě ne vždy to půjde takhle snadno jako v tomto případě. Cílem návrhového vzoru je zjednodušit většinu použití, ale zároveň umožnit rozlišení tam, kde to je nezbytné.</p>
-
-<p>Jako první možnost odlišení vás asi napadne:</p>
-
-<pre><code class="php">if ($this-&gt;logger instanceof NullLogger) {
-</code></pre>
-
-<p>Ale to by znamenalo porušení Dependency Inversion Principle a zároveň bychom nemohli použít několik různých Null objektů. Fowler (2012) na to navrhuje dvě řešení:</p>
-
-<ol>
-<li>V interface vytvořit metodu <code>public function isNull(): bool;</code>, která v konkrétních implementacích bude buď vracet <code>true</code> nebo <code>false</code>.</li>
-<li>Pokud nemůžeme měnit rozhraní a ostatní třídy, můžeme vytvořit <code>interface Null { }</code> a implementovat ho v našich Null třídách.</li>
-</ol>
-
-<p>Použití  pak může vypadat takto:</p>
-
-<ol>
-<li>speciální metoda:</li>
-</ol>
-
-<pre><code class="php">if ($this-&gt;logger-&gt;isNull()) {
-    // chování pro null
-}
-</code></pre>
-
-<ol start="2">
-<li>implementované rozhraní: </li>
-</ol>
-
-<pre><code class="php">if ($this-&gt;logger instanceof Null) {
-    // chování pro null
-}
-</code></pre>
-
-<h2 id="jak-refaktorovat-st%E3%A1vaj%E3%ADc%E3%AD-k%E3%B3d%3F">Jak refaktorovat stávající kód?</h2>
-
-<p>Fowler ukazoval Null Object v knize <em>Refactoring - Improving the Design of Existing Code</em> (Fowler, 2012, p260) a mně se hodně líbilo, jak to refaktoroval po malých "baby-steps" (co nejmenší bezpečné kroky, čím se minimalizuje riziko, že něco rozbijeme). Zjednodušeně je tu popíšu na od něj vypůjčeném a upraveném příkladu.</p>
-
-<p>Máme zákazníka, který má přiřazenou úroveň slev:</p>
-
-<pre><code class="php">class DiscountLevel
-{
-    const NONE = 'none';
-    const PREMIUM = 'premium';
-}
-
-class Customer
-{
-    public function getDiscountLevel() { ... }
-}
-</code></pre>
-
-<p>A použití zákazníka vypadá takto:</p>
-
-<pre><code class="php">if ($customer === null) {
-    $discountLevel = DiscountLevel::NONE;
-} else {
-    $discountLevel = $customer-&gt;getDiscountLevel();
-}
-
-// případně takto
-if ($customer !== null) {
-    $entityManager-&gt;persist($customer);
-}
-</code></pre>
-
-<p>Prvním krokem refaktoringu je přidání metody <code>isNull()</code> a vytvoření <code>NullCustomer</code> jako potomka <code>Customer</code> (jen se změněným chováním metody <code>isNull()</code>). Zároveň v tomto kroku musíme změnit <strong>všechna</strong> porovnání s <code>null</code> na volání <code>-&gt;isNull()</code> (<code>$customer</code> už nikdy nebude <code>null</code>, takže by to jinak rozbilo stávající kód)</p>
-
-<pre><code class="php">class Customer
-{
-    public function getDiscountLevel() { ... }
-
-    public function isNull()
-    {
-        return false;
-    }
-}
-
-class NullCustomer extends Customer
-{
-    public function isNull()
-    {
-        return true;
-    }
-}
-
-if ($customer-&gt;isNull()) {
-    $discountLevel = DiscountLevel::NONE;
-} else {
-    $discountLevel = $customer-&gt;getDiscountLevel();
-}
-
-if (!$customer-&gt;isNull()) {
-    $entityManager-&gt;persist($customer);
-}
-</code></pre>
-
-<p>Následně budeme procházet jednotlivá použití a zkoumat, zda je pomocí Null Objectu můžeme zjednodušit.</p>
-
-<p>Nejdříve se podíváme na <code>getDiscountLevel()</code>. Stačí, pokud tu metodu v <code>NullCustomer</code> překryjeme, aby vždy vracela <code>DiscountLevel::NONE</code> a můžeme podmínku úplně zrušit.</p>
-
-<pre><code class="php">// Customer se nemění
-
-class NullCustomer extends Customer
-{
-    public function isNull() {...};
-
-    public function getDiscountLevel()
-    {
-        return DiscountLevel::NONE;
-    }
-}
-
-// tady jsme zrušili složitý if
-$discountLevel = $customer-&gt;getDiscountLevel();
-</code></pre>
-
-<p>V druhé situaci, při persistování do databáze, se podmínky nezbavíme. Šlo by to vyřešit úpravou persistování, aby kontrolovalo, jestli nepředáváme objekt implementující <code>Null</code> interface a to důsledně implementovat u všech Null objektů. Ale to by spíš vedlo ke znepřehlednění než zpřehlednění.</p>
-
-<pre><code class="php">// tady if zůstal
-if (!$customer-&gt;isNull()) {
-    $entityManager-&gt;persist($customer);
-}
-</code></pre>
-
-<p>Na složitějším příkladu jsme si ukázali, jak můžeme zjednodušit existující kód zavedením Null Objectu a že ne ve všech situacích to je možné.</p>
-
-<h2 id="p%E3%A1r-stru%E4%9Dn%E3%A1ch-pozn%E3%A1mek">Pár stručnách poznámek</h2>
-
-<ul>
-<li>Null Object se často používá při implementaci návrhového vzoru Strategy (jako nejjednodušší strategie, kterou můžeme vytvořit)</li>
-<li>Klidně je možné vytvořit více různých Null objektů pro jeden reálný typ</li>
-<li>Null objekt by se nikdy neměl změnit v reálný objekt (pokud to potřebujeme, tak by to od začátku měl být reálný objekt, který se jen dočasně chová jako Null objekt)</li>
-</ul>
-
-<h2 id="shrnut%E3%AD">Shrnutí</h2>
-
-<p>Návrhový vzor Null Object se snaží řešit opakovaný kód pro kontrolu, zda máme k dispozici instanci třídy. Místo porovnávání s <code>null</code> vytvoříme třídu se strejným rozhraním, ale s prázdným nebo defaultním chováním. Tím odsunujeme problém z kódu, který třídu používá o úroveň výše.</p>
-
-<p><strong>Slyšeli jste o tomto návrhovém vzoru už dříve? Používáte ho ve své aplikaci? Budu rád, pokud se podělíte o další příklady v komentářích.</strong></p>
-
-<h2 id="zdroje">Zdroje</h2>
-
-<ul>
-<li>FOWLER, Martin, Kent BECK, John BRANT, William OPDYKE a Don ROBERTS. <em>Refactoring: Improving the Design of Existing Code.</em> Addison-Wesley, 2012. ISBN 9780133065268.</li>
-<li><a href="https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm">https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm</a></li>
-<li><a href="https://sourcemaking.com/design_patterns/null_object">https://sourcemaking.com/design_patterns/null_object</a></li>
-<li><a href="https://www.cs.oberlin.edu/~jwalker/nullObjPattern/">https://www.cs.oberlin.edu/~jwalker/nullObjPattern/</a></li>
-</ul>
 ]]></content>
         </entry>
     </feed>
