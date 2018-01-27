@@ -47,7 +47,7 @@ Letos v lednu (12. - 26.1.) jsem znovu vyrazil do Málagy za teplem. Našel jsem
 
 - **[La Taberna del Pintxo](https://goo.gl/maps/ykA3NQMye5T2)** - tapas bar, kde hlavní roli hrají "Pintxos" (čti *pinčos*). Jsou to vlastně obložené chlebíčky, ale hodně vymazlené. A mají "párátko". Funguje to tak, že si sami chodíte na bar a vybíráte si z nabídky chlazených. A zároveň nosí z kuchyně tácy s teplými pintxos, prochází mezi stoly a pokud chcete, tak si nějaké vezmete. A při placení vám spočítají, kolik máte "párátek". Jo a mají tam na výběr i minidortíky.
 
-- **[Santa Canela Café-Crepería](https://goo.gl/maps/maeTtNBpdTC2)** - výborná hipster kavárna ve centru. Kromě standardních espressových káv umí i různé filtrované (Vacupot, V60, aeropress). A mají v nabídce i různé druhy kávy (zrnek).
+- **[Santa Canela Café-Crepería](https://goo.gl/maps/maeTtNBpdTC2)** - výborná hipster kavárna ve centru. Kromě standardních espressových káv umí i různé filtrované (Chemex, V60, aeropress). A mají v nabídce i různé druhy kávy (zrnek).
 
 ![Kavárna Santa Canela](/data/2018/2018-01-27-malaga-podruhe/santa-canela.jpg)
 
