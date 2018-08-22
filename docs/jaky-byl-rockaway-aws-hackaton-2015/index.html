@@ -54,7 +54,7 @@
 
 <p>A teď už k samotným AWS technologiím, které jsme vyzkoušeli.</p>
 
-<h1 id="jak-si-ukl%E3%A1dat-api-kl%E3%AD%E4%9De%3F">Jak si ukládat API klíče?</h1>
+<h1 id="jak-si-ukl%E3%A1dat-api-kl%E3%AD%E4%8De%3F">Jak si ukládat API klíče?</h1>
 
 <p>V případě použití AWS není potřeba mít API klíče v kódu aplikace. Stačí si v profilu vytvořit soubor <code>~/.aws/credentials</code> a do něj je vložit ve struktuře podobné INI souboru. Viz <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#cli-config-files">dokumentace</a>.</p>
 
@@ -78,7 +78,7 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 <p>Integrace do Shopia byla jednoduchá, změnil jsem cestu, kam se ukládají soubory a bylo to.</p>
 
-<h1 id="generov%E3%A1n%E3%AD-n%E3%A1hled%E5%BF-lambdou">Generování náhledů Lambdou</h1>
+<h1 id="generov%E3%A1n%E3%AD-n%E3%A1hled%E5%AF-lambdou">Generování náhledů Lambdou</h1>
 
 <p>Na webu se samozřejmě nepoužívají obrázky nahrané uživateli, ale vygenerované zmenšené náhledy. Na to jsem využil <a href="https://aws.amazon.com/lambda/">Lambdu</a> (novinka na re:invent 2014). Jde o obrovsky škálovatelnou platformu pro spouštění skriptů. Funguje to docela jednoduše - vytvoříte vlastní funkci (lambdu) v Node.js (Javě, Pythonu) a nastavíte ji, aby poslouchala na události PutObject v daném S3 bucketu. Takže se do jednoho bucketu uploadne obrázek, S3 pošle eventu Lambdě, ta si obrázek stáhne, vygeneruje náhledy a uloží je do druhého S3 bucketu. Hrozně super věc, umí totiž prostřednictvím ApiGateway (další kus AWS) fungovat jako běžné API. Mám o ní rozepsaný samostatný článek.</p>
 
@@ -104,7 +104,7 @@ aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 <p>Tím jsme měli víceméně hotovo, a oproti stávajícím VPS to pěkně automaticky škálovalo. A byl tedy čas na vychytávky, které se v AWS dají udělat snadněji, než bez něj. Já jsem si hrál s SES a přijímáním e-mailů, Tomáš zkoušel SNS (messaging service).</p>
 
-<h1 id="ses-pro-p%E5%99%E3%ADjem-e-mail%E5%BF">SES pro příjem e-mailů</h1>
+<h1 id="ses-pro-p%E5%99%E3%ADjem-e-mail%E5%AF">SES pro příjem e-mailů</h1>
 
 <p>SES je primárně určený pro odesílání e-mailů (podobně jako Mandrill, Mailgun, Sendgrid). Ale kromě toho umí e-maily i přijímat a nějak s nimi naložit. Třeba je umí uložit do S3. A na S3 události může poslouchat lambda, která ho stáhne, naparsuje a vloží do databáze jako zprávu z kontaktního formuláře. Trvá to 5-10s od chvíle, co odešlu e-mail. I se zdrojákama to bude v tom článku o Lambdě, co mám rozdělaný.  Bez AWS by to bylo mnohem víc práce. Musel bych mít nějaký e-mail, ten bych cronem přes IMAP vybíral a zpracovával.</p>
 

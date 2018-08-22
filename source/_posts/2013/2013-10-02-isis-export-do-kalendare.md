@@ -1,5 +1,5 @@
 ---
-title: VŠE: Zkoušky z ISISu do kalendáře
+title: "VŠE: Zkoušky z ISISu do kalendáře"
 ---
 
 Aktualizoval jsem svoje [rozšíření pro Google Chrome](https://chrome.google.com/webstore/detail/isis-icalgcal-export/hhkoekkpnogggelmhefickjpfiediigi), které do ISISu přidá tlačítka pro uložení zkouškového termínu do iCal formátu (pro Outlook) a pro přidání do Google Calendar.

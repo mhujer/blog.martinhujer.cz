@@ -40,7 +40,7 @@
 
 <p>První věc, kterou je potřeba vědět je, že to trvá dlouho. Dlouho. DLOUHO. A čím více revizí, tím déle. Samozřejmě záleží na systému, HW atd., ale orientačně počítejte, že tisíc revizí v SVN může trvat zmigrovat tak dvě hodiny. Tohle samozřejmě měřím s lokálním SVN serverem. Před samotným řešením migrace je vhodné pročistit repositář.</p>
 
-<h2 id="pro%E4%9Di%E5%A1t%E4%9Bn%E3%AD-svn-reposit%E3%A1%E5%99e">Pročištění SVN repositáře</h2>
+<h2 id="pro%E4%8Di%E5%A1t%E4%9Bn%E3%AD-svn-reposit%E3%A1%E5%99e">Pročištění SVN repositáře</h2>
 
 <p>Migrace do GITu bude snazší, pokud před tím pročistíte strukturu repositáře. Dobře funguje, když máte trunk/branches/tags, případně soubory přímo v kořenu repositáře, bez branchí a tagů. Nicméně pokud váš repositář obsahuje nestandardní strukturu (dva trunky, víceúrovňové branches), je vhodné to ještě před řešením migraci pročistit přímo v SVN.</p>
 
@@ -117,7 +117,7 @@ martin.hujer = Martin Hujer &lt;mhujer@gmail.com&gt;
 
 <p><strong>5.</strong> Migrace poběží dlouho (jak jsem psal výše, záleží na velikosti repositáře a počtu branchí). Na konci pak svn2git udělá výše zmíněnou magii, aby repositář po migraci dočistil.</p>
 
-<h2 id="vy%E4%9Di%E5%A1t%E4%9Bn%E3%AD-reposit%E3%A1%E5%99e">Vyčištění repositáře</h2>
+<h2 id="vy%E4%8Di%E5%A1t%E4%9Bn%E3%AD-reposit%E3%A1%E5%99e">Vyčištění repositáře</h2>
 
 <p>Po migraci do GITu se naskýtá jedinečná příležitost pročistit historii projektu a zbavit se například velkých, kdysi omylem přidaných a pak zase smazaných adresářů, knihoven atd.
 Sice by to mělo jít pomocí přepínače <code>--exclude</code> zadat hned při migraci, ale mě to nefungovalo a řešil jsem to až poté v gitu (a podle mého transparentněji) - pomocí <code>filter-branch</code>. Ten postupně projde všechny revize a v každé může provést nějakou změnu. Než budete <code>filter-branch</code> zkoušet, tak si zmigrovaný repositář zazálohujte, abyste v případě, kdy se něco nepodaří, nemuseli znovu čekat, než se zmigruje.</p>
