@@ -62,3 +62,7 @@ Koupil jsem si Španělskou SIM od Vodafone ES (1GB za €10 na měsíc), ale ur
 Už jsem zmiňoval, že bydlení hledám přes [Airbnb](https://www.airbnb.com/c/mhujer), abych měl alespoň trochu jistotu a klid na práci (a přesouvám se po týdnu). Pokud to je možné, tak vybírám pokoj v bytě, kde ten pronajímatel zároveň bydlí. Spoustu nabídek jsou totiž byty celé nabízené po pokojích na Airbnb na kšeft a majitel tam nebydlí (naopak má takových bytů více). Sice se v takových bytech můžete potkat s dalšími cestovateli, ale já dávám přednost autentickému bydlení s místními (je to vlastně takový placený Couchsurfing s trochou garancí).
 
 Pronajímatelé vám dávají obrovskou důvěru, když vás nechají u sebe doma, tak ji nezklamte!
+
+## OutdoorVisit outdoor tours
+
+Pokud se chystáte do Španělska a chcete zkusit něco netradičního, tak se mrkněte na [outdoor výlety a zážitky v Madridu](https://www.outdoorvisit.com/madrid/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_spain_post). A případně na spoustu dalších [outdoor aktivit v Barceloně](https://www.outdoorvisit.com/barcelona/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_spain_post). Tam bych jako nejzajímavější vypíchnul [kayaking tour na Costa Bravě](https://www.outdoorvisit.com/tour/1-kayaking-and-snorkeling-in-costa-brava-from-barcelona/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_spain_post).
