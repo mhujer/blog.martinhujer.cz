@@ -92,7 +92,7 @@ In the rest of the article I will guide you through setting it up.</p>
 </ol>
 
 <p>It should look like this:
-<img src="/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-01-by-hostname.png" alt="GA_ID_BY_HOSTNAME variable configuration" /></p>
+<img src="/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-01-by-hostname.png" alt="GA_ID_BY_HOSTNAME variable configuration" /></p>
 
 <p>By defining only the production domain and using <em>default value</em> for anything else, we handle any testing or dev environment.</p>
 
@@ -110,7 +110,7 @@ In the rest of the article I will guide you through setting it up.</p>
 </ol>
 
 <p>It should look like this:
-<img src="/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-02-by-debugmode.png" alt="GA_ID variable configuration" /></p>
+<img src="/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-02-by-debugmode.png" alt="GA_ID variable configuration" /></p>
 
 <p>You might have noticed that we have used the variable <code>GA_ID_BY_HOSTNAME</code> which we prepared in previous step.</p>
 
@@ -118,7 +118,7 @@ In the rest of the article I will guide you through setting it up.</p>
 
 <p>With all those variables prepared, you can set up the Google Analytics tag as usual. But when creating the <code>Google Analytics Settings</code>, put <code>{{GA_ID}}</code> into the <em>Tracking ID</em> field as in the following picture. It will be resolved to correct UA code depending on the environment.</p>
 
-<p><img src="/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-03-ga-settings.png" alt="Google Analytics Settings variable" /></p>
+<p><img src="/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-03-ga-settings.png" alt="Google Analytics Settings variable" /></p>
 
 <p>That's it!</p>
 

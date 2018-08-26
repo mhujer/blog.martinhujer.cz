@@ -48,7 +48,7 @@ The decision process for the UA code goes like this:
 7. Put {% verbatim %}`{{GA_ID_DEV}}`{% endverbatim %} to the _Default value_ field 
 
 It should look like this:
-![GA_ID_BY_HOSTNAME variable configuration](/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-01-by-hostname.png)
+![GA_ID_BY_HOSTNAME variable configuration](/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-01-by-hostname.png)
 
 By defining only the production domain and using _default value_ for anything else, we handle any testing or dev environment.
 
@@ -66,7 +66,7 @@ If you look back into the _Analysis_ chapter, we have covered the _Are we on pro
 6. Put `false` into the _Input_ field and {% verbatim %}`{{GA_ID_BY_HOSTNAME}}`{% endverbatim %} into the _Output_ field
 
 It should look like this:
-![GA_ID variable configuration](/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-02-by-debugmode.png)
+![GA_ID variable configuration](/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-02-by-debugmode.png)
 
 You might have noticed that we have used the variable `GA_ID_BY_HOSTNAME` which we prepared in previous step. 
 
@@ -76,7 +76,7 @@ You might have noticed that we have used the variable `GA_ID_BY_HOSTNAME` which 
 
 With all those variables prepared, you can set up the Google Analytics tag as usual. But when creating the `Google Analytics Settings`, put {% verbatim %}`{{GA_ID}}`{% endverbatim %} into the _Tracking ID_ field as in the following picture. It will be resolved to correct UA code depending on the environment.
 
-![Google Analytics Settings variable](/data/2018/2018-08-26-use-different-google-analytics-id-by-domain-in-tag-manager/gtm-ua-03-ga-settings.png)
+![Google Analytics Settings variable](/data/2018/2018-08-26-use-different-google-analytics-id/gtm-ua-03-ga-settings.png)
 
 
 That's it!
