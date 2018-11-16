@@ -6,9 +6,9 @@
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
-        {% block head_meta %}
-            <meta name="robots" content="noindex, follow">
-        {% endblock %}
+        {% block head_meta -%}
+            <meta name="robots" content="index, follow">
+        {%- endblock %}
 
         <link rel="stylesheet" href="/assets/bootstrap.min.css" />
         <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
