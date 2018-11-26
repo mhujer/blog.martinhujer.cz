@@ -93,4 +93,6 @@ Symfony 4 uses `.env` files for configuration parameters (instead of `parameters
 ## Conclusion
 I can't imagine using PhpStorm for Symfony development without those plugins. They save me time and prevent mistakes by providing the magic auto-completion. 
  
-Do you use some other useful plugins? Please let me know in the comments.  
+Do you use some other useful plugins? Please let me know in the comments.
+
+_Update:_ If you are interested in plugins not directly related to Symfony, have a look at the [Essential PhpStorm plugins](https://localheinz.com/blog/2017/10/27/essential-phpstorm-plugins/) article by _localheinz_.
