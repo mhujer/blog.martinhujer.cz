@@ -3,11 +3,117 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2018-11-18T20:40:28+00:00</updated>
+    <updated>2018-11-26T17:02:39+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Best PhpStorm plugins for Symfony development]]></title>
+            <link href="https://blog.martinhujer.cz/best-phpstorm-plugins-for-symfony-development/"/>
+            <updated>2018-11-26T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/best-phpstorm-plugins-for-symfony-development/</id>
+            <content type="html"><![CDATA[<p>I've been using PhpStorm for quite a while and I'm still surprised now and then when it suggests an auto-completion for something I thought that's not possible.</p>
+
+<p>But there are still many things - usually framework- or library-specific - that PhpStorm cannot do on its own. But there are plugins that can step in place and do the magic for specific framework or library.</p>
+
+<h2 id="php-annotations">PHP Annotations</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/7320-php-annotations">PHP Annotations plugin</a> analyses the classes which can be used as annotations and provides code-completing when writing annotations - e.g. Doctrine ORM mappings.</p>
+
+<p><img src="/data/2018/2018-11-26-best-phpstorm-plugins-for-symfony/php-annotations.gif" alt="PHP Annotations plugin" /></p>
+
+<h2 id="php-toolbox">PHP Toolbox</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/8133-php-toolbox">PHP Toolbox plugin</a> was extracted from Symfony plugin and provides better auto-completion for several libraries (PHPUnit, Behat, Doctrine, Twig etc.)</p>
+
+<h2 id="symfony-plugin">Symfony Plugin</h2>
+
+<p>Both PHP Annotations and PHP Toolbox are best used together with the <a href="https://plugins.jetbrains.com/plugin/7219-symfony-plugin">Symfony Plugin</a>. This plugin provides auto-completion for anything in Symfony you can imagine. It analyses the DI container code, so it can suggest the services when you call <code>$container-&gt;get()</code>. It provides various auto-completions in the YAML config files. Apart from that, it can handle lots of Form, Twig and Routing auto-completions. You can click through from controller to template, from the name of the route to the controller where it is defined. It analyses translation files and provides the completion for the translations when calling the translate function or using <code>trans</code> filter in Twig.</p>
+
+<h3 id="how-to-use-custom-template-directory-with-the-symfony-plugin%3F">How to use custom template directory with the Symfony plugin?</h3>
+
+<p>If you have templates in a custom namespace and directory - e.g. configured in <code>config/packages/twig.yaml</code>, the auto-completion in controllers or other templates won't work for those, because the Symfony plugin can't detect them.</p>
+
+<pre><code class="yaml">twig:
+    paths:
+        '%kernel.project_dir%/src/App/Resources/templates': App
+        '%kernel.project_dir%/src/Admin/Resources/templates': Admin
+</code></pre>
+
+<p>You can fix it by manually adding them in PhpStorm Settings (PHP -> Symfony -> Twig/Template). But each of the developers must do it himself. Unless you put in into <code>ide-twig.json</code> in a project root:</p>
+
+<pre><code class="json">{
+    "namespaces": [
+        {
+            "namespace": "App",
+            "path": "src/App/Resources/templates"
+        },
+        {
+            "namespace": "Admin",
+            "path": "src/Admin/Resources/templates"
+        }
+    ]
+}
+</code></pre>
+
+<p>This file is loaded by Symfony plugin and the namespaces and paths will be configured automatically (you can check it in the Settings).</p>
+
+<h3 id="enable-translation-keys-auto-completion-for-custom-translation-methods">Enable translation keys auto-completion for custom translation methods</h3>
+
+<p>When you create a custom method that accepts translation key, the PhpStorm won't do the auto-completion for it, because it does not know that the parameter is a translation key. Luckily, the Symfony plugin provides an easy way to let it know of the type of the parameter. Have a look at the following example:</p>
+
+<pre><code class="php">&lt;?php
+class TitleManager
+{
+    /**
+     * @param string $label #TranslationKey
+     */
+    public function addItem(string $label): void
+    {
+        // ...
+    }
+}
+
+$titleManager = new TitleManager();
+$titleManager-&gt;addItem('app.products.name'); // the translation key auto-completion will work here 
+</code></pre>
+
+<p>You can see that I added <code>#TranslationKey</code> to the method parameter PHPDoc. It is something they call <a href="https://symfony2-plugin.espend.de/extension/method_parameter.html#hash-tags">Hash Tags</a> in Symfony plugin. It allows you to define the <em>type</em> of the parameter, so the plugin can provide the auto-completion. Apart from <code>TranslationKey</code>, you can also use <code>Entity</code>, <code>Service</code>, <code>FormType</code>, <code>Template</code>, <code>Route</code>, <code>Class</code>, <code>TranslationDomain</code>, <code>FormOption</code> or <code>Interface</code> (don't forget to prefix them with <code>#</code>).</p>
+
+<h2 id="phpunit-enhancement">PHPUnit Enhancement</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/9674-phpunit-enhancement">PHPUnit Enhancement plugin</a> provides smart autocomplete for mock creation. It also handles refactoring - if you rename a method which is mocked, it is correctly renamed in the string in tests.</p>
+
+<p><img src="/data/2018/2018-11-26-best-phpstorm-plugins-for-symfony/phpunit-enhancement.gif" alt="PHPUnit Enhancement plugin" /></p>
+
+<h2 id="php-composer.json-support">PHP composer.json support</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/7631-php-composer-json-support">PHP composer.json support plugin</a> adds <code>composer.json</code> auto-complete and validation. It also displays which version of each packages is installed (from the data in <code>composer.lock</code>)</p>
+
+<h2 id="php-inspections-ea-extended">Php Inspections (EA Extended)</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/7622-php-inspections-ea-extended-">Php Inspections (EA Extended)</a> is a plugin that adds a lot of inspections for statically analyzing the PHP code you are writing and suggesting fixes and improvements.</p>
+
+<h2 id="twig-support">Twig Support</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/7303-twig-support">Twig Support</a> is an official plugin from Jetbrains bundled with PhpStorm, so just enable it in the settings and you are done.</p>
+
+<h2 id=".env-files-support">.env files support</h2>
+
+<p>Symfony 4 uses <code>.env</code> files for configuration parameters (instead of <code>parameters.yml</code>) and <a href="https://plugins.jetbrains.com/plugin/9525--env-files-support">.env files support plugin</a> provides syntax highlighting for the <code>.env</code> file.</p>
+
+<h2 id=".ignore">.ignore</h2>
+
+<p><a href="https://plugins.jetbrains.com/plugin/7495--ignore">.ignore plugin</a> provides syntax highlighting and path auto-completion for <code>.gitignore</code> (and other ignore files). It also automatically changes the color of the ignored files in the Project File Tree to gray.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I can't imagine using PhpStorm for Symfony development without those plugins. They save me time and prevent mistakes by providing the magic auto-completion.</p>
+
+<p>Do you use some other useful plugins? Please let me know in the comments.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Fuerteventura - kam na výlety? Co navštívit?]]></title>
             <link href="https://blog.martinhujer.cz/fuerteventura-kam-na-vylety/"/>
@@ -1455,375 +1561,6 @@ script:
 <p>I know that the bundle is very simple. I wanted to experiment with what it takes to create a proper Bundle, before I work on something more complicated. One of the challenging things was the automatic testing of the container extension (it contains the logic for registering the listener). Luckily, there is <a href="https://github.com/matthiasnoback/SymfonyDependencyInjectionTest">SymfonyDependencyInjectionTest</a> library created by Matthias Noback which makes container extension testing a breeze.</p>
 
 <p>If you have time to dive into the bundle code, can you spot something that can I improve?</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[PHP 7.2 is due in November. What&#039;s new?]]></title>
-            <link href="https://blog.martinhujer.cz/php-7-2-is-due-in-november-whats-new/"/>
-            <updated>2017-09-07T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/php-7-2-is-due-in-november-whats-new/</id>
-            <content type="html"><![CDATA[<blockquote>
-  <p>I've published <a href="https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-2/">the Czech translation of the article on Zdroják.cz</a>.</p>
-</blockquote>
-
-<p>PHP 7.2 is planned to be released on 30th November 2017 (see <a href="https://wiki.php.net/todo/php72#timetable">the timetable</a>). And it comes with two new security features in the core, several smaller improvements and some language legacy clean-ups. In the article, I will describe what the improvements and changes are. I read <a href="https://wiki.php.net/rfc#php_next_72">the RFCs</a>, discussions on <em>internals</em> and <a href="https://github.com/php/php-src/pulls">PRs on Github</a>, so you don't have to.</p>
-
-<p><em>I'll update the article if there are any significant changes in PHP 7.2 until release.</em></p>
-
-<p>You can try the pre-release version right now. Just download it using the links in the <a href="http://php.net/archive/2017.php#id2017-08-31-1">PHP 7.2.0 Release Candidate 1 Released</a>. I've been using it locally for development since the 7.2.0-beta1 without issues.</p>
-
-<h2 id="rfc%3A-argon2-password-hash-link">RFC: Argon2 Password Hash (<a href="https://wiki.php.net/rfc/argon2_password_hash">link</a>)</h2>
-
-<p><a href="http://php.net/password_hash"><code>password_hash</code></a> function has been available in PHP since 5.5. It was designed to be able to utilize different password hashing algorithms. But back then only <code>PASSWORD_BCRYPT</code> was available.</p>
-
-<blockquote>
-  <p><strong>IMPORTANT:</strong> If you are using <code>sha1()</code> or <code>md5()</code> for password hashing, please stop reading immediately and go fix your systems to use <code>password_hash()</code>. I recommend reading Michal's article <a href="https://www.michalspacek.com/upgrading-existing-password-hashes">Upgrading existing password hashes</a>.</p>
-</blockquote>
-
-<p>PHP 7.2 adds an option to use Argon2i algorithm with <code>PASSWORD_ARGON2I</code> constant:</p>
-
-<pre><code class="php">password_hash('password', PASSWORD_ARGON2I)
-</code></pre>
-
-<p>Using <code>PASSWORD_BCRYPT</code> is still perfectly valid and safe option. Argon2i is just another option, which may become a default in the future.</p>
-
-<p>Argon2i supports providing custom cost factors (like providing single <code>cost</code> factor to <code>bcrypt</code>):</p>
-
-<pre><code class="php">$options = [
-    'memory_cost' =&gt; PASSWORD_ARGON2_DEFAULT_MEMORY_COST,
-    'time_cost' =&gt; PASSWORD_ARGON2_DEFAULT_TIME_COST,
-    'threads' =&gt; PASSWORD_ARGON2_DEFAULT_THREADS,
-];
-password_hash('password', PASSWORD_ARGON2I, $options);
-</code></pre>
-
-<p>You should determine appropriate costs for Argon2i by experimenting on the target server (like you do with bcrypt <code>cost</code>).</p>
-
-<p>It is also time to check your password column length! <code>PASSWORD_BCRYPT</code> generates 60 characters long hashes. <code>PASSWORD_ARGON2I</code> hash is 96 characters long. The <a href="http://php.net/password_hash"><code>password_hash</code> documentation</a> recommends columns length of 255 characters to accommodate any future hash (especially when using <code>PASSWORD_DEFAULT</code> as an algorithm):</p>
-
-<blockquote>
-  <p><em>It is recommended to store the result in a database column that can expand beyond 60 characters (255 characters would be a good choice).</em></p>
-</blockquote>
-
-<p>There is a good article about <a href="https://framework.zend.com/blog/2017-08-17-php72-argon2-hash-password.html">Protecting passwords with Argon2 in PHP 7.2</a> on Zend Framework blog.</p>
-
-<p><strong>Note:</strong> Argon2i is available only if the PHP was compiled with <code>--with-password-argon2</code> flag. (It is included in Windows binaries available from php.net).</p>
-
-<h2 id="rfc%3A-make-libsodium-a-core-extension-link">RFC: Make Libsodium a Core Extension (<a href="https://wiki.php.net/rfc/libsodium">link</a>)</h2>
-
-<p>PHP 7.2 comes with cryptography library libsodium in the core. It was previously available through PECL. There is also a <a href="https://github.com/paragonie/sodium_compat">polyfill available</a> so you can start using it right now (it even supports PHP 5.2.4!).</p>
-
-<p>I don't know much about the cryptography, but the single most important thing I know is this: <em>Don't invent your own cryptography!</em> (See <a href="https://security.stackexchange.com/a/18198">this StackExchange answer</a> for reasoning.).</p>
-
-<p><strong>So just use the <code>sodium_</code> functions instead of implementing it by yourself.</strong></p>
-
-<p>I recommend reading two following articles about upcoming improvements in PHP cryptography (both written by Scott Arciszewski, the author of the Libsodium RFC):</p>
-
-<ol>
-<li><p><a href="https://dev.to/paragonie/php-72-the-first-programming-language-to-add-modern-cryptography-to-its-standard-library">PHP 7.2: The First Programming Language to Add Modern Cryptography to its Standard Library</a></p>
-
-<blockquote>
-  <p><em>When version 7.2 releases at the end of the year, PHP will be the first programming language to adopt modern cryptography in its standard library.</em></p>
-</blockquote></li>
-<li><p><a href="https://paragonie.com/blog/2017/07/it-turns-out-2017-is-year-simply-secure-php-cryptography">It Turns Out, 2017 is the Year of Simply Secure PHP Cryptography</a> (by Scott Arciszewski as well).</p></li>
-</ol>
-
-<h2 id="other-interesting-changes">Other Interesting Changes</h2>
-
-<h3 id="rfc%3A-object-typehint-link">RFC: Object typehint (<a href="https://wiki.php.net/rfc/object-typehint">link</a>)</h3>
-
-<p>It will be possible to use <code>object</code> as parameter type and as a return type.</p>
-
-<pre><code class="php">&lt;?php declare(strict_types = 1);
-
-function foo(object $definitelyAnObject): object
-{
-    return 'another string';
-}
-
-foo('what about some string?');
-// TypeError: Argument 1 passed to foo() must be an object, string given, called in...
-
-
-foo(new \stdClass());
-// TypeError: Return value of foo() must be an object, string returned
-
-</code></pre>
-
-<p><code>object</code> becomes a keyword in 7.2, so make sure you are not using it as a name for a class, interface or trait. It was a <a href="http://php.net/manual/en/reserved.other-reserved-words.php">soft-reserved word since PHP 7.0</a>.</p>
-
-<p>It is useful mainly for libraries (ORMs, DI containers, serializers, <a href="https://externals.io/message/96554#96586">and others</a>). But it may help clean up some of your code as well. In our codebase, it will allow us to improve the helper method used in tests:</p>
-
-<pre><code class="php">class TestUtils
-{
-
-    /**
-     * @param object $object
-     * @param string $propertyName
-     * @param mixed $value
-     */
-    public static function setPrivateProperty($object, string $property, $value): void
-    {
-        if (!is_object($object)) {
-            throw new \Exception('An object must be passed');
-        }
-</code></pre>
-
-<p>Will be simplified to this:</p>
-
-<pre><code class="php">class TestUtils
-{
-    public static function setPrivateProperty(object $object, string $property, $value): void
-    {
-</code></pre>
-
-<h3 id="rfc%3A-parameter-type-widening-link">RFC: Parameter Type Widening (<a href="https://wiki.php.net/rfc/parameter-no-type-variance">link</a>)</h3>
-
-<p>With this change, it is possible to omit the parameter type declaration in the child classes. I know that may sound confusing, so let's have a look at the example:</p>
-
-<pre><code class="php">&lt;?php declare(strict_types = 1);
-
-class LibraryClass 
-{
-    public function doWork(string $input)
-    {
-
-    }
-}
-
-class UserClass extends LibraryClass
-{
-    public function doWork($input)
-    {
-
-    }
-}
-
-// PHP &lt;7.2.0
-// Warning: Declaration of UserClass::doWork($input) should be compatible with LibraryClass::doWork(string $input) in …
-
-// PHP 7.2.0+
-// no errors
-</code></pre>
-
-<p>It would allow libraries to introduce scalar typehints without breaking subclasses created by the library users. But it is rather theoretical possibility because the library cannot do the same for the return types. And when the library is adding parameter typehints, it makes sense to add return types as well.</p>
-
-<p>Omitting type hints in subclasses follows the <a href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov substitution principle - LSP</a> because it widens the accepted types. But the subclass cannot omit return typehints, because that would widen the possible return types (and that is LSP violation).</p>
-
-<p>This behaviour was also changed for abstract classes in separate RFC: <a href="https://wiki.php.net/rfc/allow-abstract-function-override">RFC: Allow abstract function override</a>.</p>
-
-<h3 id="rfc%3A-counting-of-non-countable-objects-link">RFC: Counting of non-countable objects (<a href="https://wiki.php.net/rfc/counting_non_countables">link</a>)</h3>
-
-<p>Did you know, that it is possible to count scalar values? Well, it does not really do much counting, it only returns 1 for scalars.</p>
-
-<pre><code class="php">&lt;?php
-
-var_dump(count(null)); // int(0)
-var_dump(count(0)); // int(1)
-var_dump(count(4)); // int(1)
-var_dump(count('4')); // int(1)
-
-</code></pre>
-
-<p>Since PHP 7.2, it will begin emitting a warning:</p>
-
-<pre><code>Warning: count(): Parameter must be an array or an object that implements Countable in /in/4aIl2 on line 3
-</code></pre>
-
-<p>I really like this change, because no one writes such code intentionally, but rather as a bug that needs fixing.</p>
-
-<p>I guess that you may find some of those is your codebase as well - have a look at a less obvious example:</p>
-
-<pre><code class="php">&lt;?php declare(strict_types = 1);
-
-class Data
-{
-    /** @var string[] */
-    private $data;
-
-    public function addOne(string $item)
-    {
-        if (count($this-&gt;data) &gt;= 5) {
-            throw new \Exception('too much data');
-        }
-
-        $this-&gt;data[] = $item;
-    }
-}
-
-$data = new Data();
-$data-&gt;addOne('item1');
-$data-&gt;addOne('item2');
-$data-&gt;addOne('item3');
-
-// Warning: count(): Parameter must be an array or an object that implements Countable in ...
-</code></pre>
-
-<p>It will report a warning, because you are counting a <code>null</code> value in the <code>if</code>.</p>
-
-<h3 id="rfc%3A-deprecations-for-php-7.2-link">RFC: Deprecations for PHP 7.2 (<a href="https://wiki.php.net/rfc/deprecations_php_7_2">link</a>)</h3>
-
-<p>Can be also called <em>"Nikita Popov's language clean-up"</em> :-)</p>
-
-<p>The following will throw a deprecation warning in PHP 7.2 and will be removed later (probably in 8.0). See <a href="https://wiki.php.net/rfc/deprecations_php_7_2">the RFC</a> for detailed explanation of each one:</p>
-
-<ul>
-<li><code>__autoload()</code> - use <a href="http://php.net/spl_autoload_register"><code>spl_autoload_register()</code></a> instead</li>
-<li><code>$php_errormsg</code> - use <a href="http://php.net/error_get_last"><code>error_get_last()</code></a> instead</li>
-<li><code>create_function()</code> - use closures instead</li>
-<li><code>mbstring.func_overload</code> (ini setting) - use <code>mb_*</code> functions directly</li>
-<li><code>(unset)</code> cast - this is not deprecating <code>unset($var)</code> but <code>$foo = (unset) $bar</code> which is equal to <code>$foo = null</code> (yes, strange one)</li>
-<li><code>parse_str()</code> without second argument - directly creating variables when parsing query string is not something you should be doing (<code>register_globals</code> anyone?)</li>
-<li><code>gmp_random()</code> - use <code>gmp_random_bits()</code> and <code>gmp_random_range()</code> instead</li>
-<li><code>each()</code> - use <code>foreach</code> instead (it is more than 10 times faster)</li>
-<li><code>assert()</code> with string argument - it is using <code>eval()</code> internally!</li>
-<li><code>$errcontext</code> argument of error handler - use <code>debug_backtrace()</code> instead</li>
-</ul>
-
-<h2 id="smaller-changes">Smaller changes</h2>
-
-<h3 id="rfc%3A-get_class-disallow-null-parameter-link">RFC: get_class() disallow null parameter (<a href="https://wiki.php.net/rfc/get_class_disallow_null_parameter">link</a>)</h3>
-
-<p>Did you know, that <code>get_class()</code> without parameters returns the same value as <code>__CLASS__</code>? I didn't. But the RFC does not change this.</p>
-
-<pre><code class="php">&lt;?php
-
-class MyClass
-{
-    public function myInfo()
-    {
-        var_dump(get_class()); // string(7) "MyClass"
-        var_dump(__CLASS__); // string(7) "MyClass"
-    }
-}
-
-$a = new MyClass();
-$a-&gt;myInfo();
-
-var_dump(get_class($a)); // string(7) "MyClass"
-</code></pre>
-
-<p>The RFC deprecates calling it with <code>null</code> as parameter. Consider this example from the RFC. If the item is fetched from the repository and <code>$result</code> is not null, it will print the class name of the fetched object. But if it is null, <code>Foo</code> will be printed.</p>
-
-<pre><code class="php">class Foo
-{
-
-    function bar($repository)
-    {
-        $result = $repository-&gt;find(100);
-
-        echo get_class($result);
-    }
-}
-
-// In 7.2: Warning: get_class() expects parameter 1 to be object, null given in ...
-</code></pre>
-
-<h3 id="rfc%3A-allow-loading-extensions-by-name-link">RFC: Allow loading extensions by name (<a href="https://wiki.php.net/rfc/load-ext-by-name">link</a>)</h3>
-
-<p>If you configured the PHP extensions before 7.2, you had to use full filename in the <code>.ini</code> file:</p>
-
-<p>On Windows:</p>
-
-<pre><code class="ini">extension=php_mbstring.dll
-</code></pre>
-
-<p>On Linux:</p>
-
-<pre><code class="ini">extension=mbstring.so
-</code></pre>
-
-<p>That's fine if you are using only one platform. But it gets a bit harder, if you need to write some automation scripts supporting multiple platforms. It was improved in 7.2 and now you can use this both on Linux and Windows:</p>
-
-<pre><code class="ini">extension=mbstring
-</code></pre>
-
-<p>Legacy syntax is still supported, but it is recommended to use the new one.</p>
-
-<h3 id="rfc%3A-deprecate-and-remove-bareword-unquoted-strings-link">RFC: Deprecate and Remove Bareword (Unquoted) Strings (<a href="https://wiki.php.net/rfc/deprecate-bareword-strings">link</a>)</h3>
-
-<p>This is another step in making PHP safer to use. If you mistype a constant in 7.2, it will throw a warning instead of notice (and will throw an error in PHP 8.0).</p>
-
-<p>Simplest example is this:</p>
-
-<pre><code class="php">&lt;?php
-var_dump(NONEXISTENT_CONSTANT);
-
-
-// PHP 7.1
-// Notice: Use of undefined constant NONEXISTENT_CONSTANT - assumed 'NONEXISTENT_CONSTANT' in …
-
-// PHP 7.2
-// Warning: Use of undefined constant NONEXISTENT_CONSTANT - assumed 'NONEXISTENT_CONSTANT' (this will throw an Error in a future version of PHP) in …
-</code></pre>
-
-<p>I really like the bug examples <a href="https://wiki.php.net/rfc/deprecate-bareword-strings">in the RFC</a> showing what it's aiming to prevent:</p>
-
-<pre><code class="php">$foo = flase; // typo!
-// ...
-if ( $foo ) {
-   var_dump($foo); // string(5) "flase"
-}
-</code></pre>
-
-<p>And:</p>
-
-<pre><code class="php">$found = false;
-foreach ( $list as $item ) {
-   if ( is_null($item) ) {
-       contniue; // this statement issues a notice and does nothing
-   }
-   // lines assuming $item is not null
-}
-</code></pre>
-
-<h3 id="rfc%3A-trailing-commas-in-list-syntax-link">RFC: Trailing Commas in List Syntax (<a href="https://wiki.php.net/rfc/list-syntax-trailing-commas">link</a>)</h3>
-
-<p>It has <a href="https://3v4l.org/J8r9B">always been possible</a> to use trailing comma after last array item:</p>
-
-<pre><code class="php">$foo = [
-    'foo',
-    'bar',
-];
-</code></pre>
-
-<p>It is useful for creating clean diffs in VCS and makes adding new items to the list simple.</p>
-
-<p>This RFC proposed adding an optional trailing comma to all list-like places:</p>
-
-<ul>
-<li>Grouped namespaces</li>
-<li>Function/method arguments (declarations &amp; calls)</li>
-<li>Interface implementations on a class</li>
-<li>Trait implementations on a class</li>
-<li>Class member lists</li>
-<li>Inheriting variables from the parent scope in anonymous functions</li>
-</ul>
-
-<p>I especially hoped for method arguments declarations and calls. But it did not pass the vote (which needed 2/3 majority, as it is a language change).</p>
-
-<p>Surprisingly, only the <em>"Grouped namespaces"</em> passed:</p>
-
-<pre><code class="php">use Foo\Bar\{ 
-    Foo,
-    Bar, 
-    Baz, 
-}; 
-
-// note the comma after "Baz"
-</code></pre>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>PHP 7.2 will contain new security features (sodium, Argon2i), several language improvements (<code>object</code> typehint, type widening) and a variety of minor changes that polish legacy parts of the language.</p>
-
-<p>The <a href="http://php.net/archive/2017.php#id2017-08-31-1">RC1</a> was released on 31st August, so it is now a right time to try it out. If you can't or don't want to use it locally for development just yet, you should at least run your test suite against PHP 7.2 to see if there is anything to be fixed. I think there won't be many compatibility issues in a well-managed codebase.</p>
-
-<p>If you are maintaining an open-source project, you should add 7.2 to TravisCI build matrix to ensure that your users won't encounter any compatibility issues. Or you can require PHP 7.2 in the next major version <a href="https://github.com/doctrine/doctrine2/pull/6577">like Doctrine ORM will</a>.</p>
-
-<p>Thank you, Sara and Remi, and all the contributors for making this PHP release great!</p>
-
-<p>What are you looking forward to most in the PHP 7.2?</p>
 ]]></content>
         </entry>
     </feed>

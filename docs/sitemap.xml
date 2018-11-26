@@ -2,9 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.martinhujer.cz</loc>
-    <lastmod>2018-11-18</lastmod>
+    <lastmod>2018-11-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/best-phpstorm-plugins-for-symfony-development/</loc>
+    <lastmod>2018-11-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
     <url>
     <loc>https://blog.martinhujer.cz/fuerteventura-kam-na-vylety/</loc>
