@@ -1,5 +1,6 @@
 ---
 title: Keep your YAML files sorted with YAML sort checker
+showPhpTrainingAd: true
 ---
 
 Last year I've created a PHP tool [YAML file sort checker](https://github.com/mhujer/yaml-sort-checker) that checks that YAML files in project are sorted alphabetically.

@@ -1,5 +1,6 @@
 ---
 title: Checking a custom coding standard with PHP_CodeSniffer
+showPhpTrainingAd: true
 ---
 
 [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) is a tool for checking source code compliance with a defined coding standard. There are some predefined standards (PEAR, Zend, PSR1, PSR2, etc.), but the true power of PHP_CodeSniffer lies in the possibility of defining custom standards.

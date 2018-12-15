@@ -1,5 +1,6 @@
 ---
 title: JavaScript Error Handler Bundle for Symfony
+showPhpTrainingAd: true
 ---
 
 I've created Symfony [JavaScriptErrorHandlerBundle](https://github.com/mhujer/JavaScriptErrorHandlerBundle) for visualizing accidental errors in JavaScript.

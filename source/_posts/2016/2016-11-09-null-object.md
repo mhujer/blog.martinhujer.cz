@@ -1,6 +1,7 @@
 ---
 title: Návrhový vzor Null Object
 short: V článku předvedu, jak pomocí návrhového vzoru Null Object můžeme zjednodušit kód
+showPhpTrainingAd: true
 ---
 
 V článku předvedu, jak pomocí návrhového vzoru Null Object můžeme zjednodušit kód. Budu se snažit ukázat maximum příkladů a jen minimum teorie (na tu vás odkážu jinam).

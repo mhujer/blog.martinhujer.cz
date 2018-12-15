@@ -1,5 +1,6 @@
 ---
 title: Profilování PHP aplikací pomocí Blackfire
+showPhpTrainingAd: true
 ---
 
 O tom, že je rychlost aplikace důležitá, asi není potřeba diskutovat. Zrychlit aplikaci už tak snadné není. V článku vám předvedu, jak s pomocí Blackfire snadno odhalíte slabá místa vaší PHP aplikace.

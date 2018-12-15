@@ -1,5 +1,6 @@
 ---
 title: Have you tried Composer Scripts? You may not need Phing.
+showPhpTrainingAd: true
 ---
 
 Phing is a great tool (I'm using it as well), but in this article, I want to show you that some projects may not need it. Composer contains a powerful feature called "[Scripts](https://getcomposer.org/doc/articles/scripts.md)", which can be used to create a simple build script.

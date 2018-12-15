@@ -1,6 +1,7 @@
 ---
 title: Consistence brings consistency to the PHP
 short: In the article I describe the Consistence library that brings consistency to PHP applications.
+showPhpTrainingAd: true
 ---
 
 **In the article I describe the [Consistence library](https://github.com/consistence/consistence/) that aims to bring consistency to PHP applications.**

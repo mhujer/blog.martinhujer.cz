@@ -1,5 +1,6 @@
 ---
 title: Framework-less code? (PHP Prague 2016)
+showPhpTrainingAd: true
 ---
 
 Na [PHP Prague 3. 6. 2016](http://pehapkari.cz/konference/php-prague-2016-v-paralelnim-polis/) jsem povídal o tom, jak vhodně vytvářet knihovny, aby byly co nejméně závislé na konkrétním frameworku. Můžete se podívat na video nebo si projít slidy.

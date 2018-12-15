@@ -1,5 +1,6 @@
 ---
 title: PHP 7.2 is due in November. What's new?
+showPhpTrainingAd: true
 ---
 
 > I've published [the Czech translation of the article on Zdroják.cz](https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-2/).

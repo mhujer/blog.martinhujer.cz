@@ -1,5 +1,6 @@
 ---
 title: 17 Tips for Using Composer Efficiently
+showPhpTrainingAd: true
 ---
 
 Although most PHP developers know how to use Composer, not all of them are using it efficiently or in a best possible way. So I decided to summarize things which are important for my everyday workflow.

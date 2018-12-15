@@ -1,6 +1,7 @@
 ---
 title: Best PhpStorm plugins for Symfony development
-short: List of my favourite PhpStorm plugins for developing Symfony applications and two usefull tips for Symfony plugin configuration. 
+short: List of my favourite PhpStorm plugins for developing Symfony applications and two useful tips for Symfony plugin configuration.
+showPhpTrainingAd: true 
 ---
 
 I've been using PhpStorm for quite a while and I'm still surprised now and then when it suggests an auto-completion for something I thought that's not possible. 

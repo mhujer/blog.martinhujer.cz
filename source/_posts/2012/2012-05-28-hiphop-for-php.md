@@ -1,5 +1,6 @@
 ---
 title: HipHop for PHP
+showPhpTrainingAd: true
 ---
 
 Dalším zajímavým nástrojem, který by bylo možné zařadit do [kontinuální integrace](/bp/), je [HipHop for PHP](https://github.com/facebook/hhvm) vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.

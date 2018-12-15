@@ -1,5 +1,6 @@
 ---
 title: Návrh REST API se Symfony Rest- a ApiDoc bundle
+showPhpTrainingAd: true
 ---
 
 V poslední době se hodně mluví o správném návrhu API a o jeho dokumentaci. V souvislosti s tím se často skloňuje český startup [apiary](http://apiary.io/), který se přesně na to zaměřuje. Apiary slouží jak k dokumentaci API, tak k jeho testování. Zároveň umí vytvořit "mock API", kdy už na základě té dokumentace jde API trochu "používat". Takže je možné například vyvíjet mobilní aplikace bez toho, aby serverová část vůbec existovala. Když jsem vymýšlel API pro mobilní aplikace [ZmapujTo.cz](http://www.zmapujto.cz/), tak jsem nejdřív apiary zkoušel, ale nebylo to tak sluníčkové, jak jsem čekal. (Ale možná jsem ho používal špatně). (*EDIT: Testoval jsem ho na podzim 2013, takže dnes už je dál a třeba by to sluníčkové už bylo*)

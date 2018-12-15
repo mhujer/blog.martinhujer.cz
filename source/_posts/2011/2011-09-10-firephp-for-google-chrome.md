@@ -1,5 +1,6 @@
 ---
 title: FirePHP for Google Chrome [EN]
+showPhpTrainingAd: true
 ---
 
 There is a great extension for Firefox’s Firebug - [FirePHP](http://www.firephp.org/) ([github](https://github.com/firephp/firephp)). It allows you to log to Firebug console from PHP scripts. It uses extra HTTP headers so it does not interfere with page at all and works fine also for AJAX.

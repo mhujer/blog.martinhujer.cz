@@ -1,5 +1,6 @@
 ---
 title: Don't Use Entities in Symfony Forms. Use Custom Data Objects Instead
+showPhpTrainingAd: true
 ---
 
 > First part of this article explains why entities should not be used directly in Symfony Forms. Second part presents an approach which solves most of the problems presented in the first part.

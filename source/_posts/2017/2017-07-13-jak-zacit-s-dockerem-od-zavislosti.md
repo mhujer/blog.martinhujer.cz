@@ -1,5 +1,6 @@
 ---
 title: Jak začít s Dockerem? Od závislostí.
+showPhpTrainingAd: true
 ---
 
 V [Drivetu](https://www.driveto.cz/) jsme začali používat Docker, ale tak trochu netradičně. Používáme ho totiž (zatím) jen na externí závislosti (Rabbit, Elastic, Cerebro, Kibana) a PHP + MariaDB máme stále nainstalované standardně.

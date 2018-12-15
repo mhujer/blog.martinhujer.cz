@@ -30,6 +30,7 @@
 			</p>
 		</div>
 
+		{% if page.showPhpTrainingAd -%}
 		<div class="php-training">
 			<h3>Přijďte na má školení PHP!</h3>
 
@@ -45,6 +46,8 @@
 				</li>
 			</ul>
 		</div>
+		{%- endif %}
+
     </article>
 
 {% if site.disqus.shortname and site.disqus.shortname != '' %}
