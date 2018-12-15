@@ -182,3 +182,7 @@ Na to, že jsme tam nebyli tak dlouho, jsme toho stihli hrozně moc. Hodně k to
 Pokud se budete chystat na Fuerteventuru a budete mít více času, tak doporučuji alespoň týden z toho strávit na Lanzarote, tam je toho taky spoustu k vidění - napíšu o tom samostatný článek.
 
 A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy na výlety](/las-palmas-gran-canaria-kam-na-vylety/).
+
+## OutdoorVisit outdoor tours
+
+Pokud chcete zkusit něco netradičního, tak doporučuji mrknout na [outdoorové zážitky a výlety na Fuerteventuře](https://www.outdoorvisit.com/canary-islands/fuerteventura/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post).
