@@ -179,7 +179,7 @@ Islote de Lobos je malý ostrůvek kousek od Corrajela, dá se tam dojet výletn
 # Závěr
 Na to, že jsme tam nebyli tak dlouho, jsme toho stihli hrozně moc. Hodně k tomu pomohlo to půjčené auto, protože jsme mohli jen i na krátký výlet později odpoledne, což by autobusem bylo mnohem komplikovanější. A těch 14 dnů bylo tak akorát, jinak by to bylo moc hektické. 
 
-Pokud se budete chystat na Fuerteventuru a budete mít více času, tak doporučuji alespoň týden z toho strávit na Lanzarote, tam je toho taky spoustu k vidění - napíšu o tom samostatný článek.
+Pokud se budete chystat na Fuerteventuru a budete mít více času, tak doporučuji alespoň týden z toho strávit [na Lanzarote, tam je toho taky spoustu k vidění](/lanzarote-kam-na-vylety/).
 
 A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy na výlety](/las-palmas-gran-canaria-kam-na-vylety/).
 
