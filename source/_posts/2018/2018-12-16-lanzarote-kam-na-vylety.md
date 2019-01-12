@@ -11,7 +11,7 @@ Lanzarote má nádhernou sopečnou krajinu, takže doporučuji se při výletech
 
 ![Lanzarote - Montañas del Fuego - Timanfaya](/data/2018/2018-12-16-lanzarote-kam-na-vylety/timanfaya-1.jpg)
 
-## Auto z půjčovny
+## [Auto z půjčovny](https://www.amazinglanzarote.com/rent-a-car-in-lanzarote/)
 Jeli jsme trajektem z Fuerteventury a hned po příjezdu jsme si v Playa Blanca zase půjčili auto od Cicar (dopředu jsme ho zarezervovali přes web). Měli jsme ho na celou dobu, než jsme se vraceli zpět na Fuerteventuru. Stejně jako na Fuerteventuře si neumím představit, jak bychom ty výlety zvládli autobusem.
 
 ## Arrecife
@@ -44,7 +44,7 @@ Po projížďce vás ještě čeká ukázka toho, že sopka je aktivní (horkem 
 ## Vstupenky Bonos
 Na Lanzarote si můžete zakoupit jednu vstupenku ke vstupu na několik hlavních turistických atrakcí. Je to levnější než si kupovat jednotlivé vstupy zvlášť. [Více informací najdete na oficiálním webu](https://www.cactlanzarote.com/es/organizate/#1467148563491-82734bd2-4300).
 
-## César Manrique
+## [César Manrique](https://www.amazinglanzarote.com/cesar-manrique/)
 César Manrique byl slavný lanzarotský umělec, sochař a architekt 20. století. Navrhnul spoustu věcí, které na Lanzarote uvidíte. Takový místní Jára Cimrman.
 
 ## Casa Museo De César Manrique
@@ -59,7 +59,7 @@ Na dvoře mají vystavený SEAT Ibiza, který Manrique natřel na výstavu aut v
 
 ![Lanzarote - Mirador del Río - La Graciosa](/data/2018/2018-12-16-lanzarote-kam-na-vylety/mirador-del-rio-la-graciosa.jpg)
 
-## Volcán de la Corona (hike)
+## [Volcán de la Corona (hike)](https://www.amazinglanzarote.com/hike-to-volcano-monte-corona/)
 Cestou z Mirador del Río sí můžete udělat krátký výlet na kráter Volcán de la Corona z vesnice Ye. Doporučuji zastavit u kostela a pak jít podle [trasy na Wikiloc](https://www.wikiloc.com/hiking-trails/volcan-de-la-corona-from-ye-31395197). Cesta vede do kopce mezi vinicemi (jednotlivé rostliny révy v ohrádkách z kamenů) až ke kráteru. Byli jsme tam zrovna když bylo zataženo a skoro do deště, takže to vypadalo hodně tajemně. Od kráteru buď můžete pokračovat jako okruh nebo se vrátit po stejné zpět.
 
 ![Lanzarote - Caldera de Monte Corona](/data/2018/2018-12-16-lanzarote-kam-na-vylety/caldera-de-monte-corona.jpg)
@@ -76,7 +76,7 @@ Cestou z Mirador del Río sí můžete udělat krátký výlet na kráter Volcá
 
 ![Lanzarote - Jameos del Agua - Sunset](/data/2018/2018-12-16-lanzarote-kam-na-vylety/jameos-del-agua-sunset.jpg)
 
-## Jardín de Cactus
+## [Jardín de Cactus](https://www.amazinglanzarote.com/cactus-garden-jardin-de-cactus/)
 [Jardín de Cactus](https://goo.gl/maps/k6WHFi7Bfc92) je obrovská kaktusová zahrada, kterou (jak jinak) navrhl César Manrique. Pokud budete z chození mezi kaktusy unavení, tak si můžete dát kávu v kavárně, která je součástí zahrady. (Baví mě, že i na takhle turisticky exponovaném místě ta káva je docela dobrá a není předražená).
 
 ![Lanzarote - Jardín de Cactus](/data/2018/2018-12-16-lanzarote-kam-na-vylety/jardin-de-cactus.jpg)
@@ -96,7 +96,7 @@ Při výletech po ostrově si určitě všimnete, že všude pěstují révu. Ty
 
 ![Lanzarote - Vinná réva](/data/2018/2018-12-16-lanzarote-kam-na-vylety/vinna-reva.jpg)
 
-## Montaña Blanca (hike)
+## [Montaña Blanca (hike)](https://www.amazinglanzarote.com/montana-blanca-hike/)
 Montaña Blanca je hora se super výhledem, ale podle mě to je takový otloukánek, protože se jmenuje stejně jako druhá Montaña Blanca, která má uprostřed kráter, takže je mnohem populárnější. Ale tenhle hike jsme šli na tu první, protože cestou na tu druhou jsme narazili na uzavřené silnice kvůli triatlonu. Mrkněte na [záznam trasy na wikiloc](https://www.wikiloc.com/hiking-trails/montana-blanca-hike-not-the-caldera-de-montana-blanca-31395716). Jeli jsme tam v sobotu, takže jsme ve vesnici Montaña Blanca zaparkovali na prázdném parkovišti u školy. A následoval trošku náročnější hike na horu. Výhoda je, že to lze jít jako okruh a není potřeba se vracet po stejné trase.
 
 ![Lanzarote - Montaña Blanca](/data/2018/2018-12-16-lanzarote-kam-na-vylety/montana-blanca-vyhled.jpg)
@@ -123,7 +123,7 @@ Nakonec dojedete do městečka [El Golfo](https://goo.gl/maps/ps6VetYKw6U2). Je 
 
 ![Lanzarote - Lago Verde](/data/2018/2018-12-16-lanzarote-kam-na-vylety/lago-verde.jpg)
 
-## Vrak lodi
+## [Vrak lodi u Arrecife](https://www.amazinglanzarote.com/shipwreck-near-arrecife/)
 Kousek od Arrecife můžete zastavit na [pláži, kterou zdobí vrak lodi](https://goo.gl/maps/c75rgMFKqZ92). (Zaparkovat můžete o pár desítek metrů dál, kde je před budovou dost místa.) Vrak tam je od roku 1981, kdy ta loď plula okolo Lanzarote a zjistili, že jim teče dovnitř. Arrecife jim nedovolilo jet do přístavu, protože kdyby se potopili uprostřed přístavu, tak by ho zablokovali. Místo toho je nasměrovali na mělčinu v písčité zátoce, kde je dodnes. Už delší dobu plánují, že vrak odstraní, ale zatím (říjen 2018) tam pořád je. Když jsme tam byli, tak z něj někdo dokonce skákal do vody.
 
 ![Lanzarote - Shipwreck Arrecife](/data/2018/2018-12-16-lanzarote-kam-na-vylety/shipwreck.jpg)
@@ -140,6 +140,10 @@ Byli jsme na Lanzarote jen dva týdny, ale viděli jsme toho hrozně moc. Neumí
 Pokud se budete chystat na Lanzarote a budete mít více času, tak doporučuji alespoň týden z toho strávit [na Fuerteventuře, tam je toho taky spoustu k vidění](/fuerteventura-kam-na-vylety/).
 
 A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy na výlety](/las-palmas-gran-canaria-kam-na-vylety/).
+
+# [AmazingLanzarote.com](https://www.amazinglanzarote.com/)
+
+Vytvořil jsem ještě samostatný [web s informacemi o Lanzarote](https://www.amazinglanzarote.com/) (v angličtině).
 
 ## OutdoorVisit outdoor tours
 

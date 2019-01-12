@@ -1,5 +1,6 @@
 ---
 title: Fuerteventura - kam na výlety? Co navštívit?
+showTravelLinks: true
 ---
 
 V říjnu 2018 jsme byli skoro tři týdny na Fuerteventuře, takže mám spoustu tipů na zajímavá místa a obecně k Fuerteventuře.

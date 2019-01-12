@@ -1,5 +1,6 @@
 ---
 title: Málaga - co vidět a kam na výlety? Podruhé.
+showTravelLinks: true
 ---
 
 Letos v lednu (12. - 26.1.) jsem znovu vyrazil do Málagy za teplem. Našel jsem spoustu dalších zajímavých věcí, které stojí za to navštívit. Navazuji na [předchozí článek o Málaze](/malaga/), takže si určitě pročtěte i ten.

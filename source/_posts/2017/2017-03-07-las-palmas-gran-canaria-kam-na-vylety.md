@@ -1,5 +1,6 @@
 ---
 title: Las Palmas, Gran Canaria - kam na výlety?
+showTravelLinks: true
 ---
 
 Letos jsem opět vyrazil na měsíc do Las Palmas jako digitální nomád. Už tu máme něco navýletováno, takže jsem se rozhodl sepsat, kam se dá podnikat. Kupodivu spoustu výletů se dá zvládnout i místními autobusy.

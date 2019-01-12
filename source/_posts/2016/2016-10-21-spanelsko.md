@@ -1,5 +1,6 @@
 ---
 title: Španělsko - co by vám mohlo hodit
+showTravelLinks: true
 ---
 
 10\. října jsem odjel do Málagy za teplem a postupně jsem si poznamenal různé věci, které by se vám při cestování po Španělsku mohly hodit. Rozdělil jsem je do více částí - Španělsko obecně (tenhle článek, pokračování pod fotkou) a jednotlivé články podle měst:
