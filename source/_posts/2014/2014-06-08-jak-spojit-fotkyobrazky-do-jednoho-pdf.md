@@ -15,11 +15,11 @@ Samotné obrázky je potřeba mít ideálně v jedné složce a pojmenované tak
 Výroba PDF
 ----------------
 1. Otevřeme IrfanView a zvolíme *File* -> *Thumbnails*
-2. Najdeme složku s fotografiemi <br> ![](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan1.png)
-3. Vybereme všechny a z menu zvolíme *File* -> *Print selected files as single images* <br> ![](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan2.png)
-4. V okně, které se zobrazí vybereme tiskárnu **PDFCreator** ![](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan3.png)
+2. Najdeme složku s fotografiemi <br> ![IrfanView Thumbnails](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan1.png)
+3. Vybereme všechny a z menu zvolíme *File* -> *Print selected files as single images* <br> ![IrfanView Thumbnails - merge](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan2.png)
+4. V okně, které se zobrazí vybereme tiskárnu **PDFCreator** ![IrfanView Thumbnails - merge options](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan3.png)
 5. Nic dalšího není potřeba nastavovat, potvrdíme tedy tlačítkem *Print* a nějakou dobu počkáme (IrfanView teď jednotlivé obrázky odesílá na virtuální tiskárnu PDFCreatoru)
-6. Zobrazí se okno PDFCreatoru ![](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan4.png), kde dokument můžeme pojmenovat a dáme *Save*
+6. Zobrazí se okno PDFCreatoru ![PDFCreator options](/data/2014/2014-06-08-jak-spojit-fotkyobrazky-do-jednoho-pdf/2014-06-08-irfan4.png), kde dokument můžeme pojmenovat a dáme *Save*
 7. Vybereme, kam chceme výsledné PDF uložit a pak nějakou dobu počkáme, než se PDF vytvoří (trvá nejdéle z celého procesu)
 8. Hotovo. PDF se uloží tam, kam jsme zadali a zároveň se nám otevře.
 

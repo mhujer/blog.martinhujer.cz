@@ -18,7 +18,7 @@ Přejmenování fotek podle data souboru
 3. Jdi do složky s fotkama, vyber všechny, dej CTRL+M (nebo Files -> MultiRename tool) - spustí se hromadné přejmenování
 4. Do prvního pole vlevo nahoře zadat `[Y]-[M]-[D]_[h]-[m]-[s]_[N]` - před název souboru poskládáme datum souboru. Pod tím bude seznam souborů s náhledem, jak bude název vypadat po přejmenování. V druhém sloupečku zkontrolujte, že ty názvy dávají smysl.
 
-![](/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-01-tc-rename.png)
+![Total Commander - hromadné přejmenování](/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-01-tc-rename.png)
 
 5. Vpravo dole kliknout na *Start!*
 6. To stejné zopakovat pro fotky z dalších foťáků a pak je přesunou do jedné složky a seřadit podle názvu -> Hotovo :-)
@@ -31,7 +31,7 @@ Přejmenování fotek podle data z EXIF
 *Většina kroků je stejná s předchozím postupem, jen některé se liší.*
 
 - 1a) [Stáhnout](http://ghisler.fileburst.com/content/wdx_exif.zip) plugin pro EXIF a otevřít ho v Total Commanderu - mělo by se nabídnout, že se chce do TC nainstalovat<br>
-![](/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-02-tc-install.png)
+![Total Commander - instalace EXIF rozšíření](/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-02-tc-install.png)
 
 Pokud se to nezdaří (například máte Total Commander nainstalovaný v Program Files a běžící TC tam nemá oprávnění zapisovat), tak tam je potřeba plugin nakopírovat ručně. Takže pokud je nainstalovaný v `C:/Program Files/totalcmd`, tak do `C:/Program Files/totalcmd/Plugins/wdx/wdx_exif/` nakopírujte soubory z `wdx_exif.zip`, který jste si stáhli.
 

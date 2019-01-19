@@ -11,7 +11,7 @@ showTravelLinks: true
 
 > Na to, že na nějakou dobu odjedu už jsem se chvíli chystal, zařizoval spoustu věcí a podobně. Posledním pošťouchnutím byl kurz [Digitálního nomádství](https://www.naucmese.cz/kurz/digitalni-nomadstvi) s Adamem, který říkal *"Kupte si letenku a ostatní se už dořeší"* - no a další den jsem si koupil jednosměrnou Berlín - Málaga.
 
-![](/data/2016/2016-10-21-spanelsko/spanelsko-malaga.jpg)
+![Málaga Panorama](/data/2016/2016-10-21-spanelsko/spanelsko-malaga.jpg)
 
 ## Nakupování
 Rád nakupuju v obchodě Mercadona - řetězec obchodů s potravinami. Je to ve stylu Albert - nejen jídlo ale i věci do domácnosti atd. Jsou skoro všude (minimálně v Barceloně i v Málaze). Bez problémů jde platit i bezkontaktní kartou (např. v Día supermercado až od €7)
