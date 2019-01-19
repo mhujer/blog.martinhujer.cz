@@ -78,7 +78,7 @@ SES je primárně určený pro odesílání e-mailů (podobně jako Mandrill, Ma
 
 Shrnutí
 =========
-Hackaton byl super. Jsem rád, že jsem se zúčastnil. Rozhodnutí neprogramat novou věc a jen nasadit hotovou hodnotím pozitivně, protože jsme si toho z AWS vyzkoušeli hrozně moc. Pokud se ještě vejdete, tak se [přihlašte](http://hackathon.rockaway.cz/) na Hackaton v Brně nebo Ostravě.
+Hackaton byl super. Jsem rád, že jsem se zúčastnil. Rozhodnutí neprogramat novou věc a jen nasadit hotovou hodnotím pozitivně, protože jsme si toho z AWS vyzkoušeli hrozně moc. Pokud se ještě vejdete, tak se přihlaste na Hackaton v Brně nebo Ostravě.
 
 **[Pár fotek z Hackatonu](https://www.facebook.com/media/set/?set=a.10208071550925750.1073741866.1208864474&type=1&l=e976a6c01e)**
 

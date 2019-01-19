@@ -36,7 +36,11 @@
         </header>
 
         <div class="article-text">
-            <p>Dalším zajímavým nástrojem, který by bylo možné zařadit do <a href="/bp/">kontinuální integrace</a>, je <a href="https://github.com/facebook/hhvm">HipHop for PHP</a> vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.</p>
+            <p><strong>Update 1/2019:</strong> HHVM už je dávno jinde než PHP, takže ho už nedává smysl používat. Zkuste radši <a href="https://github.com/phpstan/phpstan">PHPStan</a>.</p>
+
+<hr />
+
+<p>Dalším zajímavým nástrojem, který by bylo možné zařadit do <a href="/bp/">kontinuální integrace</a>, je <a href="https://github.com/facebook/hhvm">HipHop for PHP</a> vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.</p>
 
 <h2 id="instalace-n%E3%A1stroje">Instalace nástroje</h2>
 
@@ -65,11 +69,7 @@ cd zf1
 
 <p>Výstup je poté uložen v <code>/tmp/hphp_AFDvIh/CodeError.js</code> (resp. v podobně nazvaném adresáři).</p>
 
-<p>Když jsem prosěl výstup z kontroly ZF1, tak jsem postupně přidal 12 issues do ZF - od ZF-12225 do ZF-12236</p>
-
-<h2 id="za%E5%99azen%E3%AD-n%E3%A1stroje-do-ci">Zařazení nástroje do CI</h2>
-
-<p>Sebastian Bergmann <a href="https://sebastian-bergmann.de/archives/918-Static-Analysis-with-HipHop-for-PHP.html">vyvinul</a> <a href="https://github.com/sebastianbergmann/hhvm-wrapper">nástroj obalující HipHop do PHP</a> s možností exportu výsledků ve formátu pro CheckStyle. Nicméně do CI jsem ho zatím nenasadil, protože se bojím, že bych kompilací a instalací zkompilovaných věcí mohl poblbnout server.</p>
+<p>Když jsem prošel výstup z kontroly ZF1, tak jsem postupně přidal 12 issues do ZF - od ZF-12225 do ZF-12236</p>
 
 <h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
 

@@ -3,6 +3,10 @@ title: HipHop for PHP
 showPhpTrainingAd: true
 ---
 
+**Update 1/2019:** HHVM už je dávno jinde než PHP, takže ho už nedává smysl používat. Zkuste radši [PHPStan](https://github.com/phpstan/phpstan).
+
+----
+
 Dalším zajímavým nástrojem, který by bylo možné zařadit do [kontinuální integrace](/bp/), je [HipHop for PHP](https://github.com/facebook/hhvm) vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.
 
 Instalace nástroje
@@ -34,11 +38,7 @@ cd zf1
 
 Výstup je poté uložen v `/tmp/hphp_AFDvIh/CodeError.js` (resp. v podobně nazvaném adresáři).
 
-Když jsem prosěl výstup z kontroly ZF1, tak jsem postupně přidal 12 issues do ZF - od ZF-12225 do ZF-12236
-
-Zařazení nástroje do CI
---------------------
-Sebastian Bergmann [vyvinul](https://sebastian-bergmann.de/archives/918-Static-Analysis-with-HipHop-for-PHP.html) [nástroj obalující HipHop do PHP](https://github.com/sebastianbergmann/hhvm-wrapper) s možností exportu výsledků ve formátu pro CheckStyle. Nicméně do CI jsem ho zatím nenasadil, protože se bojím, že bych kompilací a instalací zkompilovaných věcí mohl poblbnout server.
+Když jsem prošel výstup z kontroly ZF1, tak jsem postupně přidal 12 issues do ZF - od ZF-12225 do ZF-12236
 
 Závěrem
 ---------

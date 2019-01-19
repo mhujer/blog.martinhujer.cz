@@ -18,7 +18,7 @@ ProTip2: Pokud letíte do Berlína v 7:15 ráno, tak se to dá v pohodě stihnou
 ## Kola (Zatím nemám vyzkoušené)
 Zatím to nemám vyzkoušené, ale mělo by jít si zřídit přístup na půjčování kol bybike.
 
-Potřebujete na to bezkontaktní Guagua kartičku (viz výše). Dále se podle [postupu na webu](http://www.bybikelpa.com/index.php?option=com_content&view=article&id=12&Itemid=11&lang=en) zaregistrujete, pak až dva pracovní dny počkáte na schválení a následně se dojdete osobně ověřit do Guagua pobočky (třeba na Santa Catalině). A pak už půjčujete a jezdíte. Měli by mít i mobilní appku s mapou míst pro kola.
+Potřebujete na to bezkontaktní Guagua kartičku (viz výše). Dále se podle postupu na webu zaregistrujete, pak až dva pracovní dny počkáte na schválení a následně se dojdete osobně ověřit do Guagua pobočky (třeba na Santa Catalině). A pak už půjčujete a jezdíte. Měli by mít i mobilní appku s mapou míst pro kola.
 
 Podle mapy, kterou mají na webu, se to zdá ideální na cestu do/z Veguetty.
 
