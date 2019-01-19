@@ -24,7 +24,7 @@ Parkování ve městě není jednoduché, protože se skládá převážně z ú
 
 I ve městě toho je spoustu k vidění:
 
-- [Playa del Reducto](https://goo.gl/maps/8C42HRqRfXR2) - městská pláž s pozvolným vstupem do vody
+- [Playa del Reducto](https://goo.gl/maps/8C42HRqRfXR2) - městská pláž s pozvolným vstupem do vody. Kousek od pláže je půjčovna sportovního vybavení a [paddleboardů](https://www.amazinglanzarote.com/paddleboarding-sup-in-lanzarote/).
 - [Castillo de San Gabriel](https://goo.gl/maps/E6chbWLUs922) - na ostrůvku, kam se dostanete po mostě je malá pevnůstka s muzeem uvnitř a hezkým výhledem shora.
 - [Charco de San Ginés](https://goo.gl/maps/pek8sX3ZtqE2) je uzavřená zátoka s přístavem pro malé lodě. Super na procházení okolo. Je zajímavé se tam jít podívat v různých časech, protože vzhledem k přílivu a odlivu může být třeba půlka zaparkovaných lodiček na suchu. Když už tam budete, tak doporučuji zkusit zmrzlinu v [Antiu Xixona](https://goo.gl/maps/TrSUngD5wrH2) nebo se večer zastavit na tapas v [La Caja de tapas](https://goo.gl/maps/dEWVr67BkC12).
 - [Punto Sabroso](https://goo.gl/maps/huHct3XcSqu) je malá restaurace s latinsko-americkými a španělskými jídly. Velmi _local_ atmosféra - sice mají menu i v angličtině, ale na případné doplňující dotazy už budete potřebovat španělštinu.
@@ -101,7 +101,7 @@ Montaña Blanca je hora se super výhledem, ale podle mě to je takový otlouká
 
 ![Lanzarote - Montaña Blanca](/data/2018/2018-12-16-lanzarote-kam-na-vylety/montana-blanca-vyhled.jpg)
 
-## Caldera de Montaña Blanca (hike)
+## [Caldera de Montaña Blanca (hike)](https://www.amazinglanzarote.com/caldera-de-montana-blanca-hike/)
 Výlet ke kráteru Caldera de Montaña Blanca je delší, tak si nezapomeňte vzít dost vody a svačinu. [Záznam trasy jsem opět dal na wikiloc](https://www.wikiloc.com/hiking-trails/caldera-de-montana-blanca-31395976). Parkovali jsme zbytečně daleko ve vesnici, můžete buď zaparkovat na kraji té hlavní silnice kousek před odbočkou na prašnou cestu nebo ještě kus popojet po té prašné cestě a zaparkovat tam (označeno na mapě). Pak už se vydáte po svých sopečnou krajinou. 
 
 ![Lanzarote - Caldera de Montaña Blanca](/data/2018/2018-12-16-lanzarote-kam-na-vylety/caldera-montana-blanca-1.jpg)
@@ -145,6 +145,3 @@ A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy n
 
 Vytvořil jsem ještě samostatný [web s informacemi o Lanzarote](https://www.amazinglanzarote.com/) (v angličtině).
 
-## OutdoorVisit outdoor tours
-
-Pokud chcete zkusit něco netradičního, tak doporučuji mrknout na [outdoorové zážitky a výlety na Lanzarote](https://www.outdoorvisit.com/canary-islands/lanzarote/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post).
