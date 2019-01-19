@@ -18,6 +18,6 @@ Pokud to vaše banka neumí, tak stačí místo celých tisíců vybírat o 100 
 
 3. Neklikejte na podezřelé odkazy! A když už, tak…
 ---------------------------------------------
-Pokud narazíte na nějaký podezřelý odkaz (třeba na Facebooku) tak největší hloupost je ho rovnou otevřít. Stránky mohou využít [clickjacking](http://www.facebook.com/help/103840806372798/) a třeba vytvořit událost, kde bude ten podezřelý odkaz a pozvou na ni všechny vaše kamarády (tohle jsem zrovna viděl nedávno).
+Pokud narazíte na nějaký podezřelý odkaz (třeba na Facebooku) tak největší hloupost je ho rovnou otevřít. Stránky mohou využít clickjacking a třeba vytvořit událost, kde bude ten podezřelý odkaz a pozvou na ni všechny vaše kamarády (tohle jsem zrovna viděl nedávno).
 
 Řešením je podezřelé odkazy otevírat v *Privátním okně* - dnes už to umí většina prohlížečů (v Chrome zkratka CTRL+SHIFT+N). Pokud by pak zlá stránka chtěla provést něco nepatřičného, tak si toho snadno všimnete (bude třeba chtít přihlášení k Facebooku).

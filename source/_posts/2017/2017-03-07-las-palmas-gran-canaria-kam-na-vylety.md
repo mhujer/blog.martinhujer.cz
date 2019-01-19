@@ -7,7 +7,7 @@ Letos jsem opět vyrazil na měsíc do Las Palmas jako digitální nomád. Už t
 
 
 ## Autobusy
-Na Gran Canarii fungují meziměstské [autobusy Global](http://www.globalsu.net/). Trasy doporučuji hledat na Google Maps a pak [ověřit](http://www.globalsu.net/es/lineas.php), že se nezměnil jízdní řád. Pozor na dny v týdnu a státní svátky (doporučuji zapnout v Google Calendar). Většina jich jezdí ze San Telmo, což je autobusové nádraží ve Veguetě (dostanete se tam pěšky nebo městským autobusem).
+Na Gran Canarii fungují meziměstské [autobusy Global](https://www.guaguasglobal.com/). Trasy doporučuji hledat na Google Maps a pak [ověřit](https://www.guaguasglobal.com/lineas-horarios/), že se nezměnil jízdní řád. Pozor na dny v týdnu a státní svátky (doporučuji zapnout v Google Calendar). Většina jich jezdí ze San Telmo, což je autobusové nádraží ve Veguetě (dostanete se tam pěšky nebo městským autobusem).
 
 V Las Palmas fungují [městské autobusy GuaGua](http://www.guaguas.com/). Pokud tu budete déle, tak se vyplatí si za €1.5 koupit bezkontaktní kartu, do které se dá nabíjet kredit. Jedna jízda pak stojí €0.85. Kartu pak jde dobíjet ve žlutých automatech. Jo a mají mobilní aplikaci, která vypadá docela použitelně.
 
@@ -16,11 +16,11 @@ ProTip: Pokud má autobus napsáno *FS* nebo *Fuera del servicio*, tak to není 
 ProTip2: Pokud letíte do Berlína v 7:15 ráno, tak se to dá v pohodě stihnout autobusem č. 1 v 5:00 ze San Telma (a tam se dá z Las Palmas dostat nočními L1 nebo L2).
 
 ## Kola (Zatím nemám vyzkoušené)
-Zatím to nemám vyzkoušené, ale mělo by jít si zřídit přístup na [půjčování kol bybike](http://www.bybikelpa.com/).
+Zatím to nemám vyzkoušené, ale mělo by jít si zřídit přístup na půjčování kol bybike.
 
 Potřebujete na to bezkontaktní Guagua kartičku (viz výše). Dále se podle [postupu na webu](http://www.bybikelpa.com/index.php?option=com_content&view=article&id=12&Itemid=11&lang=en) zaregistrujete, pak až dva pracovní dny počkáte na schválení a následně se dojdete osobně ověřit do Guagua pobočky (třeba na Santa Catalině). A pak už půjčujete a jezdíte. Měli by mít i mobilní appku s mapou míst pro kola.
 
-[Podle mapy](http://www.bybikelpa.com/index.php?option=com_content&view=article&id=1&Itemid=2) se to zdá ideální na cestu do/z Veguetty.
+Podle mapy, kterou mají na webu, se to zdá ideální na cestu do/z Veguetty.
 
 ## Kam v Las Palmas
 (nejsou nijak seřazené)

@@ -36,7 +36,7 @@ Tak co to napsat v DocBooku a vysázet v TeXu? Ano, to je asi cesta, kterou se v
 - prosvištím si XSLT (asi už jsem toho dost zapomněl)
 - a budu moct (část) BP mít jako semestrálku do 4IZ552
 
-Funkční prototyp (umí kapitoly, odstavce a obrázky s popisky), který z DocBookového XMLka udělá skrz TeX PDFko, jsme s [Tomášem](http://www.tomasfejfar.cz/) dali dohromady za hodinku...
+Funkční prototyp (umí kapitoly, odstavce a obrázky s popisky), který z DocBookového XMLka udělá skrz TeX PDFko, jsme s [Tomášem](https://www.tomasfejfar.cz/) dali dohromady za hodinku...
 
 Nevýhodou DocBooku a TeXu je chybějící kontrola pravopisu. Ale z DocBooku jde vygenerovat i HTML a to otevřít ve Wordu, takže to nějaký zásadní problém není.
 

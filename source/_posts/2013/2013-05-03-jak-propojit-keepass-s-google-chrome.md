@@ -43,9 +43,9 @@ Nastavení Chrome
 
 Pro Tips:
 ----------
-- Existuje obdobné rozšíření pro Firefox - [PassIFox](https://addons.mozilla.org/En-us/firefox/addon/passifox/)
+- Existuje obdobné rozšíření pro Firefox - [PassIFox](https://github.com/pfn/passifox)
 - rozšíření vás umí automaticky přihlásit do webů, které mají HTTP autentizaci
-![](/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-06-chrome-httpauth.png)
+![Chrome HTTP authorization](/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-06-chrome-httpauth.png)
 
 Jak pracujete s hesly vy? Pochlubte se v komentářích!
 

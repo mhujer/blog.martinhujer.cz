@@ -2,7 +2,7 @@
 title: phpDocumentor 2 místo DocBloxu
 ---
 
-V [bakalářce](/bp/) jsem popisoval rozhodování mezi různými nástroji na generování PHP API dokumentace v rámci kontinuální integrace. Teď se výběr zjednodušil, proto z nástroje DocBlox se [stal se phpDocumentor 2](http://www.docblox-project.org/2012/03/docblox-is-unmasked-it-is-really-phpdocumentor-2/). Sice se v článku mluví o [merge", ale ve skutečnosti jde o "přejmenování](https://github.com/phpDocumentor/phpDocumentor2/commit/4d2dd3a36c4df21eaf2f254b0ca2ef281995e254) s tím, že původní phpDocumentor se přestane vyvíjet.
+V [bakalářce](/bp/) jsem popisoval rozhodování mezi různými nástroji na generování PHP API dokumentace v rámci kontinuální integrace. Teď se výběr zjednodušil, proto z nástroje DocBlox se stal se phpDocumentor 2. Sice se v článku mluví o [merge", ale ve skutečnosti jde o "přejmenování](https://github.com/phpDocumentor/phpDocumentor2/commit/4d2dd3a36c4df21eaf2f254b0ca2ef281995e254) s tím, že původní phpDocumentor se přestane vyvíjet.
 
 Nainstalovat ho můžeme pomocí:
 ~~~bash

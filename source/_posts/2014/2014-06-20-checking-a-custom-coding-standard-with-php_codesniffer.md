@@ -46,7 +46,7 @@ You should reach for those as a last resort, such as when the piece of the code 
 
 Adding more rules to the ruleset
 --------------------------------------------
-When you (and the whole team) are comfortable with writing code according to specified coding standard and the PHPCS is run regularly (typically as a part of a Jenkins CI build), you can be more strict and add more rules to the ruleset. It can be easily done by checking [some](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/PSR1/ruleset.xml) [already](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/PSR2/ruleset.xml) [existing](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/CodeSniffer/Standards/Squiz/ruleset.xml) [standards](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/CodeSniffer/Standards) and choosing some rules from them. You can do it incrementally - choose one rule that looks good, add it to your ruleset and see what happens after you run PHPCS.
+When you (and the whole team) are comfortable with writing code according to specified coding standard and the PHPCS is run regularly (typically as a part of a Jenkins CI build), you can be more strict and add more rules to the ruleset. It can be easily done by using [some already existing standard](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards) and choosing some rules from them. You can do it incrementally - choose one rule that looks good, add it to your ruleset and see what happens after you run PHPCS.
 
 You can check out [the coding standard we use for Shopio.cz](https://gist.github.com/mhujer/1e93face4a9d13648c91) to see everything that can be checked by PHPCS.
 

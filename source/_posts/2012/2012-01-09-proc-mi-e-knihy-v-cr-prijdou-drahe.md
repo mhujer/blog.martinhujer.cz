@@ -8,7 +8,7 @@ Ale co jejich cena? Chápu, jak se všude říká, že cena e-knihy nemůže bý
 
 K tomuto zamyšlení mě přivedl [přípěvek Karla Křenka na G+](https://plus.google.com/104151809562970331317/posts/fok9NdLmv55), na který jsem narazil, když jsem hledal recenzi zmíněné e-knihy [Živí a mrtví od Miroslava Žambocha](https://www.palmknihy.cz/detail/ebook_24167/Zivi_a_mrtvi) (Už ji mám v Kindlu, moje recenze comming soon).
 
-Podle obchodních podmínek [Palmknihy.cz](https://www.palmknihy.cz/web/p/obchodni-podminky) (čl 5., bod 3), [eReading.cz](http://www.ereading.cz/cs/nakupni-rad) (bod 5.1) a [RajKnih.cz](http://www.rajknih.cz/index.php?pg=12) (bod 5) jsou zakoupené e-knihy určené jen pro naši vlastní potřebu a nesmíme je půjčovat/šířit.
+Podle obchodních podmínek Palmknihy.cz (čl 5., bod 3), [eReading.cz](http://www.ereading.cz/cs/nakupni-rad) (bod 5.1) a RajKnih.cz (bod 5) jsou zakoupené e-knihy určené jen pro naši vlastní potřebu a nesmíme je půjčovat/šířit.
 Takže zatímco papírovou knihu můžu po přečtení půjčit (například někomu z rodiny), s ebookem mám smůlu (resp. když to udělám, tak jsem porušil licenční podmínky a je to horší, než kdybych e-book získal *alternativní* cestou).
 
 Stejně tak je zakázaný převod do jiných formátů, takže pokud se objeví nějaký nový, dominantní knižní formát, a prodejce eknih do té doby zkrachuje a neuvolní knihu i v novějším, tak si ji do něj nesmím převést (i když netuším, jestli licenční smlouva platí, když jeden subjekt zanikne). A pokud licenční smlouva už pak neplatí, tak když na jejím základě jsem oprávněn si ten e-book číst... (Kdo ví jak to je?)

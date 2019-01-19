@@ -6,7 +6,7 @@ Pokud teď píšete bakalářku nebo diplomku, tak jste si možná všimli, že 
 
 Jaký formát citací?
 ---------------
-Na [KIT FIS](http://kit.vse.cz) máme zpracované [instrukce na psaní BP/DP](http://kit.vse.cz/wp-content/uploads/2012/02/Po%C5%BEadavky-na-%C3%BApravu-z%C3%A1v%C4%9Bre%C4%8Dn%C3%BDch-prac%C3%AD.pdf), kde je jako ukázka citace v dokumentu uvedeno *[Novotný, 2011, str. 56]* (všimněte si hranatých závorek). Jenže o kousek níž je odkaz na [interpretace normy na citace.com](http://www.citace.com/download/CSN-ISO-690.pdf), kde jsou citace v textu doporučovány jako *Holá (2006)* nebo *(McQuail, 2002, s. 29)* (tedy v kulatých závorkách, a pokud je to součástí textu, tak je v závorkách jen rok). V formátu přehledu biografie jsem zatím odlišnosti nenašel.
+Na [KIT FIS](https://kit.vse.cz) máme zpracované instrukce na psaní BP/DP, kde je jako ukázka citace v dokumentu uvedeno *[Novotný, 2011, str. 56]* (všimněte si hranatých závorek). Jenže o kousek níž je odkaz na [interpretace normy na citace.com](http://www.citace.com/download/CSN-ISO-690.pdf), kde jsou citace v textu doporučovány jako *Holá (2006)* nebo *(McQuail, 2002, s. 29)* (tedy v kulatých závorkách, a pokud je to součástí textu, tak je v závorkách jen rok). V formátu přehledu biografie jsem zatím odlišnosti nenašel.
 
 Co s tím?
 ----------

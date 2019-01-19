@@ -8,7 +8,7 @@ Občas se mě někdo ptá, jestli se mi líbila vedlejška, kterou jsem na VŠE 
 
 Nevím, jestli je koncept vedlejších specializací běžný i jinde než na VŠE. Každopádně funguje to tak, že si na magistru kromě svého oboru (hlavní specializace, major) vyberete a odstudujete další mini-obor (minor). Je na to vyhrazených 30 ECTS kreditů, tedy jeden semestr. A typicky si vedlejšku vybíráte z úplně jiného oboru, než je váš hlavní.
 
-Já si jako vedlejšku vybral [3MS Malé a střední podniky](http://kpo.vse.cz/pedagogika/vedlejsi-specializace-podnikani/vedlejsi-specializace-3ms-male-a-stredni-podniky/)
+Já si jako vedlejšku vybral [3MS Malé a střední podniky](https://kpo.vse.cz/vedlejsi-specializace/male-a-stredni-podniky-3ms/)
 
 Výstupem mělo být: *"Vedlejší specializace je koncipována jako samostatný program umožňující budoucímu absolventovi snazší zvládnutí a výkon řídicí funkce v malém a středním podniku nebo založení a řízení vlastní firmy."*, což mi dávalo smysl.
 
