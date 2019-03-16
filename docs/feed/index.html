@@ -3,11 +3,106 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2019-03-12T13:06:08+00:00</updated>
+    <updated>2019-03-16T16:10:36+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[4 Tips for Faster Gitlab CI Builds for Symfony Applications]]></title>
+            <link href="https://blog.martinhujer.cz/4-tips-for-faster-gitlab-ci-build-symfony-application/"/>
+            <updated>2019-03-16T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/4-tips-for-faster-gitlab-ci-build-symfony-application/</id>
+            <content type="html"><![CDATA[<blockquote>
+  <p>Some of those tips are also applicable to non-Symfony applications and to non-Gitlab CI pipelines, so keep reading even if you are not using them.</p>
+</blockquote>
+
+<p>Waiting for a CI build to finish so can merge the feature is annoying, but it is still by an order of magnitude better than not having CI at all.</p>
+
+<p>In this article I will show you some tips which I used in <a href="https://www.outdoorvisit.com/">OutdoorVisit</a> to make our CI build faster.</p>
+
+<h1 id="tip-%231%3A-you-may-not-need-php-lint">Tip #1: You may not need PHP Lint</h1>
+
+<p>Linting of PHP files can be done as easily as running <code>php -l myfile.php</code>. I've included PHP Lint as a part of the build since ever. At first, I was using <code>PhpLintTask</code> from Phing which checks each file separately. Later I switched to <a href="https://github.com/JakubOnderka/PHP-Parallel-Lint">PHP-Parallel-Lint</a> which checks multiple files in parallel.</p>
+
+<p>Recently I noticed that our CI build is taking more time to run. It wasn't a glitch, we were just adding more and more files to the project. The PHP Lint <strong>was taking 31&nbsp;s</strong> of the build time although it ran 10 parallel checks. I couldn't remember the last time it discovered something, so I considered removing it completely. But it would open a risk of missing an error somewhere.</p>
+
+<p>I took a different approach. When the Symfony compiles the DI container, it tries to load all the files and fails on syntax errors. At least when you have this configured in <code>config/services.yaml</code>:</p>
+
+<pre><code class="yaml">services:
+    App\:
+        resource: '../src/*'
+</code></pre>
+
+<p>So instead of completely removing the PHP Lint, I just added <code>--exclude src</code> flag to the command, so it looks like this:</p>
+
+<pre><code class="bash">parallel-lint -j 10 --exclude vendor --exclude var --exclude src .
+</code></pre>
+
+<p><strong>It helped me to cut 20&nbsp;s from the build time without risking anything!</strong></p>
+
+<h1 id="tip-%232%3A-enable-php_codesniffer-cache-and-cache-it-between-builds">Tip #2: Enable PHP_CodeSniffer cache and cache it between builds</h1>
+
+<p>PHP_CodeSniffer check can take quite a lot of time when there are many files to check. It used to take around 60&nbsp;s in our build. We also usually run it locally before pushing so the waiting was annoying.</p>
+
+<p>Luckily, PHPCS has a built-in caching feature, which can be enabled by passing a command line argument: <code>--cache=./var/.phpcs-cache</code>. The cache-file path can be changed to anything else and you can also configure it as an option in your <code>phpcs.xml.dist</code> ruleset.</p>
+
+<p><strong>This sped up our CS check from 60&nbsp;s to 3&nbsp;s!</strong></p>
+
+<p>But it worked only locally, because the Gitlab CI and others like Bitbucket Pipelines create a new environment for each build. For Gitlab all you need to do is to add the path to <code>cache</code> section in <code>.gitlab-ci.yml</code> (We already had <code>vendor/</code> and <code>node_modules</code> there). Gitlab takes care of backing it up after the build and restoring it before the next build.</p>
+
+<pre><code class="yaml">  cache:
+    paths:
+      - node_modules/
+      - vendor/
+      - var/.phpcs-cache  &lt;-- added the PHPCS cache here
+</code></pre>
+
+<h1 id="tip-%233%3A-run-symfony-tests-with-%60debug%3Dfalse%60">Tip #3: Run Symfony tests with <code>debug=false</code></h1>
+
+<p>Apart from having a good number of unit tests, we also use some container tests and lots of controller tests for most of the frontend. They are slow (running against a database) but they are worth it because they detect tremendous number of issues and regressions.</p>
+
+<p>When you are running your Symfony application in <code>dev</code> or <code>test</code> environment, cache freshness is automatically checked on each request and invalidated if necessary. The great thing is that you don't have to worry about it, and you will never be surprised by stale cache. In <code>prod</code> mode, cache is not invalidated automatically, and you must take care of it manually during deploy.</p>
+
+<p>If you are running your whole test suite at once, there is no need to check the cache freshness before each test.</p>
+
+<p>It can be done by changing <code>APP_DEBUG</code> flag in <code>phpunit.xml.dist</code> file to <code>0</code>:</p>
+
+<pre><code class="xml">&lt;env name="APP_DEBUG" value="0" /&gt;
+</code></pre>
+
+<p>However, this solution is not perfect, because you will need to take care on invalidating the cache manually while you are developing. You can use this <a href="https://github.com/symfony/recipes/pull/530#issuecomment-467387200">custom <code>bootstrap.php</code> for tests</a> from Github.</p>
+
+<p>I chose a different approach for our project and just changed the environment variable for CI builds in <code>.gitlab-ci.yml</code>:</p>
+
+<pre><code class="yaml">variables:
+  APP_DEBUG: 0
+</code></pre>
+
+<p>As it affects only the CI, running the tests locally does not benefit from this - but on the other hand I don't have to worry about properly invalidating the cache (and I'm usually running just a few tests locally anyway).</p>
+
+<p><strong>This helped me to cut the tests running time in CI from 90 seconds to 53 seconds!</strong></p>
+
+<h1 id="tip-%234%3A">Tip #4:</h1>
+
+<p>If you have an application where you use NodeJS and npm just to compile assets such as CSS and JS, there is no need to stay on the very latest versions of the packages. However, because Webpack depends on lots of packages, npm will start spitting out messages like this during <code>npm install</code>:</p>
+
+<pre><code class="text">audited 9438 packages in 16.958s
+found 222 vulnerabilities (5 low, 213 moderate, 3 high, 1 critical)
+</code></pre>
+
+<p>As the JavaScript code installed through npm is never facing the hostile environment of the internet, those are not very scary. But they are unnecessarily cluttering the build output, so I decided to disable them. It can be done by adding <code>--no-audit</code> switch to <code>npm install</code></p>
+
+<pre><code class="bash">npm install --no-audit
+</code></pre>
+
+<p>Apart from cleaning out the build output, it <strong>saved several seconds from the <code>npm install</code> run</strong> which is neat.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Do you know other tricks how to make the CI build faster? Please share them in comments!</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Povinné ručení od České Pojišťovny - Jak ho zlevnit?]]></title>
             <link href="https://blog.martinhujer.cz/povinne-ruceni-ceska-pojistovna-zlevneni/"/>
@@ -1220,154 +1315,6 @@ var_dump($matches); // ['bcd']
 <h2 id="conclusion">Conclusion</h2>
 
 <p>It is a good practice to keep most of the things sorted alphabetically to prevent merge conflicts. However, it can be a tedious task to do manually. Luckilly the YAML files can be automatically checked with <a href="https://github.com/mhujer/yaml-sort-checker">YAML file sort checker</a>.</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Have you tried Composer Scripts? You may not need Phing.]]></title>
-            <link href="https://blog.martinhujer.cz/have-you-tried-composer-scripts/"/>
-            <updated>2018-01-14T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/have-you-tried-composer-scripts/</id>
-            <content type="html"><![CDATA[<p>Phing is a great tool (I'm using it as well), but in this article, I want to show you that some projects may not need it. Composer contains a powerful feature called "<a href="https://getcomposer.org/doc/articles/scripts.md">Scripts</a>", which can be used to create a simple build script.</p>
-
-<blockquote>
-  <p>If you haven't read it yet, I suggest that you read my article <a href="/17-tips-for-using-composer-efficiently/">17 Tips for Using Composer Efficiently</a> before reading this one.</p>
-</blockquote>
-
-<h2 id="creating-a-build-script-for-launching-php_codesniffer">Creating a build script for launching PHP_CodeSniffer</h2>
-
-<p>Let's say that you have installed PHP_CodeSniffer and you run it with this command:</p>
-
-<pre><code class="bash">vendor/bin/phpcs --standard=PSR2 src
-</code></pre>
-
-<p>You probably want your colleagues and CI server to run it with the same parameters. To do so, you need to store it somewhere. You can either create a <code>build.xml</code> for Phing or put it in a bash script (and batch file to cover Windows). Or you can leverage the power of Composer scripts.</p>
-
-<p>Put the command to the <code>composer.json</code> file with all its parameters:</p>
-
-<pre><code class="json">  "scripts": {
-      "phpcs": "phpcs --standard=PSR2 src"
-  }
-</code></pre>
-
-<p>And run it this way:</p>
-
-<pre><code class="bash"># either explicitly:
-composer run-script phpcs
-
-# or via shortcut:
-composer phpcs
-</code></pre>
-
-<h2 id="tip%3A-use-alias-for-running-composer">Tip: Use alias for running Composer</h2>
-
-<p>If you are launching Composer by typing <code>composer</code> (or even <code>php composer.phar</code>) every time, you may want to save time by creating an alias for it.</p>
-
-<p>On Windows, you need to create a <code>.cmd</code> file in a directory which is in the system PATH. I've created <code>c:\dev\php\x.cmd</code> with this content (<code>%*</code> passes through all the parameters):</p>
-
-<pre><code class="bash">php c:\devweb\php\composer.phar %*
-</code></pre>
-
-<p>On Linux, you can add an alias to <code>~/.bashrc</code>:</p>
-
-<pre><code>alias x="composer"
-</code></pre>
-
-<p>Now you can run Composer just by typing <code>x</code> and a command (e.g. <code>x phpcs</code>).</p>
-
-<h2 id="tip%3A-don%27t-type-whole-composer-command-name">Tip: Don't type whole Composer command name</h2>
-
-<p>Because Composer CLI is powered by Symfony Console, you can save some characters on unambiguous commands. Instead of writing <code>composer update</code>, it is enough to write <code>composer up</code> (or only <code>x up</code> if you also applied the previous tip)</p>
-
-<h2 id="creating-more-complex-build-script">Creating more complex build script</h2>
-
-<p>Let's start with an example:</p>
-
-<pre><code class="json">  "scripts": {
-      "ci": [
-          "@phpcs",
-          "@test"
-      ],
-      "phpcs": "phpcs --standard=PSR2 src",
-      "test": "phpunit"
-  }
-</code></pre>
-
-<p>I've added a new script called <code>test</code> which just launches PHPUnit with default configuration.</p>
-
-<p>The <code>ci</code> script is more interesting. It is not an actual script, but a meta-script that references several other scripts. The referenced scripts are prefixed by <code>@</code>. This way, you can create more complex scripts without duplication.</p>
-
-<h2 id="launching-composer-or-php-from-scripts">Launching Composer or PHP from scripts</h2>
-
-<p>You can use the <code>@composer</code> and <code>@php</code> commands to launch the same Composer or PHP executable that is running the script.</p>
-
-<p>For example you may want to validate the <code>composer.json</code> file during CI build:</p>
-
-<pre><code class="json">  "scripts": {
-      "ci": [
-          "@composer validate --no-check-all --strict",
-          ...
-      ]
-  }
-</code></pre>
-
-<p>Or you want to use YAML validation that is available as a Symfony Console command:</p>
-
-<pre><code class="json">"scripts": {
-    "yamllint": "@php bin/console lint:yaml app"
-}
-</code></pre>
-
-<h2 id="don%27t-forget-to-document-the-custom-scripts">Don't forget to document the custom scripts</h2>
-
-<p>You can use the <code>scripts-descriptions</code> section to document what custom scripts do:</p>
-
-<pre><code class="json">"scripts-descriptions": {
-    "phpcs": "Checks that the application code conforms to coding standard",
-    "test": "Launches the preconfigured PHPUnit"
-}
-</code></pre>
-
-<h2 id="configure-timeout-for-long-running-scripts">Configure timeout for long-running scripts</h2>
-
-<p>If you have some long-running scripts, you should configure the process timeout. It defaults to <code>300</code> which means that Composer will terminate the script after 300s. You can either set a specific time limit in seconds, or <code>0</code> for unlimited.</p>
-
-<p>Timeout can be configured in the ENV variable <code>COMPOSER_PROCESS_TIMEOUT</code>:</p>
-
-<pre><code class="bash">export COMPOSER_PROCESS_TIMEOUT=600
-</code></pre>
-
-<p>Or by adding <code>--timeout=0</code> argument when running the script:</p>
-
-<pre><code class="bash">composer phpunit --timeout=3600
-</code></pre>
-
-<p>Or in <code>config</code> section of <code>composer.json</code>:</p>
-
-<pre><code class="json">"config": {
-    "process-timeout": 0
-}
-</code></pre>
-
-<h2 id="tips-for-the-scripts%3A">Tips for the Scripts:</h2>
-
-<ol>
-<li><p>You can use <code>composer run-script --list</code> to list custom scripts.</p></li>
-<li><p>Be careful not to create a script with a name conflicting with the existing Composer command. Composer throws a warning on every run when such a script is present in <code>composer.json</code>.</p></li>
-<li><p>You don't have to update <code>composer.lock</code> when adding or changing the scripts, because they are not included in <code>composer.lock</code> at all.</p></li>
-<li><p>You can even <a href="https://getcomposer.org/doc/articles/scripts.md#defining-scripts">call PHP callbacks from scripts</a> (Static methods in classes autoloadable by Composer). But I don't recommend using them for build scripts because potential migration to other build system would be hard.</p></li>
-</ol>
-
-<h2 id="when-should-i-switch-to-phing%3F">When should I switch to Phing?</h2>
-
-<p>Composer Scripts are great for simple build scripts. But it is important to recognize the moment when the build script is so complex, that a dedicated build tool would do better.</p>
-
-<p>As a rule of thumb, you shouldn't do any files / directories manipulation in Composer scripts (as it would be hard to do it Linux/Windows compatible) and switch to Phing instead.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Composer scripts are a lightweight tool to create build scripts. However, it is important to know when to switch to a dedicated tool such as Phing.</p>
-
-<p>Do you like them?</p>
 ]]></content>
         </entry>
     </feed>
