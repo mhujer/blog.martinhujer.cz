@@ -80,7 +80,7 @@ As it affects only the CI, running the tests locally does not benefit from this 
 **This helped me to cut the tests running time in CI from 90 seconds to 53 seconds!**
 
 
-# Tip #4:  
+# Tip #4: Run `npm install` with `--no-audit`
 
 If you have an application where you use NodeJS and npm just to compile assets such as CSS and JS, there is no need to stay on the very latest versions of the packages. However, because Webpack depends on lots of packages, npm will start spitting out messages like this during `npm install`: 
 
