@@ -44,8 +44,8 @@ Po projížďce vás ještě čeká ukázka toho, že sopka je aktivní (horkem 
 ## Vstupenky Bonos
 Na Lanzarote si můžete zakoupit jednu vstupenku ke vstupu na několik hlavních turistických atrakcí. Je to levnější než si kupovat jednotlivé vstupy zvlášť. [Více informací najdete na oficiálním webu](https://www.cactlanzarote.com/es/organizate/#1467148563491-82734bd2-4300).
 
-## [César Manrique](https://www.amazinglanzarote.com/cesar-manrique/)
-César Manrique byl slavný lanzarotský umělec, sochař a architekt 20. století. Navrhnul spoustu věcí, které na Lanzarote uvidíte. Takový místní Jára Cimrman.
+## César Manrique
+[César Manrique](https://www.amazinglanzarote.com/cesar-manrique/) byl slavný lanzarotský umělec, sochař a architekt 20. století. Navrhnul spoustu věcí, které na Lanzarote uvidíte. Takový místní Jára Cimrman.
 
 ## Casa Museo De César Manrique
 Ve městě Haría je [Casa Museo De César Manrique](https://goo.gl/maps/Qy7bU9SXNYr) - muzeum v domě, kde žil César Manrique. Dovnitř jsme nakonec nešli, protože nám 10€ za vstup přišlo hodně a nechtěli jsme trávit odpoledne vevnitř v muzeu.
@@ -65,19 +65,19 @@ Cestou z Mirador del Río sí můžete udělat krátký výlet na kráter Volcá
 ![Lanzarote - Caldera de Monte Corona](/data/2018/2018-12-16-lanzarote-kam-na-vylety/caldera-de-monte-corona.jpg)
 
 ## Cueva de los Verdes
-[Cueva de los Verdes](https://goo.gl/maps/r1684dhc7tP2) je podzemní jeskyně sopečného původu (vypadá to jako krápníková jeskyně, ale nejsou tam krápníky). Vznikla tak, že tamtudy tekla roztavená láva směrem k moři. Určitě stojí za návštěvu.
+[Cueva de los Verdes](https://www.amazinglanzarote.com/cueva-de-los-verdes/) je podzemní jeskyně sopečného původu (vypadá to jako krápníková jeskyně, ale nejsou tam krápníky). Vznikla tak, že tamtudy tekla roztavená láva směrem k moři. Určitě stojí za návštěvu.
 
 ![Lanzarote - Cueva de los Verdes](/data/2018/2018-12-16-lanzarote-kam-na-vylety/cueva-verdes.jpg)
 
 ## Jameos del Agua
-[Jameos del Agua](https://goo.gl/maps/FWhayPq3BpR2) je jeskyně s velkým podzemním jezírkem, kde žijí bílí mini-krabi. Kromě jiného tam je také muzeum a podzemní koncertní síň. Samozřejmě v tom má zase prsty César Manrique.
+[Jameos del Agua](https://www.amazinglanzarote.com/jameos-del-agua/) je jeskyně s velkým podzemním jezírkem, kde žijí bílí mini-krabi. Kromě jiného tam je také muzeum a podzemní koncertní síň. Samozřejmě v tom má zase prsty César Manrique.
 
 ![Lanzarote - Jameos del Agua](/data/2018/2018-12-16-lanzarote-kam-na-vylety/jameos-del-agua.jpg)
 
 ![Lanzarote - Jameos del Agua - Sunset](/data/2018/2018-12-16-lanzarote-kam-na-vylety/jameos-del-agua-sunset.jpg)
 
 ## [Jardín de Cactus](https://www.amazinglanzarote.com/cactus-garden-jardin-de-cactus/)
-[Jardín de Cactus](https://goo.gl/maps/k6WHFi7Bfc92) je obrovská kaktusová zahrada, kterou (jak jinak) navrhl César Manrique. Pokud budete z chození mezi kaktusy unavení, tak si můžete dát kávu v kavárně, která je součástí zahrady. (Baví mě, že i na takhle turisticky exponovaném místě ta káva je docela dobrá a není předražená).
+Jardín de Cactus je obrovská kaktusová zahrada, kterou (jak jinak) navrhl César Manrique. Pokud budete z chození mezi kaktusy unavení, tak si můžete dát kávu v kavárně, která je součástí zahrady. (Baví mě, že i na takhle turisticky exponovaném místě ta káva je docela dobrá a není předražená).
 
 ![Lanzarote - Jardín de Cactus](/data/2018/2018-12-16-lanzarote-kam-na-vylety/jardin-de-cactus.jpg)
 
@@ -87,7 +87,7 @@ Historická vesnice [Teguise](https://goo.gl/maps/r2JPMYeeckk) byla kdysi hlavn�
 ![Lanzarote - Castillo de Santa Barbara](/data/2018/2018-12-16-lanzarote-kam-na-vylety/teguise-castillo-de-santa-barbara.jpg)
 
 ## Casa Museo del Campesino
-[Casa Museo del Campesino](https://goo.gl/maps/o1JoCuRjrdk) je muzeum zemědělství a řemesel (vstup zdarma). Uprostřed areálu můžete sejít do jeskyně s tunelem. Celé to vymyslel náš známý César Manrique včetně monumentu stojícího před muzeem.
+[Casa Museo del Campesino](https://www.amazinglanzarote.com/casa-museo-del-campesino/) je muzeum zemědělství a řemesel (vstup zdarma). Uprostřed areálu můžete sejít do jeskyně s tunelem. Celé to vymyslel náš známý César Manrique včetně monumentu stojícího před muzeem.
 
 ![Lanzarote - Casa Museo del Campesino](/data/2018/2018-12-16-lanzarote-kam-na-vylety/museo-del-campesino.jpg)
 
