@@ -145,3 +145,6 @@ A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy n
 
 Vytvořil jsem ještě samostatný [web s informacemi o Lanzarote](https://www.amazinglanzarote.com/) (v angličtině).
 
+## OutdoorVisit outdoor tours
+
+Na Lanzarote se [můžete naučit surfovat](https://www.outdoorvisit.com/canary-islands/lanzarote/surfing/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post), [jít na hike s průvodcem](https://www.outdoorvisit.com/canary-islands/lanzarote/hiking/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post) nebo se podívejte na [nejlepší outdoorové aktivity na Lanzarote](https://www.outdoorvisit.com/canary-islands/lanzarote/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post).

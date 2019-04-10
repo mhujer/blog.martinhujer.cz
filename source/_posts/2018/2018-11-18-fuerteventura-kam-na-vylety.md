@@ -186,4 +186,4 @@ A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy n
 
 ## OutdoorVisit outdoor tours
 
-Pokud chcete zkusit něco netradičního, tak doporučuji mrknout na [outdoorové zážitky a výlety na Fuerteventuře](https://www.outdoorvisit.com/canary-islands/fuerteventura/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post).
+Na Fuerteventuře se [můžete naučit surfovat](https://www.outdoorvisit.com/canary-islands/fuerteventura/surfing/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post), [jet na e-bike výlet](https://www.outdoorvisit.com/canary-islands/fuerteventura/e-biking/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post) nebo se podívejte na [nejlepší outdoorové aktivity na Fuerteventuře](https://www.outdoorvisit.com/canary-islands/fuerteventura/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post).
