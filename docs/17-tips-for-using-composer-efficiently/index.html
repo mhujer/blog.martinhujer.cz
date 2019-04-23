@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>17 Tips for Using Composer Efficiently &mdash; Martin Hujer blog</title>
+        <title>24 Tips for Using Composer Efficiently &mdash; Martin Hujer blog</title>
         <meta charset="utf-8">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +31,7 @@
                 <div class="col-md-11">
                         <article>
         <header>
-            <h2>17 Tips for Using Composer Efficiently</h2>
+            <h2>24 Tips for Using Composer Efficiently</h2>
             <p><small>2018-01-05</small></p>
         </header>
 
@@ -353,6 +353,36 @@ script:
 <h2 id="tip-%2322%3A-try-composer-scripts">Tip #22: Try Composer scripts</h2>
 
 <p>Composer scripts are a lightweight tool to create build scripts. I have written <a href="/have-you-tried-composer-scripts/">a separate article about them</a>.</p>
+
+<h2 id="tip-%2323%3A-use-composer-cli-to-remove-packages">Tip #23: Use Composer CLI to remove packages</h2>
+
+<blockquote>
+  <p>added on April 23th 2019</p>
+</blockquote>
+
+<p>The best way to remove the package from <code>composer.json</code> is by using a Composer command line interface. In the following example I'm removing <code>phpoffice/phpspreadsheet</code> because it is not needed in the project anymore. You can see that its sub-dependencies which are no longer necessary are automatically uninstalled as well:</p>
+
+<pre><code class="bash">&gt; composer remove phpoffice/phpspreadsheet
+
+Package operations: 0 installs, 0 updates, 3 removals
+  - Removing phpoffice/phpspreadsheet (1.6.0)
+  - Removing markbaker/matrix (1.1.4)
+  - Removing markbaker/complex (1.4.7) 
+</code></pre>
+
+<p>This is much better approach than removing it manually from <code>composer.json</code> and running <code>composer update</code>. That would make unrelated changes to the installed dependencies (see Tip #11 for more information on how to update the dependencies safely).</p>
+
+<h2 id="tip-%2324%3A-do-not-use-code-from-transitive-dependencies">Tip #24: Do not use code from transitive dependencies</h2>
+
+<blockquote>
+  <p>added on April 23th 2019</p>
+</blockquote>
+
+<p>Imagine that you have required some library (e.g. <em>AcmePayment</em>) which in turn requires <code>nette/utils</code> package (<code>nette/utils</code> is called a <em>transitive</em> dependency in this case - it is a dependency of a dependency).</p>
+
+<p>Because <code>nette/utils</code> package provides lot of helper functions, you start to use them. But then you stopped using the <em>AcmePayment</em> library and removed it from the project. In an unexpected turn of events, <code>nette/utils</code> was also removed, because it wasn't required in the project (from the Composer's point of view).</p>
+
+<p>The solution is to include all libraries you use in the <code>require</code> section of the <code>composer.json</code>. There is a tool called <a href="https://github.com/maglnet/ComposerRequireChecker">ComposerRequireChecker</a> which should be able to detect the missing ones.</p>
 
 <h2 id="conclusion">Conclusion</h2>
 

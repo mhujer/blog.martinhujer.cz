@@ -1,5 +1,5 @@
 ---
-title: 17 Tips for Using Composer Efficiently
+title: 24 Tips for Using Composer Efficiently
 showPhpTrainingAd: true
 ---
 
@@ -330,6 +330,33 @@ You don't want to include test files in production class map (because of the fil
 
 Composer scripts are a lightweight tool to create build scripts. I have written [a separate article about them](/have-you-tried-composer-scripts/).
 
+
+## Tip #23: Use Composer CLI to remove packages
+> added on April 23th 2019
+
+The best way to remove the package from `composer.json` is by using a Composer command line interface. In the following example I'm removing `phpoffice/phpspreadsheet` because it is not needed in the project anymore. You can see that its sub-dependencies which are no longer necessary are automatically uninstalled as well:
+
+```bash
+> composer remove phpoffice/phpspreadsheet
+
+Package operations: 0 installs, 0 updates, 3 removals
+  - Removing phpoffice/phpspreadsheet (1.6.0)
+  - Removing markbaker/matrix (1.1.4)
+  - Removing markbaker/complex (1.4.7) 
+```
+
+This is much better approach than removing it manually from `composer.json` and running `composer update`. That would make unrelated changes to the installed dependencies (see Tip #11 for more information on how to update the dependencies safely).
+
+
+## Tip #24: Do not use code from transitive dependencies
+> added on April 23th 2019
+
+Imagine that you have required some library (e.g. _AcmePayment_) which in turn requires `nette/utils` package (`nette/utils` is called a _transitive_ dependency in this case - it is a dependency of a dependency).
+
+Because `nette/utils` package provides lot of helper functions, you start to use them. But then you stopped using the _AcmePayment_ library and removed it from the project. In an unexpected turn of events, `nette/utils` was also removed, because it wasn't required in the project (from the Composer's point of view).
+
+The solution is to include all libraries you use in the `require` section of the `composer.json`. There is a tool called [ComposerRequireChecker](https://github.com/maglnet/ComposerRequireChecker) which should be able to detect the missing ones.
+  
 
 ## Conclusion 
 
