@@ -32,6 +32,8 @@ Zároveň je složitější z ní převést peníze zpět na český účet (mys
 
 Na jejich Facebook stránce jsem zachytil, že psali o nějakém výpadku, takže určitě na ni nespoléhejte jako na jedinou kartu (ale to ani na žádnou jinou!).
 
+Limit pro výběry z bankomatu zdarma je 200€ měsíčně, což nám většinou stačilo (co jde se stejně snažím platit přímo kartou).
+
 
 ## Shrnutí
 
