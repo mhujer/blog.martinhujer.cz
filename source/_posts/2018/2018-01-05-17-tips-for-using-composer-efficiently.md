@@ -7,11 +7,11 @@ Although most PHP developers know how to use Composer, not all of them are using
 
 The philosophy of most of the tips is *"Play it safe"*, which means that if there are more ways how to handle something, I would use the approach which is least error-prone.
 
-## Tip #1: Read the documentation
+## [Tip #1](tip-%231%3A-read-the-documentation): Read the documentation
 
 I really mean it. [The documentation](https://getcomposer.org/doc/) is great and a few hours of reading it will save you more time in the long run. You would be surprised how many things Composer can do.
 
-## Tip #2: Be aware of differences between a "project" and a "library"
+## [Tip #2](tip-%232%3A-be-aware-of-differences-between-a-%22project%22-and-a-%22library%22): Be aware of differences between a "project" and a "library"
 
 It's important to know, whether you are creating a *"project"* or a *"library"*. Each of them requires separate set of practices.
 
@@ -21,7 +21,7 @@ A project is typically an application, that depends on several libraries. It is 
 
 I will distinguish between library and a project in the tips bellow.
 
-## Tip #3: Use specific dependencies' versions for applications
+## [Tip #3](tip-%233%3A-use-specific-dependencies%27-versions-for-applications): Use specific dependencies' versions for applications
 
 If you are creating an application, you should use the most specific version to define the dependency. If you need to parse YAML files, you should specify the dependency like this `"symfony/yaml": "4.0.2"`.
 
@@ -31,7 +31,7 @@ The update of dependencies should be deliberate, not accidental. One of the tips
 
 It may sound as an overkill, but it will prevent your co-workers from accidentally updating all dependencies when adding a new library to project (which you may miss during Code Review). 
 
-## Tip #4: Use version ranges for libraries dependencies
+## [Tip #4](tip-%234%3A-use-version-ranges-for-libraries-dependencies): Use version ranges for libraries dependencies
 
 If you are creating a library, you should define the broadest version range possible. If you create a library that uses `symfony/yaml` library for YAML parsing, you should require it like this:
 
@@ -44,12 +44,12 @@ It means that your library can utilize `symfony/yaml` from any Symfony 3.x or 4.
 In case there are two libraries with conflicting requirements, e.g. one requires `~3.1.0` and other requires `~3.2.0`, the installation would fail. 
 
 
-## Tip #5: You should commit `composer.lock` to git in applications
+## [Tip #5](tip-%235%3A-you-should-commit-%60composer.lock%60-to-git-in-applications): You should commit `composer.lock` to git in applications
 If you are creating *a project*, you definitely want to commit `composer.lock` to git. This ensures that everyone - you, your co-workers, your CI server and your production server - is running the application with the same dependencies versions.
 
 At first glance, it may sound superfluous - you are already using a specific version in the constraint, as mentioned in the tip #3. But no, there are also the dependencies of your dependencies which are not bound by these constraints (e.g. `symfony/console` depends on `symfony/polyfill-mbstring`). So without committing the `composer.lock`, you won't get the exact same set of dependencies.
 
-## Tip #6: Put `composer.lock` into `.gitignore` in libraries
+## [Tip #6](tip-%236%3A-put-%60composer.lock%60-into-%60.gitignore%60-in-libraries): Put `composer.lock` into `.gitignore` in libraries
 
 If you are creating *a library* (let's call it `acme/my-library`), you should not commit a `composer.lock` file. It [does not have any effect](https://getcomposer.org/doc/02-libraries.md#lock-file) on the projects that are using your library.
 
@@ -59,7 +59,7 @@ It is best to put `composer.lock` into your `.gitignore` so you won't commit it 
 
 If you want to make sure that the library is compatible with different versions of its dependencies, read the next tip!
 
-## Tip #7: Run Travis CI builds with different versions of dependencies
+## [Tip #7](tip-%237%3A-run-travis-ci-builds-with-different-versions-of-dependencies): Run Travis CI builds with different versions of dependencies
 
 > This tip applies only to libraries (because you use specific versions for applications).
 
@@ -94,7 +94,7 @@ See it live in [my mhujer/fio-api-php library](https://github.com/mhujer/fio-api
 
 Even though this solution would catch most of the incompatibilities, remember that there are many combinations of dependencies between lowest and latest versions. And they may be incompatible together.
 
-## Tip #8: Sort packages in require and require-dev by name
+## [Tip #8](tip-%238%3A-sort-packages-in-require-and-require-dev-by-name): Sort packages in require and require-dev by name
 
 It is a good practice to keep packages in `require` and `require-dev` sorted by name. It can prevent unnecessary merge conflicts when rebasing a branch. Because if you have added a package to the end of the list in two branches, there would be a merge conflict every time.
 
@@ -112,7 +112,7 @@ It is a tedious task to do manually, so it is best to [configure it](https://get
 
 Next time, you `require` a new package, it will be added to a proper place (and not to the end).
 
-## Tip #9: Do not attempt to merge `composer.lock` when rebasing or merging
+## [Tip #9](tip-%239%3A-do-not-attempt-to-merge-%60composer.lock%60-when-rebasing-or-merging): Do not attempt to merge `composer.lock` when rebasing or merging
 
 If you add a new dependency to `composer.json` (and `composer.lock`) and before your branch is merged, there is another dependency added in master, you need to rebase your branch. And you will get a merge-conflict in `composer.lock`.
 
@@ -128,7 +128,7 @@ You can remedy this issue by using short-lived feature branches as suggested in 
 
 But what to do, if you encounter a merge conflict in `composer.lock` when rebasing? Resolve it with the version from master, so you will have changes only in `composer.json` (the newly added package). And then run `composer update --lock`, which will to update the `composer.lock` file with changes from `composer.json`. Now you can stage the updated  `composer.lock` and continue with the rebase.
 
-## Tip #10: Know the difference between `require` and `require-dev`
+## [Tip #10](tip-%2310%3A-know-the-difference-between-%60require%60-and-%60require-dev%60): Know the difference between `require` and `require-dev`
 It is important to be aware of the difference between `require` and `require-dev` blocks.
 
 Packages which are required to run the application or library should be defined in `require` (e.g. Symfony, Doctrine, Twig, Guzzle, …). If you are creating a library, be careful about what you put to `require`. Because each dependency from this section is also a dependency of the application, which uses the library.
@@ -136,7 +136,7 @@ Packages which are required to run the application or library should be defined 
 Packages necessary for developing the application (or library) should be defined in `require-dev` (e.g. PHPUnit, PHP_CodeSniffer, PHPStan).
 
 
-## Tip #11: Update dependencies safely
+## [Tip #11](tip-%2311%3A-update-dependencies-safely): Update dependencies safely
 
 I guess we can agree on the fact that dependencies should be updated regularly. What I want to discuss here is that dependencies updating should be explicit and deliberate, not done just by-the-way with some other work. If you refactor something and at the same time update some library, you can't easily tell if the app was broken by the refactoring or by the update.
 
@@ -169,7 +169,7 @@ I know that this all sounds tedious, but you will probably update dependencies j
 
 One shortcut which is acceptable to make is to update all `require-dev` dependencies at once (if they do not require changes in the code, otherwise I would suggest using separate branches for easier code review).
 
-## Tip #12: You can define other types of dependencies in `composer.json`
+## [Tip #12](tip-%2312%3A-you-can-define-other-types-of-dependencies-in-%60composer.json%60): You can define other types of dependencies in `composer.json`
 Apart from defining libraries as dependencies, you can also define other things there.
 
 You can define, which PHP versions your application/library supports:
@@ -190,20 +190,20 @@ You can also define which extensions are required for the application/library. I
 (You should use `*` for the extensions version as [they may be a bit inconsistent](https://getcomposer.org/doc/01-basic-usage.md#platform-packages)).
 
 
-## Tip #13: Validate the `composer.json` during the CI build
+## [Tip #13](tip-%2313%3A-validate-the-%60composer.json%60-during-the-ci-build): Validate the `composer.json` during the CI build
 `composer.json` and `composer.lock` should be always kept in sync. Therefore, it is a good idea to have an automatic check for it. Just add this as a part of you build script and it will ensure that `composer.lock` is in sync with `composer.json`:
 
 ```bash
 composer validate --no-check-all --strict
 ```
 
-## Tip #14: Use a Composer plugin in PHPStorm
+## [Tip #14](tip-%2314%3A-use-a-composer-plugin-in-phpstorm): Use a Composer plugin in PHPStorm
 
 There is a [composer.json plugin for PHPStorm](https://plugins.jetbrains.com/plugin/7631-php-composer-json-support). It adds autocompletion and some validations when changing `composer.json` manually.
 
 If you are using other IDE (or just a code editor), you can setup validation against [its JSON schema](https://getcomposer.org/schema.json).
 
-## Tip #15: Specify the production PHP version in `composer.json`
+## [Tip #15](tip-%2315%3A-specify-the-production-php-version-in-%60composer.json%60): Specify the production PHP version in `composer.json`
 
 If you are like me and you are sometimes [running pre-released PHP versions locally](https://blog.martinhujer.cz/php-7-2-is-due-in-november-whats-new/), you are in risk of updating the dependencies to a version that won't work in production. Right now, I'm using PHP 7.2.0 which means, that I can install libraries, that would not work on 7.1. As the production is running 7.1, the installation would fail there.
 
@@ -230,7 +230,7 @@ Don't confuse it with `require` section, which behaves differently. Your applica
 },
 ```
 
-## Tip #16: Using private packages from self-hosted Gitlab
+## [Tip #16](tip-%2316%3A-using-private-packages-from-self-hosted-gitlab): Using private packages from self-hosted Gitlab
 It is recommended to use `vcs` as a repository type and the Composer should determine the proper way of fetching the packages. For example, if you are adding a fork from Github, it would use its API to download the .zip file instead of cloning the whole repository.
 
 But it is more complicated for a private Gitlab installation. If you use `vcs` as a repository type, Composer will detect that it is a Gitlab installation would try to download the package using the API (which requires an API key. I didn't want to set it up, so I settled for this setup (which uses SSH for cloning):
@@ -253,7 +253,7 @@ Then use the package as you would have normally:
 }
 ```
 
-## Tip #17: How to temporarily use a branch with bugfix from fork
+## [Tip #17](tip-%2317%3A-how-to-temporarily-use-a-branch-with-bugfix-from-fork): How to temporarily use a branch with bugfix from fork
 If you find a bug in some public library and you fix it in your fork on Github, you need to install the library from this repository instead of the official one (until the bugfix is merged and fixed version is released).
 
 It can be done easily with [inline aliasing](https://getcomposer.org/doc/articles/aliases.md#require-inline-alias):
@@ -279,7 +279,7 @@ You can test the bugfix locally before pushing it by [using `path` as a reposito
 ## Update 2018-01-08:
 After publishing the article, I got suggestions for several more tips. So here they are:
 
-## Tip #18: Install prestissimo to speed up package installation
+## [Tip #18](tip-%2318%3A-install-prestissimo-to-speed-up-package-installation): Install prestissimo to speed up package installation
 
 There is a Composer plugin [hirak/prestissimo](https://github.com/hirak/prestissimo) which speeds up dependencies installation by downloading them in parallel.
 
@@ -290,7 +290,7 @@ composer global require hirak/prestissimo
 ```
 
 
-## Tip #19: Test your version constraints if you are not sure
+## [Tip #19](tip-%2319%3A-test-your-version-constraints-if-you-are-not-sure): Test your version constraints if you are not sure
 
 Writing correct version constraints may sometimes be tricky even after reading [the documentation](https://getcomposer.org/doc/articles/versions.md#writing-version-constraints).
 
@@ -299,7 +299,7 @@ Luckily, there is a [Packagist Semver Checker](https://semver.mwl.be/) where you
 See [the result for `symfony/symfony:^3.1`](https://semver.mwl.be/#?package=symfony%2Fsymfony&version=%5E3.1&minimum-stability=stable).
 
 
-## Tip #20: Use authoritative class map in production
+## [Tip #20](tip-%2320%3A-use-authoritative-class-map-in-production): Use authoritative class map in production
 
 You should [generate authoritative class map](https://getcomposer.org/doc/articles/autoloader-optimization.md#optimization-level-2-a-authoritative-class-maps) in production. It will speed-up class loading by including everything in class-map and skipping any filesystem checks.
 
@@ -309,7 +309,7 @@ You can do it by running this as a part of your production build:
 composer dump-autoload --classmap-authoritative
 ```
 
-## Tip #21: Configure `autoload-dev` for tests
+## [Tip #21](tip-%2321%3A-configure-%60autoload-dev%60-for-tests): Configure `autoload-dev` for tests
 
 You don't want to include test files in production class map (because of the file size and memory). It can be done by configuring the `autoload-dev` (similarly to `autoload`):
 
@@ -326,12 +326,12 @@ You don't want to include test files in production class map (because of the fil
 },
 ```
 
-## Tip #22: Try Composer scripts
+## [Tip #22](tip-%2322%3A-try-composer-scripts): Try Composer scripts
 
 Composer scripts are a lightweight tool to create build scripts. I have written [a separate article about them](/have-you-tried-composer-scripts/).
 
 
-## Tip #23: Use Composer CLI to remove packages
+## [Tip #23](tip-%2323%3A-use-composer-cli-to-remove-packages): Use Composer CLI to remove packages
 > added on April 23th 2019
 
 The best way to remove the package from `composer.json` is by using a Composer command line interface. In the following example I'm removing `phpoffice/phpspreadsheet` because it is not needed in the project anymore. You can see that its sub-dependencies which are no longer necessary are automatically uninstalled as well:
@@ -348,7 +348,7 @@ Package operations: 0 installs, 0 updates, 3 removals
 This is much better approach than removing it manually from `composer.json` and running `composer update`. That would make unrelated changes to the installed dependencies (see Tip #11 for more information on how to update the dependencies safely).
 
 
-## Tip #24: Do not use code from transitive dependencies
+## [Tip #24](tip-%2324%3A-do-not-use-code-from-transitive-dependencies): Do not use code from transitive dependencies
 > added on April 23th 2019
 
 Imagine that you have required some library (e.g. _AcmePayment_) which in turn requires `nette/utils` package (`nette/utils` is called a _transitive_ dependency in this case - it is a dependency of a dependency).
