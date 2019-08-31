@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>How to use Data Providers in PHPUnit &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
+        <meta name="robots" content="index, follow">
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/assets/remove-fbclid.js" async defer></script>
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>How to use Data Providers in PHPUnit</h2>
+            <p><small>2019-09-03</small></p>
+        </header>
+
+        <div class="article-text">
+            <blockquote>
+  <p>I think that even if you are already using Data Providers, you will find some of those tips useful.</p>
+</blockquote>
+
+<p>Data Providers are a handy feature of PHPUnit which allows you to run the same test with different inputs and expected results. This is useful when you are writing some text filtering, transformations, URL generation, price calculations, etc.</p>
+
+<p>Let's say you are implementing your own <code>trim</code> function and you need to test it with lots of tests like the following one:</p>
+
+<pre><code class="php">&lt;?php
+
+public function testTrimTrimsLeadingSpace(): void
+{
+    $input = ' Hello World';
+    $expectedResult = 'Hello World';
+
+    self::assertSame($expectedResult, trim($input));
+}
+</code></pre>
+
+<p>Instead of duplicating the test method and just changing the inputs, you can use Data Providers:</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideTrimData
+ */
+public function testTrim($expectedResult, $input): void
+{
+    self::assertSame($expectedResult, trim($input));
+}
+
+public function provideTrimData()
+{
+    return [
+        [
+            'Hello World',
+            ' Hello World',
+        ],
+        [
+            'Hello World',
+            " Hello World \n",
+        ],
+    ];
+}
+</code></pre>
+
+<p><strong>Data Provider</strong> is just a regular public method in the test case class which returns an array of arrays.</p>
+
+<ul>
+<li>You link it to the test method with a <code>@dataProvider</code> annotation followed by the method name.</li>
+<li>Parameters returned from the data provider are added to the method definition. (I prefer to pass the <em>expected</em> value as a first parameter to match the <code>assert*</code> methods)</li>
+<li>PHPUnit runs the test method with each data set as a separate test.</li>
+</ul>
+
+<p>Here is a screenshot of running the test above in PhpStorm: 
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-basic-data-providers.png" alt="PHPUnit: basic data providers in PhpStorm" /></p>
+
+<p>Now you know how to use basic Data Providers. In the rest of the article I will dive into more advanced stuff and tips.</p>
+
+<h2 id="tip-%231%3A-always-name-the-data-providers">Tip #1: Always name the data providers</h2>
+
+<p>By default, each data provider is referenced by its array index. It means that when running it, PHPUnit will tell you, that the test failed <em>with data set #0</em>.</p>
+
+<p>To prevent confusion when having lot of data providers, you should always name them. Because the data provider method returns a regular array, it is as easy as adding keys there:</p>
+
+<pre><code class="php">&lt;?php
+
+public function provideTrimData()
+{
+    return [
+        'leading space is trimmed' =&gt; [
+            'Hello World',
+            ' Hello World',
+        ],
+        'trailing space and newline are trimmed' =&gt; [
+            'Hello World',
+            "Hello World \n",
+        ],
+        'space in the middle is removed' =&gt; [
+            'HelloWorld',
+            "Hello World",
+        ],
+    ];
+}
+</code></pre>
+
+<p>It makes test results much easier to understand:</p>
+
+<p><img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-named-data-providers.png" alt="PHPUnit: named data providers in PhpStorm" /></p>
+
+<p>I recommend that you name the data sets the same way you would use for separate tests.</p>
+
+<h2 id="tip-%232%3A-you-can-run-single-data-set-from-data-provider">Tip #2: You can run single data set from data provider</h2>
+
+<p>When there is something wrong with one of the data sets, you probably want to run the test only with it. You can do so by using PHPUnit's <code>--filter</code> option in CLI.</p>
+
+<p>Here are examples of what is possible (the documentation shows examples with <code>'</code>, but that does not work on Windows, where you have to use <code>"</code> to wrap the argument):</p>
+
+<ul>
+<li><code>--filter "testTrimTrims#2"</code> runs data set #2 (third data set, as the array keys start at zero)</li>
+<li><code>--filter "testTrimTrims#0-2"</code> runs data sets #0, #1 and #2</li>
+<li><code>--filter "testTrimTrims@trailing space and newline are trimmed"</code> runs specific named data set</li>
+<li><code>--filter "testTrimTrims@.*space.*"</code> runs named data sets that match the regexp</li>
+</ul>
+
+<p>Don't forget to check <a href="https://phpunit.readthedocs.io/en/8.3/textui.html#textui-examples-filter-patterns">the other possible patterns in docs</a>.</p>
+
+<p>PhpStorm does not currently allow you to run a single data set from the code (please vote for the issue <a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a>), but you can run all of them and then <a href="https://blog.jetbrains.com/phpstorm/2017/12/phpunit-support-enhancements/">rerun one from the test results</a>. When you have the JetBrains issue tracker open, please also vote for <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a> (possibility to go to the data set from the test results).</p>
+
+<p>When I want to run a single data set from the PhpStorm I usually just comment out all the other data sets.</p>
+
+<h2 id="tip-%233%3A-add-type-definitions">Tip #3: Add type definitions</h2>
+
+<p>I always add type hints to the method definitions when possible. When using data providers, it means adding parameter type hints to the method that accepts data sets and adding a return type (and phpdoc) to data provider method:</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideTrimData
+ */
+public function testTrimTrims(
+    string $expectedOutput,    // &lt;-- added typehint here
+    string $input              // &lt;-- added typehint here
+): void
+{
+    self::assertSame($expectedOutput, trim($input));
+}
+
+/**
+ * @return string[][]          // &lt;-- added typehint here
+ */
+public function provideTrimData(): array     // &lt;-- added typehint here
+{
+    return [
+        'leading space is trimmed' =&gt; [
+            'Hello World',
+            ' Hello World',
+        ],
+        'trailing space and newline are trimmed' =&gt; [
+            'Hello World',
+            "Hello World \n",
+        ],
+    ];
+}
+</code></pre>
+
+<p>If you need to have a nullable type in the test method, I recommend splitting it into two separate methods and data providers. Instead of having <code>testTransformData(?string $expectedResult, string $input)</code> with a nullable parameter I would create those:</p>
+
+<p><code>testTransformData(string $expectedResult, string $input)</code>
+<code>testTransformingInvalidDataReturnsNull(string $invalidInput)</code></p>
+
+<h2 id="tip-%234%3A-data-providers-are-supported-quite-good-in-phpstorm">Tip #4: Data providers are supported quite good in PhpStorm</h2>
+
+<p>Despite the issues I mentioned above (<a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a> and <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a>) I think that Data providers support in PhpStorm is quite good.</p>
+
+<p>When you reference non-existing data provider, you can use quick action to generate it:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/create-data-provider-quick-action.png" alt="PhpStorm: create data provider quick action" /></p>
+
+<p>Auto-completion of data provider name works in the <code>@dataProvider</code> annotation:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-data-provider-autocompletion.png" alt="PhpStorm: rename data provider refactoring" /></p>
+
+<p>Renaming the data provider using Rename refactoring also works as expected:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-rename-data-provider-refactoring.png" alt="PhpStorm: rename data provider refactoring" /></p>
+
+<h2 id="tip-%235%3A-more-complex-data-providers">Tip #5: More complex data providers</h2>
+
+<p>Instead of having a static array written in the code, the data providers can be more complex and prepare the data set dynamically.</p>
+
+<p>For example, when having the external data, you can easily generate resulting array this way:</p>
+
+<pre><code class="php">&lt;?php
+/**
+ * @return string[][]
+ */
+public function provideSpams(): array
+{
+    $spamStrings = require __DIR__ . '/fixtures/spams.php';
+
+    $result = [];
+    foreach ($spamStrings as $spamString) {
+        $result[mb_substr($spamString, 0, 40)] = [$spamString];
+    }
+
+    return $result;
+}
+</code></pre>
+
+<p>You should be careful with adding lot of logic to the data provider. Otherwise you would have to write a test that tests the data provider...</p>
+
+<p>You can even return instances from the data provider:</p>
+
+<pre><code class="php">&lt;?php
+
+public function provideDateTimesPartOfDay(): array
+{
+    return [
+        [
+            'morning',
+            new DateTimeImmutable('2018-10-01 10:00:00'),
+        ],
+        [
+            'afternoon',
+            new DateTimeImmutable('2019-09-01 15:00:00'),
+        ],
+    ];
+}
+</code></pre>
+
+<h2 id="tip-%236%3A-you-can-use-closures-in-data-providers-to-delay-evaluation">Tip #6: You can use Closures in Data providers to delay evaluation</h2>
+
+<p>The disadvantage of data providers is that they are evaluated before anything else (to allow PHPUnit calculate the total number of tests). It means that they can't access anything initialized in <code>setUpBeforeClass()</code> or <code>setUp()</code>.</p>
+
+<p>You can work around this limitation by returning closures from data providers. Have a look at the code bellow - data provider returns a closure which is called in the test itself.</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideDateTransformations
+ */
+public function testWithClosuresInDataProvider(
+    string $expectedResult,
+    Closure $setTime
+): void
+{
+    $dateTime = new DateTime('2019-09-01');
+
+    $setTime($dateTime);
+
+    self::assertSame($expectedResult, $dateTime-&gt;format('Y-m-d H:i:s'));
+}
+
+public function provideDateTransformations()
+{
+    return [
+        'midnight' =&gt; [
+            '2019-09-01 00:00:00',
+            function (DateTime $date): void {
+                $date-&gt;setTime(0, 0, 0);
+            },
+        ],
+        '3 o\'clock in the afternoon' =&gt; [
+            '2019-09-01 15:00:00',
+            function (DateTime $date): void {
+                $date-&gt;setTime(15, 0, 0);
+            },
+        ],
+    ];
+}
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Do you have other tips to use Data Providers even more efficiently? Please share them in the comments!</p>
+
+        </div>
+
+		<div class="article-footer">
+			<p class="written-by">
+				<strong>
+					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+				</strong>
+			</p>
+			<p>
+				<small>
+					<strong>
+						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+					</strong>
+					<br>
+					<strong>
+						<a href="/feed/">Subscribe to RSS</a>
+					</strong>
+				</small>
+			</p>
+		</div>
+
+		
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            <strong>
+                By <a href="https://www.martinhujer.cz">Martin Hujer</a>
+            </strong>
+            <br>
+            <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>,
+            <a href="/feed/">Subscribe to RSS</a>
+        </footer>
+
+                
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-3314117-32', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>

@@ -3,11 +3,271 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2019-08-26T09:06:06+00:00</updated>
+    <updated>2019-09-03T09:11:18+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[How to use Data Providers in PHPUnit]]></title>
+            <link href="https://blog.martinhujer.cz/how-to-use-data-providers-in-phpunit/"/>
+            <updated>2019-09-03T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/how-to-use-data-providers-in-phpunit/</id>
+            <content type="html"><![CDATA[<blockquote>
+  <p>I think that even if you are already using Data Providers, you will find some of those tips useful.</p>
+</blockquote>
+
+<p>Data Providers are a handy feature of PHPUnit which allows you to run the same test with different inputs and expected results. This is useful when you are writing some text filtering, transformations, URL generation, price calculations, etc.</p>
+
+<p>Let's say you are implementing your own <code>trim</code> function and you need to test it with lots of tests like the following one:</p>
+
+<pre><code class="php">&lt;?php
+
+public function testTrimTrimsLeadingSpace(): void
+{
+    $input = ' Hello World';
+    $expectedResult = 'Hello World';
+
+    self::assertSame($expectedResult, trim($input));
+}
+</code></pre>
+
+<p>Instead of duplicating the test method and just changing the inputs, you can use Data Providers:</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideTrimData
+ */
+public function testTrim($expectedResult, $input): void
+{
+    self::assertSame($expectedResult, trim($input));
+}
+
+public function provideTrimData()
+{
+    return [
+        [
+            'Hello World',
+            ' Hello World',
+        ],
+        [
+            'Hello World',
+            " Hello World \n",
+        ],
+    ];
+}
+</code></pre>
+
+<p><strong>Data Provider</strong> is just a regular public method in the test case class which returns an array of arrays.</p>
+
+<ul>
+<li>You link it to the test method with a <code>@dataProvider</code> annotation followed by the method name.</li>
+<li>Parameters returned from the data provider are added to the method definition. (I prefer to pass the <em>expected</em> value as a first parameter to match the <code>assert*</code> methods)</li>
+<li>PHPUnit runs the test method with each data set as a separate test.</li>
+</ul>
+
+<p>Here is a screenshot of running the test above in PhpStorm: 
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-basic-data-providers.png" alt="PHPUnit: basic data providers in PhpStorm" /></p>
+
+<p>Now you know how to use basic Data Providers. In the rest of the article I will dive into more advanced stuff and tips.</p>
+
+<h2 id="tip-%231%3A-always-name-the-data-providers">Tip #1: Always name the data providers</h2>
+
+<p>By default, each data provider is referenced by its array index. It means that when running it, PHPUnit will tell you, that the test failed <em>with data set #0</em>.</p>
+
+<p>To prevent confusion when having lot of data providers, you should always name them. Because the data provider method returns a regular array, it is as easy as adding keys there:</p>
+
+<pre><code class="php">&lt;?php
+
+public function provideTrimData()
+{
+    return [
+        'leading space is trimmed' =&gt; [
+            'Hello World',
+            ' Hello World',
+        ],
+        'trailing space and newline are trimmed' =&gt; [
+            'Hello World',
+            "Hello World \n",
+        ],
+        'space in the middle is removed' =&gt; [
+            'HelloWorld',
+            "Hello World",
+        ],
+    ];
+}
+</code></pre>
+
+<p>It makes test results much easier to understand:</p>
+
+<p><img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-named-data-providers.png" alt="PHPUnit: named data providers in PhpStorm" /></p>
+
+<p>I recommend that you name the data sets the same way you would use for separate tests.</p>
+
+<h2 id="tip-%232%3A-you-can-run-single-data-set-from-data-provider">Tip #2: You can run single data set from data provider</h2>
+
+<p>When there is something wrong with one of the data sets, you probably want to run the test only with it. You can do so by using PHPUnit's <code>--filter</code> option in CLI.</p>
+
+<p>Here are examples of what is possible (the documentation shows examples with <code>'</code>, but that does not work on Windows, where you have to use <code>"</code> to wrap the argument):</p>
+
+<ul>
+<li><code>--filter "testTrimTrims#2"</code> runs data set #2 (third data set, as the array keys start at zero)</li>
+<li><code>--filter "testTrimTrims#0-2"</code> runs data sets #0, #1 and #2</li>
+<li><code>--filter "testTrimTrims@trailing space and newline are trimmed"</code> runs specific named data set</li>
+<li><code>--filter "testTrimTrims@.*space.*"</code> runs named data sets that match the regexp</li>
+</ul>
+
+<p>Don't forget to check <a href="https://phpunit.readthedocs.io/en/8.3/textui.html#textui-examples-filter-patterns">the other possible patterns in docs</a>.</p>
+
+<p>PhpStorm does not currently allow you to run a single data set from the code (please vote for the issue <a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a>), but you can run all of them and then <a href="https://blog.jetbrains.com/phpstorm/2017/12/phpunit-support-enhancements/">rerun one from the test results</a>. When you have the JetBrains issue tracker open, please also vote for <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a> (possibility to go to the data set from the test results).</p>
+
+<p>When I want to run a single data set from the PhpStorm I usually just comment out all the other data sets.</p>
+
+<h2 id="tip-%233%3A-add-type-definitions">Tip #3: Add type definitions</h2>
+
+<p>I always add type hints to the method definitions when possible. When using data providers, it means adding parameter type hints to the method that accepts data sets and adding a return type (and phpdoc) to data provider method:</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideTrimData
+ */
+public function testTrimTrims(
+    string $expectedOutput,    // &lt;-- added typehint here
+    string $input              // &lt;-- added typehint here
+): void
+{
+    self::assertSame($expectedOutput, trim($input));
+}
+
+/**
+ * @return string[][]          // &lt;-- added typehint here
+ */
+public function provideTrimData(): array     // &lt;-- added typehint here
+{
+    return [
+        'leading space is trimmed' =&gt; [
+            'Hello World',
+            ' Hello World',
+        ],
+        'trailing space and newline are trimmed' =&gt; [
+            'Hello World',
+            "Hello World \n",
+        ],
+    ];
+}
+</code></pre>
+
+<p>If you need to have a nullable type in the test method, I recommend splitting it into two separate methods and data providers. Instead of having <code>testTransformData(?string $expectedResult, string $input)</code> with a nullable parameter I would create those:</p>
+
+<p><code>testTransformData(string $expectedResult, string $input)</code>
+<code>testTransformingInvalidDataReturnsNull(string $invalidInput)</code></p>
+
+<h2 id="tip-%234%3A-data-providers-are-supported-quite-good-in-phpstorm">Tip #4: Data providers are supported quite good in PhpStorm</h2>
+
+<p>Despite the issues I mentioned above (<a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a> and <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a>) I think that Data providers support in PhpStorm is quite good.</p>
+
+<p>When you reference non-existing data provider, you can use quick action to generate it:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/create-data-provider-quick-action.png" alt="PhpStorm: create data provider quick action" /></p>
+
+<p>Auto-completion of data provider name works in the <code>@dataProvider</code> annotation:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-data-provider-autocompletion.png" alt="PhpStorm: rename data provider refactoring" /></p>
+
+<p>Renaming the data provider using Rename refactoring also works as expected:
+<img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-rename-data-provider-refactoring.png" alt="PhpStorm: rename data provider refactoring" /></p>
+
+<h2 id="tip-%235%3A-more-complex-data-providers">Tip #5: More complex data providers</h2>
+
+<p>Instead of having a static array written in the code, the data providers can be more complex and prepare the data set dynamically.</p>
+
+<p>For example, when having the external data, you can easily generate resulting array this way:</p>
+
+<pre><code class="php">&lt;?php
+/**
+ * @return string[][]
+ */
+public function provideSpams(): array
+{
+    $spamStrings = require __DIR__ . '/fixtures/spams.php';
+
+    $result = [];
+    foreach ($spamStrings as $spamString) {
+        $result[mb_substr($spamString, 0, 40)] = [$spamString];
+    }
+
+    return $result;
+}
+</code></pre>
+
+<p>You should be careful with adding lot of logic to the data provider. Otherwise you would have to write a test that tests the data provider...</p>
+
+<p>You can even return instances from the data provider:</p>
+
+<pre><code class="php">&lt;?php
+
+public function provideDateTimesPartOfDay(): array
+{
+    return [
+        [
+            'morning',
+            new DateTimeImmutable('2018-10-01 10:00:00'),
+        ],
+        [
+            'afternoon',
+            new DateTimeImmutable('2019-09-01 15:00:00'),
+        ],
+    ];
+}
+</code></pre>
+
+<h2 id="tip-%236%3A-you-can-use-closures-in-data-providers-to-delay-evaluation">Tip #6: You can use Closures in Data providers to delay evaluation</h2>
+
+<p>The disadvantage of data providers is that they are evaluated before anything else (to allow PHPUnit calculate the total number of tests). It means that they can't access anything initialized in <code>setUpBeforeClass()</code> or <code>setUp()</code>.</p>
+
+<p>You can work around this limitation by returning closures from data providers. Have a look at the code bellow - data provider returns a closure which is called in the test itself.</p>
+
+<pre><code class="php">&lt;?php
+
+/**
+ * @dataProvider provideDateTransformations
+ */
+public function testWithClosuresInDataProvider(
+    string $expectedResult,
+    Closure $setTime
+): void
+{
+    $dateTime = new DateTime('2019-09-01');
+
+    $setTime($dateTime);
+
+    self::assertSame($expectedResult, $dateTime-&gt;format('Y-m-d H:i:s'));
+}
+
+public function provideDateTransformations()
+{
+    return [
+        'midnight' =&gt; [
+            '2019-09-01 00:00:00',
+            function (DateTime $date): void {
+                $date-&gt;setTime(0, 0, 0);
+            },
+        ],
+        '3 o\'clock in the afternoon' =&gt; [
+            '2019-09-01 15:00:00',
+            function (DateTime $date): void {
+                $date-&gt;setTime(15, 0, 0);
+            },
+        ],
+    ];
+}
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Do you have other tips to use Data Providers even more efficiently? Please share them in the comments!</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Don&#039;t put .idea and .vscode directories to project&#039;s .gitignore]]></title>
             <link href="https://blog.martinhujer.cz/dont-put-idea-vscode-directories-to-projects-gitignore/"/>
@@ -1139,104 +1399,6 @@ $titleManager-&gt;addItem('app.products.name'); // the translation key auto-comp
 <h2 id="outdoorvisit-outdoor-tours">OutdoorVisit outdoor tours</h2>
 
 <p>Na Fuerteventuře se <a href="https://www.outdoorvisit.com/canary-islands/fuerteventura/surfing/?utm_source=martinhujer.cz&amp;utm_medium=web&amp;utm_campaign=blog_fuerteventura_post">můžete naučit surfovat</a>, <a href="https://www.outdoorvisit.com/canary-islands/fuerteventura/e-biking/?utm_source=martinhujer.cz&amp;utm_medium=web&amp;utm_campaign=blog_fuerteventura_post">jet na e-bike výlet</a> nebo se podívejte na <a href="https://www.outdoorvisit.com/canary-islands/fuerteventura/?utm_source=martinhujer.cz&amp;utm_medium=web&amp;utm_campaign=blog_fuerteventura_post">nejlepší outdoorové aktivity na Fuerteventuře</a>.</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Use different Google Analytics ID by domain in Google Tag Manager]]></title>
-            <link href="https://blog.martinhujer.cz/use-different-google-analytics-id-by-domain-in-tag-manager/"/>
-            <updated>2018-08-26T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/use-different-google-analytics-id-by-domain-in-tag-manager/</id>
-            <content type="html"><![CDATA[<p>When setting up Google Analytics (or Facebook Pixel) in the Google Tag Manager the typical approach is to put the UA-code or the Pixel ID into the <em>Constant</em> Variable. And that ID is then used in the GA/Facebook <em>Tag</em>.</p>
-
-<p>But soon after launch the people from Marketing will start complaining that some strange orders and conversions are appearing in the Google Analytics.</p>
-
-<p>What happened? Apart from real orders, also the orders made in testing and dev environments are sent there.</p>
-
-<p>There is a better way. 
-<strong>You can easily use different UA codes in production and in testing environments.</strong>
-In the rest of the article I will guide you through setting it up.</p>
-
-<h2 id="analysis">Analysis</h2>
-
-<p>It is clear that we want to use testing UA code in dev/test environments, but apart from that we also want to use it when testing the Google Tag Manager configuration itself with <em>Preview feature</em> (even on production website).</p>
-
-<p>The decision process for the UA code goes like this:</p>
-
-<ul>
-<li><strong>Are we running in Debug mode?</strong>
-
-<ul>
-<li><strong>YES</strong>: use test ID</li>
-<li><strong>NO</strong>:</li>
-<li><strong>Are we on production domain?</strong>
-
-<ul>
-<li><strong>YES</strong>: use real ID</li>
-<li><strong>NO</strong>: use test ID</li>
-</ul></li>
-</ul></li>
-</ul>
-
-<h2 id="preparation">Preparation</h2>
-
-<ol>
-<li><p>Go to Google Tag Manager and create two <em>Constant</em> Variables:</p>
-
-<ul>
-<li><code>GA_ID_DEV</code> with the testing ID</li>
-<li><code>GA_ID_PROD</code> with the production ID</li>
-</ul></li>
-<li><p>In the Variables section in <em>Built-In Variables</em> enable <code>Debug Mode</code> and <code>Page Hostname</code> variables.</p></li>
-</ol>
-
-<h2 id="setting-up-the-hostname-detection">Setting up the hostname detection</h2>
-
-<ol>
-<li>Create a Variable of type <code>Lookup Table</code> and name it <code>GA_ID_BY_HOSTNAME</code></li>
-<li><em>Input Variable</em> is <code>{{Page Hostname}}</code></li>
-<li>Click <em>Add row</em></li>
-<li>Put your production domain into the <em>Input</em> field (just the domain without <code>https://</code> and the trailing <code>/</code>)</li>
-<li>Put <code>{{GA_ID_PROD}}</code> into the <em>Output</em> field</li>
-<li>Check <em>Set default value</em> checkbox</li>
-<li>Put <code>{{GA_ID_DEV}}</code> to the <em>Default value</em> field</li>
-</ol>
-
-<p>It should look like this:
-<img src="/data/2018/2018-08-26-use-different-code-id/01-by-hostname.png" alt="GA_ID_BY_HOSTNAME variable configuration" /></p>
-
-<p>By defining only the production domain and using <em>default value</em> for anything else, we handle any testing or dev environment.</p>
-
-<h2 id="setting-up-the-debug-environment-detection">Setting up the Debug environment detection</h2>
-
-<p>If you look back into the <em>Analysis</em> chapter, we have covered the <em>Are we on production domain?</em> part. Now we will cover the <em>Are we running in Debug mode?</em>.</p>
-
-<ol>
-<li>Create a Variable of type <code>Lookup Table</code> and name it <code>GA_ID</code></li>
-<li><em>Input Variable</em> is <code>{{Debug Mode}}</code></li>
-<li>Click <em>Add row</em></li>
-<li>Put <code>true</code> into the <em>Input</em> field and <code>{{GA_ID_DEV}}</code> into the <em>Output</em> field</li>
-<li>Click <em>Add row</em> again</li>
-<li>Put <code>false</code> into the <em>Input</em> field and <code>{{GA_ID_BY_HOSTNAME}}</code> into the <em>Output</em> field</li>
-</ol>
-
-<p>It should look like this:
-<img src="/data/2018/2018-08-26-use-different-code-id/02-by-debugmode.png" alt="GA_ID variable configuration" /></p>
-
-<p>You might have noticed that we have used the variable <code>GA_ID_BY_HOSTNAME</code> which we prepared in previous step.</p>
-
-<h2 id="setting-up-the-google-analytics-tag">Setting up the Google Analytics Tag</h2>
-
-<p>With all those variables prepared, you can set up the Google Analytics tag as usual. But when creating the <code>Google Analytics Settings</code>, put <code>{{GA_ID}}</code> into the <em>Tracking ID</em> field as in the following picture. It will be resolved to correct UA code depending on the environment.</p>
-
-<p><img src="/data/2018/2018-08-26-use-different-code-id/03-tag-settings.png" alt="Google Analytics Settings variable" /></p>
-
-<p>That's it!</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>Apart from Google Analytics ID, you can use this guide to set up Facebook Pixel ID or any other system where you can easily create different IDs for different environments.</p>
-
-<p>Are you using similar approach? Or did you find a better way? Let me know in the comments!</p>
 ]]></content>
         </entry>
     </feed>
