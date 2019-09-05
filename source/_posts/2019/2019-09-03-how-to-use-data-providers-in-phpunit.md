@@ -309,7 +309,7 @@ public function testTrim($expectedResult, $input): void
 
 ```
 
-**Please do not use this, because PHPDocs is not a good place where to put your code:**
+**Please do not use this, because PHPDocs is not a good place to put your code:**
 
 * syntax highlighting does not work there
 * IDE code validation does not work there
