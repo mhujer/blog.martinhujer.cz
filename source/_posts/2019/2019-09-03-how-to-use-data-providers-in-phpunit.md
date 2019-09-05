@@ -158,7 +158,7 @@ If you need to have a nullable type in the test method, I recommend splitting it
 `testTransformingInvalidDataReturnsNull(string $invalidInput)`
 
 
-## Tip #4: Data providers are supported quite good in PhpStorm
+## Tip #4: Data providers are supported well in PhpStorm
 Despite the issues I mentioned above ([WI-43933](https://youtrack.jetbrains.com/issue/WI-43933) and [WI-43811](https://youtrack.jetbrains.com/issue/WI-43811)) I think that Data providers support in PhpStorm is quite good.
 
 When you reference non-existing data provider, you can use quick action to generate it:
@@ -263,6 +263,59 @@ public function provideDateTransformations()
 }
 ```
 
+## Tip #7: Use `yield` to simplify large nested arrays
+
+Instead of having large arrays in the data provider, you can use yield for each data set:
+
+```php
+<?php
+public function provideTrimData()
+{
+    yield 'leading space is trimmed' => [
+        'Hello World',
+        ' Hello World',
+    ];
+    yield 'trailing space and newline are trimmed' => [
+        'Hello World',
+        "Hello World \n",
+    ];
+    yield 'space in the middle is removed' => [
+        'HelloWorld',
+        'Hello World',
+    ];
+}
+```
+
+I think it may help with code readability for large arrays. However similarly to arrays, all yields are evaluated before tests start (PHPUnit calculates the total number of tests before running them).
+
+
+
+## Tip #8: Don't use `@testWith` annotation
+
+Instead of using a separate method for data provider, PHPUnit supports inlining the data sets as JSON in PHPDoc using the [`@testWith`](https://phpunit.readthedocs.io/en/8.3/annotations.html#testwith) annotation.
+
+```php
+<?php
+/**
+ * @testWith
+ *        ["Hello World", " Hello World"]
+ *        ["Hello World", "Hello World \n"]
+ *
+ */
+public function testTrim($expectedResult, $input): void
+{
+    self::assertSame($expectedResult, trim($input));
+}
+
+```
+
+**Please do not use this, because PHPDocs is not a good place where to put your code:**
+
+* syntax highlighting does not work there
+* IDE code validation does not work there
+* automatic code formatting does not work there
+* it cannot be analysed statically by PHPStan
+ 
 
 ## Conclusion
 

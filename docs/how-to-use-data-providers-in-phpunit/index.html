@@ -187,7 +187,7 @@ public function provideTrimData(): array     // &lt;-- added typehint here
 <p><code>testTransformData(string $expectedResult, string $input)</code>
 <code>testTransformingInvalidDataReturnsNull(string $invalidInput)</code></p>
 
-<h2 id="tip-%234%3A-data-providers-are-supported-quite-good-in-phpstorm">Tip #4: Data providers are supported quite good in PhpStorm</h2>
+<h2 id="tip-%234%3A-data-providers-are-supported-well-in-phpstorm">Tip #4: Data providers are supported well in PhpStorm</h2>
 
 <p>Despite the issues I mentioned above (<a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a> and <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a>) I think that Data providers support in PhpStorm is quite good.</p>
 
@@ -285,6 +285,57 @@ public function provideDateTransformations()
     ];
 }
 </code></pre>
+
+<h2 id="tip-%237%3A-use-%60yield%60-to-simplify-large-nested-arrays">Tip #7: Use <code>yield</code> to simplify large nested arrays</h2>
+
+<p>Instead of having large arrays in the data provider, you can use yield for each data set:</p>
+
+<pre><code class="php">&lt;?php
+public function provideTrimData()
+{
+    yield 'leading space is trimmed' =&gt; [
+        'Hello World',
+        ' Hello World',
+    ];
+    yield 'trailing space and newline are trimmed' =&gt; [
+        'Hello World',
+        "Hello World \n",
+    ];
+    yield 'space in the middle is removed' =&gt; [
+        'HelloWorld',
+        'Hello World',
+    ];
+}
+</code></pre>
+
+<p>I think it may help with code readability for large arrays. However similarly to arrays, all yields are evaluated before tests start (PHPUnit calculates the total number of tests before running them).</p>
+
+<h2 id="tip-%238%3A-don%27t-use-%60%40testwith%60-annotation">Tip #8: Don't use <code>@testWith</code> annotation</h2>
+
+<p>Instead of using a separate method for data provider, PHPUnit supports inlining the data sets as JSON in PHPDoc using the <a href="https://phpunit.readthedocs.io/en/8.3/annotations.html#testwith"><code>@testWith</code></a> annotation.</p>
+
+<pre><code class="php">&lt;?php
+/**
+ * @testWith
+ *        ["Hello World", " Hello World"]
+ *        ["Hello World", "Hello World \n"]
+ *
+ */
+public function testTrim($expectedResult, $input): void
+{
+    self::assertSame($expectedResult, trim($input));
+}
+
+</code></pre>
+
+<p><strong>Please do not use this, because PHPDocs is not a good place where to put your code:</strong></p>
+
+<ul>
+<li>syntax highlighting does not work there</li>
+<li>IDE code validation does not work there</li>
+<li>automatic code formatting does not work there</li>
+<li>it cannot be analysed statically by PHPStan</li>
+</ul>
 
 <h2 id="conclusion">Conclusion</h2>
 
