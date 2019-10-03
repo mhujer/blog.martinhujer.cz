@@ -186,6 +186,3 @@ Pokud se budete chystat na Fuerteventuru a budete mít více času, tak doporuč
 
 A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy na výlety](/las-palmas-gran-canaria-kam-na-vylety/).
 
-## OutdoorVisit outdoor tours
-
-Na Fuerteventuře se [můžete naučit surfovat](https://www.outdoorvisit.com/canary-islands/fuerteventura/surfing/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post), [jet na e-bike výlet](https://www.outdoorvisit.com/canary-islands/fuerteventura/e-biking/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post) nebo se podívejte na [nejlepší outdoorové aktivity na Fuerteventuře](https://www.outdoorvisit.com/canary-islands/fuerteventura/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_fuerteventura_post).

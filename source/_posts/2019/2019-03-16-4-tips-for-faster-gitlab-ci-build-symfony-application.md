@@ -7,7 +7,7 @@ short: Some of those tips apply not only to Symfony applications and not just to
 
 Waiting for a CI build to finish so can merge the feature is annoying, but it is still by an order of magnitude better than not having CI at all.
 
-In this article I will show you some tips which I used in [OutdoorVisit](https://www.outdoorvisit.com/) to make our CI build faster.
+In this article I will show you some tips which I used in OutdoorVisit to make our CI build faster.
 
 
 # Tip #1: You may not need PHP Lint

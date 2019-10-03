@@ -110,8 +110,6 @@ Je super, že to je oficiální trasa, takže jsou podél i informační tabule 
 
 ![Lanzarote - Caldera de Montaña Blanca](/data/2018/2018-12-16-lanzarote-kam-na-vylety/caldera-montana-blanca-2.jpg)
 
-Pokud byste na Caldera de Montaña Blanca chtěli výlet s průvodcem, tak [je v nabídce na OutdoorVisit](https://www.outdoorvisit.com/tour/105-explore-the-magnificent-caldera-blanca-of-lanzarote/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post).
-
 ## Los Hervideros
 Na západním pobřeží je několik míst, které stojí za zastávku. [Los Hervideros](https://goo.gl/maps/wqRjNtsXgZ32) je vyhlídka z útesů na mořský příboj (i v jeskyních). Název to má podle toho, že se tam jakoby _vaří_ voda.
 
@@ -144,7 +142,3 @@ A pokud se chystáte do [Las Palmas na Gran Canarii, tak mrkněte na moje tipy n
 # [AmazingLanzarote.com](https://www.amazinglanzarote.com/)
 
 Vytvořil jsem ještě samostatný [web s informacemi o Lanzarote](https://www.amazinglanzarote.com/) (v angličtině).
-
-## OutdoorVisit outdoor tours
-
-Na Lanzarote se [můžete naučit surfovat](https://www.outdoorvisit.com/canary-islands/lanzarote/surfing/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post), [jít na hike s průvodcem](https://www.outdoorvisit.com/canary-islands/lanzarote/hiking/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post) nebo se podívejte na [nejlepší outdoorové aktivity na Lanzarote](https://www.outdoorvisit.com/canary-islands/lanzarote/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_lanzarote_post).

@@ -179,8 +179,4 @@ Samozřejmě nemůžu vynechat jídlo.
 ## Závěrem
 Hlavně se tu nesnažte strhnout všechny výlety za pár dnů a raději odpočívejte a relaxujte.
 
-## OutdoorVisit outdoor tours
-
-Pokud se chystáte do Las Palmas a chcete zkusit něco netradičního, tak se mrkněte na nabídku [outdoor výletů a zážitků na Gran Canarii](https://www.outdoorvisit.com/canary-islands/gran-canaria/?utm_source=martinhujer.cz&utm_medium=web&utm_campaign=blog_laspalmas_post).
-
-A pokud se chystáte na [Fuerteventuru, tak jsem sepsal podobný článek s výlety tam](/fuerteventura-kam-na-vylety/).
+Pokud se chystáte i na [Fuerteventuru, tak jsem sepsal podobný článek s výlety tam](/fuerteventura-kam-na-vylety/). A další [o Lanzarote](/lanzarote-kam-na-vylety/).
