@@ -25,8 +25,8 @@ If you have templates in a custom namespace and directory - e.g. configured in `
 ```yaml
 twig:
     paths:
-        '%kernel.project_dir%/src/App/Resources/templates': App
-        '%kernel.project_dir%/src/Admin/Resources/templates': Admin
+        '%kernel.project_dir%/src/App/templates': App
+        '%kernel.project_dir%/src/Admin/templates': Admin
 ``` 
 
  You can fix it by manually adding them in PhpStorm Settings (PHP -> Symfony -> Twig/Template). But each of the developers must do it himself. Unless you put in into `ide-twig.json` in a project root:
@@ -36,11 +36,11 @@ twig:
     "namespaces": [
         {
             "namespace": "App",
-            "path": "src/App/Resources/templates"
+            "path": "src/App/templates"
         },
         {
             "namespace": "Admin",
-            "path": "src/Admin/Resources/templates"
+            "path": "src/Admin/templates"
         }
     ]
 }

@@ -3,7 +3,7 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2019-10-03T13:59:28+00:00</updated>
+    <updated>2019-10-04T10:56:31+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
@@ -1157,8 +1157,8 @@ Nakonec dojedete do městečka <a href="https://goo.gl/maps/ps6VetYKw6U2">El Gol
 
 <pre><code class="yaml">twig:
     paths:
-        '%kernel.project_dir%/src/App/Resources/templates': App
-        '%kernel.project_dir%/src/Admin/Resources/templates': Admin
+        '%kernel.project_dir%/src/App/templates': App
+        '%kernel.project_dir%/src/Admin/templates': Admin
 </code></pre>
 
 <p>You can fix it by manually adding them in PhpStorm Settings (PHP -> Symfony -> Twig/Template). But each of the developers must do it himself. Unless you put in into <code>ide-twig.json</code> in a project root:</p>
@@ -1167,11 +1167,11 @@ Nakonec dojedete do městečka <a href="https://goo.gl/maps/ps6VetYKw6U2">El Gol
     "namespaces": [
         {
             "namespace": "App",
-            "path": "src/App/Resources/templates"
+            "path": "src/App/templates"
         },
         {
             "namespace": "Admin",
-            "path": "src/Admin/Resources/templates"
+            "path": "src/Admin/templates"
         }
     ]
 }
