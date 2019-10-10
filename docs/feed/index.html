@@ -3,11 +3,248 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2019-10-10T11:15:39+00:00</updated>
+    <updated>2019-10-23T07:04:07+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[How to configure PHPStan for Symfony applications]]></title>
+            <link href="https://blog.martinhujer.cz/how-to-configure-phpstan-for-symfony-applications/"/>
+            <updated>2019-10-23T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/how-to-configure-phpstan-for-symfony-applications/</id>
+            <content type="html"><![CDATA[<p><a href="https://github.com/phpstan/phpstan">PHPStan</a> is a fantastic tool for a static analysis of PHP code. It reads the code and PHPDoc and will try to detect potential issues such as:</p>
+
+<ul>
+<li>undefined variables</li>
+<li>incorrect types passed throughout the codebase</li>
+<li>use of non-existent methods and attributes</li>
+<li>passing of incorrect number of parameters to a method</li>
+<li>use of possible null-pointers</li>
+<li>lot more...</li>
+</ul>
+
+<p>Apart from being able to analyse regular PHP code, PHPStan can understand even some framework-specific <em>magic</em> using custom-made extensions.</p>
+
+<p>But let's start from the beginning...</p>
+
+<h2 id="phpstan-installation">PHPStan installation</h2>
+
+<p>You can install PHPStan either directly with all its dependencies by running:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan
+</code></pre>
+
+<p>Or you can install <code>phpstan-shim</code>:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-shim
+</code></pre>
+
+<p>The advantage of <code>phpstan-shim</code> is that it is a Phar file with all the dependencies packed inside (and prefixed), so they won't conflict with other dependencies you may have in your project. Therefore, I prefer using <code>phpstan-shim</code>.</p>
+
+<h2 id="using-phpstan">Using PHPStan</h2>
+
+<p>PHPStan can be run this way:</p>
+
+<pre><code class="bash">vendor/bin/phpstan analyse -l 0 src tests
+</code></pre>
+
+<p>It will probably report bunch of errors depending on your project size and age. The best approach from here is to gradually fix the issues and raise the level of strictness (<code>-l 1</code> etc.).</p>
+
+<p>If there are some issues which cannot be fixed easily, you can <a href="https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions">exclude them from the report</a>. When doing so, try to be specific and put the filename in the exclude, so you won't exclude the issues from the whole project. And don't forget to properly escape the regular expressions, or you may be excluding way more things than you wanted (hint: <code>|</code> needs to be escaped too).</p>
+
+<p>You should also have a look at a new <a href="https://medium.com/@ondrejmirtes/phpstans-baseline-feature-lets-you-hold-new-code-to-a-higher-standard-e77d815a5dff">Baseline Feature</a> in PHPStan, which allows you <em>ignore</em> all the current issues and let the PHPStan check just the new code.</p>
+
+<h2 id="adding-phpstan-to-ci-build">Adding PHPStan to CI build</h2>
+
+<p>To prevent issues from creeping back to the codebase, you should include PHPStan in you CI build to have it fail when a new error appears.</p>
+
+<p>It can be done easily by using <a href="/have-you-tried-composer-scripts/">Composer Scripts</a>. Your <code>scripts</code> section in <code>composer.json</code> can look like this:</p>
+
+<pre><code class="json">"scripts": {
+    "phpstan": "phpstan analyse -c phpstan.neon src tests --level 7 --no-progress", 
+    "tests": "phpunit",    
+    "ci": [
+        "@phpstan",
+        "@tests"
+    ],
+}
+</code></pre>
+
+<p>It will run both the <code>phpstan</code> and <code>tests</code> scripts when you run <code>composer ci</code>.</p>
+
+<p><strong>Note:</strong> If you have a Symfony application, you will already have a <code>scripts</code> section in your <code>composer.json</code>, so just add new items there.</p>
+
+<p>You can read more thoroughly about Composer Scripts in my article <em><a href="/have-you-tried-composer-scripts/">Have you tried Composer Scripts? You may not need Phing</a></em>.</p>
+
+<h2 id="configuring-the-symfony-extension">Configuring the Symfony extension</h2>
+
+<p>You might have noticed that PHPStan reports some issues in Symfony-specific code, that works OK. It is because there is no way for PHPStan to understand Symfony magic just from the code itself. It includes getting services from Container (you should not be doing it anyway!), working with arguments and options in Commands and much more.</p>
+
+<p>To have those errors disappear, you need to install <a href="https://github.com/phpstan/phpstan-symfony">phpstan/phpstan-symfony</a> extension and configure it in <code>phpstan.neon</code>:</p>
+
+<pre><code>includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+</code></pre>
+
+<p>Apart from that you also must provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the <code>var/cache/dev</code> directory.</p>
+
+<pre><code class="yaml">parameters:
+    symfony:
+        container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
+</code></pre>
+
+<p>Also, to have the Commands analysed properly, PHPStan needs a <em>console loader</em>. It is a script that initializes the Symfony Console for the application and passes it to PHPStan. It can use it to determine the arguments or options types etc.</p>
+
+<p>I usually put it in <code>build/phpstan/console-loader.php</code>:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+require dirname(__DIR__) . '/../config/bootstrap.php';
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+return new Application($kernel);
+</code></pre>
+
+<p>The final configuration for <code>phpstan-symfony</code> should look like this:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    symfony:
+        container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
+        console_application_loader: build/phpstan/console-loader.php
+</code></pre>
+
+<p>With this configuration, PHPStan can understand the Symfony code. It also checks that you are not fetching non-existent (or private) services from container.</p>
+
+<h2 id="configuring-phpstan-with-phpunit">Configuring PHPStan with PHPUnit</h2>
+
+<p>In the previous part we have successfully configured PHPStan to check various things in Symfony projects. However, it is still possible to improve the configuration.</p>
+
+<p>We are now using same configuration file for both <code>src</code> and <code>tests</code>, but Symfony uses a separate container when running in either <code>dev</code> or <code>test</code> environments. It means that PHPStan will report errors such as <code>Service "Doctrine\ORM\EntityManagerInterface" is private.</code> even if the tests work fine.</p>
+
+<p>The solution is simple - use a separate configuration file for <code>src</code> and for <code>tests</code>. We can keep the current <code>phpstan.neon</code>, but we have to create specific configuration for tests - <code>phpstan-tests.neon</code>. It will look very similarly with only change being the <code>container_xml_path</code> which now points to the container compiled in <code>var/cache/test</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    symfony:
+        container_xml_path: var/cache/test/srcApp_KernelTestDebugContainer.xml
+        console_application_loader: build/phpstan/console-loader.php
+</code></pre>
+
+<p>You need to adjust the <code>scripts</code> setup in <code>composer.json</code> to run PHPStan twice - first for the <code>src</code> directory and then for the <code>tests</code> with a different configuration file. When using this setup, you can still run <code>composer phpstan</code> which in turn runs checks for both <code>src</code> and <code>tests</code>.</p>
+
+<pre><code class="json">"phpstan": [
+    "@phpstan-general",
+    "@phpstan-tests"
+],
+"phpstan-general": "phpstan analyse -c phpstan.neon src --level 7 --no-progress",
+"phpstan-tests": "phpstan analyse -c phpstan-tests.neon tests --level 7 --no-progress",
+</code></pre>
+
+<p>I know that the PHPStan configuration is duplicated a little bit, but that does not matter much (you are not adding new extensions that often).</p>
+
+<p>One thing that you must keep in mind is that the Symfony container must be compiled before it can be used for analysis. You can do it by running <code>bin/console cache:warmup --env=dev</code> and <code>bin/console cache:warmup --env=test</code>. As it needs to be part of the CI build, you can put it to the Composer <code>scripts</code> as well:</p>
+
+<pre><code class="json">"phpstan": [
+    "@php bin/console cache:warmup --env=dev",
+    "@php bin/console cache:warmup --env=test",
+    "@phpstan-general",
+    "@phpstan-tests"
+],
+</code></pre>
+
+<p>Or you can put it into a separate script, so it won't be slowing you down when running PHPStan repeatedly without changes in the container (but you must make sure that the container is recompiled for the <code>test</code> environment after change).</p>
+
+<p>Finally, we are getting to configuring the <a href="https://github.com/phpstan/phpstan-phpunit">PHPUnit extension</a> itself. We need to install it through Composer:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-phpunit
+</code></pre>
+
+<p>And then configure it in <code>phpstan-tests.neon</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+</code></pre>
+
+<p>And that's it.</p>
+
+<h2 id="phpstan-and-doctrine-orm">PHPStan and Doctrine ORM</h2>
+
+<p>Doctrine ORM contains even more magic things which can't be inferred just from the code itself. Repository and Entity Manager use <code>object</code> type in lot of places, so the PHPStan won't know which type is there and you would need to add lots of inline PHPDoc to make it work.</p>
+
+<p>Or you can install <a href="https://github.com/phpstan/phpstan-doctrine"><code>phpstan/phpstan-doctrine</code></a> extension which helps PHPStan to understand Doctrine magic.</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-doctrine
+</code></pre>
+
+<p>Like with Symfony extension, you must help Doctrine extension by creating a loader script that provides an Entity Manager so PHPStan can query it about various things. I usually put it into
+<code>build/phpstan/doctrine-orm-bootstrap.php</code> and the script should look like this:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+use App\Kernel;
+
+require dirname(__DIR__) . '/../config/bootstrap.php';
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel-&gt;boot();
+return $kernel-&gt;getContainer()-&gt;get('doctrine')-&gt;getManager();
+</code></pre>
+
+<p>You should add this to respective sections in both <code>phpstan.neon</code> and <code>phpstan-tests.neon</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
+
+parameters:
+    doctrine:
+        objectManagerLoader: build/phpstan/doctrine-orm-bootstrap.php
+</code></pre>
+
+<p>With this setup PHPStan will use the EntityManager to also check your DQLs and Query Builders, which is awesome.</p>
+
+<p>Next version of PHPStan-Doctrine extension will also support analysis of the entity annotations to determine whether the property type matches the column type, whether the property types for associations are defined correctly etc.</p>
+
+<h2 id="bleeding-edge-features">Bleeding edge features</h2>
+
+<p>PHPStan can check even more things when you enable <em>bleeding edge</em> rules from the core of PHPStan. Current PHPStan release is 0.11.x is mostly backwards compatible (not that many new issues are detected between patch versions). However, Ondra practices something along the lines of the trunk-based development, where new features (checks!) are hidden behind feature flags.</p>
+
+<p>You can enable all of them by adding this to your configuration files (applies to <code>phpstan-shim</code>, the path will be different for a regular installation):</p>
+
+<pre><code class="neon">includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+</code></pre>
+
+<h2 id="strict-rules">Strict rules</h2>
+
+<p>There is a <a href="https://github.com/phpstan/phpstan-strict-rules"><code>phpstan/phpstan-strict-rules</code></a> package which adds opinionated checks not included in the PHPStan core. You can install it through Composer:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-strict-rules
+</code></pre>
+
+<p>Afterwards, you just need to add a new include to both configuration files:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+</code></pre>
+
+<p>And suddenly you will get many more potential issues or bad practices reported :-)</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If you configure the PHPStan according to this article, it will change your life :-) (at least a little bit).</p>
+
+<p>Nowadays I can't imagine developing modern PHP applications without PHPStan running on max level with lots of checks. It helps to prevent many issues during development and refactoring of the applications.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Jaké novinky přinese PHP 7.4]]></title>
             <link href="https://blog.martinhujer.cz/jake-novinky-prinese-php-7-4/"/>
@@ -1136,114 +1373,6 @@ Nakonec dojedete do městečka <a href="https://goo.gl/maps/ps6VetYKw6U2">El Gol
             <content type="html"><![CDATA[<p>Vydání PHP 7.3 je plánováno na 6. prosince 2018. Přináší několik nových funkcí, vylepšení a různá pročištění jazyka. Oproti jiným vydáním mu sice chybí nějaký trhák, ale na druhou stranu nepřibyly ani žádné zásadní nekompatibilní změny, takže upgrade bude snadný.</p>
 
 <p><strong><a href="https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-3/">Článek vyšel</a> na serveru Zdroják.cz</strong></p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Best PhpStorm plugins for Symfony development]]></title>
-            <link href="https://blog.martinhujer.cz/best-phpstorm-plugins-for-symfony-development/"/>
-            <updated>2018-11-26T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/best-phpstorm-plugins-for-symfony-development/</id>
-            <content type="html"><![CDATA[<p>I've been using PhpStorm for quite a while and I'm still surprised now and then when it suggests an auto-completion for something I thought that's not possible.</p>
-
-<p>But there are still many things - usually framework- or library-specific - that PhpStorm cannot do on its own. But there are plugins that can step in place and do the magic for specific framework or library.</p>
-
-<h2 id="php-annotations">PHP Annotations</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/7320-php-annotations">PHP Annotations plugin</a> analyses the classes which can be used as annotations and provides code-completing when writing annotations - e.g. Doctrine ORM mappings.</p>
-
-<p><img src="/data/2018/2018-11-26-best-phpstorm-plugins-for-symfony/php-annotations.gif" alt="PHP Annotations plugin" /></p>
-
-<h2 id="php-toolbox">PHP Toolbox</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/8133-php-toolbox">PHP Toolbox plugin</a> was extracted from Symfony plugin and provides better auto-completion for several libraries (PHPUnit, Behat, Doctrine, Twig etc.)</p>
-
-<h2 id="symfony-plugin">Symfony Plugin</h2>
-
-<p>Both PHP Annotations and PHP Toolbox are best used together with the <a href="https://plugins.jetbrains.com/plugin/7219-symfony-plugin">Symfony Plugin</a>. This plugin provides auto-completion for anything in Symfony you can imagine. It analyses the DI container code, so it can suggest the services when you call <code>$container-&gt;get()</code>. It provides various auto-completions in the YAML config files. Apart from that, it can handle lots of Form, Twig and Routing auto-completions. You can click through from controller to template, from the name of the route to the controller where it is defined. It analyses translation files and provides the completion for the translations when calling the translate function or using <code>trans</code> filter in Twig.</p>
-
-<h3 id="how-to-use-custom-template-directory-with-the-symfony-plugin%3F">How to use custom template directory with the Symfony plugin?</h3>
-
-<p>If you have templates in a custom namespace and directory - e.g. configured in <code>config/packages/twig.yaml</code>, the auto-completion in controllers or other templates won't work for those, because the Symfony plugin can't detect them.</p>
-
-<pre><code class="yaml">twig:
-    paths:
-        '%kernel.project_dir%/src/App/templates': App
-        '%kernel.project_dir%/src/Admin/templates': Admin
-</code></pre>
-
-<p>You can fix it by manually adding them in PhpStorm Settings (PHP -> Symfony -> Twig/Template). But each of the developers must do it himself. Unless you put in into <code>ide-twig.json</code> in a project root:</p>
-
-<pre><code class="json">{
-    "namespaces": [
-        {
-            "namespace": "App",
-            "path": "src/App/templates"
-        },
-        {
-            "namespace": "Admin",
-            "path": "src/Admin/templates"
-        }
-    ]
-}
-</code></pre>
-
-<p>This file is loaded by Symfony plugin and the namespaces and paths will be configured automatically (you can check it in the Settings).</p>
-
-<h3 id="enable-translation-keys-auto-completion-for-custom-translation-methods">Enable translation keys auto-completion for custom translation methods</h3>
-
-<p>When you create a custom method that accepts translation key, the PhpStorm won't do the auto-completion for it, because it does not know that the parameter is a translation key. Luckily, the Symfony plugin provides an easy way to let it know of the type of the parameter. Have a look at the following example:</p>
-
-<pre><code class="php">&lt;?php
-class TitleManager
-{
-    /**
-     * @param string $label #TranslationKey
-     */
-    public function addItem(string $label): void
-    {
-        // ...
-    }
-}
-
-$titleManager = new TitleManager();
-$titleManager-&gt;addItem('app.products.name'); // the translation key auto-completion will work here 
-</code></pre>
-
-<p>You can see that I added <code>#TranslationKey</code> to the method parameter PHPDoc. It is something they call <a href="https://symfony2-plugin.espend.de/extension/method_parameter.html#hash-tags">Hash Tags</a> in Symfony plugin. It allows you to define the <em>type</em> of the parameter, so the plugin can provide the auto-completion. Apart from <code>TranslationKey</code>, you can also use <code>Entity</code>, <code>Service</code>, <code>FormType</code>, <code>Template</code>, <code>Route</code>, <code>Class</code>, <code>TranslationDomain</code>, <code>FormOption</code> or <code>Interface</code> (don't forget to prefix them with <code>#</code>).</p>
-
-<h2 id="phpunit-enhancement">PHPUnit Enhancement</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/9674-phpunit-enhancement">PHPUnit Enhancement plugin</a> provides smart autocomplete for mock creation. It also handles refactoring - if you rename a method which is mocked, it is correctly renamed in the string in tests.</p>
-
-<p><img src="/data/2018/2018-11-26-best-phpstorm-plugins-for-symfony/phpunit-enhancement.gif" alt="PHPUnit Enhancement plugin" /></p>
-
-<h2 id="php-composer.json-support">PHP composer.json support</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/7631-php-composer-json-support">PHP composer.json support plugin</a> adds <code>composer.json</code> auto-complete and validation. It also displays which version of each packages is installed (from the data in <code>composer.lock</code>)</p>
-
-<h2 id="php-inspections-ea-extended">Php Inspections (EA Extended)</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/7622-php-inspections-ea-extended-">Php Inspections (EA Extended)</a> is a plugin that adds a lot of inspections for statically analyzing the PHP code you are writing and suggesting fixes and improvements.</p>
-
-<h2 id="twig-support">Twig Support</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/7303-twig-support">Twig Support</a> is an official plugin from Jetbrains bundled with PhpStorm, so just enable it in the settings and you are done.</p>
-
-<h2 id=".env-files-support">.env files support</h2>
-
-<p>Symfony 4 uses <code>.env</code> files for configuration parameters (instead of <code>parameters.yml</code>) and <a href="https://plugins.jetbrains.com/plugin/9525--env-files-support">.env files support plugin</a> provides syntax highlighting for the <code>.env</code> file.</p>
-
-<h2 id=".ignore">.ignore</h2>
-
-<p><a href="https://plugins.jetbrains.com/plugin/7495--ignore">.ignore plugin</a> provides syntax highlighting and path auto-completion for <code>.gitignore</code> (and other ignore files). It also automatically changes the color of the ignored files in the Project File Tree to gray.</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>I can't imagine using PhpStorm for Symfony development without those plugins. They save me time and prevent mistakes by providing the magic auto-completion.</p>
-
-<p>Do you use some other useful plugins? Please let me know in the comments.</p>
-
-<p><em>Update:</em> If you are interested in plugins not directly related to Symfony, have a look at the <a href="https://localheinz.com/blog/2017/10/27/essential-phpstorm-plugins/">Essential PhpStorm plugins</a> article by <em>localheinz</em>.</p>
 ]]></content>
         </entry>
     </feed>

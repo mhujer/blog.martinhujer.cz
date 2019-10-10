@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>How to configure PHPStan for Symfony applications &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
+        <meta name="robots" content="index, follow">
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/assets/remove-fbclid.js" async defer></script>
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+                                    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                        <article>
+        <header>
+            <h2>How to configure PHPStan for Symfony applications</h2>
+            <p><small>2019-10-23</small></p>
+        </header>
+
+        <div class="article-text">
+            <p><a href="https://github.com/phpstan/phpstan">PHPStan</a> is a fantastic tool for a static analysis of PHP code. It reads the code and PHPDoc and will try to detect potential issues such as:</p>
+
+<ul>
+<li>undefined variables</li>
+<li>incorrect types passed throughout the codebase</li>
+<li>use of non-existent methods and attributes</li>
+<li>passing of incorrect number of parameters to a method</li>
+<li>use of possible null-pointers</li>
+<li>lot more...</li>
+</ul>
+
+<p>Apart from being able to analyse regular PHP code, PHPStan can understand even some framework-specific <em>magic</em> using custom-made extensions.</p>
+
+<p>But let's start from the beginning...</p>
+
+<h2 id="phpstan-installation">PHPStan installation</h2>
+
+<p>You can install PHPStan either directly with all its dependencies by running:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan
+</code></pre>
+
+<p>Or you can install <code>phpstan-shim</code>:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-shim
+</code></pre>
+
+<p>The advantage of <code>phpstan-shim</code> is that it is a Phar file with all the dependencies packed inside (and prefixed), so they won't conflict with other dependencies you may have in your project. Therefore, I prefer using <code>phpstan-shim</code>.</p>
+
+<h2 id="using-phpstan">Using PHPStan</h2>
+
+<p>PHPStan can be run this way:</p>
+
+<pre><code class="bash">vendor/bin/phpstan analyse -l 0 src tests
+</code></pre>
+
+<p>It will probably report bunch of errors depending on your project size and age. The best approach from here is to gradually fix the issues and raise the level of strictness (<code>-l 1</code> etc.).</p>
+
+<p>If there are some issues which cannot be fixed easily, you can <a href="https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions">exclude them from the report</a>. When doing so, try to be specific and put the filename in the exclude, so you won't exclude the issues from the whole project. And don't forget to properly escape the regular expressions, or you may be excluding way more things than you wanted (hint: <code>|</code> needs to be escaped too).</p>
+
+<p>You should also have a look at a new <a href="https://medium.com/@ondrejmirtes/phpstans-baseline-feature-lets-you-hold-new-code-to-a-higher-standard-e77d815a5dff">Baseline Feature</a> in PHPStan, which allows you <em>ignore</em> all the current issues and let the PHPStan check just the new code.</p>
+
+<h2 id="adding-phpstan-to-ci-build">Adding PHPStan to CI build</h2>
+
+<p>To prevent issues from creeping back to the codebase, you should include PHPStan in you CI build to have it fail when a new error appears.</p>
+
+<p>It can be done easily by using <a href="/have-you-tried-composer-scripts/">Composer Scripts</a>. Your <code>scripts</code> section in <code>composer.json</code> can look like this:</p>
+
+<pre><code class="json">"scripts": {
+    "phpstan": "phpstan analyse -c phpstan.neon src tests --level 7 --no-progress", 
+    "tests": "phpunit",    
+    "ci": [
+        "@phpstan",
+        "@tests"
+    ],
+}
+</code></pre>
+
+<p>It will run both the <code>phpstan</code> and <code>tests</code> scripts when you run <code>composer ci</code>.</p>
+
+<p><strong>Note:</strong> If you have a Symfony application, you will already have a <code>scripts</code> section in your <code>composer.json</code>, so just add new items there.</p>
+
+<p>You can read more thoroughly about Composer Scripts in my article <em><a href="/have-you-tried-composer-scripts/">Have you tried Composer Scripts? You may not need Phing</a></em>.</p>
+
+<h2 id="configuring-the-symfony-extension">Configuring the Symfony extension</h2>
+
+<p>You might have noticed that PHPStan reports some issues in Symfony-specific code, that works OK. It is because there is no way for PHPStan to understand Symfony magic just from the code itself. It includes getting services from Container (you should not be doing it anyway!), working with arguments and options in Commands and much more.</p>
+
+<p>To have those errors disappear, you need to install <a href="https://github.com/phpstan/phpstan-symfony">phpstan/phpstan-symfony</a> extension and configure it in <code>phpstan.neon</code>:</p>
+
+<pre><code>includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+</code></pre>
+
+<p>Apart from that you also must provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the <code>var/cache/dev</code> directory.</p>
+
+<pre><code class="yaml">parameters:
+    symfony:
+        container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
+</code></pre>
+
+<p>Also, to have the Commands analysed properly, PHPStan needs a <em>console loader</em>. It is a script that initializes the Symfony Console for the application and passes it to PHPStan. It can use it to determine the arguments or options types etc.</p>
+
+<p>I usually put it in <code>build/phpstan/console-loader.php</code>:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+use App\Kernel;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+
+require dirname(__DIR__) . '/../config/bootstrap.php';
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+return new Application($kernel);
+</code></pre>
+
+<p>The final configuration for <code>phpstan-symfony</code> should look like this:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    symfony:
+        container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
+        console_application_loader: build/phpstan/console-loader.php
+</code></pre>
+
+<p>With this configuration, PHPStan can understand the Symfony code. It also checks that you are not fetching non-existent (or private) services from container.</p>
+
+<h2 id="configuring-phpstan-with-phpunit">Configuring PHPStan with PHPUnit</h2>
+
+<p>In the previous part we have successfully configured PHPStan to check various things in Symfony projects. However, it is still possible to improve the configuration.</p>
+
+<p>We are now using same configuration file for both <code>src</code> and <code>tests</code>, but Symfony uses a separate container when running in either <code>dev</code> or <code>test</code> environments. It means that PHPStan will report errors such as <code>Service "Doctrine\ORM\EntityManagerInterface" is private.</code> even if the tests work fine.</p>
+
+<p>The solution is simple - use a separate configuration file for <code>src</code> and for <code>tests</code>. We can keep the current <code>phpstan.neon</code>, but we have to create specific configuration for tests - <code>phpstan-tests.neon</code>. It will look very similarly with only change being the <code>container_xml_path</code> which now points to the container compiled in <code>var/cache/test</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    symfony:
+        container_xml_path: var/cache/test/srcApp_KernelTestDebugContainer.xml
+        console_application_loader: build/phpstan/console-loader.php
+</code></pre>
+
+<p>You need to adjust the <code>scripts</code> setup in <code>composer.json</code> to run PHPStan twice - first for the <code>src</code> directory and then for the <code>tests</code> with a different configuration file. When using this setup, you can still run <code>composer phpstan</code> which in turn runs checks for both <code>src</code> and <code>tests</code>.</p>
+
+<pre><code class="json">"phpstan": [
+    "@phpstan-general",
+    "@phpstan-tests"
+],
+"phpstan-general": "phpstan analyse -c phpstan.neon src --level 7 --no-progress",
+"phpstan-tests": "phpstan analyse -c phpstan-tests.neon tests --level 7 --no-progress",
+</code></pre>
+
+<p>I know that the PHPStan configuration is duplicated a little bit, but that does not matter much (you are not adding new extensions that often).</p>
+
+<p>One thing that you must keep in mind is that the Symfony container must be compiled before it can be used for analysis. You can do it by running <code>bin/console cache:warmup --env=dev</code> and <code>bin/console cache:warmup --env=test</code>. As it needs to be part of the CI build, you can put it to the Composer <code>scripts</code> as well:</p>
+
+<pre><code class="json">"phpstan": [
+    "@php bin/console cache:warmup --env=dev",
+    "@php bin/console cache:warmup --env=test",
+    "@phpstan-general",
+    "@phpstan-tests"
+],
+</code></pre>
+
+<p>Or you can put it into a separate script, so it won't be slowing you down when running PHPStan repeatedly without changes in the container (but you must make sure that the container is recompiled for the <code>test</code> environment after change).</p>
+
+<p>Finally, we are getting to configuring the <a href="https://github.com/phpstan/phpstan-phpunit">PHPUnit extension</a> itself. We need to install it through Composer:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-phpunit
+</code></pre>
+
+<p>And then configure it in <code>phpstan-tests.neon</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+</code></pre>
+
+<p>And that's it.</p>
+
+<h2 id="phpstan-and-doctrine-orm">PHPStan and Doctrine ORM</h2>
+
+<p>Doctrine ORM contains even more magic things which can't be inferred just from the code itself. Repository and Entity Manager use <code>object</code> type in lot of places, so the PHPStan won't know which type is there and you would need to add lots of inline PHPDoc to make it work.</p>
+
+<p>Or you can install <a href="https://github.com/phpstan/phpstan-doctrine"><code>phpstan/phpstan-doctrine</code></a> extension which helps PHPStan to understand Doctrine magic.</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-doctrine
+</code></pre>
+
+<p>Like with Symfony extension, you must help Doctrine extension by creating a loader script that provides an Entity Manager so PHPStan can query it about various things. I usually put it into
+<code>build/phpstan/doctrine-orm-bootstrap.php</code> and the script should look like this:</p>
+
+<pre><code class="php">&lt;?php declare(strict_types = 1);
+
+use App\Kernel;
+
+require dirname(__DIR__) . '/../config/bootstrap.php';
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
+$kernel-&gt;boot();
+return $kernel-&gt;getContainer()-&gt;get('doctrine')-&gt;getManager();
+</code></pre>
+
+<p>You should add this to respective sections in both <code>phpstan.neon</code> and <code>phpstan-tests.neon</code>:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
+
+parameters:
+    doctrine:
+        objectManagerLoader: build/phpstan/doctrine-orm-bootstrap.php
+</code></pre>
+
+<p>With this setup PHPStan will use the EntityManager to also check your DQLs and Query Builders, which is awesome.</p>
+
+<p>Next version of PHPStan-Doctrine extension will also support analysis of the entity annotations to determine whether the property type matches the column type, whether the property types for associations are defined correctly etc.</p>
+
+<h2 id="bleeding-edge-features">Bleeding edge features</h2>
+
+<p>PHPStan can check even more things when you enable <em>bleeding edge</em> rules from the core of PHPStan. Current PHPStan release is 0.11.x is mostly backwards compatible (not that many new issues are detected between patch versions). However, Ondra practices something along the lines of the trunk-based development, where new features (checks!) are hidden behind feature flags.</p>
+
+<p>You can enable all of them by adding this to your configuration files (applies to <code>phpstan-shim</code>, the path will be different for a regular installation):</p>
+
+<pre><code class="neon">includes:
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+</code></pre>
+
+<h2 id="strict-rules">Strict rules</h2>
+
+<p>There is a <a href="https://github.com/phpstan/phpstan-strict-rules"><code>phpstan/phpstan-strict-rules</code></a> package which adds opinionated checks not included in the PHPStan core. You can install it through Composer:</p>
+
+<pre><code class="bash">composer require --dev phpstan/phpstan-strict-rules
+</code></pre>
+
+<p>Afterwards, you just need to add a new include to both configuration files:</p>
+
+<pre><code class="neon">includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+</code></pre>
+
+<p>And suddenly you will get many more potential issues or bad practices reported :-)</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If you configure the PHPStan according to this article, it will change your life :-) (at least a little bit).</p>
+
+<p>Nowadays I can't imagine developing modern PHP applications without PHPStan running on max level with lots of checks. It helps to prevent many issues during development and refactoring of the applications.</p>
+
+        </div>
+
+		<div class="article-footer">
+			<p class="written-by">
+				<strong>
+					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+				</strong>
+			</p>
+			<p>
+				<small>
+					<strong>
+						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+					</strong>
+					<br>
+					<strong>
+						<a href="/feed/">Subscribe to RSS</a>
+					</strong>
+				</small>
+			</p>
+		</div>
+
+		
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'blog-martinhujer'; // required: replace example with your forum shortname
+
+
+    
+    
+    
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script');
+        dsq.type = 'text/javascript';
+        dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            <strong>
+                By <a href="https://www.martinhujer.cz">Martin Hujer</a>
+            </strong>
+            <br>
+            <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>,
+            <a href="/feed/">Subscribe to RSS</a>
+        </footer>
+
+                
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-3314117-32', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+                    </body>
+</html>
