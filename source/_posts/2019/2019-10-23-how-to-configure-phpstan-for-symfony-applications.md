@@ -30,8 +30,12 @@ Or you can install `phpstan-shim`:
 composer require --dev phpstan/phpstan-shim
 ```
 
-The advantage of `phpstan-shim` is that it is a Phar file with all the dependencies packed inside (and prefixed), so they won't conflict with other dependencies you may have in your project. Therefore, I prefer using `phpstan-shim`.  
+The advantage of `phpstan-shim` is that it is a Phar file with all the dependencies packed inside (and prefixed), so they won't conflict with other dependencies you may have in your project. Therefore, I prefer using `phpstan-shim`.
 
+To have the extensions configured automatically, you need to install [`phpstan/extension-installer`](https://github.com/phpstan/extension-installer):
+```bash
+composer require --dev phpstan/extension-installer
+```
 
 ## Using PHPStan
 
@@ -74,14 +78,7 @@ You can read more thoroughly about Composer Scripts in my article _[Have you tri
 
 You might have noticed that PHPStan reports some issues in Symfony-specific code, that works OK. It is because there is no way for PHPStan to understand Symfony magic just from the code itself. It includes getting services from Container (you should not be doing it anyway!), working with arguments and options in Commands and much more.
 
-To have those errors disappear, you need to install [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension and configure it in `phpstan.neon`:
-
-```
-includes:
-    - vendor/phpstan/phpstan-symfony/extension.neon
-```
-
-Apart from that you also must provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the `var/cache/dev` directory.
+To have those errors disappear, you need to install [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension and provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the `var/cache/dev` directory.
 
 ```yaml
 parameters:
@@ -106,9 +103,6 @@ return new Application($kernel);
 The final configuration for `phpstan-symfony` should look like this:
 
 ```neon
-includes:
-    - vendor/phpstan/phpstan-symfony/extension.neon
-
 parameters:
     symfony:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
@@ -127,9 +121,6 @@ We are now using same configuration file for both `src` and `tests`, but Symfony
 The solution is simple - use a separate configuration file for `src` and for `tests`. We can keep the current `phpstan.neon`, but we have to create specific configuration for tests - `phpstan-tests.neon`. It will look very similarly with only change being the `container_xml_path` which now points to the container compiled in `var/cache/test`:
 
 ```neon
-includes:
-    - vendor/phpstan/phpstan-symfony/extension.neon
-
 parameters:
     symfony:
         container_xml_path: var/cache/test/srcApp_KernelTestDebugContainer.xml
@@ -169,15 +160,7 @@ Finally, we are getting to configuring the [PHPUnit extension](https://github.co
 composer require --dev phpstan/phpstan-phpunit
 ```
 
-And then configure it in `phpstan-tests.neon`:
-
-```neon
-includes:
-    - vendor/phpstan/phpstan-phpunit/extension.neon
-    - vendor/phpstan/phpstan-phpunit/rules.neon
-```
-
-And that's it.
+It will be included automatically thanks to the `phpstan/extension-installer` we installed in the beginning. So that's it.
 
 
 ## PHPStan and Doctrine ORM
@@ -207,10 +190,6 @@ return $kernel->getContainer()->get('doctrine')->getManager();
 You should add this to respective sections in both `phpstan.neon` and `phpstan-tests.neon`:
 
 ```neon
-includes:
-    - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-doctrine/rules.neon
-
 parameters:
     doctrine:
         objectManagerLoader: build/phpstan/doctrine-orm-bootstrap.php
@@ -237,13 +216,6 @@ There is a [`phpstan/phpstan-strict-rules`](https://github.com/phpstan/phpstan-s
 
 ```bash
 composer require --dev phpstan/phpstan-strict-rules
-```
-
-Afterwards, you just need to add a new include to both configuration files:
-
-```neon
-includes:
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
 ```
 
 And suddenly you will get many more potential issues or bad practices reported :-)
