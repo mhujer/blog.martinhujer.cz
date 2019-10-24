@@ -46,7 +46,7 @@ vendor/bin/phpstan analyse -l 0 src tests
 
 It will probably report bunch of errors depending on your project size and age. The best approach from here is to gradually fix the issues and raise the level of strictness (`-l 1` etc.).
 
-If there are some issues which cannot be fixed easily, you can [exclude them from the report](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions). When doing so, try to be specific and put the filename in the exclude, so you won't exclude the issues from the whole project. And don't forget to properly escape the regular expressions, or you may be excluding way more things than you wanted (hint: `|` needs to be escaped too).
+If there are some issues which cannot be fixed easily, you can [exclude them from the report](https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions). When doing so, try to be specific and put the filename in the exclude, so you won't exclude the issues from the whole project. And don't forget to properly escape the regular expressions, or you may be excluding way more things than you wanted (hint: `|` needs to be escaped too). Those exclusions should be included in `phpstan.neon` configuration file (which is passed as `-c phpstan.neon` to the `analyse` command).
 
 You should also have a look at a new [Baseline Feature](https://medium.com/@ondrejmirtes/phpstans-baseline-feature-lets-you-hold-new-code-to-a-higher-standard-e77d815a5dff) in PHPStan, which allows you _ignore_ all the current issues and let the PHPStan check just the new code.
 
@@ -78,7 +78,7 @@ You can read more thoroughly about Composer Scripts in my article _[Have you tri
 
 You might have noticed that PHPStan reports some issues in Symfony-specific code, that works OK. It is because there is no way for PHPStan to understand Symfony magic just from the code itself. It includes getting services from Container (you should not be doing it anyway!), working with arguments and options in Commands and much more.
 
-To have those errors disappear, you need to install [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension and provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the `var/cache/dev` directory.
+To have those errors disappear, you need to install [phpstan/phpstan-symfony](https://github.com/phpstan/phpstan-symfony) extension and provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the `var/cache/dev` directory. The following configuration should be added to `phpstan.neon` file:
 
 ```yaml
 parameters:
@@ -100,7 +100,7 @@ $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 return new Application($kernel);
 ```
 
-The final configuration for `phpstan-symfony` should look like this:
+The configuration file `phpstan.neon` should look like this:
 
 ```neon
 parameters:
