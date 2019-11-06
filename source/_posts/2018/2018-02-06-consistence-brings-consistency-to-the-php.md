@@ -138,6 +138,9 @@ If you need to represent multiple values, have a look at the [MultiEnums](https:
 
 _If the Consistence only provided the Enums, it would be enough reason for me to use it._
 
+**Planning to use Consistence with Symfony forms? I have created [ConsistenceBundle](https://github.com/mhujer/consistence-bundle) which adds translator service, translator twig filter and form type for Consistence Enums.**
+
+
 ## Use `ObjectPrototype` to disable magic methods
 
 In PHP you can write to undefined object properties. If the property is not defined and you assign a value to it, it is created in runtime.
