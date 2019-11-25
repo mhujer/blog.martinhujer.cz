@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.martinhujer.cz</loc>
-    <lastmod>2019-11-06</lastmod>
+    <lastmod>2019-11-25</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -639,6 +639,60 @@
     <url>
     <loc>https://blog.martinhujer.cz/jak-se-branit-proti-blokovacum-reklamy/</loc>
     <lastmod>2007-11-27T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/$CACHE_FILE$</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/2019.iml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/dictionaries</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/inspectionProfiles/Project_Default.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/misc.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/modules.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/php.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/vcs.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+    <url>
+    <loc>https://blog.martinhujer.cz/_posts/2019/.idea/workspace.xml</loc>
+    <lastmod>2019-11-25T21:08:46+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
