@@ -3,7 +3,7 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2019-11-27T10:31:03+00:00</updated>
+    <updated>2019-11-28T15:25:31+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
@@ -109,6 +109,17 @@ usort($products, fn (Product $a, Product $b): int =&gt;
     ($b-&gt;isInStock() &lt;=&gt; $a-&gt;isInStock()) * 100 + // inStock DESC
     ($b-&gt;isRecommended() &lt;=&gt; $a-&gt;isRecommended()) * 10 + // isRecommended DESC
     ($a-&gt;getName() &lt;=&gt; $b-&gt;getName()) // name ASC
+);
+</code></pre>
+
+<h2 id="solution-from-franti%E5%A1ek-ma%E5%A1a">Solution (from <a href="https://frantisekmasa.cz/">František Maša</a>)</h2>
+
+<p><a href="https://frantisekmasa.cz/">František Maša</a> suggested even better solution in the comments. Thanks!</p>
+
+<pre><code class="php">usort($products, fn (Product $a, Product $b): int =&gt;
+    [$a-&gt;getPrice(), $b-&gt;isInStock(), $b-&gt;isRecommended(), $a-&gt;getName()]
+    &lt;=&gt;
+    [$b-&gt;getPrice(), $a-&gt;isInStock(), $a-&gt;isRecommended(), $b-&gt;getName()]
 );
 </code></pre>
 

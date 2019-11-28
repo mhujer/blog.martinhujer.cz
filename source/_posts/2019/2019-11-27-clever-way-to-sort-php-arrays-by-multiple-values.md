@@ -107,6 +107,17 @@ usort($products, fn (Product $a, Product $b): int =>
 );
 ```
 
+## Solution (from [František Maša](https://frantisekmasa.cz/))
+
+[František Maša](https://frantisekmasa.cz/) suggested even better solution in the comments. Thanks!
+
+```php
+usort($products, fn (Product $a, Product $b): int =>
+    [$a->getPrice(), $b->isInStock(), $b->isRecommended(), $a->getName()]
+    <=>
+    [$b->getPrice(), $a->isInStock(), $a->isRecommended(), $b->getName()]
+);
+```
 
 ## Conclusion
 
