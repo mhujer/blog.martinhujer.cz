@@ -121,7 +121,7 @@ class ArticleFormType extends \Symfony\Component\Form\AbstractType
                 'label' => 'Article title',
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Article title',
+                'label' => 'Article content',
             ])
             ->add('publishDate', DateTimeType::class, [
                 'label' => 'Publish on',
