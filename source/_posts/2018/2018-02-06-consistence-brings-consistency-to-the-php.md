@@ -4,7 +4,7 @@ short: In the article I describe the Consistence library that brings consistency
 showPhpTrainingAd: true
 ---
 
-**In the article I describe the [Consistence library](https://github.com/consistence/consistence/) that aims to bring consistency to PHP applications.**
+**In the article I describe the [Consistence library](https://github.com/consistence-community/consistence/) that aims to bring consistency to PHP applications.** _(Note: this links to my fork of the library which is maintained for new PHP and Symfony versions)_
 
 There is no argument, that PHP can sometimes be _a bit_ inconsistent about naming stuff and maintaining order of parameters for related functions. Also, in some cases it is not strict and allows you to use the language and the functions in a wrong way. Sometimes you get `false` as a return value where an exception would be appropriate. 
 
@@ -38,7 +38,7 @@ $car = createCar(BodyType::CABRIO);
 $car = createCar('doubledecker'); // unexpected things can happen
 ```
 
-Consistence provides an [enum implementation](https://github.com/consistence/consistence/blob/master/docs/Enum/enums.md). When you extend the class from `Enum`, all constants are automatically treated as possible enum values:
+Consistence provides an [enum implementation](https://github.com/consistence-community/consistence/blob/master/docs/Enum/enums.md). When you extend the class from `Enum`, all constants are automatically treated as possible enum values:
 
 ```php
 <?php
@@ -103,7 +103,7 @@ class Car
 }
 ```
 
-There are [Doctrine](https://github.com/consistence/consistence-doctrine) and [Doctrine + Symfony](https://github.com/consistence/consistence-doctrine-symfony/) integrations which allow you to use Enums in Doctrine entities:
+There are [Doctrine](https://github.com/consistence-community/consistence-doctrine) and [Doctrine + Symfony](https://github.com/consistence-community/consistence-doctrine-symfony/) integrations which allow you to use Enums in Doctrine entities:
 
 ```php
 <?php
@@ -134,7 +134,7 @@ class Car
 }
 ```
 
-If you need to represent multiple values, have a look at the [MultiEnums](https://github.com/consistence/consistence/blob/master/docs/Enum/multi-enums.md).
+If you need to represent multiple values, have a look at the [MultiEnums](https://github.com/consistence-community/consistence/blob/master/docs/Enum/multi-enums.md).
 
 _If the Consistence only provided the Enums, it would be enough reason for me to use it._
 
@@ -142,6 +142,8 @@ _If the Consistence only provided the Enums, it would be enough reason for me to
 
 
 ## Use `ObjectPrototype` to disable magic methods
+
+**Update 2021-03-28: I'm not using `ObjectPrototype` anymore. It is better to check the code with [PHPStan tool](https://phpstan.org/).**
 
 In PHP you can write to undefined object properties. If the property is not defined and you assign a value to it, it is created in runtime.
 
@@ -169,7 +171,7 @@ $finalPrice = $product->price * $customer->distountRate;
 ```
 There is a typo in a property name, so the `$finalPrice` would be `0`, because undefined property has `null` value which is converted to `0` and used in multiplication.
 
-Consistence provides a straightforward way to mitigate this type of bugs. There is an [`ObjectPrototype`](https://github.com/consistence/consistence/blob/master/docs/Type/strict-types.md#strict-object) class which you can extend your classes from. If you try to assign or read something from an undefined property, an exception is thrown. Calling undefined methods throws an exception too. Those exceptions are not meant to be caught, but they should be fixed directly in your code.
+Consistence provides a straightforward way to mitigate this type of bugs. There is an [`ObjectPrototype`](https://github.com/consistence-community/consistence/blob/master/docs/Type/strict-types.md#strict-object) class which you can extend your classes from. If you try to assign or read something from an undefined property, an exception is thrown. Calling undefined methods throws an exception too. Those exceptions are not meant to be caught, but they should be fixed directly in your code.
 
 ```php
 <?php
@@ -205,7 +207,7 @@ $exception = new MyCustomException();
 $exception->foo = 'a'; // throws Consistence\UndefinedPropertyException
 ```
 
-Speaking of exceptions, there is a [`PhpException`](https://github.com/consistence/consistence/blob/master/src/exceptions/PhpException.php) which can be used as their base class. It has a shorter constructor without the mostly useless `$code` argument.
+Speaking of exceptions, there is a [`PhpException`](https://github.com/consistence-community/consistence/blob/master/src/exceptions/PhpException.php) which can be used as their base class. It has a shorter constructor without the mostly useless `$code` argument.
 
 ## Strict type checking
 PHP type-hints are powerful, but there are still a lot of things they can't check. You can put the detailed type info into the PHPDoc, but it is ignored at runtime. It only helps other developers and the IDE to better understand the code.
@@ -266,7 +268,7 @@ Standard PHP functions for array manipulation aren't very consistent or strict:
 - most of them do not accept callbacks to create more complicated logic
 - [some](http://php.net/array_filter) accept the source array as first parameter, [some](http://php.net/array_map) as a second parameter
 
-Consistence provides [several array manipulation functions](https://github.com/consistence/consistence/blob/master/docs/Type/arrays.md) in the `ArrayType` namespace. Let's have a look at the examples.
+Consistence provides [several array manipulation functions](https://github.com/consistence-community/consistence/blob/master/docs/Type/arrays.md) in the `ArrayType` namespace. Let's have a look at the examples.
 
 In the first example you can see how the implicit type conversion in `in_array` function can lead to unexpected results:
 
@@ -353,7 +355,7 @@ $result = ArrayType::mapValuesByCallback($data, function (int $value) {
 var_dump($result); // [2, 4, 6, 8]
 ```
 
-Sometimes it may be convenient to use `filterByCallback()` and `mapByCallback()` that pass both _key_ and _value_ to the callback function (they use the [`KeyValuePair`](https://github.com/consistence/consistence/blob/master/docs/Type/arrays.md#keyvaluepair) value object internally).
+Sometimes it may be convenient to use `filterByCallback()` and `mapByCallback()` that pass both _key_ and _value_ to the callback function (they use the [`KeyValuePair`](https://github.com/consistence-community/consistence/blob/master/docs/Type/arrays.md#keyvaluepair) value object internally).
 
 Did you know, that `array_unique()` is always comparing loosely? Therefore, I prefer to use strict `ArrayType::uniqueValues()`:
 
@@ -384,7 +386,7 @@ ArrayType::getValue($data, 3); // int(4)
 ArrayType::getValue($data, 5); // throws ElementDoesNotExistException
 ```
 
-And there is more, [have a look at the available methods](https://github.com/consistence/consistence/blob/master/src/Type/ArrayType/ArrayType.php) for yourself.
+And there is more, [have a look at the available methods](https://github.com/consistence-community/consistence/blob/master/src/Type/ArrayType/ArrayType.php) for yourself.
 
 ## Regex
 
@@ -410,6 +412,6 @@ I have created [PHPStan rules for the Consistence library](https://github.com/mh
 
 
 ## Conclusion
-In the article I've described the most interesting parts of the [Consistence](https://github.com/consistence/consistence/) library. My favourite are enums and strict types everywhere.
+In the article I've described the most interesting parts of the [Consistence](https://github.com/consistence-community/consistence/) library. My favourite are enums and strict types everywhere.
 
-If you are not using the Consistence library yet, [give it a try](https://github.com/consistence/consistence/#consistence)!
+If you are not using the Consistence library yet, [give it a try](https://github.com/consistence-community/consistence/#consistence)!
