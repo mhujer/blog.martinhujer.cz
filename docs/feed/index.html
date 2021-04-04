@@ -3,11 +3,82 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2021-03-28T18:48:23+00:00</updated>
+    <updated>2021-04-04T16:41:57+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[Deploying only during maintenance windows is an antipattern]]></title>
+            <link href="https://blog.martinhujer.cz/maintenance-window-antipattern/"/>
+            <updated>2021-04-04T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/maintenance-window-antipattern/</id>
+            <content type="html"><![CDATA[<p>In this article I argue that deploying the new web application versions only during a maintenance window is an antipattern, and you should strive to have Zero-Downtime deployments.</p>
+
+<p>It has long been a common practice to take a website or a web application down regularly and deploy a new version during that downtime. It is easy: You just schedule a 3-hour maintenance window between midnight and 3AM, make the application return <em>"We are performing maintenance"</em> page with an HTTP 503 code and do the upgrade or whatever during that time. And try to get some sleep afterwards.</p>
+
+<p>Apart from the obvious advantages - nobody is messing with the application when you are releasing a new version, there are many reasons why it is not such a good idea:</p>
+
+<ol>
+<li>There is no natural maintenance window</li>
+<li>It's better to sleep at night</li>
+<li>The computers never sleep</li>
+<li>Business won't wait for your maintenance window</li>
+<li>Small changes are safer</li>
+</ol>
+
+<h2 id="1.-there-is-no-natural-maintenance-window">1. There is no natural maintenance window</h2>
+
+<p>There are natural maintenance windows only for a small part of the web applications - e.g., when you are working on a B2B application which is used only by business only during their business hours, and they are all in one time-zone.</p>
+
+<p>When you are making a B2C application - ecommerce website or something like that, there is always going to be someone using your application. There are people working shifts, so they may be bored during a night shift and want to browse your website.</p>
+
+<p>Or you go global and suddenly there is always someone's afternoon somewhere.</p>
+
+<p>If you schedule maintenance window to the time when someone needs to use the application, you will annoy your existing users and lose any potential new customers who will visit the application during downtime.</p>
+
+<p>And there are some questions which needs answering: What happens when someone filled a form a minute before the maintenance window and tries to submit it during the maintenance window? Will it fail? How? What about the data they entered?</p>
+
+<p>Note: At least don't forget to send <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503">proper HTTP 503 status code</a> or your temporary page may be indexed by search engines.</p>
+
+<h2 id="2.-it%27s-better-to-sleep-at-night">2. It's better to sleep at night</h2>
+
+<p>I'm a morning person (usually getting up at 7 AM, back at bed at 11 PM) so staying awake beyond midnight is really hard, and I guess I won't be very good at debugging a thorny production issue at 3 AM.</p>
+
+<p>The more important is that messing up your sleep rhythm is bad for your health. If I stayed up until 3 AM, I would be useless the next day even after sleeping in. And my sleep rhythm will be disturbed for a few days at least. So, it is not worth it health- and productivity-wise.</p>
+
+<h2 id="3.-the-computers-never-sleep">3. The computers never sleep</h2>
+
+<p>The computers never sleep, so even if there is a natural maintenance window, there may still be API calls coming to your application, webhooks may be called, etc. And depending on the 3rd party error handling, those may or may not be retried later.</p>
+
+<h2 id="4.-business-won%27t-wait-for-your-maintenance-window">4. Business won't wait for your maintenance window</h2>
+
+<p>If you can deploy new features only once every two weeks, the businesspeople in your company won't be happy having to wait up two weeks for a small change to go live. If they worked somewhere else where Zero-Downtime deployments where common, they would see you as incompetent.</p>
+
+<p>Don't forget that if there is a competition moving faster than you, you risk losing customers to them.</p>
+
+<h2 id="5.-small-changes-are-safer">5. Small changes are safer</h2>
+
+<p>Imagine there are 20 different changes in the release, and something breaks, or the load suddenly increases after the deployment. How will you debug it? It can be any of those 20 changes. If you did deploy only one change it would be both easier to debug the problem or rollback the change completely.</p>
+
+<p>How do you rollback a big release with many database changes? And what if you discover the issue the day after the release? You cannot just revert to the older backup. You are out of luck.</p>
+
+<h2 id="so%2C-what-should-we-do-instead%3F">So, what should we do instead?</h2>
+
+<ul>
+<li>Automate the deployment process</li>
+<li>Deploy each change separately</li>
+<li>Be careful about database migrations (I will write a separate post about database migrations without downtime)</li>
+<li>Even if it may seem that the change warrants a maintenance window, try to think hard how to decompose it into several steps which may be deployed gradually without downtime.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>When you consider the downsides discussed above, it does not seem that bad to spend some time on making your deployment process Zero-Downtime, right?</p>
+
+<p>Please note that there are rare occasions when it is dramatically easier to schedule the maintenance window instead of doing it gradually (e.g., migrating the database to a new server). But those should be rare once-a-year special occasions, not part of your regular deployment process.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Clever way to sort PHP arrays by multiple values]]></title>
             <link href="https://blog.martinhujer.cz/clever-way-to-sort-php-arrays-by-multiple-values/"/>
@@ -1408,48 +1479,6 @@ found 222 vulnerabilities (5 low, 213 moderate, 3 high, 1 critical)
 <h1 id="conclusion">Conclusion</h1>
 
 <p>Do you know other tricks how to make the CI build faster? Please share them in comments!</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[Povinné ručení od České Pojišťovny - Jak ho zlevnit?]]></title>
-            <link href="https://blog.martinhujer.cz/povinne-ruceni-ceska-pojistovna-zlevneni/"/>
-            <updated>2019-03-12T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/povinne-ruceni-ceska-pojistovna-zlevneni/</id>
-            <content type="html"><![CDATA[<p>Dlouhou dobu jsem měl <strong>povinné ručení u České Pojišťovny</strong> (dříve měli akci na přenos bonusu v rámci rodiny, což bylo dost výhodné). Každý rok mi přišel požadavek na zaplacení o trochu více než předchozí rok. Letos jsem se konečně rozhoupal prozkoumat, jestli nejde mít povinné ručení někde jinde levněji.</p>
-
-<p>Jediný zajímavý parametr pro srovnání je <strong>limit pojistného plnění</strong>. Našel jsem tedy nějaký srovnávač povinných ručení a vyplnil údaje o autě podle stávající pojistné smlouvy. <strong>Pozor</strong>, pokud nechcete, aby vám někdo zkoušel vnutit pojištění a chcete ho jen srovnat, tak nezadávejte svoje telefonní číslo ani rodné číslo (Můžete použít třeba to z <a href="https://cs.wikipedia.org/wiki/Rodn%C3%A9_%C4%8D%C3%ADslo#Kontroln%C3%AD_%C4%8D%C3%ADslice">Wikipedie</a>).</p>
-
-<p>Ve výsledcích mě překvapilo, že Česká Pojišťovna (ano, tam, kde mám stávající smlouvu) nabízí povinné ručení se stejnými limity plnění levněji, než po mě chtějí teď zaplatit.</p>
-
-<p><em>A tím se dostáváme k tomu nejdůležitějšímu.</em></p>
-
-<h2 id="%2A%2Ajak-sn%E3%AD%E5%BEit-cenu-povinn%E3%A9ho-ru%E4%8Den%E3%AD-u-%E4%9Cesk%E3%A9-poji%E5%A1%E5%A5ovny%3F%2A%2A"><strong>Jak snížit cenu povinného ručení u České Pojišťovny?</strong></h2>
-
-<p>Abych ověřil, že to srovnávač počítá správně, <strong>spočítal jsem si povinné ručení přímo na webu České Pojišťovny</strong>. Tam jsem zadával reálné údaje, protože už je stejně mají. A pokud zadáte jméno a rodné číslo, tak to i správně načte bonus za dosavadní bezeškodní průběh.</p>
-
-<p>Výsledkem bylo kalkulace níže, <strong>o osm set levnější</strong>, než 3 231 Kč, které bych platil podle stávající smlouvy.</p>
-
-<p><img src="/data/2019/2019-03-12-povinne-ruceni-ceska-pojistovna-zlevneni/povinne-ruceni-kalkulace.png" alt="Kalkulace povinného ručení u České Pojišťovny" /></p>
-
-<p>Tabulku jsem si vytisknul a měl jsem v plánu se stavit na pobočce Česká Pojišťovny, starou smlouvu vypovědět a uzavřít novou.</p>
-
-<p>Ale než jsem se k tomu dostal, tak mi volali, že jsem nedokončil online objednávku pojištění. A kupodivu uměli, bez nějakého přesvědčování, tu starou smlouvu zrušit a udělat novou na částku z online kalkulačky, bez toho abych musel někam chodit.</p>
-
-<p>Podklady pak poslali e-mailem a smlouva byla uzavřena tím, že jsem zaplatil pojistné.</p>
-
-<h2 id="%2A%2Ana-co-si-d%E3%A1t-pozor-u-povinn%E3%A9ho-ru%E4%8Den%E3%AD%3F%2A%2A"><strong>Na co si dát pozor u povinného ručení?</strong></h2>
-
-<p>Pojišťovny jsou uličníci, tak si všechno pořádně kontrolujte:</p>
-
-<ol>
-<li>Promyslete <strong>limity plnění</strong>, což je maximum, kolik pojišťovna bude hradit v případě škody nebo újmy na zdraví.</li>
-<li>Kontrolujte, <strong>jestli vám nezkusili prodat i něco dalšího</strong> (třeba havarijní pojištění).</li>
-<li>Pozor, že existující smlouvu lze <strong>vypovědět nejpozději 6 týdnů před prodloužením</strong>, takže to neodkládejte.</li>
-</ol>
-
-<h2 id="%2A%2Az%E3%A1v%E4%9Brem%2A%2A"><strong>Závěrem</strong></h2>
-
-<p>Dává smysl se každý rok podívat, jestli nemůžete mít povinné ručení levněji, ať už u&nbsp;stávající pojišťovny nebo někde jinde.</p>
 ]]></content>
         </entry>
     </feed>
