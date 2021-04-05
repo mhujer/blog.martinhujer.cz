@@ -3,11 +3,111 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2021-04-04T16:41:57+00:00</updated>
+    <updated>2021-04-05T08:24:37+00:00</updated>
     <id>https://blog.martinhujer.cz/</id>
             <author>
             <name><![CDATA[Martin Hujer]]></name>                    </author>
         <generator uri="http://sculpin.io/">Sculpin</generator>
+            <entry>
+            <title type="html"><![CDATA[How to add a non-nullable column without downtime]]></title>
+            <link href="https://blog.martinhujer.cz/how-to-add-non-nullable-column-without-downtime/"/>
+            <updated>2021-04-05T00:00:00+00:00</updated>
+            <id>https://blog.martinhujer.cz/how-to-add-non-nullable-column-without-downtime/</id>
+            <content type="html"><![CDATA[<p>Database migrations are hard for many reasons. In this article I explain how to add a non-nullable column to an application when you are using Zero-Downtime deployments.</p>
+
+<p><em>If you are using maintenance windows for releasing new versions, please read my article on why <a href="https://blog.martinhujer.cz/maintenance-window-antipattern/">Deploying only during maintenance windows is an antipattern</a>.</em></p>
+
+<h2 id="what-is-the-problem%3F">What is the problem?</h2>
+
+<p>Even if your deployment process is automated, there may be a delay between when the database migration runs, and the new version of the application is deployed. It may be a minute or two if you have just one application server but longer if you have a fleet of servers, and you are deploying gradually.</p>
+
+<p>When you add a new non-nullable column to a table, inserts on this table will fail, until the new version of the application is deployed to all nodes, because it will try to insert NULL into a non-nullable column.</p>
+
+<p>You can think <em>"Whatever...my deploy is fast. Nobody will notice."</em>, but please keep in mind that the deployment may fail at any phase - it may fail after the database migration was run but before the new code is deployed. Your production environment will be down until you can either roll back the database change or fix your deployment (npmjs down?).</p>
+
+<p>Consider this example: you have simple todo-list app, and you want to allow users to decide whether the task is <code>simple</code> or <code>complex</code>. So in the new application version you add a <code>type</code> column and start inserting either <code>simple</code> or <code>complex</code> in that column.</p>
+
+<pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NOT NULL;
+</code></pre>
+
+<p>What happens? After you run the migration and before the application deployment will finish, no tasks can be added to the application because of the error:</p>
+
+<pre><code class="sql">SQL Error (1364): Field 'type' doesn't have a default value
+</code></pre>
+
+<p>What can be done about it?</p>
+
+<h2 id="it%27s-all-about-backwards-compatibility">It's all about backwards compatibility</h2>
+
+<p>The solution is simple - <strong>the database changes must be backwards compatible.</strong></p>
+
+<p>The changes performed on the database must be also compatible with the currently deployed application version.</p>
+
+<h2 id="step-1%3A-add-a-nullable-column">Step 1: add a nullable column</h2>
+
+<p>Instead of adding a non-nullable column, you add a nullable column first:</p>
+
+<pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NULL;
+</code></pre>
+
+<p>Even after the change, the database is still compatible with the current application version.</p>
+
+<h2 id="step-2%3A-fill-the-column-in-the-application">Step 2: fill the column in the application</h2>
+
+<p>If you are using an ORM or just prefer to keep all the logic in the application (because of testability), now it's time to update the entity to always set <code>type</code> column to value <code>simple</code>. This ensures that all new records will have a proper value set.</p>
+
+<p>I usually do this in the same commit as Step 1 - I add the database field and update the entity to set a new field value. When deploying, the database is updated first, which is OK as the change is backwards compatible, and the code is deployed afterwards.</p>
+
+<p>Note: We are not adding any complex logic yet!</p>
+
+<h2 id="step-3%3A-make-the-column-non-nullable">Step 3: make the column non-nullable</h2>
+
+<p>Before the column can be made non-nullable, we must fill the values for the existing records. As we have only one task type now, we can do it like this:</p>
+
+<pre><code class="sql">UPDATE tasks SET `type` = 'simple' WHERE `type` IS NULL;
+</code></pre>
+
+<p>At this point, there shouldn't be any NULL values left, so we can change the column to <code>NOT NULL</code>:</p>
+
+<pre><code class="sql">ALTER TABLE `tasks` CHANGE COLUMN `type` `type` VARCHAR(50) NOT NULL;
+</code></pre>
+
+<h2 id="step-4%3A--start-using-the-column">Step 4:  Start using the column</h2>
+
+<p>Finally, you can change the application to allow choosing task type and deploy this version without any additional database changes.</p>
+
+<p>If something goes wrong with the new application changes, you can easily revert to the previous application version without any changes to database structure.</p>
+
+<h2 id="how-to-remove-the-non-nullable-column%3F">How to remove the non-nullable column?</h2>
+
+<p>Removing column is quite similar but backwards:</p>
+
+<ol>
+<li>Make the column nullable in the database.</li>
+<li>Stop using the column in the application and deploy it.</li>
+<li>Remove the column from the database.</li>
+</ol>
+
+<h2 id="how-to-rename-a-column-in-a-database%3F">How to rename a column in a database?</h2>
+
+<p>Renaming a column with zero downtime is hard (you need to add a new column and remove the old afterwards), so do it only when really necessary.</p>
+
+<ol>
+<li>Add a new nullable column to database.</li>
+<li>Change the application, so it fills both columns with the same value (and deploy it).</li>
+<li>Copy the values from the old column to the new column using SQL.</li>
+<li>Make the new column non-nullable.</li>
+<li>Change the application, so it always reads the new value (and deploy it).</li>
+<li>Make the old column nullable.</li>
+<li>Stop filling in the old column in the application (and deploy it).</li>
+<li>Remove the old column from the database.</li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Adding a new non-nullable column to the database without downtime is more work that just running an <code>ALTER TABLE</code>, but it is worth it because it allows you to deploy changes anytime without waiting for a maintenance window.</p>
+]]></content>
+        </entry>
             <entry>
             <title type="html"><![CDATA[Deploying only during maintenance windows is an antipattern]]></title>
             <link href="https://blog.martinhujer.cz/maintenance-window-antipattern/"/>
@@ -1384,101 +1484,6 @@ Automat, kde jsme jízdenky zkoušeli koupit z nějakého důvodu nebral Revolut
 <p>Although we didn't spend that much time on Fuerteventura, we managed to do lot of things and visit lot of places. Having a rental car for the whole time really helped, because we could do just a short trip in the afternoon which won't be possible if we went by bus.</p>
 
 <p>If you go to Fuerteventura and have enough time, I recommend spending at least a week on <a href="https://www.amazinglanzarote.com">Lanzarote, where are also many things to see</a>.</p>
-]]></content>
-        </entry>
-            <entry>
-            <title type="html"><![CDATA[4 Tips for Faster Gitlab CI Builds for Symfony Applications]]></title>
-            <link href="https://blog.martinhujer.cz/4-tips-for-faster-gitlab-ci-build-symfony-application/"/>
-            <updated>2019-03-16T00:00:00+00:00</updated>
-            <id>https://blog.martinhujer.cz/4-tips-for-faster-gitlab-ci-build-symfony-application/</id>
-            <content type="html"><![CDATA[<blockquote>
-  <p>Some of those tips are also applicable to non-Symfony applications and to non-Gitlab CI pipelines, so keep reading even if you are not using them.</p>
-</blockquote>
-
-<p>Waiting for a CI build to finish so can merge the feature is annoying, but it is still by an order of magnitude better than not having CI at all.</p>
-
-<p>In this article I will show you some tips which I used in OutdoorVisit to make our CI build faster.</p>
-
-<h1 id="tip-%231%3A-you-may-not-need-php-lint">Tip #1: You may not need PHP Lint</h1>
-
-<p>Linting of PHP files can be done as easily as running <code>php -l myfile.php</code>. I've included PHP Lint as a part of the build since ever. At first, I was using <code>PhpLintTask</code> from Phing which checks each file separately. Later I switched to <a href="https://github.com/JakubOnderka/PHP-Parallel-Lint">PHP-Parallel-Lint</a> which checks multiple files in parallel.</p>
-
-<p>Recently I noticed that our CI build is taking more time to run. It wasn't a glitch, we were just adding more and more files to the project. The PHP Lint <strong>was taking 31&nbsp;s</strong> of the build time although it ran 10 parallel checks. I couldn't remember the last time it discovered something, so I considered removing it completely. But it would open a risk of missing an error somewhere.</p>
-
-<p>I took a different approach. When the Symfony compiles the DI container, it tries to load all the files and fails on syntax errors. At least when you have this configured in <code>config/services.yaml</code>:</p>
-
-<pre><code class="yaml">services:
-    App\:
-        resource: '../src/*'
-</code></pre>
-
-<p>So instead of completely removing the PHP Lint, I just added <code>--exclude src</code> flag to the command, so it looks like this:</p>
-
-<pre><code class="bash">parallel-lint -j 10 --exclude vendor --exclude var --exclude src .
-</code></pre>
-
-<p><strong>It helped me to cut 20&nbsp;s from the build time without risking anything!</strong></p>
-
-<h1 id="tip-%232%3A-enable-php_codesniffer-cache-and-cache-it-between-builds">Tip #2: Enable PHP_CodeSniffer cache and cache it between builds</h1>
-
-<p>PHP_CodeSniffer check can take quite a lot of time when there are many files to check. It used to take around 60&nbsp;s in our build. We also usually run it locally before pushing so the waiting was annoying.</p>
-
-<p>Luckily, PHPCS has a built-in caching feature, which can be enabled by passing a command line argument: <code>--cache=./var/.phpcs-cache</code>. The cache-file path can be changed to anything else and you can also configure it as an option in your <code>phpcs.xml.dist</code> ruleset.</p>
-
-<p><strong>This sped up our CS check from 60&nbsp;s to 3&nbsp;s!</strong></p>
-
-<p>But it worked only locally, because the Gitlab CI and others like Bitbucket Pipelines create a new environment for each build. For Gitlab all you need to do is to add the path to <code>cache</code> section in <code>.gitlab-ci.yml</code> (We already had <code>vendor/</code> and <code>node_modules</code> there). Gitlab takes care of backing it up after the build and restoring it before the next build.</p>
-
-<pre><code class="yaml">  cache:
-    paths:
-      - node_modules/
-      - vendor/
-      - var/.phpcs-cache  &lt;-- added the PHPCS cache here
-</code></pre>
-
-<h1 id="tip-%233%3A-run-symfony-tests-with-%60debug%3Dfalse%60">Tip #3: Run Symfony tests with <code>debug=false</code></h1>
-
-<p>Apart from having a good number of unit tests, we also use some container tests and lots of controller tests for most of the frontend. They are slow (running against a database) but they are worth it because they detect tremendous number of issues and regressions.</p>
-
-<p>When you are running your Symfony application in <code>dev</code> or <code>test</code> environment, cache freshness is automatically checked on each request and invalidated if necessary. The great thing is that you don't have to worry about it, and you will never be surprised by stale cache. In <code>prod</code> mode, cache is not invalidated automatically, and you must take care of it manually during deploy.</p>
-
-<p>If you are running your whole test suite at once, there is no need to check the cache freshness before each test.</p>
-
-<p>It can be done by changing <code>APP_DEBUG</code> flag in <code>phpunit.xml.dist</code> file to <code>0</code>:</p>
-
-<pre><code class="xml">&lt;env name="APP_DEBUG" value="0" /&gt;
-</code></pre>
-
-<p>However, this solution is not perfect, because you will need to take care on invalidating the cache manually while you are developing. You can use this <a href="https://github.com/symfony/recipes/pull/530#issuecomment-467387200">custom <code>bootstrap.php</code> for tests</a> from Github.</p>
-
-<p>I chose a different approach for our project and just changed the environment variable for CI builds in <code>.gitlab-ci.yml</code>:</p>
-
-<pre><code class="yaml">variables:
-  APP_DEBUG: 0
-</code></pre>
-
-<p>As it affects only the CI, running the tests locally does not benefit from this - but on the other hand I don't have to worry about properly invalidating the cache (and I'm usually running just a few tests locally anyway).</p>
-
-<p><strong>This helped me to cut the tests running time in CI from 90 seconds to 53 seconds!</strong></p>
-
-<h1 id="tip-%234%3A-run-%60npm-install%60-with-%60--no-audit%60">Tip #4: Run <code>npm install</code> with <code>--no-audit</code></h1>
-
-<p>If you have an application where you use NodeJS and npm just to compile assets such as CSS and JS, there is no need to stay on the very latest versions of the packages. However, because Webpack depends on lots of packages, npm will start spitting out messages like this during <code>npm install</code>:</p>
-
-<pre><code class="text">audited 9438 packages in 16.958s
-found 222 vulnerabilities (5 low, 213 moderate, 3 high, 1 critical)
-</code></pre>
-
-<p>As the JavaScript code installed through npm is never facing the hostile environment of the internet, those are not very scary. But they are unnecessarily cluttering the build output, so I decided to disable them. It can be done by adding <code>--no-audit</code> switch to <code>npm install</code></p>
-
-<pre><code class="bash">npm install --no-audit
-</code></pre>
-
-<p>Apart from cleaning out the build output, it <strong>saved several seconds from the <code>npm install</code> run</strong> which is neat.</p>
-
-<h1 id="conclusion">Conclusion</h1>
-
-<p>Do you know other tricks how to make the CI build faster? Please share them in comments!</p>
 ]]></content>
         </entry>
     </feed>
