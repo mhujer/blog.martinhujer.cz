@@ -1,5 +1,6 @@
 ---
 title: PHP_CodeBrowser 1.0.3 a změna PEAR kanálu
+permalink: php_codebrowser-1-0-3-a-zmena-pear-kanalu/
 ---
 
 Pro reportování chyb z PHP_CodeSniffer, PHPCPD a PMD jsem [při nasazení kontinuální integrace](/bp/) použil [PHP_CodeBrowser](https://github.com/Mayflower/PHP_CodeBrowser/). Nicméně, nelíbilo se mi, že jsou v reportu vypsané i soubory, které žádné chyby neobsahují - pak se hůře hledají ty, ve kterých chyby jsou.

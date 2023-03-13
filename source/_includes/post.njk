@@ -1,0 +1,145 @@
+{% extends "layout.njk" %}
+
+
+{% block content_wrapper -%}
+    <article>
+        <header>
+            <h2>{{ title }}</h2>
+            <p><small>{{ page.date | dateformat }}</small></p>
+        </header>
+
+        <div class="article-text">
+            {{ content | safe }}
+        </div>
+
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
+
+        {% if showPhpTrainingAd -%}
+            <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
+
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
+
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
+
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
+        {%- endif %}
+
+        {%- if showTravelLinks1 -%}
+            <div>
+                <h3>Mrkněte na <a href="https://www.amazinglanzarote.com/" title="Nejlepší místa na Lanzarote">můj web s informacemi o výletech na Lanzarote</a>:</h3>
+                <ul>
+                    <li><a href="https://www.amazinglanzarote.com/timanfaya-national-park-montanas-del-fuego/"><strong>Národní park Timanfaya - Montañas del Fuego</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cueva-de-los-verdes/"><strong>Cueva de los Verdes</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/jameos-del-agua/"><strong>Jameos del Agua</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/casa-museo-del-campesino/"><strong>Casa Museo del Campesino</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/rent-a-car-in-lanzarote/"><strong>Půjčení auta na Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/caldera-de-montana-blanca-hike/"><strong>Hike na Caldera de Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/hike-to-volcano-monte-corona/"><strong>Hike na Volcano Monte Corona</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/shipwreck-near-arrecife/"><strong>Vrak lodi nedaleko Arrecife</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/paddleboarding-sup-in-lanzarote/"><strong>Paddleboarding na Lanzarote</strong></a></li>
+                </ul>
+            </div>
+        {%- endif %}
+        {%- if showTravelLinks2 -%}
+            <div>
+                <h3>Dávám dohromady samostatný <a href="https://www.amazinglanzarote.com/" title="Kam na Lanzarote">web o tom, co dělat na Lanzarote</a>:</h3>
+                <ul>
+                    <li><a href="https://www.amazinglanzarote.com/timanfaya-national-park-montanas-del-fuego/">Národní park Timanfaya - Montañas del Fuego</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cactus-garden-jardin-de-cactus/"><strong>Jardín de Cactus</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/jameos-del-agua/">Jameos del Agua</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cesar-manrique/"><strong>César Manrique - lanzarotský umělec</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/rent-a-car-in-lanzarote/"><strong>Půjčení auta na Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/best-hikes-in-lanzarote/">3 nejlepší výlety na Lanzarote</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/hike-to-volcano-monte-corona/"><strong>Hike na Volcano Monte Corona</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/montana-blanca-hike/"><strong>Hike na Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/paddleboarding-sup-in-lanzarote/"><strong>Paddleboarding na Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/lanzarote-map-best-offline-app-for-hiking-or-cycling/">Nejlepší aplikace na offline mapy na kolo nebo hiking</a></li>
+                </ul>
+            </div>
+        {%- endif %}
+        {%- if showTravelLinks3 -%}
+            <div>
+                <h3>Spoustu informací <a href="https://www.amazinglanzarote.com/" title="Nejlepší místa na Lanzarote">o výletech na Lanzarote</a> jsem sepsal na samostatný web:</h3>
+                <ul>
+                    <li><a href="https://www.amazinglanzarote.com/cactus-garden-jardin-de-cactus/"><strong>Jardín de Cactus</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cueva-de-los-verdes/"><strong>Cueva de los Verdes</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cesar-manrique/"><strong>César Manrique - lanzarotský umělec</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/casa-museo-del-campesino/">Casa Museo del Campesino</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/best-hikes-in-lanzarote/">3 nejlepší výlety na Lanzarote</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/caldera-de-montana-blanca-hike/"><strong>Hike na Caldera de Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/montana-blanca-hike/"><strong>Hike na Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/shipwreck-near-arrecife/"><strong>Vrak lodi nedaleko Arrecife</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/paddleboarding-sup-in-lanzarote/"><strong>Paddleboarding na Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/lanzarote-map-best-offline-app-for-hiking-or-cycling/">Nejlepší aplikace na offline mapy na kolo nebo hiking</a></li>
+                </ul>
+            </div>
+        {%- endif %}
+        {%- if page.showTravelLinksEn -%}
+            <div>
+                <h3>I've created a website dedicated to <a href="https://www.amazinglanzarote.com/" title="Places to visit in Lanzarote">Things to do in Lanzarote</a></h3>
+                <ul>
+                    <li><a href="https://www.amazinglanzarote.com/cactus-garden-jardin-de-cactus/"><strong>Jardín de Cactus</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cueva-de-los-verdes/"><strong>Cueva de los Verdes</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/jameos-del-agua/">Jameos del Agua</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/cesar-manrique/"><strong>César Manrique - artist from Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/casa-museo-del-campesino/">Casa Museo del Campesino</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/best-hikes-in-lanzarote/">Best hikes on Lanzarote</a></li>
+                    <li><a href="https://www.amazinglanzarote.com/caldera-de-montana-blanca-hike/"><strong>Hike to Caldera de Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/montana-blanca-hike/"><strong>Hike to Montaña Blanca</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/shipwreck-near-arrecife/"><strong>Shipwreck near Arrecife</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/paddleboarding-sup-in-lanzarote/"><strong>Paddleboarding on Lanzarote</strong></a></li>
+                    <li><a href="https://www.amazinglanzarote.com/lanzarote-map-best-offline-app-for-hiking-or-cycling/">Best offline maps applications for hiking or biking</a></li>
+                </ul>
+            </div>
+        {%- endif %}
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'blog-martinhujer';
+    {%- if page.disqus.identifier  %}var disqus_identifier = '{{page.disqus.identifier}}'; {% endif %}
+    {%- if page.disqus.title %}var disqus_title = '{{page.disqus.title}}';{% endif %}
+    {%- if page.disqus.url %}var disqus_url = '{{page.disqus.url}}';{% endif %}
+    {%- if page.disqus.category_id %}var disqus_category_id = '{{page.disqus.category_id}}';{% endif %}
+
+    (function () {
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
+</script>
+{% endblock -%}

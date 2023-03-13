@@ -3,95 +3,62 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2022-11-18T18:59:11+00:00</updated>
+    <updated>2023-03-13T20:45:44.672Z</updated>
     <id>https://blog.martinhujer.cz/</id>
-            <author>
-            <name><![CDATA[Martin Hujer]]></name>                    </author>
-        <generator uri="http://sculpin.io/">Sculpin</generator>
-            <entry>
+    <author>
+        <name>Martin Hujer</name>
+        <email>mail@martinhujer.cz</email>
+    </author>
+    
+        <entry>
             <title type="html"><![CDATA[How to add a non-nullable column without downtime]]></title>
             <link href="https://blog.martinhujer.cz/how-to-add-non-nullable-column-without-downtime/"/>
-            <updated>2021-04-05T00:00:00+00:00</updated>
+            <updated>2021-04-05T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/how-to-add-non-nullable-column-without-downtime/</id>
             <content type="html"><![CDATA[<p>Database migrations are hard for many reasons. In this article I explain how to add a non-nullable column to an application when you are using Zero-Downtime deployments.</p>
-
 <p><em>If you are using maintenance windows for releasing new versions, please read my article on why <a href="https://blog.martinhujer.cz/maintenance-window-antipattern/">Deploying only during maintenance windows is an antipattern</a>.</em></p>
-
-<h2 id="what-is-the-problem%3F">What is the problem?</h2>
-
+<h2 id="what-is-the-problem">What is the problem?</h2>
 <p>Even if your deployment process is automated, there may be a delay between when the database migration runs, and the new version of the application is deployed. It may be a minute or two if you have just one application server but longer if you have a fleet of servers, and you are deploying gradually.</p>
-
 <p>When you add a new non-nullable column to a table, inserts on this table will fail, until the new version of the application is deployed to all nodes, because it will try to insert NULL into a non-nullable column.</p>
-
-<p>You can think <em>"Whatever...my deploy is fast. Nobody will notice."</em>, but please keep in mind that the deployment may fail at any phase - it may fail after the database migration was run but before the new code is deployed. Your production environment will be down until you can either roll back the database change or fix your deployment (npmjs down?).</p>
-
+<p>You can think <em>&quot;Whatever...my deploy is fast. Nobody will notice.&quot;</em>, but please keep in mind that the deployment may fail at any phase - it may fail after the database migration was run but before the new code is deployed. Your production environment will be down until you can either roll back the database change or fix your deployment (npmjs down?).</p>
 <p>Consider this example: you have simple todo-list app, and you want to allow users to decide whether the task is <code>simple</code> or <code>complex</code>. So in the new application version you add a <code>type</code> column and start inserting either <code>simple</code> or <code>complex</code> in that column.</p>
-
-<pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NOT NULL;
+<pre><code class="sql">ALTER TABLE `tasks`	ADD COLUMN `type` VARCHAR(50) NOT NULL;
 </code></pre>
-
 <p>What happens? After you run the migration and before the application deployment will finish, no tasks can be added to the application because of the error:</p>
-
 <pre><code class="sql">SQL Error (1364): Field 'type' doesn't have a default value
 </code></pre>
-
 <p>What can be done about it?</p>
-
-<h2 id="it%27s-all-about-backwards-compatibility">It's all about backwards compatibility</h2>
-
+<h2 id="it-s-all-about-backwards-compatibility">It's all about backwards compatibility</h2>
 <p>The solution is simple - <strong>the database changes must be backwards compatible.</strong></p>
-
 <p>The changes performed on the database must be also compatible with the currently deployed application version.</p>
-
-<h2 id="step-1%3A-add-a-nullable-column">Step 1: add a nullable column</h2>
-
+<h2 id="step-1-add-a-nullable-column">Step 1: add a nullable column</h2>
 <p>Instead of adding a non-nullable column, you add a nullable column first:</p>
-
 <pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NULL;
 </code></pre>
-
 <p>Even after the change, the database is still compatible with the current application version.</p>
-
-<h2 id="step-2%3A-fill-the-column-in-the-application">Step 2: fill the column in the application</h2>
-
+<h2 id="step-2-fill-the-column-in-the-application">Step 2: fill the column in the application</h2>
 <p>If you are using an ORM or just prefer to keep all the logic in the application (because of testability), now it's time to update the entity to always set <code>type</code> column to value <code>simple</code>. This ensures that all new records will have a proper value set.</p>
-
 <p>I usually do this in the same commit as Step 1 - I add the database field and update the entity to set a new field value. When deploying, the database is updated first, which is OK as the change is backwards compatible, and the code is deployed afterwards.</p>
-
 <p>Note: We are not adding any complex logic yet!</p>
-
-<h2 id="step-3%3A-make-the-column-non-nullable">Step 3: make the column non-nullable</h2>
-
+<h2 id="step-3-make-the-column-non-nullable">Step 3: make the column non-nullable</h2>
 <p>Before the column can be made non-nullable, we must fill the values for the existing records. As we have only one task type now, we can do it like this:</p>
-
 <pre><code class="sql">UPDATE tasks SET `type` = 'simple' WHERE `type` IS NULL;
 </code></pre>
-
 <p>At this point, there shouldn't be any NULL values left, so we can change the column to <code>NOT NULL</code>:</p>
-
 <pre><code class="sql">ALTER TABLE `tasks` CHANGE COLUMN `type` `type` VARCHAR(50) NOT NULL;
 </code></pre>
-
-<h2 id="step-4%3A--start-using-the-column">Step 4:  Start using the column</h2>
-
+<h2 id="step-4-start-using-the-column">Step 4:  Start using the column</h2>
 <p>Finally, you can change the application to allow choosing task type and deploy this version without any additional database changes.</p>
-
 <p>If something goes wrong with the new application changes, you can easily revert to the previous application version without any changes to database structure.</p>
-
-<h2 id="how-to-remove-the-non-nullable-column%3F">How to remove the non-nullable column?</h2>
-
+<h2 id="how-to-remove-the-non-nullable-column">How to remove the non-nullable column?</h2>
 <p>Removing column is quite similar but backwards:</p>
-
 <ol>
 <li>Make the column nullable in the database.</li>
 <li>Stop using the column in the application and deploy it.</li>
 <li>Remove the column from the database.</li>
 </ol>
-
-<h2 id="how-to-rename-a-column-in-a-database%3F">How to rename a column in a database?</h2>
-
+<h2 id="how-to-rename-a-column-in-a-database">How to rename a column in a database?</h2>
 <p>Renaming a column with zero downtime is hard (you need to add a new column and remove the old afterwards), so do it only when really necessary.</p>
-
 <ol>
 <li>Add a new nullable column to database.</li>
 <li>Change the application, so it fills both columns with the same value (and deploy it).</li>
@@ -102,23 +69,19 @@
 <li>Stop filling in the old column in the application (and deploy it).</li>
 <li>Remove the old column from the database.</li>
 </ol>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Adding a new non-nullable column to the database without downtime is more work that just running an <code>ALTER TABLE</code>, but it is worth it because it allows you to deploy changes anytime without waiting for a maintenance window.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Deploying only during maintenance windows is an antipattern]]></title>
             <link href="https://blog.martinhujer.cz/maintenance-window-antipattern/"/>
-            <updated>2021-04-04T00:00:00+00:00</updated>
+            <updated>2021-04-04T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/maintenance-window-antipattern/</id>
             <content type="html"><![CDATA[<p>In this article I argue that deploying the new web application versions only during a maintenance window is an antipattern, and you should strive to have Zero-Downtime deployments.</p>
-
-<p>It has long been a common practice to take a website or a web application down regularly and deploy a new version during that downtime. It is easy: You just schedule a 3-hour maintenance window between midnight and 3AM, make the application return <em>"We are performing maintenance"</em> page with an HTTP 503 code and do the upgrade or whatever during that time. And try to get some sleep afterwards.</p>
-
+<p>It has long been a common practice to take a website or a web application down regularly and deploy a new version during that downtime. It is easy: You just schedule a 3-hour maintenance window between midnight and 3AM, make the application return <em>&quot;We are performing maintenance&quot;</em> page with an HTTP 503 code and do the upgrade or whatever during that time. And try to get some sleep afterwards.</p>
 <p>Apart from the obvious advantages - nobody is messing with the application when you are releasing a new version, there are many reasons why it is not such a good idea:</p>
-
 <ol>
 <li>There is no natural maintenance window</li>
 <li>It's better to sleep at night</li>
@@ -126,102 +89,67 @@
 <li>Business won't wait for your maintenance window</li>
 <li>Small changes are safer</li>
 </ol>
-
-<h2 id="1.-there-is-no-natural-maintenance-window">1. There is no natural maintenance window</h2>
-
+<h2 id="1-there-is-no-natural-maintenance-window">1. There is no natural maintenance window</h2>
 <p>There are natural maintenance windows only for a small part of the web applications - e.g., when you are working on a B2B application which is used only by business only during their business hours, and they are all in one time-zone.</p>
-
 <p>When you are making a B2C application - ecommerce website or something like that, there is always going to be someone using your application. There are people working shifts, so they may be bored during a night shift and want to browse your website.</p>
-
 <p>Or you go global and suddenly there is always someone's afternoon somewhere.</p>
-
 <p>If you schedule maintenance window to the time when someone needs to use the application, you will annoy your existing users and lose any potential new customers who will visit the application during downtime.</p>
-
 <p>And there are some questions which needs answering: What happens when someone filled a form a minute before the maintenance window and tries to submit it during the maintenance window? Will it fail? How? What about the data they entered?</p>
-
 <p>Note: At least don't forget to send <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503">proper HTTP 503 status code</a> or your temporary page may be indexed by search engines.</p>
-
-<h2 id="2.-it%27s-better-to-sleep-at-night">2. It's better to sleep at night</h2>
-
+<h2 id="2-it-s-better-to-sleep-at-night">2. It's better to sleep at night</h2>
 <p>I'm a morning person (usually getting up at 7 AM, back at bed at 11 PM) so staying awake beyond midnight is really hard, and I guess I won't be very good at debugging a thorny production issue at 3 AM.</p>
-
 <p>The more important is that messing up your sleep rhythm is bad for your health. If I stayed up until 3 AM, I would be useless the next day even after sleeping in. And my sleep rhythm will be disturbed for a few days at least. So, it is not worth it health- and productivity-wise.</p>
-
-<h2 id="3.-the-computers-never-sleep">3. The computers never sleep</h2>
-
+<h2 id="3-the-computers-never-sleep">3. The computers never sleep</h2>
 <p>The computers never sleep, so even if there is a natural maintenance window, there may still be API calls coming to your application, webhooks may be called, etc. And depending on the 3rd party error handling, those may or may not be retried later.</p>
-
-<h2 id="4.-business-won%27t-wait-for-your-maintenance-window">4. Business won't wait for your maintenance window</h2>
-
+<h2 id="4-business-won-t-wait-for-your-maintenance-window">4. Business won't wait for your maintenance window</h2>
 <p>If you can deploy new features only once every two weeks, the businesspeople in your company won't be happy having to wait up two weeks for a small change to go live. If they worked somewhere else where Zero-Downtime deployments where common, they would see you as incompetent.</p>
-
 <p>Don't forget that if there is a competition moving faster than you, you risk losing customers to them.</p>
-
-<h2 id="5.-small-changes-are-safer">5. Small changes are safer</h2>
-
+<h2 id="5-small-changes-are-safer">5. Small changes are safer</h2>
 <p>Imagine there are 20 different changes in the release, and something breaks, or the load suddenly increases after the deployment. How will you debug it? It can be any of those 20 changes. If you did deploy only one change it would be both easier to debug the problem or rollback the change completely.</p>
-
 <p>How do you rollback a big release with many database changes? And what if you discover the issue the day after the release? You cannot just revert to the older backup. You are out of luck.</p>
-
-<h2 id="so%2C-what-should-we-do-instead%3F">So, what should we do instead?</h2>
-
+<h2 id="so-what-should-we-do-instead">So, what should we do instead?</h2>
 <ul>
 <li>Automate the deployment process</li>
 <li>Deploy each change separately</li>
 <li>Be careful about database migrations (I will write a separate post about database migrations without downtime)</li>
 <li>Even if it may seem that the change warrants a maintenance window, try to think hard how to decompose it into several steps which may be deployed gradually without downtime.</li>
 </ul>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>When you consider the downsides discussed above, it does not seem that bad to spend some time on making your deployment process Zero-Downtime, right?</p>
-
 <p>Please note that there are rare occasions when it is dramatically easier to schedule the maintenance window instead of doing it gradually (e.g., migrating the database to a new server). But those should be rare once-a-year special occasions, not part of your regular deployment process.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Clever way to sort PHP arrays by multiple values]]></title>
             <link href="https://blog.martinhujer.cz/clever-way-to-sort-php-arrays-by-multiple-values/"/>
-            <updated>2019-11-27T00:00:00+00:00</updated>
+            <updated>2019-11-27T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/clever-way-to-sort-php-arrays-by-multiple-values/</id>
             <content type="html"><![CDATA[<p>In the post I will describe a clever trick which allows you to easily sort PHP array or collection by multiple values.</p>
-
 <p>Let's start from the beginning. Sorting using <code>usort</code> and <code>uasort</code> functions works by providing a callback for comparing two values in the array. From the docs:</p>
-
 <blockquote>
-  <p><em>The comparison function must return an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.</em></p>
+<p><em>The comparison function must return an integer less than, equal to, or greater than zero if the first argument is considered to be respectively less than, equal to, or greater than the second.</em></p>
 </blockquote>
-
 <h2 id="basic-sorting">Basic sorting</h2>
-
 <p>The simplest example may look like this (when having an array of <code>Product</code> instances):</p>
-
 <pre><code class="php">// order products by: price ASC
 usort($products, function (Product $a, Product $b): int {
     return $a-&gt;getPrice() &lt;=&gt; $b-&gt;getPrice();
 });
 </code></pre>
-
 <p>You can notice that I'm using a <em>spaceship operator</em> <code>&lt;=&gt;</code> which <a href="https://www.php.net/manual/en/migration70.new-features.php#migration70.new-features.spaceship-op">was added in PHP 7.0</a>. It compares two expressions, <code>$a</code> and <code>$b</code>, and returns -1, 0 or 1 when <code>$a</code> is respectively less than, equal to, or greater than <code>$b</code>.</p>
-
 <p>The example above can be simplified more using the arrow functions from PHP 7.4 (although I wouldn't say that it is more readable):</p>
-
 <pre><code class="php">usort($products, fn (Product $a, Product $b): int =&gt; $a-&gt;getPrice() &lt;=&gt; $b-&gt;getPrice());
 </code></pre>
-
 <p>To sort the values in the descending order, just swap <code>$a</code> and <code>$b</code> expressions in the callback:</p>
-
 <pre><code class="php">// order products by: price DESC
 usort($products, function (Product $a, Product $b): int {
     return $b-&gt;getPrice() &lt;=&gt; $a-&gt;getPrice();
 });
 </code></pre>
-
 <h2 id="sorting-by-two-properties">Sorting by two properties</h2>
-
 <p>If you want to sort the products by two fields, price ASC and products in stock first, it gets tricky.
 First you need to check whether the prices are equal. If they are you compare the <code>inStock</code> flag to have the available products first. Otherwise just compare the prices.</p>
-
 <pre><code class="php">// order products by: price ASC, inStock DESC
 usort($products, function (Product $a, Product $b): int {
     if ($a-&gt;getPrice() === $b-&gt;getPrice()) {
@@ -230,11 +158,8 @@ usort($products, function (Product $a, Product $b): int {
     return $a-&gt;getPrice() &lt;=&gt; $b-&gt;getPrice();
 });
 </code></pre>
-
 <h2 id="sorting-by-multiple-properties">Sorting by multiple properties</h2>
-
 <p>It will get much more complex when you want to sort the array by three or four properties:</p>
-
 <pre><code class="php">// order products by: price ASC, inStock DESC, isRecommended DESC, name ASC
 usort($products, function (Product $a, Product $b): int {
     if ($a-&gt;getPrice() === $b-&gt;getPrice()) {
@@ -249,15 +174,10 @@ usort($products, function (Product $a, Product $b): int {
     return $a-&gt;getPrice() &lt;=&gt; $b-&gt;getPrice();
 });
 </code></pre>
-
 <p>You have to carefully craft the conditions and don't miss the places where you are comparing <code>$b</code> with <code>$a</code> instead of <code>$a</code> with <code>$b</code> to sort them in descending order.</p>
-
 <p>This example is quite close to what I needed when working on OutdoorVisit.com tickets list in activity detail. I couldn't do it in the database because there was some preprocessing (non-database filtering etc.) required.</p>
-
 <p>I didn't want to have this complex sorting logic written as above, so I came up with the following solution.</p>
-
 <h2 id="solution">Solution</h2>
-
 <pre><code class="php">// order products by: price ASC, inStock DESC, isRecommended DESC, name ASC
 usort($products, function (Product $a, Product $b): int {
     return
@@ -267,13 +187,9 @@ usort($products, function (Product $a, Product $b): int {
         ($a-&gt;getName() &lt;=&gt; $b-&gt;getName()); // name ASC
 });
 </code></pre>
-
 <p>I compare all attributes that impact the sorting in the same expression. I also add weight to each comparison to prioritize them.</p>
-
 <p>The trick is that the return value from the callback can be any positive or negative integer, not just -1 or 0 or 1. It allows me to sum the separate comparisons together and return it as a result.</p>
-
 <p>It can be further simplified using arrow function from PHP 7.4:</p>
-
 <pre><code class="php">// order products by: price ASC, inStock DESC, isRecommended DESC, name ASC
 usort($products, fn (Product $a, Product $b): int =&gt;
     ($a-&gt;getPrice() &lt;=&gt; $b-&gt;getPrice()) * 1000 + // price ASC
@@ -282,32 +198,26 @@ usort($products, fn (Product $a, Product $b): int =&gt;
     ($a-&gt;getName() &lt;=&gt; $b-&gt;getName()) // name ASC
 );
 </code></pre>
-
-<h2 id="solution-from-franti%E5%A1ek-ma%E5%A1a">Solution (from <a href="https://frantisekmasa.cz/">František Maša</a>)</h2>
-
+<h2 id="solution-from-frantisek-masa">Solution (from <a href="https://frantisekmasa.cz/">František Maša</a>)</h2>
 <p><a href="https://frantisekmasa.cz/">František Maša</a> suggested even better solution in the comments. Thanks!</p>
-
 <pre><code class="php">usort($products, fn (Product $a, Product $b): int =&gt;
     [$a-&gt;getPrice(), $b-&gt;isInStock(), $b-&gt;isRecommended(), $a-&gt;getName()]
     &lt;=&gt;
     [$b-&gt;getPrice(), $a-&gt;isInStock(), $a-&gt;isRecommended(), $b-&gt;getName()]
 );
 </code></pre>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Let me know in the comments if you find this trick useful.</p>
-
 <p>Or do you have a better way of doing this?</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[How to configure PHPStan for Symfony applications]]></title>
             <link href="https://blog.martinhujer.cz/how-to-configure-phpstan-for-symfony-applications/"/>
-            <updated>2019-10-23T00:00:00+00:00</updated>
+            <updated>2019-10-23T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/how-to-configure-phpstan-for-symfony-applications/</id>
             <content type="html"><![CDATA[<p><a href="https://github.com/phpstan/phpstan">PHPStan</a> is a fantastic tool for a static analysis of PHP code. It reads the code and PHPDoc and will try to detect potential issues such as:</p>
-
 <ul>
 <li>undefined variables</li>
 <li>incorrect types passed throughout the codebase</li>
@@ -316,80 +226,50 @@ usort($products, fn (Product $a, Product $b): int =&gt;
 <li>use of possible null-pointers</li>
 <li>lot more...</li>
 </ul>
-
 <p>Apart from being able to analyse regular PHP code, PHPStan can understand even some framework-specific <em>magic</em> using custom-made extensions.</p>
-
 <p>But let's start from the beginning...</p>
-
 <h2 id="phpstan-installation">PHPStan installation</h2>
-
 <p>You can install PHPStan either directly with all its dependencies by running:</p>
-
 <pre><code class="bash">composer require --dev phpstan/phpstan
 </code></pre>
-
 <p>Or you can install <code>phpstan-shim</code>:</p>
-
 <pre><code class="bash">composer require --dev phpstan/phpstan-shim
 </code></pre>
-
 <p>The advantage of <code>phpstan-shim</code> is that it is a Phar file with all the dependencies packed inside (and prefixed), so they won't conflict with other dependencies you may have in your project. Therefore, I prefer using <code>phpstan-shim</code>.</p>
-
 <p>To have the extensions configured automatically, you need to install <a href="https://github.com/phpstan/extension-installer"><code>phpstan/extension-installer</code></a>:</p>
-
 <pre><code class="bash">composer require --dev phpstan/extension-installer
 </code></pre>
-
 <h2 id="using-phpstan">Using PHPStan</h2>
-
 <p>PHPStan can be run this way:</p>
-
 <pre><code class="bash">vendor/bin/phpstan analyse -l 0 src tests
 </code></pre>
-
 <p>It will probably report bunch of errors depending on your project size and age. The best approach from here is to gradually fix the issues and raise the level of strictness (<code>-l 1</code> etc.).</p>
-
 <p>If there are some issues which cannot be fixed easily, you can <a href="https://github.com/phpstan/phpstan#ignore-error-messages-with-regular-expressions">exclude them from the report</a>. When doing so, try to be specific and put the filename in the exclude, so you won't exclude the issues from the whole project. And don't forget to properly escape the regular expressions, or you may be excluding way more things than you wanted (hint: <code>|</code> needs to be escaped too). Those exclusions should be included in <code>phpstan.neon</code> configuration file (which is passed as <code>-c phpstan.neon</code> to the <code>analyse</code> command).</p>
-
 <p>You should also have a look at a new <a href="https://medium.com/@ondrejmirtes/phpstans-baseline-feature-lets-you-hold-new-code-to-a-higher-standard-e77d815a5dff">Baseline Feature</a> in PHPStan, which allows you <em>ignore</em> all the current issues and let the PHPStan check just the new code.</p>
-
 <h2 id="adding-phpstan-to-ci-build">Adding PHPStan to CI build</h2>
-
 <p>To prevent issues from creeping back to the codebase, you should include PHPStan in you CI build to have it fail when a new error appears.</p>
-
 <p>It can be done easily by using <a href="/have-you-tried-composer-scripts/">Composer Scripts</a>. Your <code>scripts</code> section in <code>composer.json</code> can look like this:</p>
-
-<pre><code class="json">"scripts": {
-    "phpstan": "phpstan analyse -c phpstan.neon src tests --level 7 --no-progress", 
-    "tests": "phpunit",    
-    "ci": [
-        "@phpstan",
-        "@tests"
+<pre><code class="json">&quot;scripts&quot;: {
+    &quot;phpstan&quot;: &quot;phpstan analyse -c phpstan.neon src tests --level 7 --no-progress&quot;, 
+    &quot;tests&quot;: &quot;phpunit&quot;,    
+    &quot;ci&quot;: [
+        &quot;@phpstan&quot;,
+        &quot;@tests&quot;
     ],
 }
 </code></pre>
-
 <p>It will run both the <code>phpstan</code> and <code>tests</code> scripts when you run <code>composer ci</code>.</p>
-
 <p><strong>Note:</strong> If you have a Symfony application, you will already have a <code>scripts</code> section in your <code>composer.json</code>, so just add new items there.</p>
-
 <p>You can read more thoroughly about Composer Scripts in my article <em><a href="/have-you-tried-composer-scripts/">Have you tried Composer Scripts? You may not need Phing</a></em>.</p>
-
 <h2 id="configuring-the-symfony-extension">Configuring the Symfony extension</h2>
-
 <p>You might have noticed that PHPStan reports some issues in Symfony-specific code, that works OK. It is because there is no way for PHPStan to understand Symfony magic just from the code itself. It includes getting services from Container (you should not be doing it anyway!), working with arguments and options in Commands and much more.</p>
-
 <p>To have those errors disappear, you need to install <a href="https://github.com/phpstan/phpstan-symfony">phpstan/phpstan-symfony</a> extension and provide PHPStan with a path to Symfony container compiled to XML. It is usually stored in the <code>var/cache/dev</code> directory. The following configuration should be added to <code>phpstan.neon</code> file:</p>
-
 <pre><code class="yaml">parameters:
     symfony:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
 </code></pre>
-
 <p>Also, to have the Commands analysed properly, PHPStan needs a <em>console loader</em>. It is a script that initializes the Symfony Console for the application and passes it to PHPStan. It can use it to determine the arguments or options types etc.</p>
-
 <p>I usually put it in <code>build/phpstan/console-loader.php</code>:</p>
-
 <pre><code class="php">&lt;?php declare(strict_types = 1);
 
 use App\Kernel;
@@ -399,74 +279,51 @@ require dirname(__DIR__) . '/../config/bootstrap.php';
 $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 return new Application($kernel);
 </code></pre>
-
 <p>The configuration file <code>phpstan.neon</code> should look like this:</p>
-
 <pre><code class="neon">parameters:
     symfony:
         container_xml_path: var/cache/dev/srcApp_KernelDevDebugContainer.xml
         console_application_loader: build/phpstan/console-loader.php
 </code></pre>
-
 <p>With this configuration, PHPStan can understand the Symfony code. It also checks that you are not fetching non-existent (or private) services from container.</p>
-
 <h2 id="configuring-phpstan-with-phpunit">Configuring PHPStan with PHPUnit</h2>
-
 <p>In the previous part we have successfully configured PHPStan to check various things in Symfony projects. However, it is still possible to improve the configuration.</p>
-
-<p>We are now using same configuration file for both <code>src</code> and <code>tests</code>, but Symfony uses a separate container when running in either <code>dev</code> or <code>test</code> environments. It means that PHPStan will report errors such as <code>Service "Doctrine\ORM\EntityManagerInterface" is private.</code> even if the tests work fine.</p>
-
+<p>We are now using same configuration file for both <code>src</code> and <code>tests</code>, but Symfony uses a separate container when running in either <code>dev</code> or <code>test</code> environments. It means that PHPStan will report errors such as <code>Service &quot;Doctrine\ORM\EntityManagerInterface&quot; is private.</code> even if the tests work fine.</p>
 <p>The solution is simple - use a separate configuration file for <code>src</code> and for <code>tests</code>. We can keep the current <code>phpstan.neon</code>, but we have to create specific configuration for tests - <code>phpstan-tests.neon</code>. It will look very similarly with only change being the <code>container_xml_path</code> which now points to the container compiled in <code>var/cache/test</code>:</p>
-
 <pre><code class="neon">parameters:
     symfony:
         container_xml_path: var/cache/test/srcApp_KernelTestDebugContainer.xml
         console_application_loader: build/phpstan/console-loader.php
 </code></pre>
-
 <p>You need to adjust the <code>scripts</code> setup in <code>composer.json</code> to run PHPStan twice - first for the <code>src</code> directory and then for the <code>tests</code> with a different configuration file. When using this setup, you can still run <code>composer phpstan</code> which in turn runs checks for both <code>src</code> and <code>tests</code>.</p>
-
-<pre><code class="json">"phpstan": [
-    "@phpstan-general",
-    "@phpstan-tests"
+<pre><code class="json">&quot;phpstan&quot;: [
+    &quot;@phpstan-general&quot;,
+    &quot;@phpstan-tests&quot;
 ],
-"phpstan-general": "phpstan analyse -c phpstan.neon src --level 7 --no-progress",
-"phpstan-tests": "phpstan analyse -c phpstan-tests.neon tests --level 7 --no-progress",
+&quot;phpstan-general&quot;: &quot;phpstan analyse -c phpstan.neon src --level 7 --no-progress&quot;,
+&quot;phpstan-tests&quot;: &quot;phpstan analyse -c phpstan-tests.neon tests --level 7 --no-progress&quot;,
 </code></pre>
-
 <p>I know that the PHPStan configuration is duplicated a little bit, but that does not matter much (you are not adding new extensions that often).</p>
-
 <p>One thing that you must keep in mind is that the Symfony container must be compiled before it can be used for analysis. You can do it by running <code>bin/console cache:warmup --env=dev</code> and <code>bin/console cache:warmup --env=test</code>. As it needs to be part of the CI build, you can put it to the Composer <code>scripts</code> as well:</p>
-
-<pre><code class="json">"phpstan": [
-    "@php bin/console cache:warmup --env=dev",
-    "@php bin/console cache:warmup --env=test",
-    "@phpstan-general",
-    "@phpstan-tests"
+<pre><code class="json">&quot;phpstan&quot;: [
+    &quot;@php bin/console cache:warmup --env=dev&quot;,
+    &quot;@php bin/console cache:warmup --env=test&quot;,
+    &quot;@phpstan-general&quot;,
+    &quot;@phpstan-tests&quot;
 ],
 </code></pre>
-
 <p>Or you can put it into a separate script, so it won't be slowing you down when running PHPStan repeatedly without changes in the container (but you must make sure that the container is recompiled for the <code>test</code> environment after change).</p>
-
 <p>Finally, we are getting to configuring the <a href="https://github.com/phpstan/phpstan-phpunit">PHPUnit extension</a> itself. We need to install it through Composer:</p>
-
 <pre><code class="bash">composer require --dev phpstan/phpstan-phpunit
 </code></pre>
-
 <p>It will be included automatically thanks to the <code>phpstan/extension-installer</code> we installed in the beginning. So that's it.</p>
-
 <h2 id="phpstan-and-doctrine-orm">PHPStan and Doctrine ORM</h2>
-
 <p>Doctrine ORM contains even more magic things which can't be inferred just from the code itself. Repository and Entity Manager use <code>object</code> type in lot of places, so the PHPStan won't know which type is there and you would need to add lots of inline PHPDoc to make it work.</p>
-
 <p>Or you can install <a href="https://github.com/phpstan/phpstan-doctrine"><code>phpstan/phpstan-doctrine</code></a> extension which helps PHPStan to understand Doctrine magic.</p>
-
 <pre><code class="bash">composer require --dev phpstan/phpstan-doctrine
 </code></pre>
-
 <p>Like with Symfony extension, you must help Doctrine extension by creating a loader script that provides an Entity Manager so PHPStan can query it about various things. I usually put it into
 <code>build/phpstan/doctrine-orm-bootstrap.php</code> and the script should look like this:</p>
-
 <pre><code class="php">&lt;?php declare(strict_types = 1);
 
 use App\Kernel;
@@ -476,67 +333,50 @@ $kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 $kernel-&gt;boot();
 return $kernel-&gt;getContainer()-&gt;get('doctrine')-&gt;getManager();
 </code></pre>
-
 <p>You should add this to respective sections in both <code>phpstan.neon</code> and <code>phpstan-tests.neon</code>:</p>
-
 <pre><code class="neon">parameters:
     doctrine:
         objectManagerLoader: build/phpstan/doctrine-orm-bootstrap.php
 </code></pre>
-
 <p>With this setup PHPStan will use the EntityManager to also check your DQLs and Query Builders, which is awesome.</p>
-
 <p>Next version of PHPStan-Doctrine extension will also support analysis of the entity annotations to determine whether the property type matches the column type, whether the property types for associations are defined correctly etc.</p>
-
 <h2 id="bleeding-edge-features">Bleeding edge features</h2>
-
 <p>PHPStan can check even more things when you enable <em>bleeding edge</em> rules from the core of PHPStan. Current PHPStan release is 0.11.x is mostly backwards compatible (not that many new issues are detected between patch versions). However, Ondra practices something along the lines of the trunk-based development, where new features (checks!) are hidden behind feature flags.</p>
-
 <p>You can enable all of them by adding this to your configuration files (applies to <code>phpstan-shim</code>, the path will be different for a regular installation):</p>
-
 <pre><code class="neon">includes:
     - phar://phpstan.phar/conf/bleedingEdge.neon
 </code></pre>
-
 <h2 id="strict-rules">Strict rules</h2>
-
 <p>There is a <a href="https://github.com/phpstan/phpstan-strict-rules"><code>phpstan/phpstan-strict-rules</code></a> package which adds opinionated checks not included in the PHPStan core. You can install it through Composer:</p>
-
 <pre><code class="bash">composer require --dev phpstan/phpstan-strict-rules
 </code></pre>
-
 <p>And suddenly you will get many more potential issues or bad practices reported :-)</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>If you configure the PHPStan according to this article, it will change your life :-) (at least a little bit).</p>
-
 <p>Nowadays I can't imagine developing modern PHP applications without PHPStan running on max level with lots of checks. It helps to prevent many issues during development and refactoring of the applications.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Jaké novinky přinese PHP 7.4]]></title>
             <link href="https://blog.martinhujer.cz/jake-novinky-prinese-php-7-4/"/>
-            <updated>2019-10-07T00:00:00+00:00</updated>
+            <updated>2019-10-07T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/jake-novinky-prinese-php-7-4/</id>
             <content type="html"><![CDATA[<p>Vydání PHP 7.4 je plánováno na 28. listopadu 2019. Přináší hromadu zajímavých věcí – Typed Properties, Arrow Functions, Preload, FFI a pár dalších vylepšení. Sice přibyly i nějaké deprecations, ale typicky se týkají podivného chování, takže upgrade by měl být snadný.</p>
-
 <p><strong><a href="https://www.zdrojak.cz/clanky/jake-novinky-prinese-php-7-4/">Článek vyšel</a> na serveru Zdroják.cz</strong></p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[How to use Data Providers in PHPUnit]]></title>
             <link href="https://blog.martinhujer.cz/how-to-use-data-providers-in-phpunit/"/>
-            <updated>2019-09-03T00:00:00+00:00</updated>
+            <updated>2019-09-03T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/how-to-use-data-providers-in-phpunit/</id>
             <content type="html"><![CDATA[<blockquote>
-  <p>I think that even if you are already using Data Providers, you will find some of those tips useful.</p>
+<p>I think that even if you are already using Data Providers, you will find some of those tips useful.</p>
 </blockquote>
-
 <p>Data Providers are a handy feature of PHPUnit which allows you to run the same test with different inputs and expected results. This is useful when you are writing some text filtering, transformations, URL generation, price calculations, etc.</p>
-
 <p>Let's say you are implementing your own <code>trim</code> function and you need to test it with lots of tests like the following one:</p>
-
 <pre><code class="php">&lt;?php
 
 public function testTrimTrimsLeadingSpace(): void
@@ -547,9 +387,7 @@ public function testTrimTrimsLeadingSpace(): void
     self::assertSame($expectedResult, trim($input));
 }
 </code></pre>
-
 <p>Instead of duplicating the test method and just changing the inputs, you can use Data Providers:</p>
-
 <pre><code class="php">&lt;?php
 
 /**
@@ -569,31 +407,23 @@ public function provideTrimData()
         ],
         [
             'Hello World',
-            " Hello World \n",
+            &quot; Hello World \n&quot;,
         ],
     ];
 }
 </code></pre>
-
 <p><strong>Data Provider</strong> is just a regular public method in the test case class which returns an array of arrays.</p>
-
 <ul>
 <li>You link it to the test method with a <code>@dataProvider</code> annotation followed by the method name.</li>
 <li>Parameters returned from the data provider are added to the method definition. (I prefer to pass the <em>expected</em> value as a first parameter to match the <code>assert*</code> methods)</li>
 <li>PHPUnit runs the test method with each data set as a separate test.</li>
 </ul>
-
-<p>Here is a screenshot of running the test above in PhpStorm: 
+<p>Here is a screenshot of running the test above in PhpStorm:
 <img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-basic-data-providers.png" alt="PHPUnit: basic data providers in PhpStorm" /></p>
-
 <p>Now you know how to use basic Data Providers. In the rest of the article I will dive into more advanced stuff and tips.</p>
-
-<h2 id="tip-%231%3A-always-name-the-data-providers">Tip #1: Always name the data providers</h2>
-
+<h2 id="tip-1-always-name-the-data-providers">Tip #1: Always name the data providers</h2>
 <p>By default, each data provider is referenced by its array index. It means that when running it, PHPUnit will tell you, that the test failed <em>with data set #0</em>.</p>
-
 <p>To prevent confusion when having lot of data providers, you should always name them. Because the data provider method returns a regular array, it is as easy as adding keys there:</p>
-
 <pre><code class="php">&lt;?php
 
 public function provideTrimData()
@@ -605,45 +435,32 @@ public function provideTrimData()
         ],
         'trailing space and newline are trimmed' =&gt; [
             'Hello World',
-            "Hello World \n",
+            &quot;Hello World \n&quot;,
         ],
         'space in the middle is removed' =&gt; [
             'HelloWorld',
-            "Hello World",
+            &quot;Hello World&quot;,
         ],
     ];
 }
 </code></pre>
-
 <p>It makes test results much easier to understand:</p>
-
 <p><img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpunit-named-data-providers.png" alt="PHPUnit: named data providers in PhpStorm" /></p>
-
 <p>I recommend that you name the data sets the same way you would use for separate tests.</p>
-
-<h2 id="tip-%232%3A-you-can-run-single-data-set-from-data-provider">Tip #2: You can run single data set from data provider</h2>
-
+<h2 id="tip-2-you-can-run-single-data-set-from-data-provider">Tip #2: You can run single data set from data provider</h2>
 <p>When there is something wrong with one of the data sets, you probably want to run the test only with it. You can do so by using PHPUnit's <code>--filter</code> option in CLI.</p>
-
-<p>Here are examples of what is possible (the documentation shows examples with <code>'</code>, but that does not work on Windows, where you have to use <code>"</code> to wrap the argument):</p>
-
+<p>Here are examples of what is possible (the documentation shows examples with <code>'</code>, but that does not work on Windows, where you have to use <code>&quot;</code> to wrap the argument):</p>
 <ul>
-<li><code>--filter "testTrimTrims#2"</code> runs data set #2 (third data set, as the array keys start at zero)</li>
-<li><code>--filter "testTrimTrims#0-2"</code> runs data sets #0, #1 and #2</li>
-<li><code>--filter "testTrimTrims@trailing space and newline are trimmed"</code> runs specific named data set</li>
-<li><code>--filter "testTrimTrims@.*space.*"</code> runs named data sets that match the regexp</li>
+<li><code>--filter &quot;testTrimTrims#2&quot;</code> runs data set #2 (third data set, as the array keys start at zero)</li>
+<li><code>--filter &quot;testTrimTrims#0-2&quot;</code> runs data sets #0, #1 and #2</li>
+<li><code>--filter &quot;testTrimTrims@trailing space and newline are trimmed&quot;</code> runs specific named data set</li>
+<li><code>--filter &quot;testTrimTrims@.*space.*&quot;</code> runs named data sets that match the regexp</li>
 </ul>
-
 <p>Don't forget to check <a href="https://phpunit.readthedocs.io/en/8.3/textui.html#textui-examples-filter-patterns">the other possible patterns in docs</a>.</p>
-
 <p>PhpStorm does not currently allow you to run a single data set from the code (please vote for the issue <a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a>), but you can run all of them and then <a href="https://blog.jetbrains.com/phpstorm/2017/12/phpunit-support-enhancements/">rerun one from the test results</a>. When you have the JetBrains issue tracker open, please also vote for <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a> (possibility to go to the data set from the test results).</p>
-
 <p>When I want to run a single data set from the PhpStorm I usually just comment out all the other data sets.</p>
-
-<h2 id="tip-%233%3A-add-type-definitions">Tip #3: Add type definitions</h2>
-
+<h2 id="tip-3-add-type-definitions">Tip #3: Add type definitions</h2>
 <p>I always add type hints to the method definitions when possible. When using data providers, it means adding parameter type hints to the method that accepts data sets and adding a return type (and phpdoc) to data provider method:</p>
-
 <pre><code class="php">&lt;?php
 
 /**
@@ -669,36 +486,25 @@ public function provideTrimData(): array     // &lt;-- added typehint here
         ],
         'trailing space and newline are trimmed' =&gt; [
             'Hello World',
-            "Hello World \n",
+            &quot;Hello World \n&quot;,
         ],
     ];
 }
 </code></pre>
-
 <p>If you need to have a nullable type in the test method, I recommend splitting it into two separate methods and data providers. Instead of having <code>testTransformData(?string $expectedResult, string $input)</code> with a nullable parameter I would create those:</p>
-
 <p><code>testTransformData(string $expectedResult, string $input)</code>
 <code>testTransformingInvalidDataReturnsNull(string $invalidInput)</code></p>
-
-<h2 id="tip-%234%3A-data-providers-are-supported-well-in-phpstorm">Tip #4: Data providers are supported well in PhpStorm</h2>
-
+<h2 id="tip-4-data-providers-are-supported-well-in-phpstorm">Tip #4: Data providers are supported well in PhpStorm</h2>
 <p>Despite the issues I mentioned above (<a href="https://youtrack.jetbrains.com/issue/WI-43933">WI-43933</a> and <a href="https://youtrack.jetbrains.com/issue/WI-43811">WI-43811</a>) I think that Data providers support in PhpStorm is quite good.</p>
-
 <p>When you reference non-existing data provider, you can use quick action to generate it:
 <img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/create-data-provider-quick-action.png" alt="PhpStorm: create data provider quick action" /></p>
-
 <p>Auto-completion of data provider name works in the <code>@dataProvider</code> annotation:
 <img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-data-provider-autocompletion.png" alt="PhpStorm: rename data provider refactoring" /></p>
-
 <p>Renaming the data provider using Rename refactoring also works as expected:
 <img src="/data/2019/2019-09-03-how-to-use-data-providers-in-phpunit/phpstorm-rename-data-provider-refactoring.png" alt="PhpStorm: rename data provider refactoring" /></p>
-
-<h2 id="tip-%235%3A-more-complex-data-providers">Tip #5: More complex data providers</h2>
-
+<h2 id="tip-5-more-complex-data-providers">Tip #5: More complex data providers</h2>
 <p>Instead of having a static array written in the code, the data providers can be more complex and prepare the data set dynamically.</p>
-
 <p>For example, when having the external data, you can easily generate resulting array this way:</p>
-
 <pre><code class="php">&lt;?php
 /**
  * @return string[][]
@@ -715,11 +521,8 @@ public function provideSpams(): array
     return $result;
 }
 </code></pre>
-
 <p>You should be careful with adding lot of logic to the data provider. Otherwise you would have to write a test that tests the data provider...</p>
-
 <p>You can even return instances from the data provider:</p>
-
 <pre><code class="php">&lt;?php
 
 public function provideDateTimesPartOfDay(): array
@@ -736,13 +539,9 @@ public function provideDateTimesPartOfDay(): array
     ];
 }
 </code></pre>
-
-<h2 id="tip-%236%3A-you-can-use-closures-in-data-providers-to-delay-evaluation">Tip #6: You can use Closures in Data providers to delay evaluation</h2>
-
+<h2 id="tip-6-you-can-use-closures-in-data-providers-to-delay-evaluation">Tip #6: You can use Closures in Data providers to delay evaluation</h2>
 <p>The disadvantage of data providers is that they are evaluated before anything else (to allow PHPUnit calculate the total number of tests). It means that they can't access anything initialized in <code>setUpBeforeClass()</code> or <code>setUp()</code>.</p>
-
 <p>You can work around this limitation by returning closures from data providers. Have a look at the code bellow - data provider returns a closure which is called in the test itself.</p>
-
 <pre><code class="php">&lt;?php
 
 /**
@@ -778,11 +577,8 @@ public function provideDateTransformations()
     ];
 }
 </code></pre>
-
-<h2 id="tip-%237%3A-use-%60yield%60-to-simplify-large-nested-arrays">Tip #7: Use <code>yield</code> to simplify large nested arrays</h2>
-
+<h2 id="tip-7-use-yield-to-simplify-large-nested-arrays">Tip #7: Use <code>yield</code> to simplify large nested arrays</h2>
 <p>Instead of having large arrays in the data provider, you can use yield for each data set:</p>
-
 <pre><code class="php">&lt;?php
 public function provideTrimData()
 {
@@ -792,7 +588,7 @@ public function provideTrimData()
     ];
     yield 'trailing space and newline are trimmed' =&gt; [
         'Hello World',
-        "Hello World \n",
+        &quot;Hello World \n&quot;,
     ];
     yield 'space in the middle is removed' =&gt; [
         'HelloWorld',
@@ -800,18 +596,14 @@ public function provideTrimData()
     ];
 }
 </code></pre>
-
 <p>I think it may help with code readability for large arrays. However similarly to arrays, all yields are evaluated before tests start (PHPUnit calculates the total number of tests before running them).</p>
-
-<h2 id="tip-%238%3A-don%27t-use-%60%40testwith%60-annotation">Tip #8: Don't use <code>@testWith</code> annotation</h2>
-
+<h2 id="tip-8-don-t-use-testwith-annotation">Tip #8: Don't use <code>@testWith</code> annotation</h2>
 <p>Instead of using a separate method for data provider, PHPUnit supports inlining the data sets as JSON in PHPDoc using the <a href="https://phpunit.readthedocs.io/en/8.3/annotations.html#testwith"><code>@testWith</code></a> annotation.</p>
-
 <pre><code class="php">&lt;?php
 /**
  * @testWith
- *        ["Hello World", " Hello World"]
- *        ["Hello World", "Hello World \n"]
+ *        [&quot;Hello World&quot;, &quot; Hello World&quot;]
+ *        [&quot;Hello World&quot;, &quot;Hello World \n&quot;]
  *
  */
 public function testTrim($expectedResult, $input): void
@@ -820,41 +612,32 @@ public function testTrim($expectedResult, $input): void
 }
 
 </code></pre>
-
 <p><strong>Please do not use this, because PHPDocs is not a good place to put your code:</strong></p>
-
 <ul>
 <li>syntax highlighting does not work there</li>
 <li>IDE code validation does not work there</li>
 <li>automatic code formatting does not work there</li>
 <li>it cannot be analysed statically by PHPStan</li>
 </ul>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Do you have other tips to use Data Providers even more efficiently? Please share them in the comments!</p>
 ]]></content>
         </entry>
-            <entry>
-            <title type="html"><![CDATA[Don&#039;t put .idea and .vscode directories to project&#039;s .gitignore]]></title>
+    
+        <entry>
+            <title type="html"><![CDATA[Don&#39;t put .idea and .vscode directories to project&#39;s .gitignore]]></title>
             <link href="https://blog.martinhujer.cz/dont-put-idea-vscode-directories-to-projects-gitignore/"/>
-            <updated>2019-08-26T00:00:00+00:00</updated>
+            <updated>2019-08-26T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/dont-put-idea-vscode-directories-to-projects-gitignore/</id>
             <content type="html"><![CDATA[<blockquote>
-  <p><strong>tl;dr:</strong> Don't put <code>.idea</code> and <code>.vscode</code> directories to project's <code>.gitignore</code>. You should configure a global <code>.gitignore</code> for your machine instead.</p>
+<p><strong>tl;dr:</strong> Don't put <code>.idea</code> and <code>.vscode</code> directories to project's <code>.gitignore</code>. You should configure a global <code>.gitignore</code> for your machine instead.</p>
 </blockquote>
-
 <p>When you are using git (or any other version control), there are some temporary files in the directory structure, which should not be included in the repository. Usually they are listed in the <code>.gitignore</code> file in the project root directory.</p>
-
 <p><strong>What if I told you that there are other ways to exclude temporary files from the project? There are three.</strong></p>
-
-<h2 id="1.-.gitignore-file-in-the-project%27s-root">1. .gitignore file in the project's root</h2>
-
+<h2 id="1-gitignore-file-in-the-project-s-root">1. .gitignore file in the project's root</h2>
 <p><code>.gitignore</code> in the project is the most important one. In it you should list any files or directories which are created by the application itself. Best examples are cache files, logs, local configs etc.</p>
-
 <p>In the Symfony application your <code>.gitignore</code> may look like this (I included an explanation on each line):</p>
-
-<pre><code class="gitignore">/.env.local   &lt;-- local config
+<pre><code class=".gitignore">/.env.local   &lt;-- local config
 /.env.*.local   &lt;-- local config
 /var/   &lt;-- cache and logs
 /vendor/   &lt;-- dependencies installed through Composer
@@ -867,28 +650,19 @@ public function testTrim($expectedResult, $input): void
 /phpcs.xml   &lt;-- local PHPCS config used for overriding the default phpcs.xml.dist
 .php_cs.cache   &lt;-- PHPCS cache file
 </code></pre>
-
 <p>The important thing is that those files are created by the application itself by either building it, running it or doing some work on it.</p>
-
-<h2 id="2.-global-.gitignore-for-your-machine">2. Global .gitignore for your machine</h2>
-
+<h2 id="2-global-gitignore-for-your-machine">2. Global .gitignore for your machine</h2>
 <p>Some files or directories present in the application directory are not created by the application itself, but by the operating system or other applications. Those shouldn't be excluded using the project's <code>.gitignore</code>, because they may differ from developer to developer.</p>
-
 <p>Common examples are <code>.idea</code> (PhpStorm), <code>.vscode</code> (VS Code), <code>Thumbs.db</code> (Windows thumbnails cache), <code>.DS_Store</code> (some macOS cache).</p>
-
 <p>There is a perfect place for them - the global <code>.gitignore</code> file for the machine. When you add something there, it is ignored in any repository, so you don't have to exclude those files in every project you happen to be working on.</p>
-
 <p>You configure the path to the global <code>.gitignore</code> in the <code>.gitconfig</code> file which usually resides in your home directory:</p>
-
 <pre><code># add this to ~/.gitconfig:
 
 [core]
     excludesfile = ~/.gitignore
 </code></pre>
-
 <p>And create the <code>.gitignore</code> file in your home directory:</p>
-
-<pre><code class="gitignore"># create ~/.gitignore
+<pre><code class=".gitignore"># create ~/.gitignore
 
 # PhpStorm
 .idea
@@ -896,472 +670,263 @@ public function testTrim($expectedResult, $input): void
 # VSCode
 .vscode
 </code></pre>
-
 <p>From now on, those will be ignored in any git repository on your machine.</p>
-
 <p>Quite often I see people adding those anyway. From a quick Github search you can see that there are almost 200k results for commits which mention some commonly ignored directory:</p>
-
 <ul>
 <li><code>.vscode</code> <a href="https://github.com/search?q=gitignore+.vscode&amp;type=Commits">27K results</a></li>
 <li><code>.DS Store</code> <a href="https://github.com/search?q=gitignore+.DS_Store&amp;type=Commits">68K results</a></li>
 <li><code>.idea</code> <a href="https://github.com/search?q=gitignore+.idea&amp;type=Commits">100K results</a></li>
 </ul>
-
 <p>There is no point in adding those for the internally developed applications, as you can nudge each developer to properly configure his workstation. But if you are managing an open-source application or library, you may want to make it easier for newcomers to submit patches - even though you know it is not a clean solution. On the other hand, do you expect to receive high-quality contributions from developers who don't bother to properly configure their workstations?</p>
-
-<h2 id="3.-%60.git%5Cinfo%5Cexclude%60">3. <code>.git\info\exclude</code></h2>
-
+<h2 id="3-git-info-exclude">3. <code>.git\info\exclude</code></h2>
 <p>For the sake of completeness, I must mention the third option. You can use <code>.git\info\exclude</code> file to exclude files for a single repository. But those exclusions are not versioned, so the others won't benefit from them.</p>
-
 <p>I can't remember using it, but you may find it useful in some situations.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Imagine that there is a new editor called Extra Textedit with an advanced AI which really helps with coding. As it becomes more popular, there will be a flood of commits and Pull Requests with <code>add .eedit directory to .gitconfig</code>.</p>
-
 <p><strong>Please use the global .gitignore and don't make the people on the internet spend hundreds or thousands of hours on this.</strong></p>
-
 <p>Btw. I recommend reading the <a href="https://git-scm.com/docs/gitignore">gitignore documentation</a> to learn more about the patterns you can use to exclude files.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Oslo - co vidět? Kam na výlety?]]></title>
             <link href="https://blog.martinhujer.cz/oslo-kam-na-vylety/"/>
-            <updated>2019-08-15T00:00:00+00:00</updated>
+            <updated>2019-08-15T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/oslo-kam-na-vylety/</id>
             <content type="html"><![CDATA[<p>V červenci 2019 jsme byli týden v Oslu a stihli jsem toho spoustu, včetně dvou zajímavých hike za město, tak třeba se vám to bude hodit jako inspirace.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ekebergparken-vyhled.jpg" alt="Výhled na Oslo z Ekebergparken" /></p>
-
 <h2 id="cesta-do-osla">Cesta do Osla</h2>
-
 <p>Letěli jsme z Prahy s Norwegian. Tím, že jsme byli docela omezení ve výběru termínu, tak nás nakonec zpáteční letenky (pro oba) stály 8700 Kč. Několik dnů po zabookování nám přišel mail, že zpáteční let ruší a že nás přehodili na jiný den. Pokud je to více než 14 dnů do odletu, tak to mohou klidně udělat. Ale v profilu pak šlo letenky zadarmo přebookovat na jiný termín, takže jsme zpáteční let přehodili na další den, na který ty lety předtím byly drahé. No a jako vždy jsme letěli jen s příručákem. Ani v Praze ani v Oslu velikost zavazadel neměřili.</p>
-
 <h2 id="mhd-v-oslu">MHD v Oslu</h2>
-
 <p>MHD v Oslu provozuje <a href="https://ruter.no/en/">Ruter As</a> a funguje to super. Na jízdenky se používá aplikace <a href="https://ruter.no/en/buying-tickets/sales-outlets/">RuterBillet</a>, kde si jízdenky přímo kupujete (existuje alternativa s nějakou plastovou kartičkou, to jsme nezkoumali). Koupili jsme si <a href="https://ruter.no/en/buying-tickets/tickets-and-fares/">týdenní jízdenky</a>. Výhoda je, že je můžete koupit dopředu a vybrat si čas začátku platnosti a případně je zapnout ručně. Kupodivu nefungovala platba kartou (MasterCard ani VISA, Airbank ani Fio), takže jsme platili PayPalem.</p>
-
-<p>Většina Osla je v <a href="https://ruter.no/en/buying-tickets/zones/">zóně 1</a>, takže týdenní jízdenka nám stačila na tu jednu zónu. A na těch několik cest mimo si jde přes aplikaci přikoupit "Extra" na tu konkrétní zónu. Mají to hezky udělané, že místo toho, abyste museli zkoumat, jakou zónu chcete, jen vyberete, kam chcete jet a ono to ukáže, jakou zónu si máte koupit. Ty tickety na extra zónu jsou jen asi na hodinu až dvě, takže jde zase nastavit začátek platnosti a případně to těsně před nástupem do autobusu/lodi/vlaku odstartovat ručně.</p>
-
+<p>Většina Osla je v <a href="https://ruter.no/en/buying-tickets/zones/">zóně 1</a>, takže týdenní jízdenka nám stačila na tu jednu zónu. A na těch několik cest mimo si jde přes aplikaci přikoupit &quot;Extra&quot; na tu konkrétní zónu. Mají to hezky udělané, že místo toho, abyste museli zkoumat, jakou zónu chcete, jen vyberete, kam chcete jet a ono to ukáže, jakou zónu si máte koupit. Ty tickety na extra zónu jsou jen asi na hodinu až dvě, takže jde zase nastavit začátek platnosti a případně to těsně před nástupem do autobusu/lodi/vlaku odstartovat ručně.</p>
 <p>Pro hledání spojů buď můžete používat Google Maps nebo jejich aplikaci RuterReise (ta ukazuje i zóny).</p>
-
 <p>Většinu toho zvládnete linkami metra, které kromě centra jezdí po povrchu (historicky to bylo tak, že postupně zapojili samostatné tramvajové tratě do struktury metra).</p>
-
-<h2 id="cesta-z-leti%E5%A1t%E4%9B">Cesta z letiště</h2>
-
+<h2 id="cesta-z-letiste">Cesta z letiště</h2>
 <p>Z letiště je nejlepší <a href="https://avinor.no/en/airport/oslo-airport/to-and-from-the-airport/train-buss-and-taxi/trains">jet vlakem VY</a>. Pozor, na letišti mají mnohem lépe vidět prodej jízdenek do Airport Express Train (Flytoget), který stojí mnohem víc a není o moc rychlejší. Jízdenky na VY vlak si koupíte v automatu vlevo od toho Flytogetu. Nebo ještě lépe - pokud budete už mít dopředu koupenou jízdenku na MHD v RuterBillet, tak si jen přikoupíte zónu na letiště - je to levnější, než celá samostatná jízdenka.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/oslo-letiste.jpg" alt="Oslo - letiště" /></p>
-
-<h2 id="pen%E3%ADze-a-nakupov%E3%A1n%E3%AD">Peníze a nakupování</h2>
-
+<h2 id="penize-a-nakupovani">Peníze a nakupování</h2>
 <p>V Norsku je docela draho, cca 2-3× než v ČR. Vzhledem k tomu, že kurz NOK je 2.7 CZK, tak se dá docela dobře orientovat podle cen, které mají kde napsané - jsou podobné jako v ČR, jen nesedí měna :-) (streetfood 110-150 NOK atd.)</p>
-
 <p>Zajímavost: V Norsku fungují zálohy na PET láhve a plechovky, podobně jako v ČR na láhve od piva. (<a href="https://www.youtube.com/watch?v=lC4ymsm5llk">video</a>)</p>
-
 <p>Všude se dá platit kartou. I když jsme došli lesem na takovou chatu, kde měli suché záchody, tak stejně měli terminál na karty. Stejně tak kiosek na ostrůvku u pláže. A veřejné záchodky v parku mají u dveří také terminál na pípnutí kartou. Takže jsme za celý týden neměli v ruce žádné norské peníze (ale nosili jsme nějaká eura, kdybychom s kartou náhodou někde neuspěli.)</p>
-
 <p>Bydleli jsme na Airbnb, takže jsme si večeře vařili a k obědu jsme měli vždycky svačinu, protože jsme stejně byli někde na výletě. Suroviny v obchodě zas tak drahé nejsou (doporučuji supermarkety Kiwi nebo Rema 1000). A třeba takový chlazený losos stojí stejně jako v ČR ;-)</p>
-
 <p>Když mluvím o bydlení, tak doporučuji bydlet na metru a max pár stanic od centra, ať ušetříte čas.</p>
-
 <h2 id="elektroauta">Elektroauta</h2>
-
 <p>V Norsku se prodává víc elektroaut než těch se spalovacím motorem. Je to hlavně kvůli různým úlevám pro EV a naopak ekologické dani z aut se spalovacím motorem (<a href="https://elbil.no/english/norwegian-ev-policy/">více info</a>). Vzhledem k tomu, že většinu elektřiny (95 %) získávají z vodních elektráren, to zní jako super nápad. Nevýhoda je, že rozvodná síť na to není připravena a <a href="https://www.reuters.com/article/us-norway-autos-electric-power/electric-vehicle-push-in-norway-could-add-1-3-billion-to-power-bills-by-2040-study-idUSKCN1T81Y0">budou do ní muset hodně investovat</a>.</p>
-
 <p>A s tím souvisí jedna zajímavost - Ruter (dopravní podnik v Oslu) zkouší na jedné krátké lince <a href="https://ruter.no/en/about-ruter/reports-projects-plans/autonomous-vehicles/">provozovat autonomní elektrické minibusy</a>. To jsme samozřejmě museli vyzkoušet :-)</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/autonomni-minibus.jpg" alt="Autonomní miniautobus" /></p>
-
-<h2 id="dr%E3%B8bak-a-oscarsborg---v%E3%BDlet-lod%E3%AD">Drøbak a Oscarsborg - výlet lodí</h2>
-
+<h2 id="drobak-a-oscarsborg-vylet-lodi">Drøbak a Oscarsborg - výlet lodí</h2>
 <p>Drøbak je vesnice asi 30km od Osla, kam se dá dojet MHD lodí (pozor, je potřeba přikoupit zóny - viz výše). Když budete stát frontu na trajekt, tak vám bude připadat, že se tam nevejdete - ale ta loď je fakt velká (cca pro 200 lidí), tak se nebojte.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/drobak-lod.jpg" alt="Drøbak - cesta lodí" /></p>
-
-<p>Lodí můžete dojet až do Drøbaku nebo vystoupit o zastávku dříve, na ostrově <a href="https://goo.gl/maps/RQd12k7vpRopjaV96">Oscarsborg</a>, kde je vojenská pevnost. Odtamtud se pak dá do Drøbaku dostat přívozem. Je to dost důležité místo norských dějin, protože v roce 1940 se jim z té pevnosti podařilo potopit německý křižník Blücher a tím zbrzdit invazi Němců do Osla tolik, že norský král a vláda stihl utéci. Doporučuji přečíst článek na Wikipedii: <a href="https://en.wikipedia.org/wiki/Battle_of_Drøbak_Sound">Battle of Drøbak Sound</a>. My jsme tam nebyli, protože jsem to zjistil až potom.</p>
-
+<p>Lodí můžete dojet až do Drøbaku nebo vystoupit o zastávku dříve, na ostrově <a href="https://goo.gl/maps/RQd12k7vpRopjaV96">Oscarsborg</a>, kde je vojenská pevnost. Odtamtud se pak dá do Drøbaku dostat přívozem. Je to dost důležité místo norských dějin, protože v roce 1940 se jim z té pevnosti podařilo potopit německý křižník Blücher a tím zbrzdit invazi Němců do Osla tolik, že norský král a vláda stihl utéci. Doporučuji přečíst článek na Wikipedii: <a href="https://en.wikipedia.org/wiki/Battle_of_Dr%C3%B8bak_Sound">Battle of Drøbak Sound</a>. My jsme tam nebyli, protože jsem to zjistil až potom.</p>
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/drobak-oscarsborg.jpg" alt="Drøbak - Oscarsborg" /></p>
-
 <p>V samotném Drøbaku je zajímavá třeba <a href="https://goo.gl/maps/tU6Mg9uEMUZArEdm8">pláž</a>, <a href="https://goo.gl/maps/YN91vLRMzCZepuzBA">Husvikbatteriet</a> - dělo, které se přičinilo o potopení křižníku Blücher. A kousek na kopci <a href="https://goo.gl/maps/XyfDrSeoGvHSWHms5">Veisvingbatteriet</a> - další děla, tentokrát v lepším stavu a se super výhledem na Oscarsborg.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/drobak-delo.jpg" alt="Drøbak - dělo" /></p>
-
 <p>Zpátky z Drøbaku jsme už jeli autobusem, kterým to je rychlejší, než lodí.</p>
-
-<h2 id="%E3%98stmarka-hike-16-km">Østmarka hike (16 km)</h2>
-
+<h2 id="ostmarka-hike-16-km">Østmarka hike (16 km)</h2>
 <p>Oslomarka je označení pro lesnatou a kopcovitou krajinu v okolí Osla, kterou Norové využívají k rekreaci (výlety, kola atd.). My jsme vyrazili do východní části nazvané Østmarka.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ostmarka-1.jpg" alt="Østmarka - Svartputten" /></p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ostmarka-2.jpg" alt="Østmarka" /></p>
-
 <p>Metrem jsme dojeli na konečnou, do Ellingsrudåsen. Tam už kousek od východu z metra (který je vyražený ve skále!) začíná turistická trasa. Nejprve jsme šli kousek po hlavní turistické, která je zároveň cyklostezka, ale pak jsme odbočili směrem na Haukåsen. Většinou se nám podobné pokusy - třeba vylézt na nějaký vysoký kopec v okolí - odmění fajn zážitkem. Cestou jsme si udělali malinkou odbočku k jezeru Svartputten a pokračovali jsme se na Haukåsen. Ten je zajímavý zejména tím, že tam je umístěný radar.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/haukasen-radar.jpg" alt="Haukåsen radar" /></p>
-
 <p>Odtamtud jsme došli na chatu Mariholtet, kde se dá občerstvit. Co nás hodně překvapilo bylo, že si místní nedávají pivo, ale kávu nebo colu. To by se v Čechách nestalo :-)</p>
-
 <p>Dál jsme pokračovali po červené a pak po západní straně jezera Lutvann, odkud byl super výhled. Nakonec jsme došli na metro do Haugeurd a jeli domů.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ostmarka-3.jpg" alt="Østmarka - Lutvann" /></p>
-
 <p>Mrkněte na <a href="https://www.wikiloc.com/hiking-trails/oslo-ostmarka-hike-39504653">celou trasu na Wikiloc</a>.</p>
-
 <p>Výhoda chození na výlety v Norsku v létě je, že vám díky pozdnímu soumraku nehrozí, že byste se do tmy nestihli vrátit.</p>
-
 <h2 id="holmenkolen">Holmenkolen</h2>
-
 <p>Holmenkollen je známý skokanský můstek, kde se konají různé důležité závody (nejen) ve skocích na lyžích. První můstek tam byl postaven koncem 19. století a zajímavé je, že ho jednou za čas zbourají a pak postaví nový a větší (naposledy v roce 2010).</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/holmenkolen-1.jpg" alt="Holmenkolen" /></p>
-
 <p>Metrem dojedete do stanice Holmenkollen a odtamtud dojdete kousek k můstku. Součástí areálu je muzeum, které popisuje historii samotného můstku, ale i polárních výprav. V ceně vstupenky je i výstup (resp. vyvezení se výtahem) na vršek můstku, odkud je super výhled. Doporučuji jít nejdříve vystát tu frontu na výtah, čím tam dorazíte později, tím je větší. Ale muzeum určitě nevynechejte (můžete si ho projít až po návratu z vyhlídky).</p>
-
 <p>Kromě výhledu nabízí horní plošina možnost sjet si dolů na zipline - ale mě to teda přišlo dost vysoko :-) (na fotce jsou vidět ta ocelová lana)</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/holmenkolen-2.jpg" alt="Holmenkolen" /></p>
-
-<h2 id="hike-p%E5%99es-vettakollen-a-ullev%E3%A5lseter-k-jezeru-sognsvann-15-km">Hike přes Vettakollen a Ullevålseter k jezeru Sognsvann (15 km)</h2>
-
+<h2 id="hike-pres-vettakollen-a-ullevalseter-k-jezeru-sognsvann-15-km">Hike přes Vettakollen a Ullevålseter k jezeru Sognsvann (15 km)</h2>
 <p>Z Holmenkollen jsme popojeli pár stanic na zastávku Vettakollen, odkud jsme vyrazili na další hike.</p>
-
 <p>První část cesty je trochu do kopce, ale brzy přijde odměna v podobě super výhledu na Oslo (je to kupodivu dříve, než samotný vrchol Vettakollen - odtamtud není vidět nic).</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/vettakollen-vyhled.jpg" alt="Vettakollen výhled" /></p>
-
 <p>Pak pokračujete lesem, cestou občas potkáte nějaké jezero, jezírko nebo mokřad. Nejvzdálenějším bodem je Ullevålseter, což je taková horská chata, u které se potkávají různé turistické a cyklo trasy. I když to je uprostřed ničeho, tak samozřejmě jde platit kartou. A pozor, <a href="http://www.ullevalseter.no/aapningstider.htm">podle webu</a> mají v pondělí zavřeno, tak ať vás to nepřekvapí. Dali jsme si tak ke svačině kávu, horkou čokoládu a něco sladkého.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ullevalseter-chata.jpg" alt="Chata Ullevålseter" /></p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/jezero-lille-aklungen.jpg" alt="Jezero Lille Aklungen" /></p>
-
 <p>Cestou zpět jsme šli kolem dvou velkých jezer, a nakonec jsme došli k jezeru Sognsvann. To je kousek od města, takže tam spoustu místních chodí běhat.</p>
-
 <p><a href="https://www.wikiloc.com/hiking-trails/oslo-hike-over-vettakollen-and-ullevalseter-to-sognsvann-lake-15-km-39523547">Celá trasa opět na Wikiloc</a>.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/sognsvann.jpg" alt="Jezero Sognsvann" /></p>
-
-<h2 id="grilov%E3%A1n%E3%AD%2C-jednor%E3%A1zov%E3%A9-grily">Grilování, jednorázové grily</h2>
-
+<h2 id="grilovani-jednorazove-grily">Grilování, jednorázové grily</h2>
 <p>Možná to bylo tím, že jsme v Oslu měli dobré počasí, ale mezi místními je hodně populární grilování na jednorázových grilech (takové ten alobalový tácek naplněný uhlím). Grilují všude možně, třeba právě u toho jezera Sognsvann.</p>
-
 <p>Hodně zajímavé je, že tomu museli přizpůsobit infrastrukturu. Na místech, která se hodí na grilování, mají kromě obyčejných košů také speciální kovový koš na vyhazování těch jednorázových grilů!</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/kos-na-grily.jpg" alt="Koš na grily" /></p>
-
-<h2 id="k%E3%A1va">Káva</h2>
-
+<h2 id="kava">Káva</h2>
 <p>Na kávu jsme nikam moc nechodili, takže mám jen jeden tip na kavárnu - <a href="https://goo.gl/maps/zNZTYwbPTbzFSmfY9">Espresso House</a>.</p>
-
-<p>Na Airbnb byl Nespresso kávovar, takže jsme si kávu vařili doma. S tím souvisí zajímavost - jak jsem psal výše, tak všechno je v Norsku 2-3× dražší, ale Nespresso kapsle stojí v přepočtu <a href="https://www.nespresso.com/no/no/order/capsules/original">stejně jako v ČR</a> (NOK 3,89 vs CZK 9,90). Pro kapsle jsme se stavili v <a href="https://goo.gl/maps/yaPmP2t7qp8Q7HCa7">Nespresso obchodě</a> na jejich "Pařížské".</p>
-
-<h2 id="oslo---ostrovy-lang%E3%B8yene-a-gressholmen">Oslo - ostrovy Langøyene a Gressholmen</h2>
-
+<p>Na Airbnb byl Nespresso kávovar, takže jsme si kávu vařili doma. S tím souvisí zajímavost - jak jsem psal výše, tak všechno je v Norsku 2-3× dražší, ale Nespresso kapsle stojí v přepočtu <a href="https://www.nespresso.com/no/no/order/capsules/original">stejně jako v ČR</a> (NOK 3,89 vs CZK 9,90). Pro kapsle jsme se stavili v <a href="https://goo.gl/maps/yaPmP2t7qp8Q7HCa7">Nespresso obchodě</a> na jejich &quot;Pařížské&quot;.</p>
+<h2 id="oslo-ostrovy-langoyene-a-gressholmen">Oslo - ostrovy Langøyene a Gressholmen</h2>
 <p>Kromě delší cesty lodí do Drøbaku, o které jsem psal výše, můžete v Oslu vyrazit MHD lodí na ostrovy, které jsou kousek za městem (a zase platí, že ta loď vypadá malá, ale vejde se tam spoustu lidí, takže nezůstanete na břehu ani když tam bude velká fronta).</p>
-
 <p>My jsme nejdříve vyrazili na <a href="https://goo.gl/maps/zYZP7bWyFVTBbB188">Langøyene</a>, kde je fajn pláž. Kromě toho to je jediný z ostrovů, na kterém se může stanovat. Kousek od pláže je kiosek, který samozřejmě přijímá platební karty.</p>
-
 <p>Odtamtud jsme přejeli na ostrov <a href="https://goo.gl/maps/Dt8oKX5tBAv7zvph7">Gressholmen</a>. Ten je mnohem více zarostlý, ale taky je na něm několik pláží. A zajímavostí je, že na něm kdysi bylo <a href="https://en.wikipedia.org/wiki/Gressholmen_Airport">první norské letiště</a> (pro hydroplány).</p>
-
 <h1 id="oslo">Oslo</h1>
-
 <p>A teď zajímavé věci v samotném Oslu.</p>
-
 <h2 id="ekebergparken">Ekebergparken</h2>
-
 <p><a href="https://goo.gl/maps/7w8F6s5FHmffBW747">Ekebergparken</a> je kopec s parkem na kraji Osla. Nejlepší je dojet tramvají přímo do zastávky Ekebergparken a odtamtud se projít po parku, prohlédnout si sochy a dojít na vyhlídku, odkud je vidět kontrast starých a nových budov v Oslu. Odtamtud se pak dá po cestičce sejít dolů do centra.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/ekebergparken-socha.jpg" alt="Sochy v Ekebergparken" /></p>
-
 <h2 id="opera">Opera</h2>
-
 <p><a href="https://goo.gl/maps/GFm8c3mREkXXQ3HR9">Operahuset</a> je zajímavé zejména tím, že je možné vyjít až na střechu, odkud je fajn výhled.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/opera.jpg" alt="Oslo - Operahuset" /></p>
-
 <h2 id="pevnost-akershus">Pevnost Akershus</h2>
-
 <p>Určitě doporučuji nevynechat <a href="https://goo.gl/maps/Ly5w78xJGUgTa3Q16">pevnost Akershus</a> - kromě historických budov je odtamtud hezký výhled na přístav.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/akershus.jpg" alt="Akershus" /></p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/akershus-vyhled-na-pristav.jpg" alt="Akershus - výhled na přístav" /></p>
-
 <h2 id="norsk-folkemuseum">Norsk Folkemuseum</h2>
-
 <p>Do <a href="https://goo.gl/maps/v16qykDyT12SHLXa8">Norsk Folkemuseum</a> postupně přemístili různé budovy, aby mohli ukázat, jak v minulosti žili lidé (nejen) na norském venkově. Areál si buď můžete projít sami nebo se připojit k některé z komentovaných prohlídek (doporučuji!). Nejvýznamnější památkou v muzeu je <a href="https://norskfolkemuseum.no/en/stave-church">kostel přibližně z roku 1200</a>, který koncem 19. století nechal král přestěhovat tam, kde je teď.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/skanzen-kostel.jpg" alt="Norsk Folkemuseum - kostel" /></p>
-
 <p>A jedna zajímavost, kterou jsme se tam dozvěděli. Určitě znáte takové ty domky se střechami porostlými trávou (a teď nemyslím moderní kancelářské budovy). Vždycky jsem myslel, že ta tráva tam má nějaký účel, ale ono ne. Jen holt tenkrát dávali na střechu vrstvu hlíny jako izolaci a shodou okolností z ní pak rostla tráva.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/skanzen-trava-na-strese.jpg" alt="Norsk Folkemuseum - tráva na střeše" /></p>
-
 <h2 id="playa-de-huk">Playa de Huk</h2>
-
 <p>Když už kvůli Folkemuseum (nebo jinému muzeu) budete na poloostrově Bygdøy, tak si vezměte plavky a běžte se vykoupat na <a href="https://goo.gl/maps/h4aWDmCRXhmJHyhh6">Playa de Huk</a>. My jsme měli štěstí na počasí - bylo 28°C, takže pláž byla narvaná :-)</p>
-
-<h2 id="kr%E3%A1lovsk%E3%BD-pal%E3%A1c-a-zahrada">Královský palác a zahrada</h2>
-
+<h2 id="kralovsky-palac-a-zahrada">Královský palác a zahrada</h2>
 <p>Když už budete v Oslu, tak se určitě zajděte podívat na <a href="https://goo.gl/maps/ipKQj5Lks4JADDfVA">královský palác</a> a do jeho zahrad.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/kralovsky-palac.jpg" alt="Královský palác" /></p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/kralovsky-palac-zahrada.jpg" alt="Královský palác - zahrada" /></p>
-
 <h2 id="frognerparken">Frognerparken</h2>
-
 <p><a href="https://goo.gl/maps/rAY3rrrUpDQu4T7w5">Velký park</a>, jedno z více turistických míst. Zejména kvůli zajímavé fontáně obklopené turisty a sloupovému sousoší.</p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/frognerparken-fontana.jpg" alt="Frognerparken - fontána" /></p>
-
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/frognerparken-sousosi.jpg" alt="Frognerparken - sousoší" /></p>
-
-<h1 id="z%E3%A1v%E4%9Brem">Závěrem</h1>
-
+<h1 id="zaverem">Závěrem</h1>
 <p>V Oslu a jeho okolí toho je spoustu k vidění. Určitě doporučuji zařadit nějaké výlety za město než jen chodit mezi budovami.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Budapešť - co vidět? Kam na výlety?]]></title>
             <link href="https://blog.martinhujer.cz/budapest-kam-na-vylety/"/>
-            <updated>2019-06-10T00:00:00+00:00</updated>
+            <updated>2019-06-10T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/budapest-kam-na-vylety/</id>
             <content type="html"><![CDATA[<p>V květnu 2019 jsme byli v Budapešti a za těch pár dnů jsme toho stihli spoustu (včetně zajímavého hike), tak třeba se vám něco bude hodit jako inspirace.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-vyhled-od-citadelly.jpg" alt="Budapešť - výhled od Citadelly" /></p>
-
 <p>První zajímavostí Budapešti je název. Původně to totiž byla dvě samostatná města - Buda a Pešť, každé na jednom břehu Dunaje :-)</p>
-
-<h2 id="cesta-do-budape%E5%A1ti">Cesta do Budapešti</h2>
-
+<h2 id="cesta-do-budapesti">Cesta do Budapešti</h2>
 <p>Původně jsme chtěli jet vlakem, ale Regiojet tam nejezdí (přímo) a s ČD nám to stačilo před dvěma roky do Varšavy. Takže jsme nakonec jeli Regiojet autobusem. A abychom zbytečně nestrávili celý den dovolené v autobuse, tak jsme jeli přes noc - ve 23 h z Florence. A ráno jsme kolem 6 h byli v Budapešti.</p>
-
 <h2 id="mhd">MHD</h2>
-
 <p>MHD v Budapešti funguje super, mají tam metro, tramvaje a autobusy. Na vyhledávání spojení doporučuji buď Google Maps nebo přímo jejich mobilní appku BKK Futár (v obojím jsou realtime data o spojích - včetně případného zpoždění).</p>
-
 <p>Nejvýhodnější je koupit si v automatu sadu 10 jízdenek, vychází to pak na cca 24 Kč za jednu. Jízdenky jsou nepřestupní (ale jde přestupovat mezi linkami metra). A nezapomeňte si je vždycky označit, prý tam revizoři (podobně jako v Praze), rádi číhají na turisty, kteří si koupí v automatu jízdenku a nenapadne je, si ji o pár metrů dál ještě označit.
 Automat, kde jsme jízdenky zkoušeli koupit z nějakého důvodu nebral Revolut kartu.</p>
-
 <p>Určitě doporučuji MHD používat, ušetří vám to spoustu času při přesunech.</p>
-
-<h2 id="pen%E3%ADze%2C-huf">Peníze, HUF</h2>
-
+<h2 id="penize-huf">Peníze, HUF</h2>
 <p>V Budapešti je podobně draho jako v Praze. Na většině míst berou platební karty, ale ne všude. Na výběry z bankomatů si pořiďte <a href="/revolut-karta/">Revolut kartu</a> (vybírám po €20 nebo €40). A pozor, v Budapešti je na každém rohu Euronet bankomat, kde velmi pravděpodobně zaplatíte zbytečné poplatky navíc. Doporučuji raději vybrat z bankomatu, který patří přímo pod nějakou banku - tam vás nebudou zkoušet odrbat.</p>
-
-<h2 id="bydlen%E3%AD">Bydlení</h2>
-
+<h2 id="bydleni">Bydlení</h2>
 <p>Bydleli jsme v Airbnb (konkrétně <a href="https://www.airbnb.com/rooms/26179045">v tomhle</a>) blízko Deák Ferenc tér, což je lokalitou podobné jako Můstek. Kousek od metra, tramvají i autobusů a cokoliv v centru v docházkové vzdálenosti.</p>
-
-<h2 id="lodn%E3%AD-v%E3%BDlet">Lodní výlet</h2>
-
+<h2 id="lodni-vylet">Lodní výlet</h2>
 <p>Původně jsme chtěli jít na nějaký lodní výlet, ale nemohli jsme vybrat na který (každý měl nějaké dost negativní recenze). Nakonec jsme zjistili, že stojíme kousek od jedné ze zastávek lodního MHD. Na rozdíl od Prahy to není jen přívoz napříč řekou, ale naopak jede po celé délce města a staví na různých zastávkách na obou březích. Zásadní výhoda je, že lístek stojí 750 HUF (cca 60 Kč). Takže jsme se rozhodli si udělat výlet až na konečnou a zpět. Plavba centrem Budapešti je super a myslím, že ani na standardní boat tour toho o moc víc neuvidíte. Ale ještě zajímavější je, že pak vyjedete z centra a pluje se mezi zarostlými břehy, kde skoro nic není :-) Jako odpolední relax to bylo super.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-lodni-vylet.jpg" alt="Budapešť - lodní výlet - parlament" /></p>
-
-<h2 id="doh%E3%A1ny-street-synagogue">Dohány Street Synagogue</h2>
-
+<h2 id="dohany-street-synagogue">Dohány Street Synagogue</h2>
 <p><a href="https://goo.gl/maps/9naiBsqRtb1RXxYA7">Velká synagoga</a> (opravdu se ji tak říká) je největší synagoga v Evropě (a asi třetí na světě).</p>
-
 <p>Pro mě jedna z nej věcí, které stojí za to navštívit. Při vstupu do synagogy dostanete papírovou jarmulku, kterou musíte mít na hlavě. Mezi lavicemi jsou rozmístěny vlajky a můžete si vybrat jazyk a zúčastnit se komentované prohlídky. Super je, že ti průvodci jsou přímo členové místní židovské obce, takže ten výklad je hodně autentický (a tipuji, že se mezi průvodci liší).</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-synagoga.jpg" alt="Budapešť - synagoga" /></p>
-
-<h2 id="pam%E3%A1tn%E3%ADk-ob%E4%9Btem-2.-sv%E4%9Btov%E3%A9-v%E3%A1lky">Památník obětem 2. světové války</h2>
-
-<p><a href="https://goo.gl/maps/bVuVSqndrWMAprAK9">Památník</a> není až tak zajímavý vzhledem, ale spíš politickými souvislostmi. V Maďarsku byly antisemitistické nálady už před příchodem nacistů a zároveň vláda Němcům ochotně pomáhala s deportací židů. Takže se proti památníku hodně protestovalo, až ho nakonec dokončili potají v noci. Detailněji <a href="https://www.reuters.com/article/us-hungary-holocaust-german-memorial/hungary-pm-defends-contested-monument-to-nazi-victims-idUSBREA0L1H820140122">viz článek na Reuters</a>. Hned vedle toho "oficiálního" památníku je protestní památník, kde je mezi sloupky natažený ostnatý drát se zavěšenými fotkami obětí a vysvětlujícím textem v různých jazycích. A pod tím jsou umístěné kufry a svíčky.</p>
-
+<h2 id="pamatnik-obetem-2-svetove-valky">Památník obětem 2. světové války</h2>
+<p><a href="https://goo.gl/maps/bVuVSqndrWMAprAK9">Památník</a> není až tak zajímavý vzhledem, ale spíš politickými souvislostmi. V Maďarsku byly antisemitistické nálady už před příchodem nacistů a zároveň vláda Němcům ochotně pomáhala s deportací židů. Takže se proti památníku hodně protestovalo, až ho nakonec dokončili potají v noci. Detailněji <a href="https://www.reuters.com/article/us-hungary-holocaust-german-memorial/hungary-pm-defends-contested-monument-to-nazi-victims-idUSBREA0L1H820140122">viz článek na Reuters</a>. Hned vedle toho &quot;oficiálního&quot; památníku je protestní památník, kde je mezi sloupky natažený ostnatý drát se zavěšenými fotkami obětí a vysvětlujícím textem v různých jazycích. A pod tím jsou umístěné kufry a svíčky.</p>
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-pamatnik-1.jpg" alt="Budapešť - Památník obětem 2. světové války" /></p>
-
-<h2 id="pam%E3%A1tn%E3%ADk-na-b%E5%99ehu-dunaje">Památník na břehu Dunaje</h2>
-
+<h2 id="pamatnik-na-brehu-dunaje">Památník na břehu Dunaje</h2>
 <p>Na břehu Dunaje najdete <a href="https://goo.gl/maps/RsLCJqCrZqMnKqzP8">památník připomínající</a> těch, kteří byli zastřeleni maďarskou nacistickou stranou během 2. světové války přímo na břehu řeky. Viz <a href="https://en.wikipedia.org/wiki/Shoes_on_the_Danube_Bank">článek na Wikipedii</a>.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-danube-boty.jpg" alt="Budapešť - Památník na břehu Dunaje - boty" /></p>
-
-<h2 id="st.-stephen%27s-basilica-szent-istv%E3%A1n-bazilika">St. Stephen's Basilica (Szent István Bazilika)</h2>
-
+<h2 id="st-stephen-s-basilica-szent-istvan-bazilika">St. Stephen's Basilica (Szent István Bazilika)</h2>
 <p><a href="https://goo.gl/maps/kk8vqMRuGn3XrJ848">St. Stephen's Basilica</a> je zajímavá zejména tím, že se dá dostat na věž se super výhledem.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-szent-istvan-bazilika.jpg" alt="Budapešť - Szent István Bazilika" /></p>
-
 <p>Na náměstí před bazilikou mají zmrzlinu, kterou naskládají do tvaru květu.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-szent-istvan-bazilika-zmrzlina.jpg" alt="Budapešť - Szent István Bazilika - zmrzlina" /></p>
-
 <h2 id="citadella">Citadella</h2>
-
 <p><a href="https://goo.gl/maps/jPVhKFpFPQP5V2F87">Citadella</a> je pevnost se sochou na kopci. Něco jako Vítkov v Praze. Je odtamtud hezký výhled.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-vyhled-od-citadelly.jpg" alt="Budapešť - výhled od Citadelly" /></p>
-
 <h2 id="hrad-buda">Hrad Buda</h2>
-
 <p>K <a href="https://goo.gl/maps/vfeN5iW8wFpivwDZ7">Hradu Buda</a> buď můžete vyjít pěšky nebo lanovkou jako je na Petřín. Na rozdíl od Petřína je to tady výrazně menší kopec. A pokud tam nebudete hned ráno, tak tam bude velká fronta.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-funicular.jpg" alt="Budapešť - Funicular" /></p>
-
 <p>Před <a href="https://goo.gl/maps/sQbvCKYaSkzMXppHA">prezidentským palácem</a> můžete vidět střídání stráží. Případně, pokud tam budete tak brzy jako my, tak <em>instalaci</em> stráží :-)</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-palac-straze.jpg" alt="Budapešť - stráže" /></p>
-
 <p>Na hrad se stojí za to dojít podívat i v noci, u <a href="https://goo.gl/maps/spxwAzBCpx8NH5e48">kostela svatého Matyáše</a> je na hradbách ochoz, kam se dá v noci zadarmo (přes den tam vybírají vstupné). Je odtamtud hezký výhled na noční Budapešť. Pokud se vám to v noci nechce nahoru šlapat pěšky, tak můžete dojet autobusem skoro až k tomu kostelu.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-kostel-svateho-matyase.jpg" alt="Budapešť - Kostel sv. Matyáše - noční" /></p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-nocni.jpg" alt="Budapešť - noční" /></p>
-
 <h2 id="margaret-island">Margaret Island</h2>
-
 <p><a href="https://goo.gl/maps/f9odLkoRvwGU7vGz5">Margaret Island</a> je takový relaxační ostrov s lesoparkem, lavičkami, restauracemi, zoo a běžeckou dráhou s měkkým povrchem.</p>
-
-<h2 id="l%E3%A1zn%E4%9B">Lázně</h2>
-
+<h2 id="lazne">Lázně</h2>
 <p><a href="https://goo.gl/maps/GhCipiBwSo183LENA">Lázně Széchenyi</a> také určitě stojí za návštěvu, ale ve výsledku to byla hromada přeplněných bazénů s horkou a různě smrdutou vodou.</p>
-
-<h2 id="park-se-jez%E3%ADrkem">Park se jezírkem</h2>
-
+<h2 id="park-se-jezirkem">Park se jezírkem</h2>
 <p>Lázně se nacházejí v parku, kde je také docela velké jezírko s <a href="https://goo.gl/maps/pmQpZSYoRhnMGawAA">půjčovnou šlapadel</a>.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-slapadla.jpg" alt="Budapešť - šlapadla" /></p>
-
-<h2 id="v%E3%BDlet-z-d%E3%B6m%E3%B6su-do-visegr%E3%A1du">Výlet z Dömösu do Visegrádu</h2>
-
+<h2 id="vylet-z-doemoesu-do-visegradu">Výlet z Dömösu do Visegrádu</h2>
 <p>Za mě asi nejlepší věc z Budapešti, i když nebyla v Budapešti. Autobusem (spol Volánbusz) jsme vyrazili do vesničky Dömös a odtamtud jsme přes kopce a lesy došli do Visegrádu.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapes-Domos-Visegrad-hike-mapa.png" alt="Budapešť - Dömös - Visegrád hike - mapa" />
 (<a href="https://www.wikiloc.com/hiking-trails/domos-visegrad-hike-43230032">záznam trasy na Wikiloc</a>)</p>
-
 <p>Byla to krásná cesta lesem s hezkými výhledy.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-1.jpg" alt="Budapešť - Visegrád hike - les" /></p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-2.jpg" alt="Budapešť - Visegrád hike - výhledy" /></p>
-
 <p>Cestou jdete kolem rozhledy Prédikálószék, odkud je výhled na Danube Bend, což je ohyb na Dunaji. Prostě jako vyhlídka Máj.</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-4.jpg" alt="Budapešť - Visegrád hike - rozhledna Prédikálószék" /></p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-3.jpg" alt="Budapešť - Visegrád hike - Danube bend" /></p>
-
 <p>Následně dojdete do vesnice Pilisszentlászló, kde doporučuji restauraci <a href="https://goo.gl/maps/TAky7JbE72AW49Rt9">Kis Rigó Vendéglő</a>. Mají krůtu v těstíčku s ananasem a posypané skořicí (<em>pineapple turkey</em>)</p>
-
 <p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-5.jpg" alt="Budapešť - Visegrád hike - pineapple turkey" /></p>
-
 <p>Odtamtud pak pokračujete scénickou lesní cestou podél potoka až do Visegrádu. Tam už jsme si po 20 km stihli dát jen jednoho Bernarda (všude mají česká piva!) a jeli jsme autobusem zpět.</p>
-
-<h2 id="j%E3%ADdlo-a-pit%E3%AD">Jídlo a pití</h2>
-
+<h2 id="jidlo-a-piti">Jídlo a pití</h2>
 <h3 id="burger-market">Burger Market</h3>
-
 <p><a href="https://goo.gl/maps/FtMNFCLcJAFzzZUn7">Burger Market</a> jsme měli kousek od bytu a zajímavý je tím, že v jednom prostoru mají kromě burgerárny také taco a pasta bary.</p>
-
 <h3 id="food-market">Food market</h3>
-
 <p><a href="https://goo.gl/maps/zWZ1cmKWNkYseXcQ9">Food market</a> jsou různé foodtrucky, podobné Manifesto Marketu u Masaryčky v Praze.
 <img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-food-market.jpg" alt="Budapešť - Food market" /></p>
-
 <h3 id="trh">Trh</h3>
-
 <p>Vnitřní <a href="https://goo.gl/maps/huMg9xY9qphJTh4H7">trh</a>, kde se dá koupit spoustu zajímavých věcí. Určitě doporučuji koupit mletou papriku (koření). A u stánku v patře ochutnat nějaký netypický langoš.
 <img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-trh.jpg" alt="Budapešť - trh" /></p>
-
-<h3 id="kav%E3%A1rny">Kavárny</h3>
-
+<h3 id="kavarny">Kavárny</h3>
 <ul>
 <li><a href="https://goo.gl/maps/5SvbkQGMvkJq2u2p6">Forest Café</a> příjemná pidikavárna</li>
 <li><a href="https://goo.gl/maps/UUzwmrAer72c74hRA">Espresso Embassy</a> - výborná kavárna, byli jsme tam dvakrát nebo třikrát. Nezapomeňte vyzkoušet dort s pekanovými ořechy.</li>
 <li><a href="https://goo.gl/maps/bMXSoYQLoEtZnv4WA">Kalap Bistro</a> - parádní snídaně</li>
 </ul>
-
-<h2 id="z%E3%A1v%E4%9Br">Závěr</h2>
-
+<h2 id="zaver">Závěr</h2>
 <p>Budapešť určitě stojí za návštěvu, z ČR je to kousek. A i za pár dnů se toho dá stihnout spoustu. Určitě doporučuji si nechat čas na ten hike.</p>
 ]]></content>
         </entry>
-            <entry>
+    
+        <entry>
             <title type="html"><![CDATA[Fuerteventura - Things to Do, Best Places to Visit]]></title>
             <link href="https://blog.martinhujer.cz/fuerteventura-things-to-do/"/>
-            <updated>2019-05-05T00:00:00+00:00</updated>
+            <updated>2019-05-05T00:00:00.000Z</updated>
             <id>https://blog.martinhujer.cz/fuerteventura-things-to-do/</id>
             <content type="html"><![CDATA[<blockquote>
-  <p>This article is a translation of my <a href="/fuerteventura-kam-na-vylety/">travel guide for Fuerteventura (in Czech)</a>.</p>
+<p>This article is a translation of my <a href="/fuerteventura-kam-na-vylety/">travel guide for Fuerteventura (in Czech)</a>.</p>
 </blockquote>
-
 <p>In October 2018 we spent almost three weeks in Fuerteventura, so I have lots of tips for interesting places and about Fuerteventura in general.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/puerto-rosario.jpg" alt="Fuerteventura - Puerto del Rosario" /></p>
-
-<h1 id="traveling-there---airline-tickets%2C-bus">Traveling there - airline tickets, bus</h1>
-
+<h1 id="traveling-there-airline-tickets-bus">Traveling there - airline tickets, bus</h1>
 <p>You can fly to Fuerteventura directly from Prague, but one-way ticket costs around 7k CZK (280€) so in the end we flew with Ryanair from Berlin. One ticket from Schönefeld costs around 30€ and you can get there easily by Flixbus or Regiojet. You can also use Czech Rails (ČD) train - morning tickets at 6:30AM from Prague are quite cheap.</p>
-
 <p>I already mentioned this tip in other post, but it is worth repeating here. At the airport, after passing through security, you can usually buy cheap bottles of water in the vending machine (0.5l for 1€ in Fuerteventura). On the other hand, in Schönefeld, you can bring an empty bottle through and refill it with the tap water after the security.</p>
-
 <h1 id="fuerteventura-buses">Fuerteventura Buses</h1>
-
 <p>Buses on Fuerteventura are operated by Tiadhe company. You can find timetables <a href="http://tiadhe.com/en/home/">on their website</a> - unfortunately, they provide only the departure times from the starting stop, not when the bus passes through each stop. You can buy the tickets at the bus (cash only).</p>
-
 <h1 id="fuerteventura-ferries">Fuerteventura Ferries</h1>
-
 <p>After spending two weeks in Fuerteventura we went to Lanzarote for next two weeks and then back again. We took a ferry from Corralejo city to Arrecife. You can choose from three companies that service this route - Armas, Fred Olsen and Lineas Romero. Fred Olsen is the fastest but also the most expensive. We used Lineas Romero ferry both times (it costs 15€ per person). Their ferry is more of a tourist boat than a ferry (and they don't transport cars).</p>
-
 <h1 id="fuerteventura-car-rental">Fuerteventura Car Rental</h1>
-
 <p>We weren't on Fuerteventura only for holidays, but we also had to do some work at least part of each day, so we rented car for whole two weeks. Thanks to that we could work in the mornings and take trips in the afternoon (which would be much harder if we had to take a bus). It turned out that the most expensive option is renting for a single day. If you rent for a longer period, the price lowers considerably. Rental for two weeks cost us 220 € (+gas).</p>
-
 <p>We rented the car at the airport from the Cicar company (we also used them in Lanzarote). They offer good insurance and they don't require you to have a credit card (debit card is OK). You can book the car in advance through the website to be sure they have it available for you. It will also speed up the rental process, because you can pre-fill all the info online and they will just check it. You can also add a second driver for free. We returned the car in Corralejo (you don't have to return it to the same office). The fuel level should be approximately same as when you were handed the car.</p>
-
 <p>Careful: You should not drive the rental cars on the dirt roads - it is usually not covered by insurance (check the terms of your rental agreement).</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/faro-toston-astra.jpg" alt="Faro del Tostón - Opel Astra" /></p>
-
 <h1 id="weather">Weather</h1>
-
 <p>The weather was good for swimming all the time - temperatures around 24°C and hot when the sun shined. Temperatures at night were just below 20°C.</p>
-
 <h1 id="fuerteventura-food">Fuerteventura food</h1>
-
 <p>Fuerteventura is renowned for its goat cheese - queso majorero (see below).</p>
-
 <p>Tap water is desalinated, therefore it is not suitable for drinking and you must buy water in the supermarket. Surprisingly, the 8l barrels usually have better handle than the 5l ones, so despite being heavier, they are easier to carry.</p>
-
 <p>Bigger supermarkets offer fresh fish and seafood. We usually buy precooked shrimp (<em>langostino cocido</em>, 9€/kg) or tuna steak (<em>rodaja de atún</em>, 12€/kg). This year we started buying octopus as well (<em>pulpo cocido</em>). You can buy a precooked whole tentacle or pieces. Just put it in the pan for a while with olive oil and add grounded sweet pepper (<em>pulpo a la gallega</em>).</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/pulpo-a-la-gallega.jpg" alt="Pulpo a la Gallega" /></p>
-
 <h1 id="atms">ATMs</h1>
-
 <p>Some Spanish banks charge an extra fee for a cash withdrawal (in addition to your bank fee). But the Cajamar Caja Rural bank does not charge the extra fee yet (I tested it with Revolut and Airbank card.)</p>
-
 <h1 id="cities-in-fuerteventura">Cities in Fuerteventura</h1>
-
 <p>Fuerteventura is a large island (the second biggest of the Canary Islands) and only 100 thousand people live there, so it is quite empty. We didn't want to spend that much time in car, so first week we stayed in the north and explored the places there and the second week, we stayed in the south and visited the places there. The cities in Fuerteventura are different from each other - ranging from <em>locals-only</em> to <em>built-for-tourists</em>.</p>
-
 <h2 id="el-cotillo">El Cotillo</h2>
-
 <p><a href="https://goo.gl/maps/Ah9VW9XJGiz">El Cotillo</a> is a small town in the north where we spent the first week. As it is not overflowing with tourists, we would also consider it for a longer stay (month+). It has a great surfing beach on one side and the beach lagoons on the other side.</p>
-
 <ul>
 <li><a href="https://goo.gl/maps/gMSa5CaqD4T2">Lagoons</a> is a part of the beach which is protected by natural breakwater and shallows caused by low tide make it great for children.</li>
 <li><a href="https://goo.gl/maps/ow5kn6XDVHk">Castillo del Tostón</a> - small fort with good views. Entrance fee is 3€, can be paid only by card (no cash).</li>
 <li><a href="https://goo.gl/maps/dpE9so6BdoB2">El Goloso de Cotillo</a> - café where we went at least five times (during one week!)</li>
 <li><a href="https://goo.gl/maps/ouDtoYr3Rw22">Kalima</a> - good tapas bar</li>
 </ul>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/cotillo-lagunky.jpg" alt="El Cotillo - lagoons" /></p>
-
 <h2 id="corralejo">Corralejo</h2>
-
 <p><a href="https://goo.gl/maps/FhprZRY27RJ2">Corralejo</a> is resort popular among British tourists. We didn't like the beach much. And it is more expensive in comparison with El Cotillo.</p>
-
 <h2 id="puerto-del-rosario">Puerto del Rosario</h2>
-
 <p><a href="https://goo.gl/maps/aoJyRdY34BH2">Puerto del Rosario</a> is the capital of Fuerteventura with very few tourists. We spent last five days there. Many cruise ships harbour in the city port. You can use <a href="https://www.marinetraffic.com/">MarineTraffic.com</a> (FlightRadar for ships) to see more information about the ships. The city has a nice beach with white sand.</p>
-
 <ul>
 <li><a href="https://goo.gl/maps/RzTTEBdWn9p">Oficina de Turismo de Puerto del Rosario</a> - tourist information centre. I recommend visiting it just after arrival to get some paper map and lot of tips (I guess they know more things than I have in this article)</li>
 <li><a href="https://goo.gl/maps/46eL262Vh232">Café Atlántico</a> - cafeteria with a sea view. They offer good and cheap sandwiches.</li>
@@ -1369,121 +934,75 @@ Automat, kde jsme jízdenky zkoušeli koupit z nějakého důvodu nebral Revolut
 <li><a href="https://goo.gl/maps/tdd5Bj5RYD22">free parking</a> close to the city centre. Check that you have the correct one - there is another free parking, but much farther from the city centre. Try to guess where we parked ;-)</li>
 <li><a href="https://goo.gl/maps/AtX3xH2y7bs">Panadería Pastelería Pulido Alonso</a> - pleasant café, they have several shops around the island.</li>
 </ul>
-
 <h2 id="more-cities">More cities</h2>
-
 <ul>
-<li><p><strong>Calleta de Fuste</strong> - place built for tourists</p></li>
-<li><p><strong><a href="https://goo.gl/maps/nrd4YBA2Yh82">Gran Tarajal</a></strong> - town interesting mainly for its black sand beach and for the abundant narrow one-way streets.</p></li>
-<li><p><strong><a href="https://goo.gl/maps/WHrEs56fQc32">Costa Calma</a></strong> - resort with enormous beach where we spent our second week on Fuerteventura. This one is popular among German tourists. We stayed in a nice apartment a bit farther from the city centre. In the local Spar shop you can even buy Dallmayr coffee.</p></li>
-<li><p><strong><a href="https://goo.gl/maps/yTMovxmv2AB2">Morro Jable</a></strong> - resort in the south of the island with a great beach.</p></li>
+<li>
+<p><strong>Calleta de Fuste</strong> - place built for tourists</p>
+</li>
+<li>
+<p><strong><a href="https://goo.gl/maps/nrd4YBA2Yh82">Gran Tarajal</a></strong> - town interesting mainly for its black sand beach and for the abundant narrow one-way streets.</p>
+</li>
+<li>
+<p><strong><a href="https://goo.gl/maps/WHrEs56fQc32">Costa Calma</a></strong> - resort with enormous beach where we spent our second week on Fuerteventura. This one is popular among German tourists. We stayed in a nice apartment a bit farther from the city centre. In the local Spar shop you can even buy Dallmayr coffee.</p>
+</li>
+<li>
+<p><strong><a href="https://goo.gl/maps/yTMovxmv2AB2">Morro Jable</a></strong> - resort in the south of the island with a great beach.</p>
+</li>
 </ul>
-
 <h1 id="fuerteventura-trips">Fuerteventura Trips</h1>
-
 <p>We made a lot of trips in Fuerteventura. I already mentioned some cities and places above. We visited all of them by car, so I'm not sure which of them are easily accessible by bus.</p>
-
-<h2 id="el-faro-del-tost%E3%B3n">El Faro del Tostón</h2>
-
+<h2 id="el-faro-del-toston">El Faro del Tostón</h2>
 <p><a href="https://goo.gl/maps/9KBJmjPp3nt">El Faro del Tostón</a> is a lighthouse close to El Cotillo. You can visit the museum of the traditional fishing (we arrived late, so it was already closed).</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/faro-toston.jpg" alt="El Faro del Tostón" /></p>
-
 <h2 id="lajares">Lajares</h2>
-
 <p><a href="https://goo.gl/maps/pEkT5GmkJCG2">Lajares</a> is recommended in the Lonely Planet because of its cafés. Yes, the cafés are there, but there is nothing else of interest.</p>
-
 <h2 id="la-oliva">La Oliva</h2>
-
 <p><a href="https://goo.gl/maps/XKCcpvia7hT2">La Oliva</a> is a small village with an old church and gallery. You should also visit wind-mills <a href="https://goo.gl/maps/fUELYtXptzA2">Molinos De Villaverde</a> nearby. Careful, that the road does not go all the way to them, but it changes to a bumpy dirt road. Therefore, it is better to leave the car next to the main street and walk to the windmills.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/molinos.jpg" alt="Molinos De Villaverde" /></p>
-
 <h2 id="museo-del-queso-majorero">Museo del Queso Majorero</h2>
-
 <p>Even though the Fuerteventura may appear dry and barren, they breed the <a href="https://es.wikipedia.org/wiki/Cabra_majorera">majorero goats</a> there and make cheese from their milk (under different brands). You can learn more about how the cheese was produced in the past and how it is produced nowadays in <a href="https://goo.gl/maps/q22DbMNceEJ2">Museo del Queso Majorero</a>. I really liked the museum as the exposition was well prepared and entertaining. The area includes also a windmill and cactus garden, so leave yourself enough time to visit all those places. And speaking about the goats - be careful as you can encounter them all over the island next to the road or even crossing the road.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/museo-queso.jpg" alt="Museo del Queso Majorero" /></p>
-
 <h2 id="antigua-and-pulido-alonso">Antigua and Pulido Alonso</h2>
-
 <p>I already mentioned Pulido Alonso café, but the one in Antigua is special for us. When we were heading to Corralejo for a ferry after two weeks in Fuerteventura, we realized we have too much time. So, we decided to stop for coffee. Antigua happened to be nearby, and we chose the <a href="https://goo.gl/maps/fkhyNvbYdLU2">Pulido Alonso</a> by the rating. We had great coffee and cakes there.</p>
-
 <h2 id="betancuria">Betancuria</h2>
-
 <p><a href="https://goo.gl/maps/KHnve8Ubqn92">Betancuria</a> used to be capital of Fuerteventura in the past. Apart from other things, you can visit the church from 15th century. The city is like Charles Castle near Prague in one aspect - everything is closed after 5PM. Close to Betancuria you can visit <a href="https://goo.gl/maps/do44rKZKUDF2">statues of ancient kings</a> and admire the views.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/sochy.jpg" alt="Statues near Betancuria" /></p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/vyhlidka-sochy.jpg" alt="Views near the statues near Betancuria" /></p>
-
 <h2 id="parque-natural-dune-de-corralejo">Parque Natural Dune De Corralejo</h2>
-
 <p><a href="https://goo.gl/maps/LbfH2oxtMsP2">Sand dunes</a> near Corralejo. You can park easily <a href="https://goo.gl/maps/rP4i6FTKkEL2">on this parking place</a>. If you never have been to sand dunes, I recommend this one hundred percent, it's a great experience (you can visit another in <a href="/las-palmas-gran-canaria-kam-na-vylety/">Maspalomas in Gran Canaria</a>). <strong>Don't forget to bring your sun cream! The sun is really strong in the dunes.</strong> Between the sand dunes and the Corralejo, you can find some nice beaches. But we didn't swim there in the end, because when we arrived there was a yellow warning flag and before we took our things from the car, lifeguard swapped it for the red one.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/duny.jpg" alt="Corrajelo Dunes" /></p>
-
 <p>But it wouldn't be us to spend whole day walking around on dunes. Instead we hiked to the nearby hill Montaña Roja. You can check the recorded map <a href="https://www.wikiloc.com/hiking-trails/fuerteventura-montana-roja-near-corralejo-30657088">in Wikiloc</a>. If you watch the map carefully, you can see that we parked unnecessarily far. But from the car, all the places appeared to have to big curb to park there and I didn't want to break the car. But when we walked there, we realized that at least two places are suitable for parking, so I marked them in the map. And the view from the Montaña Roja was spectacular.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/montana-roja.jpg" alt="Montaña Roja" /></p>
-
 <h2 id="salinas-del-carmen">Salinas del Carmen</h2>
-
 <p>You can either get salt from salt mines or you can let the sea water dry up. That's how they did it in the past and how they do it now in the museum of salt production <a href="https://goo.gl/maps/utr2DGvURgM2">Salinas del Carmen</a>. They have nice indoor exposition, but the main part is outside, where you walk through the whole process of salt production.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/salinas.jpg" alt="Salinas del Carmen" /></p>
-
-<h2 id="p%E3%A1jara-and-a-viewpoint-on-fv-605">Pájara and a viewpoint on FV-605</h2>
-
+<h2 id="pajara-and-a-viewpoint-on-fv-605">Pájara and a viewpoint on FV-605</h2>
 <p>When we drove somewhere and we had enough time, instead of using main road (FV-1, FV-2), we used some small scenic road over the hills and villages (FV-605). This way we visited village <a href="https://goo.gl/maps/abstFcAi8mR2">Pájara</a>. You can find several interesting things there - church from 17th century, dried-up river and a roundabout with a statue of man milking a goat.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/pajara-reka.jpg" alt="Pájara - dried-up river" /></p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/pajara-dojeni.jpg" alt="Pájara - statue of man milking a goat" /></p>
-
 <p>If you follow the FV-605 south from Pájara, you can stop at <a href="https://goo.gl/maps/xzNS4UveS8v">perfect viewpoint</a></p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/vyhlidka-fv-605.jpg" alt="Viewpoint at FV-605" /></p>
-
 <h2 id="pozo-negro">Pozo Negro</h2>
-
 <p>Fisherman village in the end of the road. There is a black-sand and pebble beach and two cafés.</p>
-
 <h2 id="faro-de-la-entallada">Faro de la Entallada</h2>
-
 <p><a href="https://goo.gl/maps/kZWay5qZUn32">Faro de la Entallada</a> is a lighthouse on the cliff with a great sea view. Last part of the road is really narrow and with few guardrails, so be careful.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/faro-entallada.jpg" alt="Faro de la Entallada" /></p>
-
 <h2 id="mirador-del-salmo">Mirador del Salmo</h2>
-
 <p>View point <a href="https://goo.gl/maps/WwjF9pRKP1H2">Mirador del Salmo</a> is worth visiting when you are driving nearby. It is just next to the road.</p>
-
 <h2 id="pico-de-la-zarza">Pico de la Zarza</h2>
-
 <p><a href="https://goo.gl/maps/xf1JjhdNCoy">Pico de la Zarza</a> (sometimes also called Pico de Jandía) is the highest mountain of Fuerteventura. Although it has only 807 meters above sea level, you are starting at 0 m. The hike is about 15 km and you can check our walk <a href="https://www.wikiloc.com/hiking-trails/pico-de-la-zarza-from-morro-jable-30661974">on Wikiloc</a>. We started the ascent at 9AM and luckily it was partly cloudy on that day. Don't forget to bring enough water and something to cover you head, because there is no place to hide from sun. We parked unnecessarily far; we could have parked at the place where the dirt road started. From the top of the mountain you can admire great views also to the north side of the island.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/pico-de-la-zarza.jpg" alt="Pico de La Zarza" /></p>
-
 <h2 id="cofete">Cofete</h2>
-
 <p><a href="https://goo.gl/maps/CEyEJgMoNrP2">Cofete</a> is a nice beach on the northern side of the island. Swimming is forbidden there because of the strong sea currents. You can get there either by car (by the dirt road) or by a special 4x4 bus from Morro Jable. It goes from <a href="https://goo.gl/maps/b2oKkPpVddC2">Estación de Guaguas</a> (=main bus station). It is a line <a href="http://tiadhe.com/en/line-111/">L111</a> and it takes only 18 people, so be there early.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/cofete-bus.jpg" alt="Cofete bus" /></p>
-
 <p>You can get back by the same bus or you can hike back over the hill (12 km). <a href="https://www.wikiloc.com/hiking-trails/from-cofete-to-morro-jable-30663278">Our walk on Wikiloc</a>.</p>
-
 <p><img src="/data/2018/2018-11-18-fuerteventura-kam-na-vylety/cofete.jpg" alt="Cofete - path over the hill" /></p>
-
 <h2 id="islote-de-lobos">Islote de Lobos</h2>
-
 <p>Islote de Lobos is a small island not far from Corralejo. You can take a tourist boat there. This is the only thing from the whole article we have kept unvisited for the next time. But I include it here for the sake of completeness.</p>
-
 <h1 id="conclusion">Conclusion</h1>
-
 <p>Although we didn't spend that much time on Fuerteventura, we managed to do lot of things and visit lot of places. Having a rental car for the whole time really helped, because we could do just a short trip in the afternoon which won't be possible if we went by bus.</p>
-
 <p>If you go to Fuerteventura and have enough time, I recommend spending at least a week on <a href="https://www.amazinglanzarote.com">Lanzarote, where are also many things to see</a>.</p>
 ]]></content>
         </entry>
-    </feed>
+    
+</feed>

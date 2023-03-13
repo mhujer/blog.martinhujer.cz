@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Jak v Jenkinsu buildovat branche z forků?</h2>
             <p><small>2013-05-03</small></p>
@@ -43,63 +43,55 @@
 
         <div class="article-text">
             <p>V <a href="/bp/">bakalářce</a> jsem psal o tom, jak nastavit a používat Jenkins pro statickou analýzu PHP projektů. V té době jsme ještě na Shopiu používali Subversion, takže build byl nastavený pro trunk a všechno bylo krásné a sluníčkové.</p>
-
 <p>Po přechodu na git (a Github) jsme začali používat koncept <em>forků</em> a PullRequestů (každý vývojář má svoji kopii - fork - hlavního repositáře, jednotlivé změny dělá v branchích a ty pak odešle jako PullRequest a jiný vývojář je zkontroluje a mergne).</p>
-
-<p>Problémem bylo, že přestože většinou spouštíme testy lokálně před vytvořením PullRequestu, tak občas po mergnutí build na Jenkinsu spadnul na neprocházejících testech. Jenkins běží na Linuxu, vyvíjíme na Windows, takže občas šlo o problém s konci řádků, ale většinou o nějaký problém s pořadím testů (na Linuxu je jiné, a ano, vím že je velmi špatně mít testy závislé na stavu prostředí, ale lepší mít takové než žádné). A občas šlo samozřejmě o chybu a nespuštěné testy na localhostu (<em>"Tohle přece žádný test rozbít nemůže!"</em>). Takže by bylo super testy spouštět automaticky pro každou změnu v jakékoliv branchi ve forku každého vývojáře.</p>
-
+<p>Problémem bylo, že přestože většinou spouštíme testy lokálně před vytvořením PullRequestu, tak občas po mergnutí build na Jenkinsu spadnul na neprocházejících testech. Jenkins běží na Linuxu, vyvíjíme na Windows, takže občas šlo o problém s konci řádků, ale většinou o nějaký problém s pořadím testů (na Linuxu je jiné, a ano, vím že je velmi špatně mít testy závislé na stavu prostředí, ale lepší mít takové než žádné). A občas šlo samozřejmě o chybu a nespuštěné testy na localhostu (<em>&quot;Tohle přece žádný test rozbít nemůže!&quot;</em>). Takže by bylo super testy spouštět automaticky pro každou změnu v jakékoliv branchi ve forku každého vývojáře.</p>
 <p>V Jenkinsu to nakonec šlo nastavit velmi snadno - vytvořit jsem pro každý fork samostatný projekt a nastavil cesty k jednotlivým Githubovým repositářům.
 Pak je důležité nastavit, aby se v rámci buildu forku spouštěl jen phpunit a nic jiného - chceme co nejdříve vědět, že testy neprocházejí a nějaké porušení coding standards nás v tu chvíli tolik netrápí.</p>
-
 <p>Druhou věcí, co je potřeba nastavit jsou branche pro buildování:
 <img src="/data/2013/2013-05-03-jak-v-jenkinsu-buildovat-branche-z-forku/2013-05-03-ci-build-forks-01-jenkins-branches.png" alt="" /></p>
-
 <p>A samozřejmě nastavit, aby v případě failu přišel mail danému vývojáři:
 <img src="/data/2013/2013-05-03-jak-v-jenkinsu-buildovat-branche-z-forku/2013-05-03-ci-build-forks-02-jenkins-notification.png" alt="" /></p>
-
 <p>Ještě jedna věc - je dobré, pokud mají tyhle rychlé buildy přidělené svoje vlákno, aby nečekaly dobu ve frontě, než doběhne jiný projekt (tohle zatím nastavené nemáme, ale budeme mít brzy).</p>
-
 <p>Pro opensource projekty existuje super věc - <a href="https://travis-ci.org/">TravisCI</a>, který dělá přibližně to samé - builduje všechny vaše branche a na Githubu se dokonce stav branche ukazuje u PullRequestu</p>
-
 <p><img src="/data/2013/2013-05-03-jak-v-jenkinsu-buildovat-branche-z-forku/2013-05-03-ci-build-forks-03-travis-pr.png" alt="" /></p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -114,7 +106,7 @@ Pak je důležité nastavit, aby se v rámci buildu forku spouštěl jen phpunit
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -127,5 +119,5 @@ Pak je důležité nastavit, aby se v rámci buildu forku spouštěl jen phpunit
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

@@ -15,8 +15,7 @@ A úplně nejlepší je mít unikátní heslo pro každý web, kam se přihlašu
 
 Samozřejmě nemá smysl si pamatovat tolik hesel. Můžete si je psát na papír, nechat ukládat v prohlížeči, nebo využít nějaký specializovaný program jako je KeePass nebo LastPass. Já používám [KeePass](http://keepass.info/) a zjistil jsem, že spoustu lidí neví, že ho jde snadno propojit s Google Chrome a nechat si hesla doplňovat automaticky. Takže jak na to?
 
-Nastavení KeePassu
------------------------------
+## Nastavení KeePassu
 - [Stáhněte si KeePass](http://keepass.info/download.html) - doporučuji *Portable KeePass 2.22 (ZIP Package)* a rozbalte ho (ideálně do Skydrive nebo Dropboxu)
 - [Stáhněte si plugin](https://github.com/pfn/keepasshttp/raw/master/KeePassHttp.plgx) na propojení s prohlížečem a umístěte ho do adresáře KeePassu (tam kde je KeePass.exe)
 - Nastavení KeePassu tady nemá cenu rozepisovat, pěkně to [popsali na CNews](http://www.cnews.cz/keepass-sikovna-sprava-hesel-pro-windows-i-mobilni-zarizeni)
@@ -25,8 +24,7 @@ Nastavení KeePassu
 ![](/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-01-keepass-url.png)
 
 
-Nastavení Chrome
----------------------------
+## Nastavení Chrome
 1. Do Chrome je potřeba nainstalovat rozšíření [chromeIPass](https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae)
 
 2. Klikněte na ikonu vedle adresního řádku a zvolte **Connect** <br>

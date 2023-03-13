@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Jak jsem si chtěl psát gramatiku</h2>
             <p><small>2015-10-11</small></p>
@@ -43,97 +43,77 @@
 
         <div class="article-text">
             <p>Na jaře jsem se začal učit španělsky (o tom se rozepíšu později) a postupně jsem zjišťoval, že papírový sešit není optimální řešení. Především proto, že jsem ho ne vždy měl u sebe, zapomínal jsem si ho vzít na hodinu a na opakování v tramvaji také nebyl ideální. Potřeboval jsem to tedy mít elektronicky, snadno prohlížitelné i na mobilu offline a s možností tisku (protože nejlíp se stejně učí z papíru).</p>
-
-<p><img src="/data/2015/2015-10-11-jak-jsem-si-chtel-psat-gramatiku/espanol-gramatika-0.jpg" width="600"></p>
-
+<img src="/data/2015/2015-10-11-jak-jsem-si-chtel-psat-gramatiku/espanol-gramatika-0.jpg" width="600">
 <p>Varianty Word nebo OneNote jsem zavrhl jako první - Word by se těžko synchronizoval a ani jedno není příjemné na čtení na mobilu.</p>
-
 <p>Další variantou, kterou jsem zvažoval, byl Markdown. Tam mě překvapilo, že vytváření tabulek není standardizované a každý dialekt Markdownu to má jinak. Vzhledem k tomu, že gramatika jsou samé tabulky, jsem Markdown také vynechal.</p>
-
-<h1 id="jak-tedy-nakonec%3F">Jak tedy nakonec?</h1>
-
+<h1 id="jak-tedy-nakonec">Jak tedy nakonec?</h1>
 <p>Nakonec jsem použil <strong>HTML + Twitter Bootstrap + HTML5 AppCache + Github Pages.</strong></p>
-
 <ul>
 <li>Bootstrap jsem použil, abych nemusel řešit typografii a stylování tabulek.</li>
 <li>AppCache mi umožní používat stránku offline na mobilu</li>
 <li>Github pages se mi starají o hostování (tím, že to je celé jen statické HTML)</li>
 </ul>
-
-<h1 id="p%E5%99egenerov%E3%A1v%E3%A1n%E3%AD-appcache">Přegenerovávání AppCache</h1>
-
+<h1 id="pregenerovavani-appcache">Přegenerovávání AppCache</h1>
 <p>AppCache funguje tak, že si stáhne soubor <code>cache.manifest</code> a věci v něm nacachuje. A pokud se soubor nezměnil, tak nic nestahuje. Takže nepozná, že se změnil nějaký soubor tam uvedený. Nakonec jsem skončil u <a href="https://github.com/mhujer/espanol/blob/gh-pages/touch-cache-manifest.php">jednoduchého skriptu</a>, který mám nastavený jako <code>pre-commit</code> hook a do <code>cache.manifest</code> mi do komentáře vloží md5 hash HTML souboru a manifest nastaguje do gitu.</p>
-
 <p>Stejný skript jsem si přidal jako FileWatcher v PHPStormu, abych mohl kontrolovat, že se vše zobrazuje správně i bez commitování.</p>
-
-<h1 id="dal%E5%A1%E3%AD-drobnosti">Další drobnosti</h1>
-
+<h1 id="dalsi-drobnosti">Další drobnosti</h1>
 <p>Na většinu věcí používám standardní classy z Bootstrapu, přidal jsem si dvě vychytávky:</p>
-
-<p>Koncovky sloves si obaluju do <code>&lt;strong class="vs"&gt;</code>, kdy class <code>vs</code>, kromě nastavení pozadí, vloží před koncovku spojovník:</p>
-
+<p>Koncovky sloves si obaluju do <code>&lt;strong class=&quot;vs&quot;&gt;</code>, kdy class <code>vs</code>, kromě nastavení pozadí, vloží před koncovku spojovník:</p>
 <pre><code class="css">.vs:before {
-    content: '-';
+	content: '-';
 }
 </code></pre>
-
 <p>A ten se ignoruje, pokud pak ve stránce hledám celé sloveso <em>trabajaron</em></p>
-
-<p><img src="/data/2015/2015-10-11-jak-jsem-si-chtel-psat-gramatiku/espanol-gramatika-1.png" width="700"></p>
-
+<img src="/data/2015/2015-10-11-jak-jsem-si-chtel-psat-gramatiku/espanol-gramatika-1.png" width="700">
 <p>Protože si dokument chci i tisknout, přidal jsem si dvě drobnosti:</p>
-
 <pre><code class="css">table {
-    page-break-inside: avoid;
+	page-break-inside: avoid;
 }
 .break {
-    page-break-before: always;
+	page-break-before: always;
 }
 </code></pre>
-
 <p>Zaprvé jsem nastavil, aby se tabulky vždy nechaly na jednom listu. A druhá věc je class, kterou si můžu dorovnat některá špatně udělaná zalomení před tím, než si uložím PDF.</p>
-
 <p><strong>Celou tu nádheru najdete na <a href="https://espanol.martinhujer.cz/">espanol.martinhujer.cz</a></strong> (a na <a href="https://github.com/mhujer/espanol">githubu</a>)</p>
-
 <p><strong>Co vy, také pro jednoduché věcí používáte komplikovaná hi-tech řešení? ;-)</strong></p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -148,7 +128,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -161,5 +141,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

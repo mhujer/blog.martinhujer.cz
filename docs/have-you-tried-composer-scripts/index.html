@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,211 +35,171 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Have you tried Composer Scripts? You may not need Phing.</h2>
             <p><small>2018-01-14</small></p>
         </header>
 
         <div class="article-text">
-            <p>Phing is a great tool (I'm using it as well), but in this article, I want to show you that some projects may not need it. Composer contains a powerful feature called "<a href="https://getcomposer.org/doc/articles/scripts.md">Scripts</a>", which can be used to create a simple build script.</p>
-
+            <p>Phing is a great tool (I'm using it as well), but in this article, I want to show you that some projects may not need it. Composer contains a powerful feature called &quot;<a href="https://getcomposer.org/doc/articles/scripts.md">Scripts</a>&quot;, which can be used to create a simple build script.</p>
 <blockquote>
-  <p>If you haven't read it yet, I suggest that you read my article <a href="/17-tips-for-using-composer-efficiently/">17 Tips for Using Composer Efficiently</a> before reading this one.</p>
+<p>If you haven't read it yet, I suggest that you read my article <a href="/17-tips-for-using-composer-efficiently/">17 Tips for Using Composer Efficiently</a> before reading this one.</p>
 </blockquote>
-
-<h2 id="creating-a-build-script-for-launching-php_codesniffer">Creating a build script for launching PHP_CodeSniffer</h2>
-
+<h2 id="creating-a-build-script-for-launching-php-codesniffer">Creating a build script for launching PHP_CodeSniffer</h2>
 <p>Let's say that you have installed PHP_CodeSniffer and you run it with this command:</p>
-
 <pre><code class="bash">vendor/bin/phpcs --standard=PSR2 src
 </code></pre>
-
 <p>You probably want your colleagues and CI server to run it with the same parameters. To do so, you need to store it somewhere. You can either create a <code>build.xml</code> for Phing or put it in a bash script (and batch file to cover Windows). Or you can leverage the power of Composer scripts.</p>
-
 <p>Put the command to the <code>composer.json</code> file with all its parameters:</p>
-
-<pre><code class="json">  "scripts": {
-      "phpcs": "phpcs --standard=PSR2 src"
+<pre><code class="json">  &quot;scripts&quot;: {
+      &quot;phpcs&quot;: &quot;phpcs --standard=PSR2 src&quot;
   }
 </code></pre>
-
 <p>And run it this way:</p>
-
 <pre><code class="bash"># either explicitly:
 composer run-script phpcs
 
 # or via shortcut:
 composer phpcs
 </code></pre>
-
-<h2 id="tip%3A-use-alias-for-running-composer">Tip: Use alias for running Composer</h2>
-
+<h2 id="tip-use-alias-for-running-composer">Tip: Use alias for running Composer</h2>
 <p>If you are launching Composer by typing <code>composer</code> (or even <code>php composer.phar</code>) every time, you may want to save time by creating an alias for it.</p>
-
 <p>On Windows, you need to create a <code>.cmd</code> file in a directory which is in the system PATH. I've created <code>c:\dev\php\x.cmd</code> with this content (<code>%*</code> passes through all the parameters):</p>
-
 <pre><code class="bash">php c:\devweb\php\composer.phar %*
 </code></pre>
-
 <p>On Linux, you can add an alias to <code>~/.bashrc</code>:</p>
-
-<pre><code>alias x="composer"
+<pre><code>alias x=&quot;composer&quot;
 </code></pre>
-
 <p>Now you can run Composer just by typing <code>x</code> and a command (e.g. <code>x phpcs</code>).</p>
-
-<h2 id="tip%3A-don%27t-type-whole-composer-command-name">Tip: Don't type whole Composer command name</h2>
-
+<h2 id="tip-don-t-type-whole-composer-command-name">Tip: Don't type whole Composer command name</h2>
 <p>Because Composer CLI is powered by Symfony Console, you can save some characters on unambiguous commands. Instead of writing <code>composer update</code>, it is enough to write <code>composer up</code> (or only <code>x up</code> if you also applied the previous tip)</p>
-
 <h2 id="creating-more-complex-build-script">Creating more complex build script</h2>
-
 <p>Let's start with an example:</p>
-
-<pre><code class="json">  "scripts": {
-      "ci": [
-          "@phpcs",
-          "@test"
+<pre><code class="json">  &quot;scripts&quot;: {
+      &quot;ci&quot;: [
+          &quot;@phpcs&quot;,
+          &quot;@test&quot;
       ],
-      "phpcs": "phpcs --standard=PSR2 src",
-      "test": "phpunit"
+      &quot;phpcs&quot;: &quot;phpcs --standard=PSR2 src&quot;,
+      &quot;test&quot;: &quot;phpunit&quot;
   }
 </code></pre>
-
 <p>I've added a new script called <code>test</code> which just launches PHPUnit with default configuration.</p>
-
 <p>The <code>ci</code> script is more interesting. It is not an actual script, but a meta-script that references several other scripts. The referenced scripts are prefixed by <code>@</code>. This way, you can create more complex scripts without duplication.</p>
-
 <h2 id="launching-composer-or-php-from-scripts">Launching Composer or PHP from scripts</h2>
-
 <p>You can use the <code>@composer</code> and <code>@php</code> commands to launch the same Composer or PHP executable that is running the script.</p>
-
 <p>For example you may want to validate the <code>composer.json</code> file during CI build:</p>
-
-<pre><code class="json">  "scripts": {
-      "ci": [
-          "@composer validate --no-check-all --strict",
+<pre><code class="json">  &quot;scripts&quot;: {
+      &quot;ci&quot;: [
+          &quot;@composer validate --no-check-all --strict&quot;,
           ...
       ]
   }
 </code></pre>
-
 <p>Or you want to use YAML validation that is available as a Symfony Console command:</p>
-
-<pre><code class="json">"scripts": {
-    "yamllint": "@php bin/console lint:yaml app"
+<pre><code class="json">&quot;scripts&quot;: {
+    &quot;yamllint&quot;: &quot;@php bin/console lint:yaml app&quot;
 }
 </code></pre>
-
-<h2 id="don%27t-forget-to-document-the-custom-scripts">Don't forget to document the custom scripts</h2>
-
+<h2 id="don-t-forget-to-document-the-custom-scripts">Don't forget to document the custom scripts</h2>
 <p>You can use the <code>scripts-descriptions</code> section to document what custom scripts do:</p>
-
-<pre><code class="json">"scripts-descriptions": {
-    "phpcs": "Checks that the application code conforms to coding standard",
-    "test": "Launches the preconfigured PHPUnit"
+<pre><code class="json">&quot;scripts-descriptions&quot;: {
+    &quot;phpcs&quot;: &quot;Checks that the application code conforms to coding standard&quot;,
+    &quot;test&quot;: &quot;Launches the preconfigured PHPUnit&quot;
 }
 </code></pre>
-
 <h2 id="configure-timeout-for-long-running-scripts">Configure timeout for long-running scripts</h2>
-
 <p>If you have some long-running scripts, you should configure the process timeout. It defaults to <code>300</code> which means that Composer will terminate the script after 300s. You can either set a specific time limit in seconds, or <code>0</code> for unlimited.</p>
-
 <p>Timeout can be configured in the ENV variable <code>COMPOSER_PROCESS_TIMEOUT</code>:</p>
-
 <pre><code class="bash">export COMPOSER_PROCESS_TIMEOUT=600
 </code></pre>
-
 <p>Or by adding <code>--timeout=0</code> argument when running the script:</p>
-
 <pre><code class="bash">composer phpunit --timeout=3600
 </code></pre>
-
 <p>Or in <code>config</code> section of <code>composer.json</code>:</p>
-
-<pre><code class="json">"config": {
-    "process-timeout": 0
+<pre><code class="json">&quot;config&quot;: {
+	&quot;process-timeout&quot;: 0
 }
 </code></pre>
-
-<h2 id="tips-for-the-scripts%3A">Tips for the Scripts:</h2>
-
+<h2 id="tips-for-the-scripts">Tips for the Scripts:</h2>
 <ol>
-<li><p>You can use <code>composer run-script --list</code> to list custom scripts.</p></li>
-<li><p>Be careful not to create a script with a name conflicting with the existing Composer command. Composer throws a warning on every run when such a script is present in <code>composer.json</code>.</p></li>
-<li><p>You don't have to update <code>composer.lock</code> when adding or changing the scripts, because they are not included in <code>composer.lock</code> at all.</p></li>
-<li><p>You can even <a href="https://getcomposer.org/doc/articles/scripts.md#defining-scripts">call PHP callbacks from scripts</a> (Static methods in classes autoloadable by Composer). But I don't recommend using them for build scripts because potential migration to other build system would be hard.</p></li>
+<li>
+<p>You can use <code>composer run-script --list</code> to list custom scripts.</p>
+</li>
+<li>
+<p>Be careful not to create a script with a name conflicting with the existing Composer command. Composer throws a warning on every run when such a script is present in <code>composer.json</code>.</p>
+</li>
+<li>
+<p>You don't have to update <code>composer.lock</code> when adding or changing the scripts, because they are not included in <code>composer.lock</code> at all.</p>
+</li>
+<li>
+<p>You can even <a href="https://getcomposer.org/doc/articles/scripts.md#defining-scripts">call PHP callbacks from scripts</a> (Static methods in classes autoloadable by Composer). But I don't recommend using them for build scripts because potential migration to other build system would be hard.</p>
+</li>
 </ol>
-
-<h2 id="when-should-i-switch-to-phing%3F">When should I switch to Phing?</h2>
-
+<h2 id="when-should-i-switch-to-phing">When should I switch to Phing?</h2>
 <p>Composer Scripts are great for simple build scripts. But it is important to recognize the moment when the build script is so complex, that a dedicated build tool would do better.</p>
-
 <p>As a rule of thumb, you shouldn't do any files / directories manipulation in Composer scripts (as it would be hard to do it Linux/Windows compatible) and switch to Phing instead.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Composer scripts are a lightweight tool to create build scripts. However, it is important to know when to switch to a dedicated tool such as Phing.</p>
-
 <p>Do you like them?</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -254,7 +214,7 @@ composer phpcs
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -267,5 +227,5 @@ composer phpcs
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

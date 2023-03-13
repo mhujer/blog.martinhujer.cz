@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Proč je dobré dodržovat Coding Standards (Pravidla pro psaní kódu)?</h2>
             <p><small>2012-12-22</small></p>
@@ -43,48 +43,32 @@
 
         <div class="article-text">
             <p>Nečekal jsem, že ještě někdy budu muset někoho přesvědčovat, že je fajn dodržovat Coding Standards (CS). Ale v rámci školního předmětu 4IT445 (ten je mimochodem super!) jsem musel, takže jsem se rozhodl ty důvody sepsat (abych měl příště jen kam odkazovat)</p>
-
-<h2 id="co-t%E4%9Bmi-coding-standards-mysl%E3%ADm%3F">Co těmi coding standards myslím?</h2>
-
+<h2 id="co-temi-coding-standards-myslim">Co těmi coding standards myslím?</h2>
 <ul>
 <li>formátování souboru (kódování, znaky pro konce řádek, odsazování - taby vs. mezery)</li>
 <li>pojmenování proměnných, metod, tříd atd.</li>
 <li>styl psaní kódu (jaké používat a nepoužívat konstrukce, kde dělat mezery, kam dávat závorky)</li>
 <li>standard pro dokumentaci</li>
 </ul>
-
-<h2 id="pro%E4%8D-je-d%E5%AFle%E5%BEit%E3%A9-je-dodr%E5%BEovat">Proč je důležité je dodržovat</h2>
-
+<h2 id="proc-je-dulezite-je-dodrzovat">Proč je důležité je dodržovat</h2>
 <p>Pokud píšete projekt sami pro sebe, a s <strong>jistotou</strong> víte, že ho nikdy nebude upravovat nikdo jiný, ten si můžete psát, jak chcete. Ale většinou, i když píšete sami, ale na zakázku, tak je pravděpodobné, že v té aplikaci bude někdy někdo jiný potřebovat něco upravit a určitě ocení, pokud budete coding standards dodržovat. Dodržování coding standards je samozřejmostí, pokud na projektu pracuje více vývojářů.</p>
-
 <p>Jedním z často používaných principů je <a href="http://www.extremeprogramming.org/rules/collective.html">Colective code ownership</a>, kdy jakýkoliv kód v aplikaci může upravovat kdokoliv. Nehraje se na to, že tohle je Petrům kód a tohle Karlův a ten si budou upravovat oni. A jinému členovi týmu by se v kódu, který není psaný podle coding standards, hůře orientovalo.</p>
-
 <p>Kód se mnohem častěji čte, než píše, takže pokud strávíte o něco více času psaním kódu, tak se vám to bohatě vrátí na ušetřeném čase při jeho čtení.</p>
-
 <p>Pokud bude kód psaný podle coding standards, tak se snižuje riziko nějakého přehlédnutí z důvodu jinde umístěné závorky, jinak odsazovaného kódu atd., což může ušetřit spoustu dalšího času při řešení bugu tímto způsobeného.</p>
-
-<p>Jedním z argumentů proti CS je "<em>vždyť to funguje stejně</em>". Na to odpovím jedním citátem:</p>
-
+<p>Jedním z argumentů proti CS je &quot;<em>vždyť to funguje stejně</em>&quot;. Na to odpovím jedním citátem:</p>
 <blockquote>
-  <p>"Napsat kód, kterému rozumí počítač, umí napsat každý blbec. Dobří programátoři píší kód tak, aby mu rozuměli lidí."</p>
-  
-  <p><em>-- přeloženo z Martin Fowler, "Refactoring: Improving the Design of Existing Code"</em></p>
+<p>&quot;Napsat kód, kterému rozumí počítač, umí napsat každý blbec. Dobří programátoři píší kód tak, aby mu rozuměli lidí.&quot;</p>
 </blockquote>
-
+<blockquote>
+<p><em>-- přeloženo z Martin Fowler, &quot;Refactoring: Improving the Design of Existing Code&quot;</em></p>
+</blockquote>
 <p>Další důležitou věcí je rozumné pojmenovávání proměnných. Dobré pojmenovávání není <a href="http://martinfowler.com/bliki/TwoHardThings.html">žádná legrace</a>, ale můžeme se o dobré a předvídatelné pojmenovávání alespoň snažit. Nestojí za to, ušetřit pár znaků při psaní názvu proměnné (vždyť máme autocomplete), pokud to zbude znamenat, že při každém čtení budete muset zkoumat, co v té proměnné vlastně je.</p>
-
 <p>To, že se tým dohodne na Coding Standards a bude je dodržovat (a vynucovat!) je prvním krokem ke kvalitnějšímu kódu (poté má smysl řešit dobrý OOP návrh, automatizované testování atd.). Ale pokud se tým nezvládne ani řídit CS, tak těžko zvládne automatizované testování.</p>
-
-<h2 id="jak-na-coding-standards%3F">Jak na coding standards?</h2>
-
+<h2 id="jak-na-coding-standards">Jak na coding standards?</h2>
 <p>Vůbec jsem nezmiňoval, jaký coding standard dodržovat. Ono na tom tolik nezáleží, jen je potřeba, aby všichni v týmu dodržovali ten stejný. Samozřejmě je vhodné zvolit nějaký ověřený, detailně popsaný, používaný mnoha lidmi, kde výhodou je jeho podpora nástrojích (viz dále) a to, že už ho spoustu lidí zná. Pro aplikace na Zend Frameworku je jasnou volbou <a href="http://framework.zend.com/manual/1.12/en/coding-standard.overview.html">Zend Framework Coding Standard</a> (věnujte čas jeho přečtení a pochopení, vyplatí se to).</p>
-
 <p>Výhodou dodržování osvědčeného standardu je jeho podpora v nástrojích, které umějí jeho dodržování kontrolovat. Jedním z takových nástrojů je <a href="/checking-a-custom-coding-standard-with-php_codesniffer/">PHP_CodeSniffer</a>, který umí reportovat, kde se váš kód odchyluje např. od Zend Coding Standards. Samozřejmě je nejlepší kontrolu coding standards automatizovaně provádět po každém commitu pomocí nějakého integračního serveru - pokud vás toto zajímá, tak doporučuji svou <a href="/bp/">bakalářku</a>, kde kontinuální integraci pro PHP detailně rozebírám (nejen kontrolu coding standards).</p>
-
 <p>Další, lehce se coding standards dotýkající věc, jsou výstižné commit messages. Opět platí, že alespoň nějaké jsou lepší než žádné, ale <a href="https://arialdomartini.wordpress.com/2012/09/03/pre-emptive-commit-comments/">vynikající jsou nejlepší :)</a></p>
-
-<h2 id="tl%3Bdr">tl;dr</h2>
-
+<h2 id="tl-dr">tl;dr</h2>
 <ul>
 <li>prostudujte si <a href="https://framework.zend.com/manual/1.12/en/coding-standard.overview.html">Zend Framework Coding Standard</a></li>
 <li>dodržujte ho</li>
@@ -92,41 +76,41 @@
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -141,7 +125,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -154,5 +138,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

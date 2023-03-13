@@ -1,0 +1,17 @@
+{
+  "name": "blog.martinhujer.cz",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0"
+  },
+  "scripts": {
+    "build": "yarn run eleventy",
+    "watch": "yarn run eleventy --serve"
+  },
+  "dependencies": {
+    "@sindresorhus/slugify": "^1.1.2",
+    "markdown-it-anchor": "^8.6.7"
+  }
+}

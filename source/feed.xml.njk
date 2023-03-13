@@ -1,0 +1,25 @@
+---
+layout: null
+permalink: feed/
+---
+<?xml version="1.0" encoding="utf-8" ?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title><![CDATA[{{ baseTitle }}]]></title>
+    <link href="{{ baseUrl }}/feed/" rel="self"/>
+    <link href="{{ baseUrl }}/"/>
+    <updated>{{ '' | now | toIsoDate }}</updated>
+    <id>{{ baseUrl }}/</id>
+    <author>
+        <name>Martin Hujer</name>
+        <email>mail@martinhujer.cz</email>
+    </author>
+    {% for post in collections.post | reverse | slicejs(10) %}
+        <entry>
+            <title type="html"><![CDATA[{{ post.data.title }}]]></title>
+            <link href="{{ baseUrl }}{{ post.url }}"/>
+            <updated>{{ post.date|toIsoDate }}</updated>
+            <id>{{ baseUrl }}{{ post.url }}</id>
+            <content type="html"><![CDATA[{{ post.templateContent | safe }}]]></content>
+        </entry>
+    {% endfor %}
+</feed>

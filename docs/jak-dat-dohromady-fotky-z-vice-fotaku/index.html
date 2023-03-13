@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Jak dát dohromady fotky z více foťáků?</h2>
             <p><small>2013-08-29</small></p>
@@ -43,87 +43,72 @@
 
         <div class="article-text">
             <p>Určitě už jste na nějaké dovolené fotili na více foťáků, takže jste po návratu měli něco jako <code>Fotky Morava Kuba</code>, <code>Fotky Morava Tomáš</code> a <code>Fotky Martin mobil</code>. Teď je chcete spojit dohromady, protože na nějaký výlet se třeba bral jen jeden foťák, fotky z večera jsou zas na druhém atd.</p>
-
 <p>Fotky typicky bývají pojmenované jako <code>DSCN0123.jpg</code>, <code>100_9123.jpg</code> nebo podobně, takže pokud je dáte do jedné složky, tak samozřejmě budou v pořadí nejdříve jedny, pak druhé, takže si moc nepomůžeme. Bylo by vhodné je přejmenovat do něčeho jako <code>YYYY-MM-DD_HH-MM-SS</code> (<code>rok-měsíc-den_hodina-minuta-sekunda</code>), aby byly v pořadí podle vyfocení a ne podle toho, jak je foťák pojmenovává.</p>
-
 <p><strong>DŮLEŽITÉ: Před prvním focením si zkontrolujte, že na všech foťácích a telefonech je nastavené správné datum a čas! Dávat to pak dohromady je mnohem těžší.</strong></p>
-
 <p>Prvním způsobem, který popíši, je přejmenování podle data a času souboru. To funguje, pokud se na fotky nešahalo - neladily barvy, neotáčely - jak to řešit ukážu dále.</p>
-
-<h2 id="p%E5%99ejmenov%E3%A1n%E3%AD-fotek-podle-data-souboru">Přejmenování fotek podle data souboru</h2>
-
+<h2 id="prejmenovani-fotek-podle-data-souboru">Přejmenování fotek podle data souboru</h2>
 <ol>
 <li>Máš Total Commander? Pokud ne, tak <a href="http://ghisler.com/amazons3.php">stáhnout</a> (64-bit+32-bit combined), nainstalovat (ideálně do <code>C:/Users/%uživatel%/totalcmd/</code> - kdy %uživatel% je uživatelské jméno).</li>
 <li>Udělat zálohu fotek - aby byla jedna složka s těmi, které se budou přejmenovávat a někde jinde kopie, kdyby se tohle nezadařilo.</li>
-<li>Jdi do složky s fotkama, vyber všechny, dej CTRL+M (nebo Files -> MultiRename tool) - spustí se hromadné přejmenování</li>
+<li>Jdi do složky s fotkama, vyber všechny, dej CTRL+M (nebo Files -&gt; MultiRename tool) - spustí se hromadné přejmenování</li>
 <li>Do prvního pole vlevo nahoře zadat <code>[Y]-[M]-[D]_[h]-[m]-[s]_[N]</code> - před název souboru poskládáme datum souboru. Pod tím bude seznam souborů s náhledem, jak bude název vypadat po přejmenování. V druhém sloupečku zkontrolujte, že ty názvy dávají smysl.</li>
 </ol>
-
 <p><img src="/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-01-tc-rename.png" alt="Total Commander - hromadné přejmenování" /></p>
-
 <ol start="5">
 <li>Vpravo dole kliknout na <em>Start!</em></li>
-<li>To stejné zopakovat pro fotky z dalších foťáků a pak je přesunou do jedné složky a seřadit podle názvu -> Hotovo :-)</li>
+<li>To stejné zopakovat pro fotky z dalších foťáků a pak je přesunou do jedné složky a seřadit podle názvu -&gt; Hotovo :-)</li>
 </ol>
-
 <p>Problém nastane ve chvíli, kdy se na ty fotky šahalo a změnilo se jejich datum čas. Případně, pokud jsou stahované z telefonu - tam je také většinou datum vytvoření souboru a ne vyfocení. Naštěstí foťáky a telefony ukládají k fotkám tzv. <a href="https://en.wikipedia.org/wiki/Exchangeable_image_file_format">EXIF informace</a> - zjednodušeně řečeno jde o metadata snímku, která obsahují informace o foťáku, expozici, GPS souřadnice, a hlavně i datum a čas pořízení snímku.</p>
-
-<h2 id="p%E5%99ejmenov%E3%A1n%E3%AD-fotek-podle-data-z-exif">Přejmenování fotek podle data z EXIF</h2>
-
+<h2 id="prejmenovani-fotek-podle-data-z-exif">Přejmenování fotek podle data z EXIF</h2>
 <p><em>Většina kroků je stejná s předchozím postupem, jen některé se liší.</em></p>
-
 <ul>
 <li>1a) <a href="http://ghisler.fileburst.com/content/wdx_exif.zip">Stáhnout</a> plugin pro EXIF a otevřít ho v Total Commanderu - mělo by se nabídnout, že se chce do TC nainstalovat<br>
 <img src="/data/2013/2013-08-29-jak-dat-dohromady-fotky-z-vice-fotaku/2013-08-28-photo-rename-02-tc-install.png" alt="Total Commander - instalace EXIF rozšíření" /></li>
 </ul>
-
 <p>Pokud se to nezdaří (například máte Total Commander nainstalovaný v Program Files a běžící TC tam nemá oprávnění zapisovat), tak tam je potřeba plugin nakopírovat ručně. Takže pokud je nainstalovaný v <code>C:/Program Files/totalcmd</code>, tak do <code>C:/Program Files/totalcmd/Plugins/wdx/wdx_exif/</code> nakopírujte soubory z <code>wdx_exif.zip</code>, který jste si stáhli.</p>
-
 <ul>
 <li>4a) Že jste plugin dobře nainstalovali můžete ověřit kliknutím na tlačítko <em>[=?] Plugin</em> v okně pro přejmenování. Mělo by se tam objevit <em>tc</em> a <em>exif</em>. Teď už je možné jako masku pro přejmenování použít i data z EXIF. V našem případě to bude: <code>[=exif.DateOriginal.Y-M-D]_[=exif.TimeOriginal.h]-[=exif.TimeOriginal.m]-[=exif.TimeOriginal.s]_[N]</code>. Opět ověřte, že názvy souborů dávají smysl a můžete přejmenovávat.</li>
 </ul>
-
 <p>A co v případě, že jste měli špatně nastavené datum na foťácích? Já to řešil <a href="https://gist.github.com/mhujer/6078439">PHP skriptem</a>, ale to asi není pro každého...</p>
-
 <p>Doufám, že se vám postup bude hodit, pokud narazíte na nějakou nefunkčnost, tak napište do komentářů a pokusím se poradit.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -138,7 +123,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -151,5 +136,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

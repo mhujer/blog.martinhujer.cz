@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Integrating JavaScript/Node.js projects with JSHint, Mocha and Jenkins [EN]</h2>
             <p><small>2012-04-18</small></p>
@@ -43,123 +43,91 @@
 
         <div class="article-text">
             <blockquote>
-  <p><strong>Update 15. 9. 2013</strong>: See how I set up <a href="/integrating-javascript-files-with-jshint-phing-and-jenkins/">CI for JS files inside a PHP project</a> (using Phing)</p>
+<p><strong>Update 15. 9. 2013</strong>: See how I set up <a href="/integrating-javascript-files-with-jshint-phing-and-jenkins/">CI for JS files inside a PHP project</a> (using Phing)</p>
 </blockquote>
-
 <p>I've set up the Continuous Integration for PHP projects on Jenkins recently. It went quite well, but the fact that CI tools for PHP are not as mature as those for Java was obvious. (Most of the PHP CI tools are ports of their Java originals.)</p>
-
 <p>Apart from PHP projects, my colleague just started working on a new project, using JavaScript and Node.js, so I thought it would be nice to add it to Jenkins too.</p>
-
 <p>After some experiments, I came to this:</p>
-
 <ul>
 <li>Java: It is normal to use CI in Java world.</li>
 <li>PHP: QA and CI are being adapted in PHP world.</li>
 <li>JavaScript: Very few people are using CI. Lots of WTF.</li>
 </ul>
-
 <p>However, I was able to create a basic setup with Mocha for unit testing and JSHint for static analysis. Here is how I did it:</p>
-
 <h2 id="javascript-environment">JavaScript environment</h2>
-
 <p>First, I wanted to add JS environment to the server we use for PHP integration. But then I realized that Node.js is available only in Debian unstable and it has more dependencies (from unstable) then the Jenkins and Java altogether. I didn't want to break anything on this server, so I used Jenkins' <a href="https://wiki.jenkins-ci.org/display/JENKINS/Distributed+builds">Slave feature</a> and connected to server used for JS development (so all the JS stuff is already running there).</p>
-
 <h2 id="setting-up-mocha">Setting up Mocha</h2>
-
 <p><a href="https://mochajs.org/">Mocha</a> is a JavaScript test framework. It worked fine on the server:
 <img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-01-mocha-rspec.png" alt="" /></p>
-
 <p>So I just needed to find out, if it has some output usable for CI. Surprisingly, it has and it works fine despite the fact, it is poorly documented :-)
 <img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-03-mocha-shell-xunit.png" alt="" /></p>
-
 <h2 id="setting-up-jshint">Setting up JSHint</h2>
-
 <p>JSHint can be installed via npm:</p>
-
 <pre><code class="bash">npm install jshint -g
 </code></pre>
-
 <p>It checks JS like this:</p>
-
 <pre><code class="bash">jshint myfile.js
 </code></pre>
-
 <p>And yes, it can produce XML report:</p>
-
 <pre><code class="bash">jshint ./app --jslint-reporter &gt; jshint.xml
 </code></pre>
-
 <h2 id="making-it-all-work">Making it all work</h2>
-
 <p>You need <a href="https://wiki.jenkins-ci.org/display/JENKINS/Copy+To+Slave+Plugin">Copy To Slave</a>, <a href="https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin">xUnit</a> and <a href="https://wiki.jenkins-ci.org/display/JENKINS/Violations">Violations</a> plugins in Jenkins.</p>
-
 <p>We will need two Jenkins jobs. First will run all the stuff, gather the XMLs with results and trigger the reporting job. The second job will just process results and display them. This is necessary, because I realized that Violations plugin runs earlier that the Copy to Slave, and therefore, it had no data.</p>
-
 <p>In the first job, we bind it to our Node.js slave and add a build step (Execute shell):</p>
-
 <pre><code class="bash">cd /var/jenkins/workspace/nodejs &amp;&amp; mocha -R xunit &gt; xunit.xml &amp;&amp; jshint ./app ./public/javascripts/app/ --config .jshintrc --jslint-reporter &gt; jshint.xml || exit 0
 </code></pre>
-
 <p>Then we need to gather the results from slave node via Copy to Slave plugin:
 <img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-04-copy-to-slave.png" alt="" /></p>
-
 <h2 id="second-job">Second job</h2>
-
 <p>Second job has no build steps, it only processes the results. The test results worked for me, when I set them as PHPUnit ones:</p>
-
 <p><img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-05-phpunit.png" alt="" /></p>
-
 <p>The JSHint results can be processed via Violations plugin:
 <img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-06-violations.png" alt="" /></p>
-
 <p>However, there is an issue when using Violations plugin for JS files. It is not possible to browse the errors in files, as it is possible for other reports. But I'm not only one <a href="https://groups.google.com/forum/?fromgroups#!topic/jenkinsci-users/cUfZimHHXqs">who experiences this issue</a>.</p>
-
-<h2 id="conclusion%3A">Conclusion:</h2>
-
+<h2 id="conclusion">Conclusion:</h2>
 <p>We have basic continuous integration for JS code up and running.
 <img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-07-jslint.png" alt="" /></p>
-
 <p><img src="/data/2012/2012-04-18-integrating-javascript-nodejs-jenkins/2012-04-14-JS-CI-08-tests.png" alt="" /></p>
-
 <p>JavaScript community is growing strong, so I hope that there will soon be loads of different CI tools for JS. I'm only afraid of their fragmentation (There are many new JS frameworks built every day).</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -174,7 +142,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -187,5 +155,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

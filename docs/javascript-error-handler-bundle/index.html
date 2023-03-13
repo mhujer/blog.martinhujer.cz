@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>JavaScript Error Handler Bundle for Symfony</h2>
             <p><small>2017-11-04</small></p>
@@ -43,85 +43,74 @@
 
         <div class="article-text">
             <p>I've created Symfony <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">JavaScriptErrorHandlerBundle</a> for visualizing accidental errors in JavaScript.</p>
-
-<h2 id="why%3F">Why?</h2>
-
+<h2 id="why">Why?</h2>
 <p>It is easy to break JavaScript code by an unrelated change. If you have JavaScript-only app, you will notice it immediately, because the app won't render at all (and your framework would report the error somehow).</p>
-
 <p>On the other hand, if you are creating more traditional application with HTML rendered on the server and some interactions enhanced by jQuery, you may not notice that you've broken it. The browser reports the error into the Developer Console, but if you don't have it open, you are out of luck.</p>
-
 <p>My <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">JavaScriptErrorHandlerBundle</a> listens to <a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror"><code>window.onerror</code> events</a> and converts them to alerts, which are hard to miss.</p>
-
 <p><img src="/data/2017/2017-11-04-javascript-error-handler-bundle/javascript-error-handler-bundle.png" alt="example alert with error" /></p>
-
-<h2 id="how-does-it-work%3F">How does it work?</h2>
-
+<h2 id="how-does-it-work">How does it work?</h2>
 <p>The Bundle works automatically with zero configuration. You only have to install it through Composer and register in <code>AppKernel.php</code> (see <a href="https://github.com/mhujer/JavaScriptErrorHandlerBundle">README for instructions</a>).</p>
-
 <p>It registers an event listener, which injects JavaScript snippet with error into the <code>&lt;head&gt;</code> section of the response (similarly to Symfony WebDebugToolbar). By default, the listener is registered only when the <code>%kernel.debug%</code> is set to <code>true</code>, so the error alert won't be ever displayed to your end users. The configuration cab be changed if necessary - e.g. you may want to have enabled also at the staging server.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>I know that the bundle is very simple. I wanted to experiment with what it takes to create a proper Bundle, before I work on something more complicated. One of the challenging things was the automatic testing of the container extension (it contains the logic for registering the listener). Luckily, there is <a href="https://github.com/matthiasnoback/SymfonyDependencyInjectionTest">SymfonyDependencyInjectionTest</a> library created by Matthias Noback which makes container extension testing a breeze.</p>
-
 <p>If you have time to dive into the bundle code, can you spot something that can I improve?</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -136,7 +125,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -149,5 +138,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

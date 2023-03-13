@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>HipHop for PHP</h2>
             <p><small>2012-05-28</small></p>
@@ -43,100 +43,85 @@
 
         <div class="article-text">
             <p><strong>Update 1/2019:</strong> HHVM už je dávno jinde než PHP, takže ho už nedává smysl používat. Zkuste radši <a href="https://github.com/phpstan/phpstan">PHPStan</a>.</p>
-
 <hr />
-
 <p>Dalším zajímavým nástrojem, který by bylo možné zařadit do <a href="/bp/">kontinuální integrace</a>, je <a href="https://github.com/facebook/hhvm">HipHop for PHP</a> vyvinutý společností Facebook Inc. Jeho primárním účelem je převod skriptů v jazyce PHP do jazyka C++, nicméně je možné ho využít pro statickou analýzu (umí odhalit chyby, které jiné nástroje neodhalí). A případně ho zařadit jako jeden z nástrojů kontinuální integrace.</p>
-
-<h2 id="instalace-n%E3%A1stroje">Instalace nástroje</h2>
-
+<h2 id="instalace-nastroje">Instalace nástroje</h2>
 <p>Nástroj je nutné zkompilovat ze zdrojových kódů, nejsou k dispozici instalační balíčky. Zároveň je nutné nejdříve zkompilovat několik knihoven třetích stran. K dispozici jsou postupy na <a href="https://github.com/facebook/hhvm/wiki/_pages">wiki projektu na githubu</a>, zvolte ten odpovídající vaší linuxové distribuci.</p>
-
 <p>Já jsem instaloval na <a href="https://www.virtualmaster.com/virtualmaster/referral/6yv98">VirtualMasteru</a>, takže jsem zvolil <a href="https://github.com/facebook/hhvm/wiki/Building-and-installing-on-Ubuntu-10.04-LTS">návod pro Ubuntu 10.04</a></p>
-
 <p>Pokud si chcete HipHop jen vyzkoušet, tak je zbytečné trávit čas kompilací. Proto jsem na VirtualMasteru vytvořil <a href="https://www.virtualmaster.com/cs/images/2555">veřejnou šablonu s připraveným HipHop for PHP</a></p>
-
-<h2 id="pou%E5%BEit%E3%AD-n%E3%A1stroje">Použití nástroje</h2>
-
+<h2 id="pouziti-nastroje">Použití nástroje</h2>
 <p>Poté, co máme nástroj nainstalovaný (buď podle postupu a nebo vytvořením serveru z image výše), nastavíme potřebné cesty:</p>
-
 <pre><code class="bash">cd /root/hiphop/
 export HPHP_HOME=`/bin/pwd`
 export HPHP_LIB=`/bin/pwd`/bin
 </code></pre>
-
 <p>A zkusíme spustit analýzu. Já jsem zkoušel Zend Framework 1.</p>
-
 <pre><code class="bash">cd /tmp
 svn export http://framework.zend.com/svn/framework/standard/trunk/library zf1
 cd zf1
 /root/hiphop/hiphop-php/src/hphp/hphp -t analyze --input-dir ./Zend/ --include-path ./
 </code></pre>
-
 <p>Výstup je poté uložen v <code>/tmp/hphp_AFDvIh/CodeError.js</code> (resp. v podobně nazvaném adresáři).</p>
-
 <p>Když jsem prošel výstup z kontroly ZF1, tak jsem postupně přidal 12 issues do ZF - od ZF-12225 do ZF-12236</p>
-
-<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
-
+<h2 id="zaverem">Závěrem</h2>
 <p>Pokud chcete ztratit iluze o svých zdrojácích, zkuste na ně spustit HipHop :)</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -151,7 +136,7 @@ cd zf1
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -164,5 +149,5 @@ cd zf1
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

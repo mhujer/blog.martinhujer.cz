@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>PHP_CodeBrowser 1.0.3 a změna PEAR kanálu</h2>
             <p><small>2012-04-27</small></p>
@@ -43,69 +43,59 @@
 
         <div class="article-text">
             <p>Pro reportování chyb z PHP_CodeSniffer, PHPCPD a PMD jsem <a href="/bp/">při nasazení kontinuální integrace</a> použil <a href="https://github.com/Mayflower/PHP_CodeBrowser/">PHP_CodeBrowser</a>. Nicméně, nelíbilo se mi, že jsou v reportu vypsané i soubory, které žádné chyby neobsahují - pak se hůře hledají ty, ve kterých chyby jsou.</p>
-
 <p><a href="https://github.com/Mayflower/PHP_CodeBrowser/pull/12">Doprogramoval</a> jsem tedy možnost takové soubory skrýt.</p>
-
 <pre><code class="bash">--excludeOK    Exclude files with no issues from the report
 </code></pre>
-
 <p>Před pár dny <a href="https://twitter.com/s_bergmann/status/194700069214228480">vyšla verze 1.0.3</a>, která už vylepšení obsahuje. Zároveň došlo ke změně PEAR kanálu pro instalaci balíčku.</p>
-
 <p>Pro upgrade je tedy potřeba starou verzi nejdříve odinstalovat:</p>
-
 <pre><code class="bash">pear uninstall phpunit/PHP_CodeBrowser
 </code></pre>
-
 <p>Pak přidat nový kanál a nainstalovat PHP_CodeBrowser z něj:</p>
-
 <pre><code class="bash">pear channel-discover pear.phpqatools.org
 pear install phpqatools/PHP_CodeBrowser
 </code></pre>
-
 <p>A do build skriptu stačí přidat přepínač <code>--excludeOK</code>, takže příkaz pro generování pomocí phpcb bude vypadat takto:</p>
-
 <pre><code class="bash">phpcb --log ${project.basedir}/build --source ${project.basedir} --output ${project.basedir}/build/code-browser --excludeOK
 </code></pre>
-
 <p>Používáte také PHP_CodeBrowser nebo si v Jenkinsu vystačíte s Violations?</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -120,7 +110,7 @@ pear install phpqatools/PHP_CodeBrowser
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -133,5 +123,5 @@ pear install phpqatools/PHP_CodeBrowser
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>
