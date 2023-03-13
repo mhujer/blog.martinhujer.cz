@@ -1,0 +1,8 @@
+{
+    "tags": [
+        "post",
+        "sitemap"
+    ],
+    "layout": "post.njk",
+    "permalink": "{{ page.fileSlug | slugify }}/index.html"
+}

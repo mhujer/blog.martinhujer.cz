@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>V čem psát bakalářskou práci?</h2>
             <p><small>2012-03-12</small></p>
@@ -43,88 +43,75 @@
 
         <div class="article-text">
             <p>Mám teď rozepsanou <a href="https://isis.vse.cz/student/zobraz_zp.pl?verejny=1;studium=103424">bakalářku</a> ve Wordu a přemýšlím, v čem udělat finální verzi. (Zbývá mi ještě čas do odevzdání, tak nad tím můžu koumat.) Na Wordu se mi totiž nelíbí několik věcí:</p>
-
 <ul>
 <li>nemá dokonalou typografii</li>
 <li>dokumenty se špatně verzují v GITu - není vidět jednotlivé změny, soubor je uložený binárně</li>
 <li>občas se chová nečekaně, takže se bojím, že bych v závěrečné fázi někde něco upravil a celý dokument by se mohl divně přeskládat</li>
 </ul>
-
 <p>Uvažoval jsem o DocBooku (naučil jsem se v 4IZ238) nebo TeXu (učím se teď v 4IZ552).</p>
-
-<h2 id="docbook%3A">Docbook:</h2>
-
+<h2 id="docbook">Docbook:</h2>
 <ul>
-<li>&#43; sémantický formát</li>
-<li>&#43; s <a href="http://www.oxygenxml.com/">Oxygenem</a> jde pěkně editovat i WYSIWYG</li>
-<li>&#43; je "textový" - půjde dobře verzovat</li>
-<li>&#43; lze z něj generovat i třeba HTML nebo ePUB</li>
-<li>&#45; nemá dokonalou typografii</li>
+<li>+ sémantický formát</li>
+<li>+ s <a href="http://www.oxygenxml.com/">Oxygenem</a> jde pěkně editovat i WYSIWYG</li>
+<li>+ je &quot;textový&quot; - půjde dobře verzovat</li>
+<li>+ lze z něj generovat i třeba HTML nebo ePUB</li>
+<li>- nemá dokonalou typografii</li>
 </ul>
-
 <h2 id="tex">TeX</h2>
-
-<p><img src="/data/2012/2012-03-12-v-cem-psat-bakalarskou-praci/TeX.png" style="float:right;"/></p>
-
+<img src="/data/2012/2012-03-12-v-cem-psat-bakalarskou-praci/TeX.png" style="float:right;"/>
 <ul>
-<li>&#43; dokonalá typografie!</li>
-<li>&#43; "textový" - půjde dobře verzovat</li>
-<li>&#45; píše se v něm hůře než v DocBooku</li>
+<li>+ dokonalá typografie!</li>
+<li>+ &quot;textový&quot; - půjde dobře verzovat</li>
+<li>- píše se v něm hůře než v DocBooku</li>
 </ul>
-
-<h2 id="%E5%98e%E5%A1en%E3%AD%3F">Řešení?</h2>
-
+<h2 id="reseni">Řešení?</h2>
 <p>Tak co to napsat v DocBooku a vysázet v TeXu? Ano, to je asi cesta, kterou se vydám. Z 4IZ238 umím XSLT, takže nebude problém si napsat transformaci, která z DocBooku udělá <code>.tex</code> soubor. Vím, že už existují konvertory z Docbooku do TeXu, ale pokud si ji napíšu sám, tak:</p>
-
 <ul>
 <li>budu vědět jak funguje (a případně si budu moct něco snadno doladit)</li>
 <li>prosvištím si XSLT (asi už jsem toho dost zapomněl)</li>
 <li>a budu moct (část) BP mít jako semestrálku do 4IZ552</li>
 </ul>
-
 <p>Funkční prototyp (umí kapitoly, odstavce a obrázky s popisky), který z DocBookového XMLka udělá skrz TeX PDFko, jsme s <a href="https://www.tomasfejfar.cz/">Tomášem</a> dali dohromady za hodinku...</p>
-
 <p>Nevýhodou DocBooku a TeXu je chybějící kontrola pravopisu. Ale z DocBooku jde vygenerovat i HTML a to otevřít ve Wordu, takže to nějaký zásadní problém není.</p>
-
 <p><strong>A co vy, v čem píšete (v čem jste napsali) BP/DP?</strong></p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -139,7 +126,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -152,5 +139,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

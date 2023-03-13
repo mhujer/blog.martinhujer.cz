@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Návrhový vzor Null Object</h2>
             <p><small>2016-11-09</small></p>
@@ -43,49 +43,45 @@
 
         <div class="article-text">
             <p>V článku předvedu, jak pomocí návrhového vzoru Null Object můžeme zjednodušit kód. Budu se snažit ukázat maximum příkladů a jen minimum teorie (na tu vás odkážu jinam).</p>
-
 <p>Prvním příkladem je <em>volitelná</em> závislost. V následující ukázce to je <code>$logger</code>. Buď ho máme nastavený a v tom případě logujeme nebo nemáme a nelogujeme.</p>
-
 <pre><code class="php">class DataProcessor
 {
-    /** @var LoggerInterface */
-    private $logger;
+	/** @var LoggerInterface */
+	private $logger;
 
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this-&gt;logger = $logger;
-    }
+	public function setLogger(LoggerInterface $logger)
+	{
+		$this-&gt;logger = $logger;
+	}
 
-    public function processData($data)
-    {
-        if ($this-&gt;logger !== null) {
-            $this-&gt;logger-&gt;log('Processing started!');
-        }
+	public function processData($data)
+	{
+		if ($this-&gt;logger !== null) {
+			$this-&gt;logger-&gt;log('Processing started!');
+		}
 
-        // some work...
+		// some work...
 
-        if ($this-&gt;logger !== null) {
-            $this-&gt;logger-&gt;log('Processing finished!');
-        }
-    }
+		if ($this-&gt;logger !== null) {
+			$this-&gt;logger-&gt;log('Processing finished!');
+		}
+	}
 }
 
 interface LoggerInterface
 {
-    public function log($message);
+	public function log($message);
 }
 
 class StdoutLogger implements LoggerInterface
 {
-    public function log($message)
-    {
-        echo $message;
-    }
+	public function log($message)
+	{
+		echo $message;
+	}
 }
 </code></pre>
-
 <p>Použití třídy pak může vypadat takto</p>
-
 <pre><code class="php">$processor = new DataProcessor();
 $processor-&gt;setLogger(new StdoutLogger());
 $processor-&gt;processData([]); // máme a logujeme
@@ -93,41 +89,36 @@ $processor-&gt;processData([]); // máme a logujeme
 $processorWithoutLogging = new DataProcessor();
 $processorWithoutLogging-&gt;processData([]); // nemáme a nelogujeme
 </code></pre>
-
 <p>Kromě toho, že dependency injection pomocí setteru je špatně (existuje instance v nekonzistentním stavu), tak kontroly <code>null</code> zbytečně zesložiťují metodu <code>processData()</code>.</p>
-
 <p>Tady přichází ke slovu návrhový vzor Null Object. Místo, abychom se rozhodovali, jestli logger nastavíme nebo ne, tak ho nastavíme vždy. Ideálně pomocí contructor injection. Díky tomu můžeme odebrat podmínky v metodě <code>processData()</code>:</p>
-
 <pre><code class="php">class DataProcessor
 {
-    /** @var LoggerInterface */
-    private $logger;
+	/** @var LoggerInterface */
+	private $logger;
 
-    public function __construct(LoggerInterface $logger)
-    {
-        $this-&gt;logger = $logger;
-    }
+	public function __construct(LoggerInterface $logger)
+	{
+		$this-&gt;logger = $logger;
+	}
 
-    public function processData($data)
-    {
-        $this-&gt;logger-&gt;log('Processing started!');
+	public function processData($data)
+	{
+		$this-&gt;logger-&gt;log('Processing started!');
 
-        // some work...
+		// some work...
 
-        $this-&gt;logger-&gt;log('Processing finished!');
-    }
+		$this-&gt;logger-&gt;log('Processing finished!');
+	}
 
 }
 </code></pre>
-
 <p>Protože bez instance loggeru nemůžeme vytvořit <code>DataProcessor</code>, vytvoříme třídu <code>NullLogger</code>, která implementuje rozhraní <code>LoggerInterface</code>, ale nikam neloguje.</p>
-
 <pre><code class="php">class NullLogger implements LoggerInterface
 {
-    public function log($message)
-    {
-        // intentionally does nothing
-    }
+	public function log($message)
+	{
+		// intentionally does nothing
+	}
 }
 
 $processor = new DataProcessor(new StdoutLogger());
@@ -136,154 +127,121 @@ $processor-&gt;processData([]); // máme a logujeme
 $processorWithoutLogging = new DataProcessor(new NullLogger());
 $processorWithoutLogging-&gt;processData([]); // máme, ALE NELOGUJEME
 </code></pre>
-
 <p>Odsunuli jsme starost o <code>null</code> mimo třídu, čímž jsme elegantně zjednodušili kód <code>DataProcessor</code>. Jde vlastně o příklad použití polymorfismu - místo speciálního chování podle typu delegujeme řešení na tu samotnou třídu.</p>
-
-<h2 id="co-situace%2C-kdy-to-pot%E5%99ebuji-rozli%E5%A1it%3F">Co situace, kdy to potřebuji rozlišit?</h2>
-
+<h2 id="co-situace-kdy-to-potrebuji-rozlisit">Co situace, kdy to potřebuji rozlišit?</h2>
 <p>Samozřejmě ne vždy to půjde takhle snadno jako v tomto případě. Cílem návrhového vzoru je zjednodušit většinu použití, ale zároveň umožnit rozlišení tam, kde to je nezbytné.</p>
-
 <p>Jako první možnost odlišení vás asi napadne:</p>
-
 <pre><code class="php">if ($this-&gt;logger instanceof NullLogger) {
 </code></pre>
-
 <p>Ale to by znamenalo porušení Dependency Inversion Principle a zároveň bychom nemohli použít několik různých Null objektů. Fowler (2012) na to navrhuje dvě řešení:</p>
-
 <ol>
 <li>V interface vytvořit metodu <code>public function isNull(): bool;</code>, která v konkrétních implementacích bude buď vracet <code>true</code> nebo <code>false</code>.</li>
 <li>Pokud nemůžeme měnit rozhraní a ostatní třídy, můžeme vytvořit <code>interface Null { }</code> a implementovat ho v našich Null třídách.</li>
 </ol>
-
 <p>Použití  pak může vypadat takto:</p>
-
 <ol>
 <li>speciální metoda:</li>
 </ol>
-
 <pre><code class="php">if ($this-&gt;logger-&gt;isNull()) {
     // chování pro null
 }
 </code></pre>
-
 <ol start="2">
 <li>implementované rozhraní:</li>
 </ol>
-
 <pre><code class="php">if ($this-&gt;logger instanceof Null) {
     // chování pro null
 }
 </code></pre>
-
-<h2 id="jak-refaktorovat-st%E3%A1vaj%E3%ADc%E3%AD-k%E3%B3d%3F">Jak refaktorovat stávající kód?</h2>
-
-<p>Fowler ukazoval Null Object v knize <em>Refactoring - Improving the Design of Existing Code</em> (Fowler, 2012, p260) a mně se hodně líbilo, jak to refaktoroval po malých "baby-steps" (co nejmenší bezpečné kroky, čím se minimalizuje riziko, že něco rozbijeme). Zjednodušeně je tu popíšu na od něj vypůjčeném a upraveném příkladu.</p>
-
+<h2 id="jak-refaktorovat-stavajici-kod">Jak refaktorovat stávající kód?</h2>
+<p>Fowler ukazoval Null Object v knize <em>Refactoring - Improving the Design of Existing Code</em> (Fowler, 2012, p260) a mně se hodně líbilo, jak to refaktoroval po malých &quot;baby-steps&quot; (co nejmenší bezpečné kroky, čím se minimalizuje riziko, že něco rozbijeme). Zjednodušeně je tu popíšu na od něj vypůjčeném a upraveném příkladu.</p>
 <p>Máme zákazníka, který má přiřazenou úroveň slev:</p>
-
 <pre><code class="php">class DiscountLevel
 {
-    const NONE = 'none';
-    const PREMIUM = 'premium';
+	const NONE = 'none';
+	const PREMIUM = 'premium';
 }
 
 class Customer
 {
-    public function getDiscountLevel() { ... }
+	public function getDiscountLevel() { ... }
 }
 </code></pre>
-
 <p>A použití zákazníka vypadá takto:</p>
-
 <pre><code class="php">if ($customer === null) {
-    $discountLevel = DiscountLevel::NONE;
+	$discountLevel = DiscountLevel::NONE;
 } else {
-    $discountLevel = $customer-&gt;getDiscountLevel();
+	$discountLevel = $customer-&gt;getDiscountLevel();
 }
 
 // případně takto
 if ($customer !== null) {
-    $entityManager-&gt;persist($customer);
+	$entityManager-&gt;persist($customer);
 }
 </code></pre>
-
 <p>Prvním krokem refaktoringu je přidání metody <code>isNull()</code> a vytvoření <code>NullCustomer</code> jako potomka <code>Customer</code> (jen se změněným chováním metody <code>isNull()</code>). Zároveň v tomto kroku musíme změnit <strong>všechna</strong> porovnání s <code>null</code> na volání <code>-&gt;isNull()</code> (<code>$customer</code> už nikdy nebude <code>null</code>, takže by to jinak rozbilo stávající kód)</p>
-
 <pre><code class="php">class Customer
 {
-    public function getDiscountLevel() { ... }
+	public function getDiscountLevel() { ... }
 
-    public function isNull()
-    {
-        return false;
-    }
+	public function isNull()
+	{
+		return false;
+	}
 }
 
 class NullCustomer extends Customer
 {
-    public function isNull()
-    {
-        return true;
-    }
+	public function isNull()
+	{
+		return true;
+	}
 }
 
 if ($customer-&gt;isNull()) {
-    $discountLevel = DiscountLevel::NONE;
+	$discountLevel = DiscountLevel::NONE;
 } else {
-    $discountLevel = $customer-&gt;getDiscountLevel();
+	$discountLevel = $customer-&gt;getDiscountLevel();
 }
 
 if (!$customer-&gt;isNull()) {
-    $entityManager-&gt;persist($customer);
+	$entityManager-&gt;persist($customer);
 }
 </code></pre>
-
 <p>Následně budeme procházet jednotlivá použití a zkoumat, zda je pomocí Null Objectu můžeme zjednodušit.</p>
-
 <p>Nejdříve se podíváme na <code>getDiscountLevel()</code>. Stačí, pokud tu metodu v <code>NullCustomer</code> překryjeme, aby vždy vracela <code>DiscountLevel::NONE</code> a můžeme podmínku úplně zrušit.</p>
-
 <pre><code class="php">// Customer se nemění
 
 class NullCustomer extends Customer
 {
-    public function isNull() {...};
+	public function isNull() {...};
 
-    public function getDiscountLevel()
-    {
-        return DiscountLevel::NONE;
-    }
+	public function getDiscountLevel()
+	{
+		return DiscountLevel::NONE;
+	}
 }
 
 // tady jsme zrušili složitý if
 $discountLevel = $customer-&gt;getDiscountLevel();
 </code></pre>
-
 <p>V druhé situaci, při persistování do databáze, se podmínky nezbavíme. Šlo by to vyřešit úpravou persistování, aby kontrolovalo, jestli nepředáváme objekt implementující <code>Null</code> interface a to důsledně implementovat u všech Null objektů. Ale to by spíš vedlo ke znepřehlednění než zpřehlednění.</p>
-
 <pre><code class="php">// tady if zůstal
 if (!$customer-&gt;isNull()) {
-    $entityManager-&gt;persist($customer);
+	$entityManager-&gt;persist($customer);
 }
 </code></pre>
-
 <p>Na složitějším příkladu jsme si ukázali, jak můžeme zjednodušit existující kód zavedením Null Objectu a že ne ve všech situacích to je možné.</p>
-
-<h2 id="p%E3%A1r-stru%E4%8Dn%E3%A1ch-pozn%E3%A1mek">Pár stručnách poznámek</h2>
-
+<h2 id="par-strucnach-poznamek">Pár stručnách poznámek</h2>
 <ul>
 <li>Null Object se často používá při implementaci návrhového vzoru Strategy (jako nejjednodušší strategie, kterou můžeme vytvořit)</li>
 <li>Klidně je možné vytvořit více různých Null objektů pro jeden reálný typ</li>
 <li>Null objekt by se nikdy neměl změnit v reálný objekt (pokud to potřebujeme, tak by to od začátku měl být reálný objekt, který se jen dočasně chová jako Null objekt)</li>
 </ul>
-
-<h2 id="shrnut%E3%AD">Shrnutí</h2>
-
+<h2 id="shrnuti">Shrnutí</h2>
 <p>Návrhový vzor Null Object se snaží řešit opakovaný kód pro kontrolu, zda máme k dispozici instanci třídy. Místo porovnávání s <code>null</code> vytvoříme třídu se strejným rozhraním, ale s prázdným nebo defaultním chováním. Tím odsunujeme problém z kódu, který třídu používá o úroveň výše.</p>
-
 <p><strong>Slyšeli jste o tomto návrhovém vzoru už dříve? Používáte ho ve své aplikaci? Budu rád, pokud se podělíte o další příklady v komentářích.</strong></p>
-
 <h2 id="zdroje">Zdroje</h2>
-
 <ul>
 <li>FOWLER, Martin, Kent BECK, John BRANT, William OPDYKE a Don ROBERTS. <em>Refactoring: Improving the Design of Existing Code.</em> Addison-Wesley, 2012. ISBN 9780133065268.</li>
 <li><a href="https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm">https://www.tutorialspoint.com/design_pattern/null_object_pattern.htm</a></li>
@@ -293,60 +251,60 @@ if (!$customer-&gt;isNull()) {
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -361,7 +319,7 @@ if (!$customer-&gt;isNull()) {
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -374,5 +332,5 @@ if (!$customer-&gt;isNull()) {
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Jak propojit KeePass s Google Chrome?</h2>
             <p><small>2013-05-03</small></p>
@@ -43,93 +43,88 @@
 
         <div class="article-text">
             <p><strong>Pokud si z článku nepřečtete nic dalšího, tak si prosím alespoň u e-mailu nastavte heslo, které nebudete používat nikde jinde!</strong></p>
-
 <p>Používáte všude stejné heslo? Víte, že když pak někdo prolomí nějakou špatně zabezpečenou službu (např. <a href="http://mashable.com/2012/06/06/linkedin-passwords-hacked-confirmation/">LinkedIn</a>), tak získá vaše heslo, které pravděpodobně využíváte na spoustě dalších míst.</p>
-
 <p>Určitě je mnohem lepší mít alespoň k e-mailu jiné heslo než k webům (službám, e-shopům) kam zadáváte svůj e-mail. Protože pokud by někdo získal heslo k vašemu e-mailu, tak si snadno může nechat zaslat <em>zapomenuté heslo</em> z jakékoliv další služby.</p>
-
 <p>A úplně nejlepší je mít unikátní heslo pro každý web, kam se přihlašujete. A ideálně pokud je trochu složitější :)</p>
-
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Sorry, but your password must contain an uppercase letter, a number, a punctuation mark, a gang sign, an extinct mammal and a hieroglyph.</p>&mdash; Stephanie Wright (@StephBWright) <a href="https://twitter.com/StephBWright/status/256029401546895360">October 10, 2012</a></blockquote>
-
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 <p>Samozřejmě nemá smysl si pamatovat tolik hesel. Můžete si je psát na papír, nechat ukládat v prohlížeči, nebo využít nějaký specializovaný program jako je KeePass nebo LastPass. Já používám <a href="http://keepass.info/">KeePass</a> a zjistil jsem, že spoustu lidí neví, že ho jde snadno propojit s Google Chrome a nechat si hesla doplňovat automaticky. Takže jak na to?</p>
-
-<h2 id="nastaven%E3%AD-keepassu">Nastavení KeePassu</h2>
-
+<h2 id="nastaveni-keepassu">Nastavení KeePassu</h2>
 <ul>
 <li><a href="http://keepass.info/download.html">Stáhněte si KeePass</a> - doporučuji <em>Portable KeePass 2.22 (ZIP Package)</em> a rozbalte ho (ideálně do Skydrive nebo Dropboxu)</li>
 <li><a href="https://github.com/pfn/keepasshttp/raw/master/KeePassHttp.plgx">Stáhněte si plugin</a> na propojení s prohlížečem a umístěte ho do adresáře KeePassu (tam kde je KeePass.exe)</li>
 <li>Nastavení KeePassu tady nemá cenu rozepisovat, pěkně to <a href="http://www.cnews.cz/keepass-sikovna-sprava-hesel-pro-windows-i-mobilni-zarizeni">popsali na CNews</a></li>
 <li>Jediná věc, kterou zdůrazním - u uložených hesel je potřeba mít vyplněnou URL</li>
 </ul>
-
 <p><img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-01-keepass-url.png" alt="" /></p>
-
-<h2 id="nastaven%E3%AD-chrome">Nastavení Chrome</h2>
-
+<h2 id="nastaveni-chrome">Nastavení Chrome</h2>
 <ol>
-<li><p>Do Chrome je potřeba nainstalovat rozšíření <a href="https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae">chromeIPass</a></p></li>
-<li><p>Klikněte na ikonu vedle adresního řádku a zvolte <strong>Connect</strong> <br>
-<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-02-chrome-connect.png" alt="" /></p></li>
-<li><p>Přepněte se do KeePassu - tam uvidíte následující okno - potřebuje si uložit klíč pro šifrování komunikací - nějak ho pojmenujte <br>
-<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-03-keepass-key.png" alt="" /></p></li>
-<li><p>Pokud pak přejdete na stránku, jejíž adresu máte v KeePassu vyplněnou u nějakého hesla, zobrazí se okno, kde se KeePass ptá, jestli dovolíte přístup daného webu k záznamu v KeePassu. Zkontrolujte, že vše sedí a zatrhněte "Remember this decision", abyste to nemuseli potvrzovat pokaždé. <br>
-<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-04-keepass-confirm-access.png" alt="" /></p></li>
-<li><p>Čárymáryfuk a jméno s heslem jsou předvyplněné. <br>
-<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-05-chrome-filled.png" alt="" /></p></li>
+<li>
+<p>Do Chrome je potřeba nainstalovat rozšíření <a href="https://chrome.google.com/webstore/detail/chromeipass/ompiailgknfdndiefoaoiligalphfdae">chromeIPass</a></p>
+</li>
+<li>
+<p>Klikněte na ikonu vedle adresního řádku a zvolte <strong>Connect</strong> <br>
+<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-02-chrome-connect.png" alt="" /></p>
+</li>
+<li>
+<p>Přepněte se do KeePassu - tam uvidíte následující okno - potřebuje si uložit klíč pro šifrování komunikací - nějak ho pojmenujte <br>
+<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-03-keepass-key.png" alt="" /></p>
+</li>
+<li>
+<p>Pokud pak přejdete na stránku, jejíž adresu máte v KeePassu vyplněnou u nějakého hesla, zobrazí se okno, kde se KeePass ptá, jestli dovolíte přístup daného webu k záznamu v KeePassu. Zkontrolujte, že vše sedí a zatrhněte &quot;Remember this decision&quot;, abyste to nemuseli potvrzovat pokaždé. <br>
+<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-04-keepass-confirm-access.png" alt="" /></p>
+</li>
+<li>
+<p>Čárymáryfuk a jméno s heslem jsou předvyplněné. <br>
+<img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-05-chrome-filled.png" alt="" /></p>
+</li>
 </ol>
-
-<h2 id="pro-tips%3A">Pro Tips:</h2>
-
+<h2 id="pro-tips">Pro Tips:</h2>
 <ul>
 <li>Existuje obdobné rozšíření pro Firefox - <a href="https://github.com/pfn/passifox">PassIFox</a></li>
 <li>rozšíření vás umí automaticky přihlásit do webů, které mají HTTP autentizaci
 <img src="/data/2013/2013-05-03-jak-propojit-keepass-s-google-chrome/2013-05-03-keepass-chrome-06-chrome-httpauth.png" alt="Chrome HTTP authorization" /></li>
 </ul>
-
 <p>Jak pracujete s hesly vy? Pochlubte se v komentářích!</p>
-
 <p>Nedaří se vám to nastavit? Zeptejte se!</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -144,7 +139,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -157,5 +152,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

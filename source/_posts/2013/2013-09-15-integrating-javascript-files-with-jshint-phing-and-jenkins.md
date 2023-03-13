@@ -12,12 +12,10 @@ It can be done it a few steps (I will go through them in more detail later):
 4. Set up reporting in Jenkins
 
 
-1) Installing Node.js
-------------------------------------------------------------
+## 1) Installing Node.js
 Node.js can be installed via [MSI installer on Windows](https://nodejs.org/download/), via [package manager](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) in most Linux distros (except for Debian stable which we are using). So I had to compile it myself (Ubuntu PPA packages does not work because of unmet dependencies). As long as we use Node.js just for JSHint validation, there is no need to upgrade it to latest versions, and therefore I put the package in our salt repository and it can be installed automatically next time (we have whole Jenkins server [salted](https://saltstack.com/community/)).
 
-2) Installing JSHint
-------------------------------------------------------------
+## 2) Installing JSHint
 If you have the Node.js running, installing JSHint is pretty easy. You just run
 ~~~
 npm install jshint -g
@@ -25,8 +23,7 @@ npm install jshint -g
 To verify that it is installed correctly, run `jshint -v` which should print the jshint version.
 
 
-3) Adding JSHint task to a buildfile
-------------------------------------------------------------
+## 3) Adding JSHint task to a buildfile
 This is the hardest step in the whole process. There was no JsHintTask in the standard Phing distribution, so I had to write it myself. I have [issued a PullRequest](https://github.com/phingofficial/phing/pull/237), so it may be part of some future version of Phing.
 
 The first step is to download the task and put it somewhere, where Phing can access it. Next code snippet assumes, that it is a part of the project and it is located in the `support/phing/JsHintTask.php` file.
@@ -80,8 +77,7 @@ JSHint supports config file, where you can set which issues you want to get repo
 ~~~
 
 
-4) Setting up the reporting in Jenkins
-------------------------------------------------------------
+### 4) Setting up the reporting in Jenkins
 Just add a Post-build action - Report Violations and put the path in there.
 ![](/data/2013/2013-09-15-integrating-javascript-files-with-jshint-phing-and-jenkins/2013-09-15-jshint-01-violations.png)
 
@@ -89,6 +85,5 @@ After the build finishes, you can check the errors in the Violations section of 
 
 
 
-Conclusion
--------------
+## Conclusion
 It is really easy to set-up JavaScript files validation in a PHP project, so why not have it? If you have any trouble setting it up, just ask in the comments and I'll try to help you. I would be also happy, if you share your way of validating JS files.

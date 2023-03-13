@@ -11,8 +11,7 @@ Fotky typicky bývají pojmenované jako `DSCN0123.jpg`, `100_9123.jpg` nebo pod
 
 Prvním způsobem, který popíši, je přejmenování podle data a času souboru. To funguje, pokud se na fotky nešahalo - neladily barvy, neotáčely - jak to řešit ukážu dále.
 
-Přejmenování fotek podle data souboru
--------------------------------------------------------
+## Přejmenování fotek podle data souboru
 1. Máš Total Commander? Pokud ne, tak [stáhnout](http://ghisler.com/amazons3.php) (64-bit+32-bit combined), nainstalovat (ideálně do `C:/Users/%uživatel%/totalcmd/` - kdy %uživatel% je uživatelské jméno).
 2. Udělat zálohu fotek - aby byla jedna složka s těmi, které se budou přejmenovávat a někde jinde kopie, kdyby se tohle nezadařilo.
 3. Jdi do složky s fotkama, vyber všechny, dej CTRL+M (nebo Files -> MultiRename tool) - spustí se hromadné přejmenování
@@ -26,8 +25,7 @@ Přejmenování fotek podle data souboru
 
 Problém nastane ve chvíli, kdy se na ty fotky šahalo a změnilo se jejich datum čas. Případně, pokud jsou stahované z telefonu - tam je také většinou datum vytvoření souboru a ne vyfocení. Naštěstí foťáky a telefony ukládají k fotkám tzv. [EXIF informace](https://en.wikipedia.org/wiki/Exchangeable_image_file_format) - zjednodušeně řečeno jde o metadata snímku, která obsahují informace o foťáku, expozici, GPS souřadnice, a hlavně i datum a čas pořízení snímku.
 
-Přejmenování fotek podle data z EXIF
---------------------------------------------------
+## Přejmenování fotek podle data z EXIF
 *Většina kroků je stejná s předchozím postupem, jen některé se liší.*
 
 - 1a) [Stáhnout](http://ghisler.fileburst.com/content/wdx_exif.zip) plugin pro EXIF a otevřít ho v Total Commanderu - mělo by se nabídnout, že se chce do TC nainstalovat<br>

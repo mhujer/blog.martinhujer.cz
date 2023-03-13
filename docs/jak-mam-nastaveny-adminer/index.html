@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Jak mám nastavený Adminer?</h2>
             <p><small>2011-06-28</small></p>
@@ -43,22 +43,16 @@
 
         <div class="article-text">
             <p>Pro práci s MySQL databází používám <a href="https://www.adminer.org/">Adminer</a> a abych se nemusel pokaždé přihlašovat, využívám možnost napsat si <a href="https://www.adminer.org/cs/extension/">vlastní minirozšíření</a>. Mým cílem bylo mít Adminer o nejsnáze přístupný pro lokální databáze.</p>
-
 <p>Do souboru hosts jsem si proto <a href="/editace-souboru-hosts/">přidal</a> doménu <code>m</code>:</p>
-
 <pre><code>127.0.0.1 m
 </code></pre>
-
 <p>V <code>htdocs</code> mám složku <code>adminer</code>, kam mám nasměrovaný virtualhost:</p>
-
 <pre><code>&lt;VirtualHost *:80&gt;
     ServerName m
     DocumentRoot /xampplite/htdocs/adminer/
 &lt;/VirtualHost&gt;
 </code></pre>
-
 <p>A ve složce mám soubory <code>adminer-3.2.2.php</code>, <code>adminer.css</code> a <code>index.php</code>, který obsahuje rozšíření:</p>
-
 <pre><code class="php">&lt;?php
 //v adrese musí být ?username= aby bylo možné přihlášení bez zadávání hesla
 if ($_SERVER['REQUEST_URI'] == '/') {
@@ -77,48 +71,46 @@ function adminer_object() {
 
 include './adminer-3.2.2.php';
 </code></pre>
-
 <p>Díky tomu stačí v prohlížeči zadat <code>m</code> a hned vidím výpis databází.</p>
-
 <p><strong>Update 2015-06-14</strong>: Teď používám nadstavbu od dg, s <a href="https://github.com/mhujer/adminer-custom">autologinem v mém forku</a>.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -133,7 +125,7 @@ include './adminer-3.2.2.php';
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -146,5 +138,5 @@ include './adminer-3.2.2.php';
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

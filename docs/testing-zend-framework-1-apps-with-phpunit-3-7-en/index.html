@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Testing Zend Framework 1 apps with PHPUnit 3.7+ [EN]</h2>
             <p><small>2013-05-19</small></p>
@@ -43,66 +43,58 @@
 
         <div class="article-text">
             <p>UPDATE: It was merged to ZF as a <a href="https://github.com/zendframework/zf1/pull/214">PR #214</a>. All you need to do is to update Zend Framework.</p>
-
-<p><s>
-Great Zend Framework apps definitely should have automated tests. ZF helps you with that by providing PHPUnit extension which allows you to test controllers - adds special asserts for response and DOM queries. But there is a big downside - it works only with PHPUnit 3.4. I agree with the goal to maintain ultimate backwards compatibility, but I prefer to use latest versions of my tools. So I have latest PHPUnit installed for testing other apps and 3.4 for testing ZF1 apps (see <a href="http://tech.vg.no/2011/11/29/running-multiple-versions-of-phpunit/">this tutorial</a> to install PHPUnit 3.4 and the latest one). I hate having to set up two PHPUnits after reinstall (and setting them up on CI server).</p>
-
+<s>
+<p>Great Zend Framework apps definitely should have automated tests. ZF helps you with that by providing PHPUnit extension which allows you to test controllers - adds special asserts for response and DOM queries. But there is a big downside - it works only with PHPUnit 3.4. I agree with the goal to maintain ultimate backwards compatibility, but I prefer to use latest versions of my tools. So I have latest PHPUnit installed for testing other apps and 3.4 for testing ZF1 apps (see <a href="http://tech.vg.no/2011/11/29/running-multiple-versions-of-phpunit/">this tutorial</a> to install PHPUnit 3.4 and the latest one). I hate having to set up two PHPUnits after reinstall (and setting them up on CI server).</p>
 <p>So I decided to fix the Zend_Test (for myself) to work with latest PHPUnit. I originally thought I would have to do it myself, but then I found <a href="http://opensource.hqcodeshop.com/Zend%20Framework/PHPUnit%203.7%20-%201.12.1/">this patch</a> (thanks!) which I have applied to a branch in my fork of ZF1.</p>
-
 <p>After that, I needed to fix my tests to work with latest PHPUnit. Luckily it meant just replacing <code>assertType()</code> with <code>assertInstanceOf()</code>.</p>
-
-<h2 id="shortly%2C-you-need-to-do-this%3A">Shortly, you need to do this:</h2>
-
+<h2 id="shortly-you-need-to-do-this">Shortly, you need to do this:</h2>
 <ol>
 <li>Fix the Zend_Test</li>
 <li>Fix your tests</li>
 <li>Get rid of the old PHPUnit 3.4</li>
 <li>Profit</li>
 </ol>
-
 <p>After that the tests run fine with latest PHPUnit.</p>
-
 <p>If you have any questions or trouble fixing ZF1 and tests for latest PHPUnit, feel free to ask in the comments.</p>
-
-<p></s></p>
+</s>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -117,7 +109,7 @@ Great Zend Framework apps definitely should have automated tests. ZF helps you w
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -130,5 +122,5 @@ Great Zend Framework apps definitely should have automated tests. ZF helps you w
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

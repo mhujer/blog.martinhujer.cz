@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>VŠE: Zkoušky z ISISu do kalendáře</h2>
             <p><small>2013-10-02</small></p>
@@ -43,66 +43,68 @@
 
         <div class="article-text">
             <p>Aktualizoval jsem svoje <a href="https://chrome.google.com/webstore/detail/isis-icalgcal-export/hhkoekkpnogggelmhefickjpfiediigi">rozšíření pro Google Chrome</a>, které do ISISu přidá tlačítka pro uložení zkouškového termínu do iCal formátu (pro Outlook) a pro přidání do Google Calendar.</p>
-
 <p><a href="https://chrome.google.com/webstore/detail/isis-icalgcal-export/hhkoekkpnogggelmhefickjpfiediigi"><img src="/data/2013/2013-10-02-isis-export-do-kalendare/tile.png" alt="" /></a></p>
-
 <p>Chtěl jsem si hlavně vyzkoušet Typescript a TDD v JavaScriptu - a není to špatné. Když už se PHP nástroje konečně naučily code-completion a refactoring, tak by se mi nechtělo do jazyka, kde to rozumně nejde.</p>
-
 <p>Co jsem se zajímavého naučil?</p>
-
 <ul>
-<li><p>vytvářet rozšíření pro Google Chrome je docela fajn</p></li>
-<li><p>Z JavaScriptu jde stáhnout soubor pomocí data-URI (<code>location.href = data:…</code>), ale ten nejde pojmenovat. Lepší finta je vytvořit si <code>a</code> element, použít download atribut a pak na něj "kliknout":</p></li>
+<li>
+<p>vytvářet rozšíření pro Google Chrome je docela fajn</p>
+</li>
+<li>
+<p>Z JavaScriptu jde stáhnout soubor pomocí data-URI (<code>location.href = data:…</code>), ale ten nejde pojmenovat. Lepší finta je vytvořit si <code>a</code> element, použít download atribut a pak na něj &quot;kliknout&quot;:</p>
+</li>
 </ul>
-
 <pre><code class="javascript">var link = document.createElement('a');
 link.download = 'zk-' + ident + '.ics';
 link.href = data;
 link.click();
 </code></pre>
-
 <ul>
-<li><p>iCal soubor pro Outlook jde generovat docela snadno.</p></li>
-<li><p>Přidání události do Google Calendar je ještě snazší - parametry se jen předají v URL.</p></li>
+<li>
+<p>iCal soubor pro Outlook jde generovat docela snadno.</p>
+</li>
+<li>
+<p>Přidání události do Google Calendar je ještě snazší - parametry se jen předají v URL.</p>
+</li>
 </ul>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -117,7 +119,7 @@ link.click();
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -130,5 +132,5 @@ link.click();
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

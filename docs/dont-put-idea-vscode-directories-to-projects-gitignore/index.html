@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Don&#039;t put .idea and .vscode directories to project&#039;s .gitignore &mdash; Martin Hujer blog</title>
+        <title>Don&#39;t put .idea and .vscode directories to project&#39;s .gitignore &mdash; Martin Hujer blog</title>
         <meta charset="utf-8">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,28 +35,22 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
-            <h2>Don&#039;t put .idea and .vscode directories to project&#039;s .gitignore</h2>
+            <h2>Don&#39;t put .idea and .vscode directories to project&#39;s .gitignore</h2>
             <p><small>2019-08-26</small></p>
         </header>
 
         <div class="article-text">
             <blockquote>
-  <p><strong>tl;dr:</strong> Don't put <code>.idea</code> and <code>.vscode</code> directories to project's <code>.gitignore</code>. You should configure a global <code>.gitignore</code> for your machine instead.</p>
+<p><strong>tl;dr:</strong> Don't put <code>.idea</code> and <code>.vscode</code> directories to project's <code>.gitignore</code>. You should configure a global <code>.gitignore</code> for your machine instead.</p>
 </blockquote>
-
 <p>When you are using git (or any other version control), there are some temporary files in the directory structure, which should not be included in the repository. Usually they are listed in the <code>.gitignore</code> file in the project root directory.</p>
-
 <p><strong>What if I told you that there are other ways to exclude temporary files from the project? There are three.</strong></p>
-
-<h2 id="1.-.gitignore-file-in-the-project%27s-root">1. .gitignore file in the project's root</h2>
-
+<h2 id="1-gitignore-file-in-the-project-s-root">1. .gitignore file in the project's root</h2>
 <p><code>.gitignore</code> in the project is the most important one. In it you should list any files or directories which are created by the application itself. Best examples are cache files, logs, local configs etc.</p>
-
 <p>In the Symfony application your <code>.gitignore</code> may look like this (I included an explanation on each line):</p>
-
-<pre><code class="gitignore">/.env.local   &lt;-- local config
+<pre><code class=".gitignore">/.env.local   &lt;-- local config
 /.env.*.local   &lt;-- local config
 /var/   &lt;-- cache and logs
 /vendor/   &lt;-- dependencies installed through Composer
@@ -69,28 +63,19 @@
 /phpcs.xml   &lt;-- local PHPCS config used for overriding the default phpcs.xml.dist
 .php_cs.cache   &lt;-- PHPCS cache file
 </code></pre>
-
 <p>The important thing is that those files are created by the application itself by either building it, running it or doing some work on it.</p>
-
-<h2 id="2.-global-.gitignore-for-your-machine">2. Global .gitignore for your machine</h2>
-
+<h2 id="2-global-gitignore-for-your-machine">2. Global .gitignore for your machine</h2>
 <p>Some files or directories present in the application directory are not created by the application itself, but by the operating system or other applications. Those shouldn't be excluded using the project's <code>.gitignore</code>, because they may differ from developer to developer.</p>
-
 <p>Common examples are <code>.idea</code> (PhpStorm), <code>.vscode</code> (VS Code), <code>Thumbs.db</code> (Windows thumbnails cache), <code>.DS_Store</code> (some macOS cache).</p>
-
 <p>There is a perfect place for them - the global <code>.gitignore</code> file for the machine. When you add something there, it is ignored in any repository, so you don't have to exclude those files in every project you happen to be working on.</p>
-
 <p>You configure the path to the global <code>.gitignore</code> in the <code>.gitconfig</code> file which usually resides in your home directory:</p>
-
 <pre><code># add this to ~/.gitconfig:
 
 [core]
     excludesfile = ~/.gitignore
 </code></pre>
-
 <p>And create the <code>.gitignore</code> file in your home directory:</p>
-
-<pre><code class="gitignore"># create ~/.gitignore
+<pre><code class=".gitignore"># create ~/.gitignore
 
 # PhpStorm
 .idea
@@ -98,70 +83,59 @@
 # VSCode
 .vscode
 </code></pre>
-
 <p>From now on, those will be ignored in any git repository on your machine.</p>
-
 <p>Quite often I see people adding those anyway. From a quick Github search you can see that there are almost 200k results for commits which mention some commonly ignored directory:</p>
-
 <ul>
 <li><code>.vscode</code> <a href="https://github.com/search?q=gitignore+.vscode&amp;type=Commits">27K results</a></li>
 <li><code>.DS Store</code> <a href="https://github.com/search?q=gitignore+.DS_Store&amp;type=Commits">68K results</a></li>
 <li><code>.idea</code> <a href="https://github.com/search?q=gitignore+.idea&amp;type=Commits">100K results</a></li>
 </ul>
-
 <p>There is no point in adding those for the internally developed applications, as you can nudge each developer to properly configure his workstation. But if you are managing an open-source application or library, you may want to make it easier for newcomers to submit patches - even though you know it is not a clean solution. On the other hand, do you expect to receive high-quality contributions from developers who don't bother to properly configure their workstations?</p>
-
-<h2 id="3.-%60.git%5Cinfo%5Cexclude%60">3. <code>.git\info\exclude</code></h2>
-
+<h2 id="3-git-info-exclude">3. <code>.git\info\exclude</code></h2>
 <p>For the sake of completeness, I must mention the third option. You can use <code>.git\info\exclude</code> file to exclude files for a single repository. But those exclusions are not versioned, so the others won't benefit from them.</p>
-
 <p>I can't remember using it, but you may find it useful in some situations.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Imagine that there is a new editor called Extra Textedit with an advanced AI which really helps with coding. As it becomes more popular, there will be a flood of commits and Pull Requests with <code>add .eedit directory to .gitconfig</code>.</p>
-
 <p><strong>Please use the global .gitignore and don't make the people on the internet spend hundreds or thousands of hours on this.</strong></p>
-
 <p>Btw. I recommend reading the <a href="https://git-scm.com/docs/gitignore">gitignore documentation</a> to learn more about the patterns you can use to exclude files.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -176,7 +150,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -189,5 +163,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

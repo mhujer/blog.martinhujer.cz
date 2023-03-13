@@ -1,0 +1,5 @@
+{
+    "layout": "layout.njk",
+    "baseTitle": "Martin Hujer blog",
+    "baseUrl": "https://blog.martinhujer.cz"
+}

@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Deploying only during maintenance windows is an antipattern</h2>
             <p><small>2021-04-04</small></p>
@@ -43,11 +43,8 @@
 
         <div class="article-text">
             <p>In this article I argue that deploying the new web application versions only during a maintenance window is an antipattern, and you should strive to have Zero-Downtime deployments.</p>
-
-<p>It has long been a common practice to take a website or a web application down regularly and deploy a new version during that downtime. It is easy: You just schedule a 3-hour maintenance window between midnight and 3AM, make the application return <em>"We are performing maintenance"</em> page with an HTTP 503 code and do the upgrade or whatever during that time. And try to get some sleep afterwards.</p>
-
+<p>It has long been a common practice to take a website or a web application down regularly and deploy a new version during that downtime. It is easy: You just schedule a 3-hour maintenance window between midnight and 3AM, make the application return <em>&quot;We are performing maintenance&quot;</em> page with an HTTP 503 code and do the upgrade or whatever during that time. And try to get some sleep afterwards.</p>
 <p>Apart from the obvious advantages - nobody is messing with the application when you are releasing a new version, there are many reasons why it is not such a good idea:</p>
-
 <ol>
 <li>There is no natural maintenance window</li>
 <li>It's better to sleep at night</li>
@@ -55,95 +52,72 @@
 <li>Business won't wait for your maintenance window</li>
 <li>Small changes are safer</li>
 </ol>
-
-<h2 id="1.-there-is-no-natural-maintenance-window">1. There is no natural maintenance window</h2>
-
+<h2 id="1-there-is-no-natural-maintenance-window">1. There is no natural maintenance window</h2>
 <p>There are natural maintenance windows only for a small part of the web applications - e.g., when you are working on a B2B application which is used only by business only during their business hours, and they are all in one time-zone.</p>
-
 <p>When you are making a B2C application - ecommerce website or something like that, there is always going to be someone using your application. There are people working shifts, so they may be bored during a night shift and want to browse your website.</p>
-
 <p>Or you go global and suddenly there is always someone's afternoon somewhere.</p>
-
 <p>If you schedule maintenance window to the time when someone needs to use the application, you will annoy your existing users and lose any potential new customers who will visit the application during downtime.</p>
-
 <p>And there are some questions which needs answering: What happens when someone filled a form a minute before the maintenance window and tries to submit it during the maintenance window? Will it fail? How? What about the data they entered?</p>
-
 <p>Note: At least don't forget to send <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503">proper HTTP 503 status code</a> or your temporary page may be indexed by search engines.</p>
-
-<h2 id="2.-it%27s-better-to-sleep-at-night">2. It's better to sleep at night</h2>
-
+<h2 id="2-it-s-better-to-sleep-at-night">2. It's better to sleep at night</h2>
 <p>I'm a morning person (usually getting up at 7 AM, back at bed at 11 PM) so staying awake beyond midnight is really hard, and I guess I won't be very good at debugging a thorny production issue at 3 AM.</p>
-
 <p>The more important is that messing up your sleep rhythm is bad for your health. If I stayed up until 3 AM, I would be useless the next day even after sleeping in. And my sleep rhythm will be disturbed for a few days at least. So, it is not worth it health- and productivity-wise.</p>
-
-<h2 id="3.-the-computers-never-sleep">3. The computers never sleep</h2>
-
+<h2 id="3-the-computers-never-sleep">3. The computers never sleep</h2>
 <p>The computers never sleep, so even if there is a natural maintenance window, there may still be API calls coming to your application, webhooks may be called, etc. And depending on the 3rd party error handling, those may or may not be retried later.</p>
-
-<h2 id="4.-business-won%27t-wait-for-your-maintenance-window">4. Business won't wait for your maintenance window</h2>
-
+<h2 id="4-business-won-t-wait-for-your-maintenance-window">4. Business won't wait for your maintenance window</h2>
 <p>If you can deploy new features only once every two weeks, the businesspeople in your company won't be happy having to wait up two weeks for a small change to go live. If they worked somewhere else where Zero-Downtime deployments where common, they would see you as incompetent.</p>
-
 <p>Don't forget that if there is a competition moving faster than you, you risk losing customers to them.</p>
-
-<h2 id="5.-small-changes-are-safer">5. Small changes are safer</h2>
-
+<h2 id="5-small-changes-are-safer">5. Small changes are safer</h2>
 <p>Imagine there are 20 different changes in the release, and something breaks, or the load suddenly increases after the deployment. How will you debug it? It can be any of those 20 changes. If you did deploy only one change it would be both easier to debug the problem or rollback the change completely.</p>
-
 <p>How do you rollback a big release with many database changes? And what if you discover the issue the day after the release? You cannot just revert to the older backup. You are out of luck.</p>
-
-<h2 id="so%2C-what-should-we-do-instead%3F">So, what should we do instead?</h2>
-
+<h2 id="so-what-should-we-do-instead">So, what should we do instead?</h2>
 <ul>
 <li>Automate the deployment process</li>
 <li>Deploy each change separately</li>
 <li>Be careful about database migrations (I will write a separate post about database migrations without downtime)</li>
 <li>Even if it may seem that the change warrants a maintenance window, try to think hard how to decompose it into several steps which may be deployed gradually without downtime.</li>
 </ul>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>When you consider the downsides discussed above, it does not seem that bad to spend some time on making your deployment process Zero-Downtime, right?</p>
-
 <p>Please note that there are rare occasions when it is dramatically easier to schedule the maintenance window instead of doing it gradually (e.g., migrating the database to a new server). But those should be rare once-a-year special occasions, not part of your regular deployment process.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -158,7 +132,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -171,5 +145,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

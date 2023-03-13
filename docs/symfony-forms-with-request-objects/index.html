@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Don&#039;t Use Entities in Symfony Forms. Use Custom Data Objects Instead &mdash; Martin Hujer blog</title>
+        <title>Don&#39;t Use Entities in Symfony Forms. Use Custom Data Objects Instead &mdash; Martin Hujer blog</title>
         <meta charset="utf-8">
         <meta name="theme-color" content="#ffffff">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,53 +35,35 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
-            <h2>Don&#039;t Use Entities in Symfony Forms. Use Custom Data Objects Instead</h2>
+            <h2>Don&#39;t Use Entities in Symfony Forms. Use Custom Data Objects Instead</h2>
             <p><small>2017-08-23</small></p>
         </header>
 
         <div class="article-text">
             <blockquote>
-  <p>First part of this article explains why entities should not be used directly in Symfony Forms. Second part presents an approach which solves most of the problems presented in the first part.</p>
+<p>First part of this article explains why entities should not be used directly in Symfony Forms. Second part presents an approach which solves most of the problems presented in the first part.</p>
 </blockquote>
-
 <p>Let's start with stating that <strong>using entities for validation in Symfony Forms</strong> is widely used and widely recommend approach. Even the <a href="https://symfony.com/doc/current/forms.html">official documentation</a> suggests it.</p>
-
 <p><strong>And I don't think it is a good idea!</strong></p>
-
 <p><strong>Why?</strong></p>
-
-<h3 id="1.-an-entity-should-be-always-valid.">1. An entity should be always valid.</h3>
-
+<h3 id="1-an-entity-should-be-always-valid">1. An entity should be always valid.</h3>
 <p>An entity should be always valid. It should not be possible for the entity to get to some inconsistent state. And that's exactly what the form validation is doing. When the form is submitted, the data are injected (through public properties or setters) into the entity and validated. And even if the validation fails, the invalid data are kept there and you have an invalid entity at hand.</p>
-
 <blockquote>
-  <p>Read <a href="https://ocramius.github.io/doctrine-best-practices/">those slides</a> from Ocramius or <a href="https://vimeo.com/134178140">watch the video</a> for great explanation what is means to have a valid entity (and much more).</p>
+<p>Read <a href="https://ocramius.github.io/doctrine-best-practices/">those slides</a> from Ocramius or <a href="https://vimeo.com/134178140">watch the video</a> for great explanation what is means to have a valid entity (and much more).</p>
 </blockquote>
-
 <p>It's also not that hard to imagine the situation when this can cause you serious trouble. If the entity is already managed by EntityManager (because it is an <code>updateAction</code>) and there is a <code>$entityManager-&gt;flush()</code> call lurking in some listener, you'd end up with invalid data stored in database.</p>
-
-<h3 id="2.-change%21-change%21-change%21">2. Change! Change! Change!</h3>
-
-<p>The only sure thing about the software development is "change". Eventually you will need to change the structure of the form, maybe split it in two-step form. And the form fields will no longer map exactly 1:1 to entity's fields.</p>
-
-<h3 id="3.-layers-separation">3. Layers separation</h3>
-
+<h3 id="2-change-change-change">2. Change! Change! Change!</h3>
+<p>The only sure thing about the software development is &quot;change&quot;. Eventually you will need to change the structure of the form, maybe split it in two-step form. And the form fields will no longer map exactly 1:1 to entity's fields.</p>
+<h3 id="3-layers-separation">3. Layers separation</h3>
 <p>It breaks the layers separation. Each layer should depend only on the deeper ones, not the other way around.</p>
-
 <hr />
-
 <p>What can we do instead of using entities in forms? Symfony documentation describes <a href="https://symfony.com/doc/current/form/without_class.html">how to use forms with data stored in array</a>. It is a viable solution, but it has disadvantages as well. Some I can think of is that you won't get code completion in IDE for the form data. Or that it is hard to statically analyze arrays with tools such as <a href="https://github.com/phpstan/phpstan">PHPStan</a>.</p>
-
 <p>And there is another solution, the one I prefer.</p>
-
 <h2 id="custom-data-classes-for-the-win">Custom Data Classes for the win</h2>
-
 <p>To get around the disadvantages mentioned above, I suggest using a custom class to represent the form data.</p>
-
 <p>Let's have a look at the example:</p>
-
 <pre><code class="php">use Symfony\Component\Validator\Constraints as Assert;
 
 class CreateArticleRequest
@@ -89,7 +71,7 @@ class CreateArticleRequest
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min="10", max="100")
+     * @Assert\Length(min=&quot;10&quot;, max=&quot;100&quot;)
      * @var string
      */
     public $title;
@@ -108,13 +90,10 @@ class CreateArticleRequest
 
 }
 </code></pre>
-
 <p>It is a simple class that has some public properties and validator annotations. The main advantage is that is has nothing to do with the actual entity. <code>CreateArticleRequest</code> can handle as much of invalid data as you want and it won't cause you any trouble.</p>
-
 <p>Second step is using the request object in the controller. You can use it the same way you'd use the entity (the following code should be self-explanatory):</p>
-
 <pre><code class="php">  /**
-     * @Route("/article/create/", name="article_create")
+     * @Route(&quot;/article/create/&quot;, name=&quot;article_create&quot;)
      */
     public function createAction(Request $request)
     {
@@ -148,9 +127,7 @@ class CreateArticleRequest
         ]);
     }
 </code></pre>
-
 <p>And for the sake of completeness, the source of <code>ArticleFormType</code>:</p>
-
 <pre><code class="php">class ArticleFormType extends \Symfony\Component\Form\AbstractType
 {
 
@@ -172,15 +149,10 @@ class CreateArticleRequest
     }
 }
 </code></pre>
-
 <p>I call the data class <code>CreateArticleRequest</code> because it is a <em><code>Request</code></em> to create an article. You will probably also have a <code>UpdateArticleRequest</code> class with different properties (in some cases, both classes may be the same, so one <code>ArticleRequest</code> would be sufficient).</p>
-
 <p>The <code>*Request</code> suffix may cause some confusion with the <code>Request</code> class which represents a HTTP request. If that is your case, you are free to change the suffix to <code>*Data</code> and use a class called <code>CreateArticleData</code>.</p>
-
-<h2 id="what-about-update-form%3F">What about update form?</h2>
-
-<p>One of the specifics of the update is that it won't necessarily have the exact same fields as the "create". In the example, we don't want to update the <code>publishDate</code> field in the entity. The <code>UpdateArticleRequest</code> will look like this:</p>
-
+<h2 id="what-about-update-form">What about update form?</h2>
+<p>One of the specifics of the update is that it won't necessarily have the exact same fields as the &quot;create&quot;. In the example, we don't want to update the <code>publishDate</code> field in the entity. The <code>UpdateArticleRequest</code> will look like this:</p>
 <pre><code class="php">use Symfony\Component\Validator\Constraints as Assert;
 
 class UpdateArticleRequest
@@ -188,7 +160,7 @@ class UpdateArticleRequest
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min="10", max="100")
+     * @Assert\Length(min=&quot;10&quot;, max=&quot;100&quot;)
      * @var string
      */
     public $title;
@@ -209,13 +181,10 @@ class UpdateArticleRequest
     }
 }
 </code></pre>
-
 <p>You can see that the <code>$publishDate</code> field is missing, but more importantly, we have a new method there - <code>fromArticle(Article $article)</code>. It allows you to prepopulate the data from the existing article.</p>
-
 <p>Check the following example of <code>updateAction()</code> to see how to use it in controller:</p>
-
 <pre><code class="php">    /**
-     * @Route("/article/update/{id}/", name="article_update")
+     * @Route(&quot;/article/update/{id}/&quot;, name=&quot;article_update&quot;)
      */
     public function updateAction(Article $article, Request $request)
     {
@@ -248,80 +217,73 @@ class UpdateArticleRequest
         ]);
     }
 </code></pre>
-
 <p>You may think - that's a lot of code to write! I agree, but rest assured it is worth it in the long run. If your app contains some business logic and is not just a plain CRUD, it will eventually need different fields and validation rules during <em>create</em> and <em>update</em>. Then you will make good use of this extra code you had written.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>In the article, I suggested why it may not be the best idea to use entities in Symfony Forms. The second part of the article proposes a way how to tackle this problem - by using a custom object instead of entity to carry the data and handle the validation.</p>
-
 <p>There are two more takeaways:</p>
-
 <ol>
 <li>Always separate the application layers.</li>
 <li>Do not blindly follow the documentation (or other developers).</li>
 </ol>
-
 <p><strong>Do you use similar solution in your projects? If you are using entities, have you already encountered any problems?</strong></p>
-
 <p>Finally, you may want to read two related articles: <a href="https://stovepipe.systems/post/avoiding-entities-in-forms">Avoiding Entities in Forms</a> and <a href="https://stovepipe.systems/post/rethinking-form-development">Rethinking Form Development</a> (written by Iltar van der Berg).</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -336,7 +298,7 @@ class UpdateArticleRequest
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -349,5 +311,5 @@ class UpdateArticleRequest
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

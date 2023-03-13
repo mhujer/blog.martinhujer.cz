@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Use different Google Analytics ID by domain in Google Tag Manager</h2>
             <p><small>2018-08-26</small></p>
@@ -43,50 +43,42 @@
 
         <div class="article-text">
             <p>When setting up Google Analytics (or Facebook Pixel) in the Google Tag Manager the typical approach is to put the UA-code or the Pixel ID into the <em>Constant</em> Variable. And that ID is then used in the GA/Facebook <em>Tag</em>.</p>
-
 <p>But soon after launch the people from Marketing will start complaining that some strange orders and conversions are appearing in the Google Analytics.</p>
-
 <p>What happened? Apart from real orders, also the orders made in testing and dev environments are sent there.</p>
-
-<p>There is a better way. 
+<p>There is a better way.
 <strong>You can easily use different UA codes in production and in testing environments.</strong>
 In the rest of the article I will guide you through setting it up.</p>
-
 <h2 id="analysis">Analysis</h2>
-
 <p>It is clear that we want to use testing UA code in dev/test environments, but apart from that we also want to use it when testing the Google Tag Manager configuration itself with <em>Preview feature</em> (even on production website).</p>
-
 <p>The decision process for the UA code goes like this:</p>
-
 <ul>
-<li><strong>Are we running in Debug mode?</strong>
-
-<ul>
+<li><strong>Are we running in Debug mode?</strong></li>
 <li><strong>YES</strong>: use test ID</li>
-<li><strong>NO</strong>:</li>
+<li><strong>NO</strong>:
+<ul>
 <li><strong>Are we on production domain?</strong>
-
 <ul>
 <li><strong>YES</strong>: use real ID</li>
 <li><strong>NO</strong>: use test ID</li>
-</ul></li>
-</ul></li>
 </ul>
-
+</li>
+</ul>
+</li>
+</ul>
 <h2 id="preparation">Preparation</h2>
-
 <ol>
-<li><p>Go to Google Tag Manager and create two <em>Constant</em> Variables:</p>
-
+<li>
+<p>Go to Google Tag Manager and create two <em>Constant</em> Variables:</p>
 <ul>
 <li><code>GA_ID_DEV</code> with the testing ID</li>
 <li><code>GA_ID_PROD</code> with the production ID</li>
-</ul></li>
-<li><p>In the Variables section in <em>Built-In Variables</em> enable <code>Debug Mode</code> and <code>Page Hostname</code> variables.</p></li>
+</ul>
+</li>
+<li>
+<p>In the Variables section in <em>Built-In Variables</em> enable <code>Debug Mode</code> and <code>Page Hostname</code> variables.</p>
+</li>
 </ol>
-
 <h2 id="setting-up-the-hostname-detection">Setting up the hostname detection</h2>
-
 <ol>
 <li>Create a Variable of type <code>Lookup Table</code> and name it <code>GA_ID_BY_HOSTNAME</code></li>
 <li><em>Input Variable</em> is <code>{{Page Hostname}}</code></li>
@@ -96,16 +88,11 @@ In the rest of the article I will guide you through setting it up.</p>
 <li>Check <em>Set default value</em> checkbox</li>
 <li>Put <code>{{GA_ID_DEV}}</code> to the <em>Default value</em> field</li>
 </ol>
-
 <p>It should look like this:
 <img src="/data/2018/2018-08-26-use-different-code-id/01-by-hostname.png" alt="GA_ID_BY_HOSTNAME variable configuration" /></p>
-
 <p>By defining only the production domain and using <em>default value</em> for anything else, we handle any testing or dev environment.</p>
-
 <h2 id="setting-up-the-debug-environment-detection">Setting up the Debug environment detection</h2>
-
 <p>If you look back into the <em>Analysis</em> chapter, we have covered the <em>Are we on production domain?</em> part. Now we will cover the <em>Are we running in Debug mode?</em>.</p>
-
 <ol>
 <li>Create a Variable of type <code>Lookup Table</code> and name it <code>GA_ID</code></li>
 <li><em>Input Variable</em> is <code>{{Debug Mode}}</code></li>
@@ -114,63 +101,54 @@ In the rest of the article I will guide you through setting it up.</p>
 <li>Click <em>Add row</em> again</li>
 <li>Put <code>false</code> into the <em>Input</em> field and <code>{{GA_ID_BY_HOSTNAME}}</code> into the <em>Output</em> field</li>
 </ol>
-
 <p>It should look like this:
 <img src="/data/2018/2018-08-26-use-different-code-id/02-by-debugmode.png" alt="GA_ID variable configuration" /></p>
-
 <p>You might have noticed that we have used the variable <code>GA_ID_BY_HOSTNAME</code> which we prepared in previous step.</p>
-
 <h2 id="setting-up-the-google-analytics-tag">Setting up the Google Analytics Tag</h2>
-
 <p>With all those variables prepared, you can set up the Google Analytics tag as usual. But when creating the <code>Google Analytics Settings</code>, put <code>{{GA_ID}}</code> into the <em>Tracking ID</em> field as in the following picture. It will be resolved to correct UA code depending on the environment.</p>
-
 <p><img src="/data/2018/2018-08-26-use-different-code-id/03-tag-settings.png" alt="Google Analytics Settings variable" /></p>
-
 <p>That's it!</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Apart from Google Analytics ID, you can use this guide to set up Facebook Pixel ID or any other system where you can easily create different IDs for different environments.</p>
-
 <p>Are you using similar approach? Or did you find a better way? Let me know in the comments!</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -185,7 +163,7 @@ In the rest of the article I will guide you through setting it up.</p>
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -198,5 +176,5 @@ In the rest of the article I will guide you through setting it up.</p>
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

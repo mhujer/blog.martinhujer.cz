@@ -1,5 +1,6 @@
 ---
 title: Checking a custom coding standard with PHP_CodeSniffer
+permalink: checking-a-custom-coding-standard-with-php_codesniffer/
 showPhpTrainingAd: true
 ---
 

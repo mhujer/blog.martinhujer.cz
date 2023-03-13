@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>How to add a non-nullable column without downtime</h2>
             <p><small>2021-04-05</small></p>
@@ -43,84 +43,49 @@
 
         <div class="article-text">
             <p>Database migrations are hard for many reasons. In this article I explain how to add a non-nullable column to an application when you are using Zero-Downtime deployments.</p>
-
 <p><em>If you are using maintenance windows for releasing new versions, please read my article on why <a href="https://blog.martinhujer.cz/maintenance-window-antipattern/">Deploying only during maintenance windows is an antipattern</a>.</em></p>
-
-<h2 id="what-is-the-problem%3F">What is the problem?</h2>
-
+<h2 id="what-is-the-problem">What is the problem?</h2>
 <p>Even if your deployment process is automated, there may be a delay between when the database migration runs, and the new version of the application is deployed. It may be a minute or two if you have just one application server but longer if you have a fleet of servers, and you are deploying gradually.</p>
-
 <p>When you add a new non-nullable column to a table, inserts on this table will fail, until the new version of the application is deployed to all nodes, because it will try to insert NULL into a non-nullable column.</p>
-
-<p>You can think <em>"Whatever...my deploy is fast. Nobody will notice."</em>, but please keep in mind that the deployment may fail at any phase - it may fail after the database migration was run but before the new code is deployed. Your production environment will be down until you can either roll back the database change or fix your deployment (npmjs down?).</p>
-
+<p>You can think <em>&quot;Whatever...my deploy is fast. Nobody will notice.&quot;</em>, but please keep in mind that the deployment may fail at any phase - it may fail after the database migration was run but before the new code is deployed. Your production environment will be down until you can either roll back the database change or fix your deployment (npmjs down?).</p>
 <p>Consider this example: you have simple todo-list app, and you want to allow users to decide whether the task is <code>simple</code> or <code>complex</code>. So in the new application version you add a <code>type</code> column and start inserting either <code>simple</code> or <code>complex</code> in that column.</p>
-
-<pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NOT NULL;
+<pre><code class="sql">ALTER TABLE `tasks`	ADD COLUMN `type` VARCHAR(50) NOT NULL;
 </code></pre>
-
 <p>What happens? After you run the migration and before the application deployment will finish, no tasks can be added to the application because of the error:</p>
-
 <pre><code class="sql">SQL Error (1364): Field 'type' doesn't have a default value
 </code></pre>
-
 <p>What can be done about it?</p>
-
-<h2 id="it%27s-all-about-backwards-compatibility">It's all about backwards compatibility</h2>
-
+<h2 id="it-s-all-about-backwards-compatibility">It's all about backwards compatibility</h2>
 <p>The solution is simple - <strong>the database changes must be backwards compatible.</strong></p>
-
 <p>The changes performed on the database must be also compatible with the currently deployed application version.</p>
-
-<h2 id="step-1%3A-add-a-nullable-column">Step 1: add a nullable column</h2>
-
+<h2 id="step-1-add-a-nullable-column">Step 1: add a nullable column</h2>
 <p>Instead of adding a non-nullable column, you add a nullable column first:</p>
-
 <pre><code class="sql">ALTER TABLE `tasks` ADD COLUMN `type` VARCHAR(50) NULL;
 </code></pre>
-
 <p>Even after the change, the database is still compatible with the current application version.</p>
-
-<h2 id="step-2%3A-fill-the-column-in-the-application">Step 2: fill the column in the application</h2>
-
+<h2 id="step-2-fill-the-column-in-the-application">Step 2: fill the column in the application</h2>
 <p>If you are using an ORM or just prefer to keep all the logic in the application (because of testability), now it's time to update the entity to always set <code>type</code> column to value <code>simple</code>. This ensures that all new records will have a proper value set.</p>
-
 <p>I usually do this in the same commit as Step 1 - I add the database field and update the entity to set a new field value. When deploying, the database is updated first, which is OK as the change is backwards compatible, and the code is deployed afterwards.</p>
-
 <p>Note: We are not adding any complex logic yet!</p>
-
-<h2 id="step-3%3A-make-the-column-non-nullable">Step 3: make the column non-nullable</h2>
-
+<h2 id="step-3-make-the-column-non-nullable">Step 3: make the column non-nullable</h2>
 <p>Before the column can be made non-nullable, we must fill the values for the existing records. As we have only one task type now, we can do it like this:</p>
-
 <pre><code class="sql">UPDATE tasks SET `type` = 'simple' WHERE `type` IS NULL;
 </code></pre>
-
 <p>At this point, there shouldn't be any NULL values left, so we can change the column to <code>NOT NULL</code>:</p>
-
 <pre><code class="sql">ALTER TABLE `tasks` CHANGE COLUMN `type` `type` VARCHAR(50) NOT NULL;
 </code></pre>
-
-<h2 id="step-4%3A--start-using-the-column">Step 4:  Start using the column</h2>
-
+<h2 id="step-4-start-using-the-column">Step 4:  Start using the column</h2>
 <p>Finally, you can change the application to allow choosing task type and deploy this version without any additional database changes.</p>
-
 <p>If something goes wrong with the new application changes, you can easily revert to the previous application version without any changes to database structure.</p>
-
-<h2 id="how-to-remove-the-non-nullable-column%3F">How to remove the non-nullable column?</h2>
-
+<h2 id="how-to-remove-the-non-nullable-column">How to remove the non-nullable column?</h2>
 <p>Removing column is quite similar but backwards:</p>
-
 <ol>
 <li>Make the column nullable in the database.</li>
 <li>Stop using the column in the application and deploy it.</li>
 <li>Remove the column from the database.</li>
 </ol>
-
-<h2 id="how-to-rename-a-column-in-a-database%3F">How to rename a column in a database?</h2>
-
+<h2 id="how-to-rename-a-column-in-a-database">How to rename a column in a database?</h2>
 <p>Renaming a column with zero downtime is hard (you need to add a new column and remove the old afterwards), so do it only when really necessary.</p>
-
 <ol>
 <li>Add a new nullable column to database.</li>
 <li>Change the application, so it fills both columns with the same value (and deploy it).</li>
@@ -131,48 +96,46 @@
 <li>Stop filling in the old column in the application (and deploy it).</li>
 <li>Remove the old column from the database.</li>
 </ol>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>Adding a new non-nullable column to the database without downtime is more work that just running an <code>ALTER TABLE</code>, but it is worth it because it allows you to deploy changes anytime without waiting for a maintenance window.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -187,7 +150,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -200,5 +163,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Keep your YAML files sorted with YAML sort checker</h2>
             <p><small>2018-01-17</small></p>
@@ -43,41 +43,26 @@
 
         <div class="article-text">
             <p>Last year I've created a PHP tool <a href="https://github.com/mhujer/yaml-sort-checker">YAML file sort checker</a> that checks that YAML files in project are sorted alphabetically.</p>
-
-<h2 id="why-should-you-sort-everything-alphabetically%3F">Why should you sort everything alphabetically?</h2>
-
+<h2 id="why-should-you-sort-everything-alphabetically">Why should you sort everything alphabetically?</h2>
 <p>You can prevent unnecessary merge conflicts if you keep everything sorted. You should sort not only YAML files, but also <code>composer.json</code> (<code>require</code>, <code>require-dev</code> and <code>scripts</code> sections), <code>use</code> in PHP classes and any PHP array where order is not significant.</p>
-
 <p>Typical situation is when two developers register a new service in <code>services.yml</code>. If they both add it to the end, it will inevitably lead to a merge conflict. However, when the services are alphabetically sorted, the probability of merge conflict is much lower, because the services will be probably added to different places and therefore won't clash.</p>
-
 <p>(This specific example got better with new DI improvements in recent Symfony versions, where you don't need to register that many services manually)</p>
-
 <p><strong>Tip:</strong> You can use AlphabeticallySortedUses sniff from <a href="https://github.com/slevomat/coding-standard#slevomatcodingstandardnamespacesalphabeticallysorteduses-">Slevomat Coding Standard</a> to check that <code>use</code> in PHP class are sorted.</p>
-
 <h2 id="installation">Installation</h2>
-
 <p>YAML file sort checker is installed through Composer:</p>
-
 <pre><code class="bash">composer require --dev mhujer/yaml-sort-checker
 </code></pre>
-
 <h2 id="configuration">Configuration</h2>
-
 <p>You have to create a configuration file <code>yaml-sort-checker.yml</code> in the project root directory. Then list all files that should be checked in it.</p>
-
 <p>The initial config may look like this:</p>
-
 <pre><code class="yaml">files:
     app/config/services.yml:
         depth: 2
 
     yaml-sort-checker.yml:
 </code></pre>
-
 <p>It checks <code>services.yml</code> and itself. The <code>services.yml</code> will be validated only two levels deep.</p>
-
 <p>Sometimes you may want to exclude some keys from validation. It can be accomplished by using <code>excludedKeys</code> option. You can see how the exclusion works in the example bellow:</p>
-
 <pre><code class="yaml">files:
     app/config/config_prod.yml:
         excludedKeys:
@@ -92,78 +77,71 @@
         excludedKeys:
             0: imports
 </code></pre>
-
 <h2 id="run-the-checker">Run the checker</h2>
-
 <p>After you have created a configuration file, you can run the checker:</p>
-
 <pre><code class="bash">vendor/bin/yaml-sort-checker
 </code></pre>
-
 <h2 id="phpstorm-integration">PHPStorm integration</h2>
-
 <p>It is possible to integrate YAML sort checker with PHPStorm using File Watchers. It is described in the <a href="https://github.com/mhujer/yaml-sort-checker#phpstorm-integration">project README on github</a> so I won't duplicated it here.</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>It is a good practice to keep most of the things sorted alphabetically to prevent merge conflicts. However, it can be a tedious task to do manually. Luckilly the YAML files can be automatically checked with <a href="https://github.com/mhujer/yaml-sort-checker">YAML file sort checker</a>.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		<div class="php-training">
-			<h3>Přijďte na má školení PHP!</h3>
+        <div class="php-training">
+                <h3>Přijďte na má školení PHP!</h3>
 
-			<ul>
-				<li>
-					Pokud chcete s programováním v PHP začít, tak se přihlaste na
-					<a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
-				</li>
+                <ul>
+                    <li>
+                        Pokud chcete s programováním v PHP začít, tak se přihlaste na
+                        <a href="https://www.martinhujer.cz/skoleni/uvod-do-php/" title="Školení PHP pro začátečníky"><strong>školení Úvod do PHP</strong></a>
+                    </li>
 
-				<li>
-					Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
-					<a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
-				</li>
+                    <li>
+                        Pokud už něco v PHP umíte a chcete se posunout dále, tak doporučuji
+                        <a href="https://www.martinhujer.cz/skoleni/objektove-programovani-v-php/" title="Školení PHP pro pokročilé"><strong>školení Objektového programování v PHP</strong></a>
+                    </li>
 
-				<li>
-					Případně pro vás mohu připravit na míru
-					<a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
-				</li>
-			</ul>
-		</div>
+                    <li>
+                        Případně pro vás mohu připravit na míru
+                        <a href="https://www.martinhujer.cz/skoleni/symfony/" title="Firemní Symfony školení"><strong>Školení Symfony pro firmu</strong></a>.
+                    </li>
+                </ul>
+            </div>
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -178,7 +156,7 @@
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -191,5 +169,5 @@
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

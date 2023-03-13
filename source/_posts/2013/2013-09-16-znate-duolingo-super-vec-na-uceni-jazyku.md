@@ -3,6 +3,7 @@ title: Znáte Duolingo? Super věc na učení jazyků
 ---
 
 <img src="/data/2013/2013-09-16-znate-duolingo-super-vec-na-uceni-jazyku/2013-09-16-duolingo-0-duolingo-owl.png" style="float:right"/>
+
 Znáte [Duolingo](https://www.duolingo.com/)? Je to pěkná webová aplikace na učení jazyků. Můžete se učit němčinu, španělštinu, italštinu, francouzštinu nebo portugalštinu. Drobnou nevýhodou může být to, že výchozím jazykem je angličtina, takže se neučíte čeština -> němčina, ale angličtina -> němčina. Na druhou stranu si zas prosvištíte i spelling anglických slov.
 
 Funguje to na principu interaktivních cvičení, kdy buď vybíráte správnou odpověď z nabídky nebo ji píšete sami. Případně tam jsou poslechová cvičení (musíte napsat, to co vám řekli) nebo naopak musíte sami něco říci a kontroluje vám to výslovnost (funguje to až překvapivě dobře).
@@ -26,6 +27,7 @@ Z jedné [studie](https://techcrunch.com/2013/01/17/study-learning-spanish-with-
 Duolingo je i gamifikované, takže za úspěšně splněné lekce a procvičování sbíráte body, můžete vidět, kolik bodů mají vaši kamarádi apod. U jazyka se říká, že je dobré se učit pravidelně, takže vám Duolingo ukazuje i kolik dní v řadě jste získali alespoň nějaké body (teď mám 29). A snažím se každý den (hned ráno) udělat alespoň několik cvičení, aby to dalo kolem 50 bodů.
 
 <img src="/data/2013/2013-09-16-znate-duolingo-super-vec-na-uceni-jazyku/2013-09-16-duolingo-4-leaderboard.png" alt="Duolingo leaderboard" style="float:right"/>
+
 Dříve to pár lidí používalo, ale teď už tam jsem sám a ostatní to flákají.
 Mám podobný pocit jako tenkrát, když jsem hrál WoW na serveru, který jsem si rozjel u sebe na počítači... Takže až si dočtete článek a zaregistrujete se na Duolingu, tak si mě tam [nezapomeňte přidat](https://www.duolingo.com/Marthin).
 

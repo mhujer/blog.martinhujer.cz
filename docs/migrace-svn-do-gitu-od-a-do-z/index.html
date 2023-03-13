@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Migrace SVN do GITu od A do Z</h2>
             <p><small>2013-01-23</small></p>
@@ -43,76 +43,45 @@
 
         <div class="article-text">
             <p>V nedávné době jsem migroval několik SVN repositářů do GITu a rád bych zaznamenal postup a pár tipů, protože věřím, že někdo budete řešit podobnou věc. Přechod na GIT se vyplatí, to tu není potřeba rozebírat :)</p>
-
 <p>První věc, kterou je potřeba vědět je, že to trvá dlouho. Dlouho. DLOUHO. A čím více revizí, tím déle. Samozřejmě záleží na systému, HW atd., ale orientačně počítejte, že tisíc revizí v SVN může trvat zmigrovat tak dvě hodiny. Tohle samozřejmě měřím s lokálním SVN serverem. Před samotným řešením migrace je vhodné pročistit repositář.</p>
-
-<h2 id="pro%E4%8Di%E5%A1t%E4%9Bn%E3%AD-svn-reposit%E3%A1%E5%99e">Pročištění SVN repositáře</h2>
-
+<h2 id="procisteni-svn-repositare">Pročištění SVN repositáře</h2>
 <p>Migrace do GITu bude snazší, pokud před tím pročistíte strukturu repositáře. Dobře funguje, když máte trunk/branches/tags, případně soubory přímo v kořenu repositáře, bez branchí a tagů. Nicméně pokud váš repositář obsahuje nestandardní strukturu (dva trunky, víceúrovňové branches), je vhodné to ještě před řešením migraci pročistit přímo v SVN.</p>
-
-<h2 id="rozjet%E3%AD-lok%E3%A1ln%E3%ADho-svn-serveru">Rozjetí lokálního SVN serveru</h2>
-
+<h2 id="rozjeti-lokalniho-svn-serveru">Rozjetí lokálního SVN serveru</h2>
 <p>Migraci je velmi vhodné dělat lokálně (rozjet si lokální SVN server). Zaprvé to je mnohem rychlejší a zadruhé se migrace nepřeruší při výpadku síťového spojení. Takže jak na to?</p>
-
 <p><strong>1.</strong> Pokud na práci s SVN používáte TortoiseSVN, tak je potřeba si nainstalovat ještě konzolové SVN například z http://www.sliksvn.com/en/download a přidat ho do systémové cesty. Zda je vše v pořádku ověříte pomocí následujícího příkazu:</p>
-
 <pre><code class="bash">&gt; svn --version
 svn, version 1.7.7-SlikSvn-1.7.7-X64 (SlikSvn/1.7.7) X64 
    compiled Oct  9 2012, 15:02:27
 </code></pre>
-
 <p><strong>2.</strong> dalším krokem je zkopírování repositáře ze serveru - na serveru zabalit, u sebe rozbalit (třeba do <code>c:\svn2git\moje-repo</code>)</p>
-
 <p><strong>3.</strong> teď už máme repositář lokálně, tak spustíme server:</p>
-
 <pre><code class="bash">svnserve --daemon --root c:\svn2git\
 </code></pre>
-
 <p><strong>4.</strong> a zkontrolujeme, že nám SVN server funguje - třeba pomocí repository browseru z TortoiseSVN se podíváme do <code>svn://localhost/moje-repo</code></p>
-
-<h2 id="p%E5%99%E3%ADprava-authors.txt-souboru">Příprava authors.txt souboru</h2>
-
+<h2 id="priprava-authors-txt-souboru">Příprava authors.txt souboru</h2>
 <p>Vzhledem k tomu, že SVN identifikuje autory změn jen uživatelským jménem (např. <code>martin.hujer</code>) a GIT jménem a e-mailem, je potřeba mezi nimi vytvořit mapování.</p>
-
 <p><strong>1.</strong> Nejprve si vypíšeme všechny autory z SVN repositáře - z bashe spustíme:</p>
-
-<pre><code class="bash">$ svn log --quiet svn://localhost/moje-repo | grep -E "r[0-9]+ \| .+ \|" | awk '{print $3}' | sort | uniq
+<pre><code class="bash">$ svn log --quiet svn://localhost/moje-repo | grep -E &quot;r[0-9]+ \| .+ \|&quot; | awk '{print $3}' | sort | uniq
 </code></pre>
-
 <p><strong>2.</strong> Vytvoříme soubor <code>authors.txt</code>, který bude obsahovat mapování uživatelských jmen. Všimněte si, že z historických důvodů (přesun SVN repositáře jinam) jsem tam commitoval pod dvěma různými uživatelskými jmény.</p>
-
 <pre><code>martinhujer = Martin Hujer &lt;mhujer@gmail.com&gt;
 martin.hujer = Martin Hujer &lt;mhujer@gmail.com&gt;
 </code></pre>
-
 <p><strong>3.</strong> Zkontrolujte, zda v souboru máte opravdu všechny autory, jinak se migrace přeruší, až narazí na revizi s autorem, který bude v mapování chybět.</p>
-
-<h2 id="jdeme-migrovat%21">Jdeme migrovat!</h2>
-
+<h2 id="jdeme-migrovat">Jdeme migrovat!</h2>
 <p>Na migraci je vhodné použít nástroj <a href="https://github.com/nirvdrum/svn2git">svn2git</a>. Ten na migraci použije <code>git-svn</code> a po migraci repositář dočistí (z tagů v SVN udělá GITové tagy, správně namapuje branche a další).</p>
-
 <p><strong>1.</strong> svn2git je vytvořený v Ruby, začneme tedy instalací Ruby interpreteru. Doporučuji použít <a href="http://jruby.org/">JRuby</a>. Poté nainstalujeme svn2git:</p>
-
 <p><code>gem install svn2git</code></p>
-
 <blockquote>
-  <p><strong>ProTip:</strong> Pokud budete potřebovat něco, co svn2git v základu neumí (třeba pokračování v přerušeném importu, nebo možnost specifikovat více adresářů s branches), tak si určitě projděte PullRequesty na <a href="https://github.com/nirvdrum/svn2git/pulls">jeho GitHubu</a>, některé užitečné věci už tam jsou vyřešené, ale ještě nejsou zahrnuté v oficiální distribuci nástroje.</p>
+<p><strong>ProTip:</strong> Pokud budete potřebovat něco, co svn2git v základu neumí (třeba pokračování v přerušeném importu, nebo možnost specifikovat více adresářů s branches), tak si určitě projděte PullRequesty na <a href="https://github.com/nirvdrum/svn2git/pulls">jeho GitHubu</a>, některé užitečné věci už tam jsou vyřešené, ale ještě nejsou zahrnuté v oficiální distribuci nástroje.</p>
 </blockquote>
-
 <p><strong>2.</strong> Že je svn2git správně nainstalovaný ověříme pomocí zadání <code>svn2git -h</code> do konzole. Měla by se zobrazit nápověda k použití nástroje.</p>
-
 <p><strong>3.</strong> Vytvoříme adresář, kam budeme migrovat. Například <code>C:\svn2git\moje-repo-git\</code>. A otevřeme příkazový řádek v tomto adresáři.</p>
-
 <p><strong>4.</strong> Spustíme migraci pomocí následujícího příkazu (nezapomeňte upravit cesty)</p>
-
 <p><code>svn2git svn://localhost/moje-repo PARAMETRY --authors c:\svn2git\authors.txt</code></p>
-
 <p>takže například:</p>
-
 <p><code>svn2git svn://localhost/moje-repo --rootistrunk --authors c:\svn2git\authors.txt</code></p>
-
 <p>Jako parametry můžeme použít tyto kombinace:</p>
-
 <ul>
 <li><code>-v</code> - verbose - detailní výpis průběhu, určitě doporučuji použít</li>
 <li><code>--rootistrunk</code> - všechny soubory v repositáři jsou uložený v kořenovém adresáři, nepoužíváme trunk/tags/branches</li>
@@ -120,24 +89,15 @@ martin.hujer = Martin Hujer &lt;mhujer@gmail.com&gt;
 <li><code>--no-minimize-url</code> - chceme z repositáře zmigrovat jen podadresář (takže by příkaz vypadal např. <code>svn2git svn://localhost/moje-repo/podadresar --no-minimize-url --authors c:\svn2git\authors.txt</code>)</li>
 <li><code>--exclude</code> - měl by fungovat příkaz exclude na vynechání některých adresářů, které jste někdy omylem do SVN vložili, nicméně mně nefungoval - migraci se s ním ani nepodařilo spustit, ale jde to pak vyřešit v gitu (viz dále)</li>
 </ul>
-
 <p><strong>5.</strong> Migrace poběží dlouho (jak jsem psal výše, záleží na velikosti repositáře a počtu branchí). Na konci pak svn2git udělá výše zmíněnou magii, aby repositář po migraci dočistil.</p>
-
-<h2 id="vy%E4%8Di%E5%A1t%E4%9Bn%E3%AD-reposit%E3%A1%E5%99e">Vyčištění repositáře</h2>
-
+<h2 id="vycisteni-repositare">Vyčištění repositáře</h2>
 <p>Po migraci do GITu se naskýtá jedinečná příležitost pročistit historii projektu a zbavit se například velkých, kdysi omylem přidaných a pak zase smazaných adresářů, knihoven atd.
 Sice by to mělo jít pomocí přepínače <code>--exclude</code> zadat hned při migraci, ale mě to nefungovalo a řešil jsem to až poté v gitu (a podle mého transparentněji) - pomocí <code>filter-branch</code>. Ten postupně projde všechny revize a v každé může provést nějakou změnu. Než budete <code>filter-branch</code> zkoušet, tak si zmigrovaný repositář zazálohujte, abyste v případě, kdy se něco nepodaří, nemuseli znovu čekat, než se zmigruje.</p>
-
 <p>Následující kód projde celou historii repositáře a smaže adresář <code>build</code>:</p>
-
 <p><code>git filter-branch --index-filter 'git rm -rf --cached --ignore-unmatch build/' --prune-empty --tag-name-filter cat -- --all</code></p>
-
 <p>Můžeme jich spustit více za sebou (pro eliminaci více adresářů), ale ty další musí začínat <code>git filter-branch -f</code></p>
-
 <p><code>git filter-branch -f --index-filter 'git rm -rf --cached --ignore-unmatch tmp/' --prune-empty --tag-name-filter cat -- --all</code></p>
-
 <p>A poté pročistíme dočasné soubory a cache repositáře:</p>
-
 <pre><code class="bash">rm -rf .git/refs/original/
 git reflog expire --expire=now --all
 git gc --prune=now
@@ -145,62 +105,53 @@ git gc --aggressive --prune=now
 
 git checkout master
 </code></pre>
-
 <p>Více o pročištění historie najdete na <a href="https://help.github.com/articles/remove-sensitive-data/">Githubu</a> nebo <a href="https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History">git-scm.com</a></p>
-
 <h2 id="kontrola-migrace">Kontrola migrace</h2>
-
 <p>Po migraci je vhodné ověřit, že se nám nic nepoztrácelo a zmigrovaný GIT repositář obsahuje stejné soubory jako migrovaný SVN repositář.</p>
-
 <p>Vytvořil jsem tedy <a href="https://gist.github.com/mhujer/4512118">jednoduchý skript</a>, který vyexportuje GIT repositář do struktury jakou má SVN repositář (tedy trunk/tags/branches).</p>
-
-<p>Podobně si uděláme SVN export a pak obě složky porovnáme třeba pomocí Total Commanderu (Commands -> Synchronize Dirs).</p>
-
-<h2 id="z%E3%A1v%E4%9Brem">Závěrem</h2>
-
+<p>Podobně si uděláme SVN export a pak obě složky porovnáme třeba pomocí Total Commanderu (Commands -&gt; Synchronize Dirs).</p>
+<h2 id="zaverem">Závěrem</h2>
 <p>V článku jsem se snažil ukázat, jak je možné stávající SVN repositář co nejsnadněji zmigrovat do GITu.</p>
-
 <p>Pokud máte opravdu velký SVN repositář a svn2git vám nestačí (mě fungoval i pro migraci 12000 revizí se spoustou branchí), tak můžete vyzkoušet nástroj, který se jmenuje shodně <a href="https://techbase.kde.org/Projects/MoveToGit/UsingSvn2Git">svn2git</a>, nicméně jde o úplně něco jiného. Tento si vyvinuji vývojáři KDE, když připravovali přechod na GIT. Jim by původní svn2git na zmigrování <a href="https://dot.kde.org/2009/07/20/kde-reaches-1000000-commits-its-subversion-repository">více než milionu revizí</a> asi nestačil :)</p>
-
 <p>Pokud se budete snažit zmigrovat svůj SVN repositář a narazíte na nějakou komplikaci, tak se určitě zeptejte v komentářích, pokusím se vám poradit. Jestli už migraci do GITu máte za sebou, tak uvítám vaše postřehy či tipy.</p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -215,7 +166,7 @@ git checkout master
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -228,5 +179,5 @@ git checkout master
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>

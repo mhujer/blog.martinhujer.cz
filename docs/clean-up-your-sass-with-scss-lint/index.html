@@ -26,7 +26,7 @@
         /** quick fix because bootstrap <pre> has a background-color. */
         pre code { background-color: inherit; }
         </style>
-                                    </head>
+    </head>
     <body>
         <div class="mainContent container">
             <h1>
@@ -35,7 +35,7 @@
 
             <div class="row">
                 <div class="col-md-11">
-                        <article>
+                    <article>
         <header>
             <h2>Clean up your Sass with SCSS Lint</h2>
             <p><small>2014-05-18</small></p>
@@ -43,13 +43,9 @@
 
         <div class="article-text">
             <p>As you may have already noticed, I'm a little obsessed with code quality, particularly its <a href="/bp/" hreflang="cs">automatic checking and monitoring</a> (Czech only, sorry). In this article, I want to show you how to ensure that your SCSS files have consistent formatting style. And it may even help you to detect some mistakes!</p>
-
 <p>At <a href="http://w3w.cz/">w3w</a> we've been using SASS for quite a while. <a href="https://www.shopio.cz/">Shopio's</a> new responsive template is based upon Twitter Boostrap (we are using an unofficial Sass version of Twitter Boostrap v2.3.2 - we used the it before it was cool!). We are using Sass together with <a href="http://compass-style.org/">Compass</a> framework. Apart from that, I also worked on two mobile apps based upon Sencha Touch. It is a HTML5+JS+CSS framework for cross-platform mobile app development, with styling powered by Saas.</p>
-
 <h2 id="demo">Demo</h2>
-
 <p>See this code snippet (<code>demo.scss</code> file):</p>
-
 <pre><code class="css">$highContrastMode: true;
 
 @if ($highContrastMode) {
@@ -64,70 +60,58 @@
   }
 }
 </code></pre>
-
 <p>If we have the <code>$highContrastMode</code> variable set to <code>true</code>, we want to render yellow text on black background; if not, we don't care about those with poor vision.
 Would it work as described? No! We missed the <code>@</code> character before the else keyword! Compass compiles it without complaint as the code is completely valid SASS. And we will have a cute <code>else body</code> selector in the compiled css.</p>
-
 <p>How could we have prevented this? By using <a href="https://github.com/brigade/scss-lint">scss-lint</a>!</p>
-
 <p>If we had scss-lint as part of our CI (Continuous Integration) build process, we would have been notified immediately. When you run scss-lint on the code snippet above <code>scss-lint demo.scss</code>, it complains about a lot of things, including the <code>else</code> error:</p>
-
 <p><code>demo.scss:8 [W] Rule declaration should be preceded by an empty line</code></p>
-
 <h2 id="custom-style">Custom style</h2>
-
 <p>At Shopio, the SCSS coding style is not the same as the default coding style in scss-lint. When we ran it for the first time, unsurprisingly, we got a few thousand errors and warnings.</p>
-
-<p>Luckily, scss-lint allows you to configure custom settings that will then be used for checking. So I asked <a href="https://github.com/jackplug/">Stuart</a> questions such as, <em>Do you use 2 or 4 spaces for indentation?"</em>, <em>"Do you prefer single or double quotes?"</em> or, <em>"Do you use colour names or hex codes?"</em>. After receiving the answers and doing some testing I was able to come up with a <code>.scss-lint.yml</code> file, which suits our needs (there are many <a href="https://github.com/brigade/scss-lint/blob/master/config/default.yml">more options in the docs!</a>). It still results in a few hundreds warnings, which we are fixing continually.</p>
-
+<p>Luckily, scss-lint allows you to configure custom settings that will then be used for checking. So I asked <a href="https://github.com/jackplug/">Stuart</a> questions such as, <em>Do you use 2 or 4 spaces for indentation?&quot;</em>, <em>&quot;Do you prefer single or double quotes?&quot;</em> or, <em>&quot;Do you use colour names or hex codes?&quot;</em>. After receiving the answers and doing some testing I was able to come up with a <code>.scss-lint.yml</code> file, which suits our needs (there are many <a href="https://github.com/brigade/scss-lint/blob/master/config/default.yml">more options in the docs!</a>). It still results in a few hundreds warnings, which we are fixing continually.</p>
 <h2 id="continuous-integration">Continuous integration</h2>
-
 <p>scss-lint offers a XML output option (with <code>--format=XML</code>) which can be consumed by Jenkins or similar tools. But for some strange reason, the XML output does not work on my Windows machine. (I hope it would work on our Jenkins machine)</p>
-
 <h2 id="conclusion">Conclusion</h2>
-
 <p>It's not hard to setup the scss-lint to check SCSS files and the benefits are obvious. It will ensure that you use a consistent coding style and it may even prevent some errors.
 And if your coding style is different from the default one, then you can simply redefine the rules.</p>
-
 <p><em>Thanks  <a href="https://github.com/jackplug/">Stuart</a> for language and technical review.</em></p>
 
         </div>
 
-		<div class="article-footer">
-			<p class="written-by">
-				<strong>
-					Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
-				</strong>
-			</p>
-			<p>
-				<small>
-					<strong>
-						<a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
-					</strong>
-					<br>
-					<strong>
-						<a href="/feed/">Subscribe to RSS</a>
-					</strong>
-				</small>
-			</p>
-		</div>
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
 
-		
+        
     </article>
 
 <div id="disqus_thread"></div>
 <script type="text/javascript">
     var disqus_shortname = 'blog-martinhujer';
-                
+
     (function () {
-		setTimeout(function () {
-			var dsq = document.createElement('script');
-			dsq.type = 'text/javascript';
-			dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		}, 10000);
-	})();
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
 </script>
 
                 </div>
@@ -142,7 +126,7 @@ And if your coding style is different from the default one, then you can simply 
             <a href="/feed/">Subscribe to RSS</a>
         </footer>
 
-                
+
         <script type="text/javascript">
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -155,5 +139,5 @@ And if your coding style is different from the default one, then you can simply 
 
         <script>hljs.initHighlightingOnLoad();</script>
 
-                    </body>
+    </body>
 </html>
