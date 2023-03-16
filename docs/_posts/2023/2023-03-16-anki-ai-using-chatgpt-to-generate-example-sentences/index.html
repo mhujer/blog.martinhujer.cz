@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Anki AI - Add example sentences to your Anki notes with ChatGPT &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
+        <meta name="robots" content="index, follow">
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MW43QNJ');</script>
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/assets/remove-fbclid.js" async defer></script>
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                    <p>I've been learning German for almost a year, and I already have around 3 000 notes in my Anki database (Anki is an app for learning vocabulary using spaced repetition technique). But unlike English, where I can get high quality example sentences from <a href="https://dictionary.cambridge.org/">Cambridge Dictionary</a>, I have yet to find similar source for German vocabulary.</p>
+<p>When the new and cheaper <a href="https://platform.openai.com/docs/guides/chat">Chat Completion</a> API from OpenAI became available I thought it may be the way forward. So I tried it in the Chat GPT, and it worked pretty great (Chat Completion API allows you the access the model used in ChatGPT using the API):</p>
+<p>IMG1</p>
+<p>I tried it again and prefixed the inputs with IDs so the output can be parsed more easily:
+IMG2</p>
+<h3 id="using-gpt-to-generate-example-sentences-in-anki">Using GPT to Generate Example Sentences in Anki</h3>
+<p>Using GPT for generating example sentences seemed viable, so I considered my options to use it to generate examples to my whole German vocabulary database in Anki.</p>
+<p>Even though Anki allows you to create plugins, they must be written in Python, so I decided to use another approach. There is a <a href="https://github.com/FooSoft/anki-connect">Anki Connect</a> plugin which makes the Anki data available through REST API. I have been using quite a lot of  TypeScript recently (It's fun to use it!) so it was my first choice to writing my app.</p>
+<p>Fetching the data from Anki was easy. Chat GPT even helped me craft regular expressions to clean up the vocabulary data. As a result, I only passed the words to the API.</p>
+<p>Next, I had to create a prompt for the API. This is a final version which persuades the Chat API to return same format of the response every time:</p>
+<blockquote>
+<p><em>You are a helpful vocabulary learning assistant who helps user generate example sentences in German for language learning. I will provide each word prefixed by ID and you will generate two example sentences for each input. Each sentence in response must be on its own line and starting with ID I provided so it can be parsed with regex <code>/^(\d+): (.*)$/</code></em></p>
+</blockquote>
+<blockquote>
+<p><em>1675192165662: Schulden machen
+1675192165652: der Lieferant
+1675192165655: vollkommen</em></p>
+</blockquote>
+<p>With such input, you get response like this (interestingly, the sentences are different every time you try it):</p>
+<blockquote>
+<p><em>1675192165662: Man sollte sich immer genau überlegen, bevor Schulden gemacht werden
+1675192165662: Schulden machen kann in der Zukunft zu großen finanziellen Problemen führen.
+1675192165652: Der Lieferant hat das Paket heute Morgen geliefert.
+1675192165652: Ich kann mich immer auf meinen Lieferanten verlassen.
+1675192165655: Sie ist vollkommen glücklich mit ihrem neuen Job.
+1675192165655: Das Essen war vollkommen in Ordnung, aber nicht besonders lecker.</em></p>
+</blockquote>
+<p>The remaining steps were straightforward: parse the output and feed the data back into Anki.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The simple script I created (you can <a href="https://github.com/mhujer/ankiai">check the source code on GitHub</a>) helped me generate the example sentences for my whole German database in Anki (~3 000 notes) and the API cost was around $0.5. That's why I did not bother optimizing the prompt length in any way (e.g. one optimization can be shortening the IDs, but there was no point in doing so).</p>
+<p>I appreciate that the generated sentences are coherent and resemble real-world examples of the language (as far as I can tell).</p>
+<p>If you want to try to use the script for your vocabulary, I added instructions to the <a href="https://github.com/mhujer/ankiai">README in the GitHub repository</a>.</p>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            <strong>
+                By <a href="https://www.martinhujer.cz">Martin Hujer</a>
+            </strong>
+            <br>
+            <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>,
+            <a href="/feed/">Subscribe to RSS</a>
+        </footer>
+
+
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-3314117-32', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+    </body>
+</html>
