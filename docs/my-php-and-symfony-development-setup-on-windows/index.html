@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My PHP and Symfony Development Setup on Windows &mdash; Martin Hujer blog</title>
+        <meta charset="utf-8">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="google-site-verification" content="ZHcwbCybtBYmP1xPJdC7ta3p9JxPCsfrXzPBh1YKwho" />
+        <meta name="robots" content="index, follow">
+        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MW43QNJ');</script>
+
+        <link rel="stylesheet" href="/assets/bootstrap.min.css" />
+        <link rel="stylesheet" href="/assets/bootstrap-theme.min.css" />
+        <link href="/css/style.css" rel="stylesheet" type="text/css" />
+
+        <script src="/assets/remove-fbclid.js" async defer></script>
+        <link rel="stylesheet" href="/assets/highlightjs/github.min.css" />
+        <script src="/assets/highlightjs/highlight.min.js"></script>
+
+        <link rel="alternate" type="application/atom+xml" href="/feed/" title="Martin Hujer blog RSS" />
+        <style>
+        /** quick fix because bootstrap <pre> has a background-color. */
+        pre code { background-color: inherit; }
+        </style>
+    </head>
+    <body>
+        <div class="mainContent container">
+            <h1>
+                <a href="/">Martin Hujer blog</a>
+            </h1>
+
+            <div class="row">
+                <div class="col-md-11">
+                    <article>
+        <header>
+            <h2>My PHP and Symfony Development Setup on Windows</h2>
+            <p><small>2023-04-03</small></p>
+        </header>
+
+        <div class="article-text">
+            <p>I've been using the same setup for a local PHP and Symfony development since 2017 and now and then I still see someone is using a less efficient setup, so I decided it deserves a write-up.</p>
+<h2 id="php-setup">PHP Setup</h2>
+<p>Let's start with PHP itself. There are several options for running PHP locally. You can use XAMPP, WAMP, Docker or install PHP directly. Each of them has its pros and cons and my setup uses just plain PHP from windows.php.net.</p>
+<p>All you need to do is to download the most recent PHP from <a href="https://windows.php.net/download/">windows.php.net</a>  (use the ZIP version <em>VS16 x64 Non Thread Safe</em>) and unpack it somewhere. In my case I use <code>C:/dev/php</code> to make the path short.</p>
+<p>Next step is adding it to the system PATH so you can run it from anywhere with just <code>php</code>. (Google a guide on how to add a directory to system PATH if you are not sure how to do it.)</p>
+<p>Now you can run <code>php -v</code> from a command line and it should print the PHP version (btw. I use <a href="https://cmder.app/">cmder</a> as my command line tool and it's awesome!).</p>
+<h2 id="using-multiple-php-versions">Using multiple PHP versions</h2>
+<p>Things usually get tricky, when you need to maintain more applications where each requires a different version of PHP.</p>
+<p>What works great for me is to version the PHP installation directory using git. I create a separate branch for each version (<code>php81</code>, <code>php82</code> etc.) and checkout them when I need to work on some older stuff. I recommend using <a href="https://git-scm.com/docs/git-checkout#Documentation/git-checkout.txt---orphanltnew-branchgt">orphan branches</a> as it makes the git history cleaner.</p>
+<p>When upgrading to a newer patch version (e.g., 8.2.3 → 8.2.4), I delete almost everything in the directory and unpack a newer version there. I keep the <code>php.ini</code> and some other files (see the next parts of the post).</p>
+<p>I push the repo to GitLab which allows me to maintain the same PHP configuration across multiple devices.</p>
+<p>Another advantage of this approach is that you can easily test upcoming PHP versions when they are in the beta phase to help discover potential bugs in PHP or incompatibilities in your app.</p>
+<h2 id="composer-setup">Composer Setup</h2>
+<p>To install Composer I recommend <a href="https://getcomposer.org/download/">downloading</a> <code>composer.phar</code> file (lower on the page, in <em>&quot;Manual Download&quot;</em> section) and placing it in the php directory (so it is versioned in git with the rest of the PHP setup - it was quite useful during transition from Composer v1 to v2 when usually the projects running on newer PHP versions used Composer v2 and older ones on older PHPs used v1).</p>
+<p>To be able to run Composer with <code>composer</code> command from anywhere, create a <code>composer.cmd</code> file in the php directory with the following content:</p>
+<pre><code class="cmd">php c:\dev\php\composer.phar %*
+</code></pre>
+<p>It runs <code>composer.phar</code> with <code>php</code> and passes all the parameters you provided.</p>
+<p>Just don't forget to keep the <code>composer.phar</code> and <code>composer.cmd</code> files when upgrading the PHP as described above.</p>
+<h2 id="webserver">Webserver</h2>
+<p>The best way to run a Symfony application during development is to use the <a href="https://symfony.com/download">Symfony CLI</a>. But instead of using Scoop as they suggest I just download the zip linked bellow the <em>&quot;Binaries&quot;</em> heading and unzip it so the <code>symfony.exe</code> is in <code>C:/dev/php/symfony.exe</code>.</p>
+<p>As we already have the <code>C:/dev/php</code> directory in the system PATH, we should be able to run <code>symfony</code> from command line anywhere.</p>
+<p>To start the webserver, navigate to Symfony project directory and run <code>symfony server:start</code>. If you are using it for the first time, it will prompt you to install a newly generated root certificate so it can provide <code>https://</code> for locally running application.</p>
+<p>After starting, it will display something like this, and you should be able to access the URL in the browser.</p>
+<pre><code>[OK] Web server listening
+      The Web server is using PHP CGI 8.2.4
+      https://127.0.0.1:8000
+</code></pre>
+<h2 id="database-rabbitmq-etc-in-docker">Database, RabbitMQ, etc. in Docker</h2>
+<p>I prefer to <a href="/jak-zacit-s-dockerem-od-zavislosti/">run everything else besides the webserver in Docker</a> (I mean MySQL, RabbitMQ, some mail catcher etc.). There are two main advantages:</p>
+<ol>
+<li>it allows you to easily switch versions either when upgrading the project or when working on multiple projects</li>
+<li>it is easy to run Linux-first tools even if you use Windows for development</li>
+</ol>
+<p>You can do it by adding a <code>docker-composer.yml</code> file to you project and running <code>docker-compose up</code> from the CLI:</p>
+<pre><code class="yaml">version: '3'
+services:
+    database:
+        image: mariadb:10.3.18
+        environment:
+            - MYSQL_ROOT_PASSWORD=pass
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        ports:
+            - &quot;9101:3306&quot;
+
+    mailer:
+        image: maildev/maildev
+        ports:
+            - &quot;1080:1080&quot;
+            - &quot;1025:1025&quot;
+
+    rabbitmq:
+        image: rabbitmq:3.11.11-management
+        ports:
+            - 5672:5672
+            - 15672:15672
+</code></pre>
+<p>Symfony CLI <a href="https://symfony.com/doc/current/setup/symfony_server.html#docker-integration">supports Docker</a> therefore if you use standard ports in <code>docker-compose.yaml</code>, it will recognize the services and will automatically configure the ENV variables such as <code>DATABASE_URL</code> accordingly.</p>
+<p>To utilize this automatic ENV variables setup for CLI, you have run the Symfony Commands with <code>symfony console</code>, instead of <code>php bin\console</code>:</p>
+<pre><code class="cmd">symfony console doctrine:migrations:migrate
+</code></pre>
+<p>For accessing the database outside the application, I use <a href="https://www.heidisql.com/">HeidiSQL</a> which is Windows application for managing the database (I like it more than web tools such as Adminer or PhpMyAdmin).</p>
+<h2 id="being-efficient-with-aliases">Being efficient with aliases</h2>
+<p>I like using <a href="https://blog.martinhujer.cz/have-you-tried-composer-scripts/">Composer Scripts</a> to run dev tools included in the project such as PHPStan or PHP_CodeSniffer, but I hate typing long commands, so I have created an alias script in <code>C:/dev/php/x.cmd</code>:</p>
+<pre><code class="cmd">php c:\dev\php\composer.phar %*
+</code></pre>
+<p>With that I can run <code>cs</code> script with <code>x cs</code> instead of <code>composer cs</code>. Similarly, for <code>composer install</code>, I just run <code>x inst</code>.</p>
+<p>For running the Symfony Commands, I use another alias: <code>c.cmd</code>:</p>
+<pre><code class="cmd">symfony console %*
+</code></pre>
+<p>Which allows me to run Symfony commands this way: <code>c doctrine:migrations:migrate</code></p>
+<p>There is a cool feature in Symfony Command component which allows you to shorten the commands as long they are still unique. It means that <code>c d:m:m</code> will run <code>doctrine:migrations:migrate</code> if there isn't another command with same starting letters. And because Composer uses Symfony Command under the hood, the same applies to any Composer commands.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>What setup do you use for local development? Let me know in the comments! I would be delighted to learn how to optimize my setup even further.</p>
+
+        </div>
+
+        <div class="article-footer">
+            <p class="written-by">
+                <strong>
+                    Written by <a href="https://www.martinhujer.cz">Martin Hujer</a>
+                </strong>
+            </p>
+            <p>
+                <small>
+                    <strong>
+                        <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>
+                    </strong>
+                    <br>
+                    <strong>
+                        <a href="/feed/">Subscribe to RSS</a>
+                    </strong>
+                </small>
+            </p>
+        </div>
+
+        
+    </article>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'blog-martinhujer';
+
+    (function () {
+        setTimeout(function () {
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }, 10000);
+    })();
+</script>
+
+                </div>
+            </div>
+        </div>
+        <footer class="container">
+            <strong>
+                By <a href="https://www.martinhujer.cz">Martin Hujer</a>
+            </strong>
+            <br>
+            <a href="https://twitter.com/MartinHujer">Follow me on Twitter</a>,
+            <a href="/feed/">Subscribe to RSS</a>
+        </footer>
+
+
+        <script type="text/javascript">
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-3314117-32', 'auto');
+            ga('send', 'pageview');
+        </script>
+
+        <script>hljs.initHighlightingOnLoad();</script>
+
+    </body>
+</html>

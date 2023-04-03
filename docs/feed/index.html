@@ -3,12 +3,96 @@
     <title><![CDATA[Martin Hujer blog]]></title>
     <link href="https://blog.martinhujer.cz/feed/" rel="self"/>
     <link href="https://blog.martinhujer.cz/"/>
-    <updated>2023-03-16T08:27:38.444Z</updated>
+    <updated>2023-04-03T15:25:17.678Z</updated>
     <id>https://blog.martinhujer.cz/</id>
     <author>
         <name>Martin Hujer</name>
         <email>mail@martinhujer.cz</email>
     </author>
+    
+        <entry>
+            <title type="html"><![CDATA[My PHP and Symfony Development Setup on Windows]]></title>
+            <link href="https://blog.martinhujer.cz/my-php-and-symfony-development-setup-on-windows/"/>
+            <updated>2023-04-03T00:00:00.000Z</updated>
+            <id>https://blog.martinhujer.cz/my-php-and-symfony-development-setup-on-windows/</id>
+            <content type="html"><![CDATA[<p>I've been using the same setup for a local PHP and Symfony development since 2017 and now and then I still see someone is using a less efficient setup, so I decided it deserves a write-up.</p>
+<h2 id="php-setup">PHP Setup</h2>
+<p>Let's start with PHP itself. There are several options for running PHP locally. You can use XAMPP, WAMP, Docker or install PHP directly. Each of them has its pros and cons and my setup uses just plain PHP from windows.php.net.</p>
+<p>All you need to do is to download the most recent PHP from <a href="https://windows.php.net/download/">windows.php.net</a>  (use the ZIP version <em>VS16 x64 Non Thread Safe</em>) and unpack it somewhere. In my case I use <code>C:/dev/php</code> to make the path short.</p>
+<p>Next step is adding it to the system PATH so you can run it from anywhere with just <code>php</code>. (Google a guide on how to add a directory to system PATH if you are not sure how to do it.)</p>
+<p>Now you can run <code>php -v</code> from a command line and it should print the PHP version (btw. I use <a href="https://cmder.app/">cmder</a> as my command line tool and it's awesome!).</p>
+<h2 id="using-multiple-php-versions">Using multiple PHP versions</h2>
+<p>Things usually get tricky, when you need to maintain more applications where each requires a different version of PHP.</p>
+<p>What works great for me is to version the PHP installation directory using git. I create a separate branch for each version (<code>php81</code>, <code>php82</code> etc.) and checkout them when I need to work on some older stuff. I recommend using <a href="https://git-scm.com/docs/git-checkout#Documentation/git-checkout.txt---orphanltnew-branchgt">orphan branches</a> as it makes the git history cleaner.</p>
+<p>When upgrading to a newer patch version (e.g., 8.2.3 → 8.2.4), I delete almost everything in the directory and unpack a newer version there. I keep the <code>php.ini</code> and some other files (see the next parts of the post).</p>
+<p>I push the repo to GitLab which allows me to maintain the same PHP configuration across multiple devices.</p>
+<p>Another advantage of this approach is that you can easily test upcoming PHP versions when they are in the beta phase to help discover potential bugs in PHP or incompatibilities in your app.</p>
+<h2 id="composer-setup">Composer Setup</h2>
+<p>To install Composer I recommend <a href="https://getcomposer.org/download/">downloading</a> <code>composer.phar</code> file (lower on the page, in <em>&quot;Manual Download&quot;</em> section) and placing it in the php directory (so it is versioned in git with the rest of the PHP setup - it was quite useful during transition from Composer v1 to v2 when usually the projects running on newer PHP versions used Composer v2 and older ones on older PHPs used v1).</p>
+<p>To be able to run Composer with <code>composer</code> command from anywhere, create a <code>composer.cmd</code> file in the php directory with the following content:</p>
+<pre><code class="cmd">php c:\dev\php\composer.phar %*
+</code></pre>
+<p>It runs <code>composer.phar</code> with <code>php</code> and passes all the parameters you provided.</p>
+<p>Just don't forget to keep the <code>composer.phar</code> and <code>composer.cmd</code> files when upgrading the PHP as described above.</p>
+<h2 id="webserver">Webserver</h2>
+<p>The best way to run a Symfony application during development is to use the <a href="https://symfony.com/download">Symfony CLI</a>. But instead of using Scoop as they suggest I just download the zip linked bellow the <em>&quot;Binaries&quot;</em> heading and unzip it so the <code>symfony.exe</code> is in <code>C:/dev/php/symfony.exe</code>.</p>
+<p>As we already have the <code>C:/dev/php</code> directory in the system PATH, we should be able to run <code>symfony</code> from command line anywhere.</p>
+<p>To start the webserver, navigate to Symfony project directory and run <code>symfony server:start</code>. If you are using it for the first time, it will prompt you to install a newly generated root certificate so it can provide <code>https://</code> for locally running application.</p>
+<p>After starting, it will display something like this, and you should be able to access the URL in the browser.</p>
+<pre><code>[OK] Web server listening
+      The Web server is using PHP CGI 8.2.4
+      https://127.0.0.1:8000
+</code></pre>
+<h2 id="database-rabbitmq-etc-in-docker">Database, RabbitMQ, etc. in Docker</h2>
+<p>I prefer to <a href="/jak-zacit-s-dockerem-od-zavislosti/">run everything else besides the webserver in Docker</a> (I mean MySQL, RabbitMQ, some mail catcher etc.). There are two main advantages:</p>
+<ol>
+<li>it allows you to easily switch versions either when upgrading the project or when working on multiple projects</li>
+<li>it is easy to run Linux-first tools even if you use Windows for development</li>
+</ol>
+<p>You can do it by adding a <code>docker-composer.yml</code> file to you project and running <code>docker-compose up</code> from the CLI:</p>
+<pre><code class="yaml">version: '3'
+services:
+    database:
+        image: mariadb:10.3.18
+        environment:
+            - MYSQL_ROOT_PASSWORD=pass
+        command:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+        ports:
+            - &quot;9101:3306&quot;
+
+    mailer:
+        image: maildev/maildev
+        ports:
+            - &quot;1080:1080&quot;
+            - &quot;1025:1025&quot;
+
+    rabbitmq:
+        image: rabbitmq:3.11.11-management
+        ports:
+            - 5672:5672
+            - 15672:15672
+</code></pre>
+<p>Symfony CLI <a href="https://symfony.com/doc/current/setup/symfony_server.html#docker-integration">supports Docker</a> therefore if you use standard ports in <code>docker-compose.yaml</code>, it will recognize the services and will automatically configure the ENV variables such as <code>DATABASE_URL</code> accordingly.</p>
+<p>To utilize this automatic ENV variables setup for CLI, you have run the Symfony Commands with <code>symfony console</code>, instead of <code>php bin\console</code>:</p>
+<pre><code class="cmd">symfony console doctrine:migrations:migrate
+</code></pre>
+<p>For accessing the database outside the application, I use <a href="https://www.heidisql.com/">HeidiSQL</a> which is Windows application for managing the database (I like it more than web tools such as Adminer or PhpMyAdmin).</p>
+<h2 id="being-efficient-with-aliases">Being efficient with aliases</h2>
+<p>I like using <a href="https://blog.martinhujer.cz/have-you-tried-composer-scripts/">Composer Scripts</a> to run dev tools included in the project such as PHPStan or PHP_CodeSniffer, but I hate typing long commands, so I have created an alias script in <code>C:/dev/php/x.cmd</code>:</p>
+<pre><code class="cmd">php c:\dev\php\composer.phar %*
+</code></pre>
+<p>With that I can run <code>cs</code> script with <code>x cs</code> instead of <code>composer cs</code>. Similarly, for <code>composer install</code>, I just run <code>x inst</code>.</p>
+<p>For running the Symfony Commands, I use another alias: <code>c.cmd</code>:</p>
+<pre><code class="cmd">symfony console %*
+</code></pre>
+<p>Which allows me to run Symfony commands this way: <code>c doctrine:migrations:migrate</code></p>
+<p>There is a cool feature in Symfony Command component which allows you to shorten the commands as long they are still unique. It means that <code>c d:m:m</code> will run <code>doctrine:migrations:migrate</code> if there isn't another command with same starting letters. And because Composer uses Symfony Command under the hood, the same applies to any Composer commands.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>What setup do you use for local development? Let me know in the comments! I would be delighted to learn how to optimize my setup even further.</p>
+]]></content>
+        </entry>
     
         <entry>
             <title type="html"><![CDATA[Anki AI - Add example sentences to Anki notes with ChatGPT]]></title>
@@ -828,94 +912,6 @@ public function testTrim($expectedResult, $input): void
 <p><img src="/data/2019/2019-08-15-oslo-kam-na-vylety/frognerparken-sousosi.jpg" alt="Frognerparken - sousoší" /></p>
 <h1 id="zaverem">Závěrem</h1>
 <p>V Oslu a jeho okolí toho je spoustu k vidění. Určitě doporučuji zařadit nějaké výlety za město než jen chodit mezi budovami.</p>
-]]></content>
-        </entry>
-    
-        <entry>
-            <title type="html"><![CDATA[Budapešť - co vidět? Kam na výlety?]]></title>
-            <link href="https://blog.martinhujer.cz/budapest-kam-na-vylety/"/>
-            <updated>2019-06-10T00:00:00.000Z</updated>
-            <id>https://blog.martinhujer.cz/budapest-kam-na-vylety/</id>
-            <content type="html"><![CDATA[<p>V květnu 2019 jsme byli v Budapešti a za těch pár dnů jsme toho stihli spoustu (včetně zajímavého hike), tak třeba se vám něco bude hodit jako inspirace.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-vyhled-od-citadelly.jpg" alt="Budapešť - výhled od Citadelly" /></p>
-<p>První zajímavostí Budapešti je název. Původně to totiž byla dvě samostatná města - Buda a Pešť, každé na jednom břehu Dunaje :-)</p>
-<h2 id="cesta-do-budapesti">Cesta do Budapešti</h2>
-<p>Původně jsme chtěli jet vlakem, ale Regiojet tam nejezdí (přímo) a s ČD nám to stačilo před dvěma roky do Varšavy. Takže jsme nakonec jeli Regiojet autobusem. A abychom zbytečně nestrávili celý den dovolené v autobuse, tak jsme jeli přes noc - ve 23 h z Florence. A ráno jsme kolem 6 h byli v Budapešti.</p>
-<h2 id="mhd">MHD</h2>
-<p>MHD v Budapešti funguje super, mají tam metro, tramvaje a autobusy. Na vyhledávání spojení doporučuji buď Google Maps nebo přímo jejich mobilní appku BKK Futár (v obojím jsou realtime data o spojích - včetně případného zpoždění).</p>
-<p>Nejvýhodnější je koupit si v automatu sadu 10 jízdenek, vychází to pak na cca 24 Kč za jednu. Jízdenky jsou nepřestupní (ale jde přestupovat mezi linkami metra). A nezapomeňte si je vždycky označit, prý tam revizoři (podobně jako v Praze), rádi číhají na turisty, kteří si koupí v automatu jízdenku a nenapadne je, si ji o pár metrů dál ještě označit.
-Automat, kde jsme jízdenky zkoušeli koupit z nějakého důvodu nebral Revolut kartu.</p>
-<p>Určitě doporučuji MHD používat, ušetří vám to spoustu času při přesunech.</p>
-<h2 id="penize-huf">Peníze, HUF</h2>
-<p>V Budapešti je podobně draho jako v Praze. Na většině míst berou platební karty, ale ne všude. Na výběry z bankomatů si pořiďte <a href="/revolut-karta/">Revolut kartu</a> (vybírám po €20 nebo €40). A pozor, v Budapešti je na každém rohu Euronet bankomat, kde velmi pravděpodobně zaplatíte zbytečné poplatky navíc. Doporučuji raději vybrat z bankomatu, který patří přímo pod nějakou banku - tam vás nebudou zkoušet odrbat.</p>
-<h2 id="bydleni">Bydlení</h2>
-<p>Bydleli jsme v Airbnb (konkrétně <a href="https://www.airbnb.com/rooms/26179045">v tomhle</a>) blízko Deák Ferenc tér, což je lokalitou podobné jako Můstek. Kousek od metra, tramvají i autobusů a cokoliv v centru v docházkové vzdálenosti.</p>
-<h2 id="lodni-vylet">Lodní výlet</h2>
-<p>Původně jsme chtěli jít na nějaký lodní výlet, ale nemohli jsme vybrat na který (každý měl nějaké dost negativní recenze). Nakonec jsme zjistili, že stojíme kousek od jedné ze zastávek lodního MHD. Na rozdíl od Prahy to není jen přívoz napříč řekou, ale naopak jede po celé délce města a staví na různých zastávkách na obou březích. Zásadní výhoda je, že lístek stojí 750 HUF (cca 60 Kč). Takže jsme se rozhodli si udělat výlet až na konečnou a zpět. Plavba centrem Budapešti je super a myslím, že ani na standardní boat tour toho o moc víc neuvidíte. Ale ještě zajímavější je, že pak vyjedete z centra a pluje se mezi zarostlými břehy, kde skoro nic není :-) Jako odpolední relax to bylo super.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-lodni-vylet.jpg" alt="Budapešť - lodní výlet - parlament" /></p>
-<h2 id="dohany-street-synagogue">Dohány Street Synagogue</h2>
-<p><a href="https://goo.gl/maps/9naiBsqRtb1RXxYA7">Velká synagoga</a> (opravdu se ji tak říká) je největší synagoga v Evropě (a asi třetí na světě).</p>
-<p>Pro mě jedna z nej věcí, které stojí za to navštívit. Při vstupu do synagogy dostanete papírovou jarmulku, kterou musíte mít na hlavě. Mezi lavicemi jsou rozmístěny vlajky a můžete si vybrat jazyk a zúčastnit se komentované prohlídky. Super je, že ti průvodci jsou přímo členové místní židovské obce, takže ten výklad je hodně autentický (a tipuji, že se mezi průvodci liší).</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-synagoga.jpg" alt="Budapešť - synagoga" /></p>
-<h2 id="pamatnik-obetem-2-svetove-valky">Památník obětem 2. světové války</h2>
-<p><a href="https://goo.gl/maps/bVuVSqndrWMAprAK9">Památník</a> není až tak zajímavý vzhledem, ale spíš politickými souvislostmi. V Maďarsku byly antisemitistické nálady už před příchodem nacistů a zároveň vláda Němcům ochotně pomáhala s deportací židů. Takže se proti památníku hodně protestovalo, až ho nakonec dokončili potají v noci. Detailněji <a href="https://www.reuters.com/article/us-hungary-holocaust-german-memorial/hungary-pm-defends-contested-monument-to-nazi-victims-idUSBREA0L1H820140122">viz článek na Reuters</a>. Hned vedle toho &quot;oficiálního&quot; památníku je protestní památník, kde je mezi sloupky natažený ostnatý drát se zavěšenými fotkami obětí a vysvětlujícím textem v různých jazycích. A pod tím jsou umístěné kufry a svíčky.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-pamatnik-1.jpg" alt="Budapešť - Památník obětem 2. světové války" /></p>
-<h2 id="pamatnik-na-brehu-dunaje">Památník na břehu Dunaje</h2>
-<p>Na břehu Dunaje najdete <a href="https://goo.gl/maps/RsLCJqCrZqMnKqzP8">památník připomínající</a> těch, kteří byli zastřeleni maďarskou nacistickou stranou během 2. světové války přímo na břehu řeky. Viz <a href="https://en.wikipedia.org/wiki/Shoes_on_the_Danube_Bank">článek na Wikipedii</a>.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-danube-boty.jpg" alt="Budapešť - Památník na břehu Dunaje - boty" /></p>
-<h2 id="st-stephen-s-basilica-szent-istvan-bazilika">St. Stephen's Basilica (Szent István Bazilika)</h2>
-<p><a href="https://goo.gl/maps/kk8vqMRuGn3XrJ848">St. Stephen's Basilica</a> je zajímavá zejména tím, že se dá dostat na věž se super výhledem.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-szent-istvan-bazilika.jpg" alt="Budapešť - Szent István Bazilika" /></p>
-<p>Na náměstí před bazilikou mají zmrzlinu, kterou naskládají do tvaru květu.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-szent-istvan-bazilika-zmrzlina.jpg" alt="Budapešť - Szent István Bazilika - zmrzlina" /></p>
-<h2 id="citadella">Citadella</h2>
-<p><a href="https://goo.gl/maps/jPVhKFpFPQP5V2F87">Citadella</a> je pevnost se sochou na kopci. Něco jako Vítkov v Praze. Je odtamtud hezký výhled.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-vyhled-od-citadelly.jpg" alt="Budapešť - výhled od Citadelly" /></p>
-<h2 id="hrad-buda">Hrad Buda</h2>
-<p>K <a href="https://goo.gl/maps/vfeN5iW8wFpivwDZ7">Hradu Buda</a> buď můžete vyjít pěšky nebo lanovkou jako je na Petřín. Na rozdíl od Petřína je to tady výrazně menší kopec. A pokud tam nebudete hned ráno, tak tam bude velká fronta.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-funicular.jpg" alt="Budapešť - Funicular" /></p>
-<p>Před <a href="https://goo.gl/maps/sQbvCKYaSkzMXppHA">prezidentským palácem</a> můžete vidět střídání stráží. Případně, pokud tam budete tak brzy jako my, tak <em>instalaci</em> stráží :-)</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-palac-straze.jpg" alt="Budapešť - stráže" /></p>
-<p>Na hrad se stojí za to dojít podívat i v noci, u <a href="https://goo.gl/maps/spxwAzBCpx8NH5e48">kostela svatého Matyáše</a> je na hradbách ochoz, kam se dá v noci zadarmo (přes den tam vybírají vstupné). Je odtamtud hezký výhled na noční Budapešť. Pokud se vám to v noci nechce nahoru šlapat pěšky, tak můžete dojet autobusem skoro až k tomu kostelu.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-kostel-svateho-matyase.jpg" alt="Budapešť - Kostel sv. Matyáše - noční" /></p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-nocni.jpg" alt="Budapešť - noční" /></p>
-<h2 id="margaret-island">Margaret Island</h2>
-<p><a href="https://goo.gl/maps/f9odLkoRvwGU7vGz5">Margaret Island</a> je takový relaxační ostrov s lesoparkem, lavičkami, restauracemi, zoo a běžeckou dráhou s měkkým povrchem.</p>
-<h2 id="lazne">Lázně</h2>
-<p><a href="https://goo.gl/maps/GhCipiBwSo183LENA">Lázně Széchenyi</a> také určitě stojí za návštěvu, ale ve výsledku to byla hromada přeplněných bazénů s horkou a různě smrdutou vodou.</p>
-<h2 id="park-se-jezirkem">Park se jezírkem</h2>
-<p>Lázně se nacházejí v parku, kde je také docela velké jezírko s <a href="https://goo.gl/maps/pmQpZSYoRhnMGawAA">půjčovnou šlapadel</a>.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-slapadla.jpg" alt="Budapešť - šlapadla" /></p>
-<h2 id="vylet-z-doemoesu-do-visegradu">Výlet z Dömösu do Visegrádu</h2>
-<p>Za mě asi nejlepší věc z Budapešti, i když nebyla v Budapešti. Autobusem (spol Volánbusz) jsme vyrazili do vesničky Dömös a odtamtud jsme přes kopce a lesy došli do Visegrádu.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapes-Domos-Visegrad-hike-mapa.png" alt="Budapešť - Dömös - Visegrád hike - mapa" />
-(<a href="https://www.wikiloc.com/hiking-trails/domos-visegrad-hike-43230032">záznam trasy na Wikiloc</a>)</p>
-<p>Byla to krásná cesta lesem s hezkými výhledy.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-1.jpg" alt="Budapešť - Visegrád hike - les" /></p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-2.jpg" alt="Budapešť - Visegrád hike - výhledy" /></p>
-<p>Cestou jdete kolem rozhledy Prédikálószék, odkud je výhled na Danube Bend, což je ohyb na Dunaji. Prostě jako vyhlídka Máj.</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-4.jpg" alt="Budapešť - Visegrád hike - rozhledna Prédikálószék" /></p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-3.jpg" alt="Budapešť - Visegrád hike - Danube bend" /></p>
-<p>Následně dojdete do vesnice Pilisszentlászló, kde doporučuji restauraci <a href="https://goo.gl/maps/TAky7JbE72AW49Rt9">Kis Rigó Vendéglő</a>. Mají krůtu v těstíčku s ananasem a posypané skořicí (<em>pineapple turkey</em>)</p>
-<p><img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-visegrad-hike-5.jpg" alt="Budapešť - Visegrád hike - pineapple turkey" /></p>
-<p>Odtamtud pak pokračujete scénickou lesní cestou podél potoka až do Visegrádu. Tam už jsme si po 20 km stihli dát jen jednoho Bernarda (všude mají česká piva!) a jeli jsme autobusem zpět.</p>
-<h2 id="jidlo-a-piti">Jídlo a pití</h2>
-<h3 id="burger-market">Burger Market</h3>
-<p><a href="https://goo.gl/maps/FtMNFCLcJAFzzZUn7">Burger Market</a> jsme měli kousek od bytu a zajímavý je tím, že v jednom prostoru mají kromě burgerárny také taco a pasta bary.</p>
-<h3 id="food-market">Food market</h3>
-<p><a href="https://goo.gl/maps/zWZ1cmKWNkYseXcQ9">Food market</a> jsou různé foodtrucky, podobné Manifesto Marketu u Masaryčky v Praze.
-<img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-food-market.jpg" alt="Budapešť - Food market" /></p>
-<h3 id="trh">Trh</h3>
-<p>Vnitřní <a href="https://goo.gl/maps/huMg9xY9qphJTh4H7">trh</a>, kde se dá koupit spoustu zajímavých věcí. Určitě doporučuji koupit mletou papriku (koření). A u stánku v patře ochutnat nějaký netypický langoš.
-<img src="/data/2019/2019-06-10-budapest-kam-na-vylety/budapest-trh.jpg" alt="Budapešť - trh" /></p>
-<h3 id="kavarny">Kavárny</h3>
-<ul>
-<li><a href="https://goo.gl/maps/5SvbkQGMvkJq2u2p6">Forest Café</a> příjemná pidikavárna</li>
-<li><a href="https://goo.gl/maps/UUzwmrAer72c74hRA">Espresso Embassy</a> - výborná kavárna, byli jsme tam dvakrát nebo třikrát. Nezapomeňte vyzkoušet dort s pekanovými ořechy.</li>
-<li><a href="https://goo.gl/maps/bMXSoYQLoEtZnv4WA">Kalap Bistro</a> - parádní snídaně</li>
-</ul>
-<h2 id="zaver">Závěr</h2>
-<p>Budapešť určitě stojí za návštěvu, z ČR je to kousek. A i za pár dnů se toho dá stihnout spoustu. Určitě doporučuji si nechat čas na ten hike.</p>
 ]]></content>
         </entry>
     
